@@ -1,0 +1,711 @@
+label,message
+"URGENT: Your 24-hr Amazon Prime voucher expires at midnight! Claim NOW ➔ bit.ly/amz4u89",spam
+"FREE $1000 Walmart Gift Card! Click FAST before codes run out ➔ rewards-center.biz/claim",spam
+"ALERT: Your bank account will be SUSPENDED. Verify identity immediately ➔ secure-banklogin.com",spam
+"Hey! You WON our $500 Cash Prize! Reply YES to claim ➔ textback500.com",spam
+"Last Chance: 80% OFF all Nike! Limited stock ➔ nke.sale-burst.net/d3al",spam
+"🔥 FLASH SALE! iPhone 15 Pro for $199. Only 5 left! ➔ appleoffers.xyz/grab",spam
+"🚨 Suspicious login detected! Secure your Gmail now ➔ gmail-secured.net/alert221",spam
+"Missed Delivery: Reschedule ASAP ➔ usps-redelivery.info/pk93Xq111",spam
+"Your Netflix accnt has been LOCKED. Update payment ➔ netflix-billing.co/confirm",spam
+"Congrats! You’re selected for a FREE Costco Membership ➔ costco-rewards.cc/r?=wtu81",spam
+"🔥 LAST DAY! Claim your Google Play $50 code ➔ redeem-gc.site/fy2p",spam
+"FINAL NOTICE: Your Social Security # needs verification ➔ ssa-updates.us/ssn-check",spam
+"Your AIR MILES expiring tomorrow! Redeem ➔ airrewards24.com/claimmygift",spam
+"🚨 CRITICAL: PayPal activity freeze pending. Confirm details ➔ paypal-secure.info/id8321",spam
+"FREE Sample: New Luxury Skincare Trial! Just $3.95 shipping ➔ glamourbox.org/sample12",spam
+"🤑 You’ve been PAID $250! Unlock funds ➔ cashoutdirect.icu/ref3",spam
+"IRS Alert: Tax refund pending! Verify now ➔ irs-refundportal.com/f1020",spam
+"Package delayed! Update address ➔ dhl-reshipment.net/track732",spam
+"Hi! Your Verizon bill is OVERDUE. Avoid service cut ➔ vzw-paytoday.cc/confirm",spam
+"BREAKING: Win a Tesla Model 3! Enter now ➔ tesla-sweeps.co/go",spam
+"Hey, just checking in to see how you’re doing!",ham
+"Remember to bring your jacket; it’s supposed to get cold tonight.",ham
+"Can we reschedule our meeting? Something came up on my end.",ham
+"Thanks for helping me out yesterday, I really appreciate it!",ham
+"Don’t forget about the potluck this Saturday at my place!",ham
+"Just finished that book you recommended; I loved it!",ham
+"Hope your day is going well! Let’s catch up later.",ham
+"Wow, that sunset was amazing today! Wish you were here!",ham
+"Happy birthday! Hope you have a wonderful day!",ham
+"How's everything going with your new job?",ham
+"Just a reminder that the payment is due tomorrow.",ham
+"I found that recipe we talked about! Let me know if you want it.",ham
+"Thanks for picking up the groceries; you’re a lifesaver!",ham
+"Can I borrow that movie you mentioned? I’d love to watch it.",ham
+"Looking forward to our hike this weekend; let’s pray for good weather!",ham
+"Just saw a cute dog at the park and thought of you!",ham
+"Have you seen the latest episode? Can't believe that twist!",ham
+"Let’s plan a game night soon, it’s been too long!",ham
+"Hope you’re feeling better; let me know if you need anything.",ham
+"Did you get a chance to look at that document I sent?",ham
+"Just heard from our friend. Let’s plan a reunion soon!",ham
+"Can you remind me of our lunch date? I want to make sure I'm free.",ham
+"Feel free to call if you need support or just want to chat.",ham
+"Quick heads-up; there's construction on Main street this week.",ham
+"The flowers in the garden are blooming beautifully!",ham
+"I’ll be home late today; got caught up at work.",ham
+"Congratulations on your promotion! So proud of you!",ham
+"Let’s meet at the café around 3; I’ll save us a table.",ham
+"Just wanted to say I’m thankful for your friendship.",ham
+"Got some fresh produce from the farmer’s market; want to share?",ham
+"Excited for the concert next month! Have you listened to their new album?",ham
+"Please send me the address for the party again, thanks!",ham
+"How was your weekend getaway? Hope you had a blast!",ham
+"They’re having a sale at the local bookstore; just thought you’d like to know!",ham
+"Let’s discuss our plans for the holiday over dinner.",ham
+"Hey! Are we still on for lunch tomorrow?",ham
+"Don’t forget to send me those photos from the trip!",ham
+"What's your favorite coffee order? I'm getting drinks later!",ham
+"Looking for volunteers for our community cleanup; interested?",ham
+"Hope you enjoyed the movie! Let’s talk about it soon.",ham
+"How are the kids doing in school? Hope they're thriving!",ham
+"Thinking about you today; let’s chat soon!",ham
+"Wanted to let you know I’ll be out of town next week.",ham
+"Did you receive my email about the project updates?",ham
+"Hope today is treating you well; sending good vibes!",ham
+"Remember to confirm our dinner reservation for Friday.",ham
+"I heard about the new café opening; looking forward to trying it!",ham
+"Let’s plan a beach day next weekend; it’ll be fun!",ham
+"How's the gardening going? I’d love to see the progress!",ham
+"Just heard from the team; they’re excited for Monday’s presentation!",ham
+"Thanks for the recommendation! Just ordered that pizza place.",ham
+"Thinking of you, hope you're having a great day!",ham
+"Let’s not forget our movie marathon next month!",ham
+"How’s your family doing? Hope everyone is well!",ham
+"Excited for the book club meeting next week!",ham
+"Hey! Just wanted to share a funny meme I found!",ham
+"Let’s grab a coffee sometime this week!",ham
+"URGENT: Your account has been compromised! Click here to secure it now: www.securenow.com",spam
+"Win a FREE iPhone 13! Just answer 3 easy questions. Click here to start: www.winiphone.com",spam
+"LAST CHANCE! 50% off all items today only. Don't miss out! Shop now: www.bigdiscount.com",spam
+"Congratulations! You've won a trip to Hawaii! Claim your prize here: www.hawaiitrip.com",spam
+"Warning: Your bank account will be closed in 24 hours. Verify your details now: www.verifybank.com",spam
+"Get rich quick! Learn our secret method to earn $10,000 a month. Click here: www.getrichquick.com",spam
+"Only 3 spots left for our exclusive webinar on making money online. Reserve yours now: www.onlinewealth.com",spam
+"Your package has been returned. Click here to reschedule delivery: www.reschedulepackage.com",spam
+"Act now to claim your $500 gift card. Limited time offer! Click here: www.getgiftcard.com",spam
+"Special invitation: Join our VIP club for exclusive deals and discounts. Sign up here: www.vipclub.com",spam
+"Limited time offer: Buy one get one FREE on all electronics. Shop now: www.bogo.com",spam
+"Alert: Your subscription will auto-renew at a higher rate. Click to cancel: www.cancelsub.com",spam
+"Unlock the secret to youthful skin with our new serum. Try it now: www.youthfulskin.com",spam
+"Claim your free sample of our new energy drink. Just pay shipping! Click here: www.freesample.com",spam
+"Congratulations! You've been selected for a free cruise. Book your spot now: www.freecruise.com",spam
+"Urgent: Your antivirus subscription has expired. Renew now to stay protected: www.renewantivirus.com",spam
+"Want to lose 10 pounds in a week? Try our new diet plan. Click here: www.loseweightfast.com",spam
+"Exclusive offer: 75% off all courses this weekend only. Enroll now: www.learnonline.com",spam
+"Your account has been locked. Click here to unlock it within 24 hours: www.unlockaccount.com",spam
+"Get a FREE laptop with any purchase over $100. Shop now: www.freelaptop.com",spam
+"Alert: Your package is on hold. Click here to release it: www.releasepackage.com",spam
+"Congratulations! You've won a $1,000 shopping spree. Claim it here: www.shoppingspree.com",spam
+"Urgent: Your account needs verification. Click here to avoid suspension: www.verifyaccount.com",spam
+"Last day to get 60% off all jewelry. Shop now: www.jewelrydiscount.com",spam
+"Unlock the secret to financial freedom. Join our seminar now: www.financialfreedom.com",spam
+"Claim your FREE trial of our new fitness program. Just pay shipping! Click here: www.freetrial.com",spam
+"Alert: Your credit card has been compromised. Click here to secure it: www.securecredit.com",spam
+"Win a FREE vacation to Paris! Enter now: www.parisvacation.com",spam
+"Exclusive offer: Buy one get one FREE on all books. Shop now: www.bogobooks.com",spam
+"Urgent: Your account will be suspended in 24 hours. Verify now: www.suspendaccount.com",spam
+"Get a FREE TV with any purchase over $200. Shop now: www.freetv.com",spam
+"Congratulations! You've been selected for a free trial of our new streaming service. Sign up here: www.freestreaming.com",spam
+"Alert: Your package has been detained by customs. Click here to resolve: www.customsdetained.com",spam
+"Last chance to get 80% off all clothing. Shop now: www.clothingdiscount.com",spam
+"Unlock the secret to a better life. Join our online course now: www.betterlife.com",spam
+"Claim your FREE sample of our new beauty product. Just pay shipping! Click here: www.freebeauty.com",spam
+"Urgent: Your account needs immediate attention. Click here to avoid closure: www.closeaccount.com",spam
+"Win a FREE car! Enter now: www.freecar.com",spam
+"Exclusive offer: Buy one get one FREE on all shoes. Shop now: www.bogoshoes.com",spam
+"Alert: Your account has unauthorized activity. Click here to secure it: www.unauthorizedactivity.com",spam
+"Congratulations! You've won a $5,000 cash prize. Claim it here: www.cashprize.com",spam
+"Hey! Just wanted to check in and see how you've been.",ham
+"Morning! Hope you have a great day ahead!",ham
+"Hi! Are we still on for dinner tonight?",ham
+"Hey, I found that book you were talking about. Want to borrow it?",ham
+"Just finished the project! Can we chat later to go over it?",ham
+"Hello! How was the trip? I'd love to hear all about it.",ham
+"You're on my mind today. Let's catch up soon!",ham
+"Hey, it's rainy today—perfect weather for a movie. Interested?",ham
+"Good afternoon! Did you get a chance to try that recipe?",ham
+"Hi! Remember to take a break today. You deserve it!",ham
+"Hey, I heard that new coffee place has opened. Wanna check it out?",ham
+"Just wanted to say I appreciate you! Hope you're doing well!",ham
+"Hey! I saw your favorite band is in town. Want to go?",ham
+"Quick reminder about the meeting tomorrow at 2 PM.",ham
+"Hi there! How did your presentation go?",ham
+"Good luck with your exam today! You’ve got this!",ham
+"Hey, do you still have that playlist? I need some new music!",ham
+"Just finished watching that series you recommended—so good!",ham
+"Morning! What’s your plan for the weekend?",ham
+"Hey! Found some old photos of us. Made me smile!",ham
+"Just checking in! Let me know if you need anything.",ham
+"Hi! Any chance you’re free to grab lunch next week?",ham
+"Hey, did you hear about the upcoming festival? Sounds fun!",ham
+"Thinking of you today! Hope all is well.",ham
+"Did you see the latest news about our town? Quite a change!",ham
+"Hey! Let’s plan a game night soon. It’s been too long!",ham
+"Hi! Just found a great hiking trail nearby. Want to go?",ham
+"Quick question: Do you recall where I left my keys?",ham
+"Hey, hope you’re staying warm this chilly day!",ham
+"Just a little reminder to drink plenty of water today!",ham
+"Hello! Have you tried that new workout class? I’m curious.",ham
+"Hey! Can you send me the recipe for that dish you made?",ham
+"Hope you find a moment to relax today! You deserve it.",ham
+"Hey! I’ve got some extra tickets to the show tonight. Interested?",ham
+"Just wanted to say you did a great job at the meeting!",ham
+"Hi! How’s the new job treating you? I’m eager to hear!",ham
+"Quick note: Your favorite show is back on tonight!",ham
+"Hey, have you read any good books lately? Always looking for suggestions.",ham
+"Hope your week is going smoothly! Let’s chat soon.",ham
+"Just a reminder to take care of yourself today!",ham
+"Hi! Are you still planning to visit this month?",ham
+"Hey! Was nice running into you the other day. Let’s connect!",ham
+"Good luck with your new project! Can’t wait to hear about it.",ham
+"Hey, I’ve got some ideas for the event. When can we chat?",ham
+"Hi! Hope you’re enjoying the changing seasons!",ham
+"Just a heads-up, I’ll be out of town next week.",ham
+"Hey! Are you interested in joining the book club with me?",ham
+"Hi! Can I borrow your notes from class? I missed a few points.",ham
+"Hope your day brightens up soon! You got this!",ham
+"Hey! Let's not wait too long for our next catch-up!",ham
+"Hi! I saw the photos from your trip—looked amazing!",ham
+"Just wanted to say thanks for always being a good friend!",ham
+"Hey! Any updates on your gardening project? Would love to see!",ham
+"Good morning! Got any fun plans for the day?",ham
+"Hi! Saw something that reminded me of you today!",ham
+"URGENT! Your account has been compromised. Click here to secure it now: www.securelink.com",spam
+"Hurry! Claim your $500 gift card before they're all gone! Visit: www.giftcardrush.com",spam
+"Congratulations! You've won a trip to Hawaii! Confirm your prize at: www.winatrips.com",spam
+"Last chance to get 90% off on all electronics! Don't miss out, shop now: www.electronicsale.net",spam
+"Someone just bought the phone you're looking at! Only 2 left in stock, grab yours: www.fastmobiles.com",spam
+"Alert! Your bank account needs immediate action. Verify your details: www.bankaction.org",spam
+"Your package from Amazon is on hold. Update your delivery preferences: www.amazondelivery.net",spam
+"Act fast! You're one of the lucky winners of our iPhone giveaway. Claim here: www.iphonegiveaway.com",spam
+"Time-sensitive! Your Netflix subscription is at risk. Renew now: www.netflixrenewal.com",spam
+"Warning! Your iCloud account has been locked. Unlock it here: www.icloudunlock.com",spam
+"Special offer just for you! Get a free trial of our premium service: www.premiumfreetrial.com",spam
+"Your PayPal account requires urgent verification. Complete it now: www.paypalverify.com",spam
+"Exclusive deal! Buy one get one free on all items today only: www.bogooffer.com",spam
+"Important: Your student loan forgiveness application needs your attention. Act now: www.studentloanfix.com",spam
+"Wow! You've been selected for a VIP shopping event. RSVP here: www.vipshoppingevent.com",spam
+"Flash sale! 80% off on designer clothes. Shop before it's too late: www.designersalelive.com",spam
+"Your Social Security number is at risk. Protect it by clicking here: www.ssnprotection.com",spam
+"Only 3 hours left! Get your tickets for the concert of the year: www.concertticketsnow.com",spam
+"Urgent! Your order from Walmart is pending cancellation. Confirm now: www.walmartorderconfirm.com",spam
+"Free cruise to the Bahamas! You're eligible, claim it today: www.freecruisebahamas.com",spam
+"Your eBay account has been flagged. Resolve this issue immediately: www.ebayresolve.com",spam
+"Win a new car! Enter our contest for a chance to drive away in style: www.wincarnow.com",spam
+"Alert! Your antivirus subscription has expired. Renew to stay protected: www.antivirusrenew.com",spam
+"Limited time! Get 75% off on all flights. Book your next adventure: www.flightdeals75.com",spam
+"Your account at Wells Fargo needs immediate attention. Update your info: www.wellsfargoalert.com",spam
+"Sale ends tonight! Up to 60% off on home decor. Shop now: www.homedecorsale.com",spam
+"Emergency! Your credit card has been suspended. Reactivate it here: www.creditcardsuspend.com",spam
+"Congratulations! You've won a year's supply of groceries. Claim it: www.groceriesforayear.com",spam
+"Urgent! Your Dropbox account is full. Upgrade now to keep your files: www.dropboxupgrade.com",spam
+"Final hours! Get 50% off on all beauty products. Don't miss this: www.beautysale50off.com",spam
+"Your account at Chase Bank is at risk. Secure it now: www.chasebanksecure.com",spam
+"Win a dream vacation! Enter our sweepstakes for a chance to win: www.dreamvacationsweep.com",spam
+"Alert! Your Microsoft account requires immediate action. Verify here: www.microsoftaction.com",spam
+"Your package from FedEx is on hold. Update your delivery info: www.fedexdeliveryupdate.com",spam
+"Exclusive! Get early access to our new product line. Sign up now: www.newproductearly.com",spam
+"Urgent! Your LinkedIn account has been compromised. Reset your password: www.linkedinreset.com",spam
+"Last chance! 70% off on all books. Stock up your library: www.books70offsale.com",spam
+"Win cash prizes! Enter our daily lottery for a chance to win big: www.dailylotterycash.com",spam
+"Your account at Citibank needs verification. Complete it now: www.citibankverify.com",spam
+"Free trial! Sign up for our streaming service and watch unlimited movies: www.freestreamingtrial.com",spam
+"Alert! Your Google account is at risk. Protect it by clicking here: www.googleprotect.com",spam
+"Exclusive offer! Get a free consultation with our top-rated attorney: www.freelegalconsult.com",spam
+"Urgent! Your Adobe account requires immediate action. Update now: www.adobeaction.com",spam
+"Your package from UPS is on hold. Update your delivery preferences: www.upsdeliveryupdate",spam
+"Hey, just wanted to check in and see how you’re doing!",ham
+"Don't forget our coffee date tomorrow at 10am!",ham
+"Reminder: Your car maintenance is due next week.",ham
+"Had a great time catching up last night! Let’s do it again soon.",ham
+"Could you send me that report when you get a chance? Thanks!",ham
+"Just saw a beautiful sunset, thought of you!",ham
+"Is everything okay? I haven't heard from you in a while.",ham
+"Looking forward to the game this weekend! Let’s meet up!",ham
+"Do you need any help with your project? Let me know!",ham
+"Just finished that book you recommended. Wow, I loved it!",ham
+"Are you free for a quick call later? I’d like to chat.",ham
+"Can you remind me what time your flight arrives?",ham
+"Hope you're having a good day! Just wanted to say hi.",ham
+"Let’s plan a hike soon! It’s been too long.",ham
+"Do you want to grab lunch this week?",ham
+"I just baked some cookies! Want to come over?",ham
+"Is your schedule open for a meeting next Tuesday?",ham
+"Thinking about you today! Hope all is well.",ham
+"Just saw your favorite show is coming back! Excited?",ham
+"I found a cool new restaurant we should try sometime.",ham
+"Thanks for your help with everything; I really appreciate it!",ham
+"Any plans for the weekend? Let’s hang out!",ham
+"I left the book you borrowed on your doorstep.",ham
+"Let me know if you want to join the group trip next month.",ham
+"Do you have a minute to discuss our project? I have some ideas.",ham
+"Can you pick up milk on your way home? Thanks!",ham
+"Super excited for the concert next week!",ham
+"Just checking in to see how your new job is going.",ham
+"I'll be late to dinner, running into traffic. Sorry!",ham
+"Happy Birthday! Hope you have a fantastic day!",ham
+"I just got tickets for the movie we talked about!",ham
+"Is it okay if I bring a friend to the party?",ham
+"Remember to water the plants while I’m away. Thanks!",ham
+"Have you started packing for your trip yet?",ham
+"Hope you enjoyed that new restaurant; I want to hear about it!",ham
+"Just received the package! Thanks for sending it!",ham
+"Do you want to join the book club I mentioned?",ham
+"How’s your family? Haven't heard about them lately.",ham
+"Let’s try that new hiking trail this weekend!",ham
+"Can you share your thoughts on the presentation?",ham
+"Just a heads-up: there’s a storm coming tonight.",ham
+"Thanks for the lovely dinner last night! So nice to relax.",ham
+"I’ll be home around 6 if you want to come over.",ham
+"I enjoyed our talk yesterday. Thanks for listening!",ham
+"Are we still on for lunch tomorrow?",ham
+"Your coffee is on the kitchen counter!",ham
+"Feeling under the weather today; just need some rest.",ham
+"Did you catch the latest episode of that series? So good!",ham
+"Great seeing you on Saturday! Let's do it again soon.",ham
+"Can you help me with my math homework later?",ham
+"Just wanted to say I'm proud of you for finishing that project!",ham
+"Looking forward to our movie night this Friday!",ham
+"Let me know if you want to join us for dinner next week.",ham
+"Hope you're enjoying your vacation! Send pictures!",ham
+"Just a reminder about the submission deadline on Friday.",ham
+"Thanks for picking up my mail while I was away!",ham
+"I'll be at the usual spot this afternoon if you want to join.",ham
+"Urgent! Your account is at risk! Click here to secure it now: www.securenow123.com",spam
+"Congratulations! You've won a free iPhone! Claim it before it's gone: www.freeiphone.xyz",spam
+"Shocking secret revealed! Find out what they don't want you to know: www.hiddenfacts.org",spam
+"Only 5 spots left for our exclusive webinar! Reserve yours now: www.elitewebinar.com",spam
+"Last chance! 90% off all items today only! Shop now: www.flashsale.net",spam
+"Your package is waiting! Confirm delivery details here: www.packageconfirm.com",spam
+"Act fast! Your lottery numbers matched! Collect your prize: www.lotteryprize.com",spam
+"New alert: Your bank account needs immediate attention! Resolve now: www.bankalert.com",spam
+"Special invitation! Join our VIP club for free! Sign up: www.vipclubjoin.com",spam
+"Unbelievable! You could lose everything if you don't act now: www.actnoworlose.com",spam
+"Free trial - lose 10 lbs in 10 days! Start today: www.weightlossmiracle.com",spam
+"Warning: Your computer is infected! Fix it now: www.computerclean.com",spam
+"Exclusive offer! 50% off all electronics! Don't miss out: www.electronicsdeal.com",spam
+"Hurry! Time's running out to claim your $100 gift card: www.giftcardclaim.com",spam
+"Sneak peek! See the latest celebrity scandal before anyone else: www.celebscandal.com",spam
+"Your student loan could be forgiven! Apply now: www.loanforgiveness.org",spam
+"Alert: Unpaid bill detected! Pay now to avoid service cut-off: www.paybillnow.com",spam
+"Incredible savings! Buy one get one free on all items! Shop: www.bogooffers.com",spam
+"Urgent! Confirm your flight details to avoid cancellation: www.flightconfirm.com",spam
+"Secret revealed! The diet that celebrities use to stay slim: www.celebritydiet.com",spam
+"Free cruise! Book now and sail away for free: www.freecruise.com",spam
+"Final notice! Your subscription will auto-renew unless you cancel: www.cancelautosub.com",spam
+"Your account has been compromised! Protect it now: www.protectaccount.com",spam
+"Win a trip to Hawaii! Enter now, limited entries: www.hawaiitrip.com",spam
+"New alert: Your credit card has been locked! Unlock now: www.unlockcard.com",spam
+"Shocking discovery! Learn the truth about your health: www.healthsecrets.com",spam
+"Exclusive access! Be the first to try our new product: www.newproducttrial.com",spam
+"Last call! 75% off all travel packages! Book now: www.traveldeals.com",spam
+"Urgent: Unclaimed funds in your name! Claim now: www.unclaimedfunds.com",spam
+"Free samples! Get beauty products delivered to your door: www.freesamplesbeauty.com",spam
+"Warning! Your account will be closed if you don't respond: www.accountclosure.com",spam
+"New alert: Suspicious activity detected on your account! Verify now: www.verifyactivity.com",spam
+"Your loan is approved! Get the money you need today: www.loanapproved.com",spam
+"Exclusive offer! Get a free month of premium service: www.freepremium.com",spam
+"Urgent! Your password has been changed! Reset now: www.resetpassword.com",spam
+"Win big! Enter our mega lottery for a chance at $1 million: www.megalottery.com",spam
+"New alert: Your subscription has expired! Renew now: www.renewsubscription.com",spam
+"Sneak peek! Get early access to our new app: www.newappaccess.com",spam
+"Warning! Your device warranty is about to expire! Extend now: www.extendwarranty.com",spam
+"Free consultation! Get expert advice on your finances: www.freeconsultation.com",spam
+"Urgent! Your account is overdrawn! Deposit funds now: www.overdrawnaccount.com",spam
+"Exclusive! Get a sneak peek at our new clothing line: www.newclothingline.com",spam
+"Shocking revelation! Discover the truth about your partner: www.partnersecrets.com",spam
+"New alert: Your package is on hold! Release now: www.releasepackage.com",spam
+"Free trial! Try our new streaming service for 30 days: www.streamingfreetrial.com",spam
+"Urgent! Your account has been flagged for fraud! Verify now: www.fraudalert.com",spam
+"Exclusive offer! Get a free upgrade on your next flight: www.freeflightupgrade.com",spam
+"Warning! Your account will be deleted if you don't respond: www.accountdeletion.com",spam
+"New alert: Your order is ready for pickup! Confirm now: www.orderpickup.com",spam
+"Free samples! Get the latest tech gadgets for free: www.freesamplestech.com",spam
+"Urgent! Your car warranty is about to expire! Renew now: www.renewcarwarranty.com",spam
+"Exclusive! Get early access to our new game: www.newgameaccess.com",spam
+"Shocking news! The truth about your favorite celebrity: www.celebtruth.com",spam
+"New alert: Your account has been locked! Unlock now: www.unlockaccount.com",spam
+"Free trial! Try our new fitness program for 30 days: www.fitnessfreetrial.com",spam
+"Urgent! Your package has been returned! Update your address: www.updateaddress.com",spam
+"Exclusive offer! Get a free night at our hotel: www.freenighthotel.com",spam
+"Warning! Your account will be suspended if you don't respond: www.accountsuspension.com",spam
+"New alert: Your order has been canceled! Reorder now: www.reorderproduct.com",spam
+"Free samples! Get the latest skincare products for free: www.freesamplesskincare.com",spam
+"Urgent! Your subscription is about to expire! Renew now: www.renewsubscriptionnow.com",spam
+"Exclusive! Get early access to our new book: www.newbookaccess.com",spam
+"Shocking discovery! The truth about your favorite food: www.foodsecrets.com",spam
+"New alert: Your account has been compromised! Secure now: www.secureaccount.com",spam
+"Free trial! Try our new language learning app for 30 days: www.languageappfreetrial.com",spam
+"Urgent! Your package has been delayed! Update your delivery: www.updatedelivery.com",spam
+"Exclusive offer! Get a free upgrade on your next cruise: www.freecruiseupgrade.com",spam
+"Warning! Your account will be terminated if you don't respond: www.accounttermination.com",spam
+"New alert: Your order has been shipped! Track now: www.trackorder.com",spam
+"Free samples! Get the latest home decor items for free: www.freesampleshomedecor.com",spam
+"Urgent! Your subscription has been canceled! Reactivate now: www.reactivatesubscription.com",spam
+"Exclusive! Get early access to our new movie: www.newmovieaccess.com",spam
+"Shocking revelation! The truth about your favorite drink: www.drinksecrets.com",spam
+"New alert: Your account has been hacked! Recover now: www.recoveraccount.com",spam
+"Free trial! Try our new meditation app for 30 days: www.meditationappfreetrial.com",spam
+"Urgent! Your package has been lost! File a claim now: www.fileclaim.com",spam
+"Exclusive offer! Get a free upgrade on your next stay: www.freestayupgrade.com",spam
+"Warning! Your account will be deactivated if you don't respond: www.accountdeactivation.com",spam
+"New alert: Your order has been delivered! Confirm now: www.confirmdelivery.com",spam
+"Free samples! Get the latest pet products for free: www.freesamplespetproducts.com",spam
+"Urgent! Your subscription has been suspended! Resume now: www.resumesubscription.com",spam
+"Exclusive! Get early access to our new music album: www.newmusicalbumaccess.com",spam
+"Shocking discovery! The truth about your favorite snack: www.snacksecrets.com",spam
+"New alert: Your account has been breached! Secure now: www.securebreach.com",spam
+"Free trial! Try our new cooking app for 30 days: www.cookingappfreetrial.com",spam
+"Urgent! Your package has been damaged! File a report now: www.filereport.com",spam
+"Exclusive offer! Get a free upgrade on your next rental: www.freerentalupgrade.com",spam
+"Warning! Your account will be frozen if you don't respond: www.accountfreeze.com",spam
+"New alert: Your order has been processed! Track now: www.trackprocessed.com",spam
+"Free samples! Get the latest baby products for free: www.freesamplesbabyproducts.com",spam
+"Urgent! Your subscription has been terminated! Reinstate now: www.reinstatesubscription.com",spam
+"Exclusive! Get early access to our new video game: www.newvideogameaccess.com",spam
+"Shocking revelation! The truth about your favorite restaurant: www.restaurantsecrets.com",spam
+"New alert: Your account has been phished! Protect now: www.protectphish.com",spam
+"Free trial! Try our new fitness app for 30 days: www.fitnessappfreetrial.com",spam
+"Urgent! Your package has been seized! Retrieve now: www.retrieveseized.com",spam
+"Exclusive offer! Get a free upgrade on your next tour: www.freetourupgrade.com",spam
+"Warning! Your account will be locked if you don't respond: www.accountlock.com",spam
+"New alert: Your order has been dispatched! Track now: www.trackdispatched.com",spam
+"Free samples! Get the latest gardening products for free: www.freesamplesgardening.com",spam
+"Urgent! Your subscription has been deactivated! Reactivate now: www.reactivatenow.com",spam
+"Exclusive! Get early access to our new podcast: www.newpodcastaccess.com",spam
+"Shocking discovery! The truth about your favorite sport: www.sportsecrets.com",spam
+"New alert: Your account has been compromised! Secure now: www.securecompromise.com",spam
+"Free trial! Try our new art app for 30 days: www.artappfreetrial.com",spam
+"Urgent! Your package has been held! Release now: www.releaseheld.com",spam
+"Exclusive offer! Get a free upgrade on your next event: www.freeeventupgrade.com",spam
+"Warning! Your account will be deleted if you don't respond: www.accountdelete.com",spam
+"New alert: Your order has been confirmed! Track now: www.trackconfirmed.com",spam
+"Free samples! Get the latest craft products for free: www.freesamplescrafts.com",spam
+"Urgent! Your subscription has been canceled! Reinstate now: www.reinstatenow.com",spam
+"Exclusive! Get early access to our new documentary: www.newdocumentaryaccess.com",spam
+"Shocking revelation! The truth about your favorite hobby: www.hobbysecrets.com",spam
+"New alert: Your account has been hacked! Recover now: www.recoverhacked.com",spam
+"Free trial! Try our new music app for 30 days: www.musicappfreetrial.com",spam
+"Urgent! Your package has been delayed! Update now: www.updatedelayed.com",spam
+"Exclusive offer! Get a free upgrade on your next performance: www.freeperformanceupgrade.com",spam
+"Warning! Your account will be suspended if you don't respond: www.accountsuspend.com",spam
+"New alert: Your order has been shipped! Track now: www.trackshipped.com",spam
+"Free samples! Get the latest educational products for free: www.freesampleseducation.com",spam
+"Urgent! Your subscription has been suspended! Resume now: www.resumenow.com",spam
+"Exclusive! Get early access to our new series: www.newseriesaccess.com",spam
+"Shocking discovery! The truth about your favorite movie: www.moviesecrets.com",spam
+"New alert: Your account has been breached! Secure now: www.securebreached.com",spam
+"Free trial! Try our new travel app for 30 days: www.travelappfreetrial.com",spam
+"Urgent! Your package has been lost! Claim now: www.claimlost.com",spam
+"Exclusive offer! Get a free upgrade on your next adventure: www.freeadventureupgrade.com",spam
+"Warning! Your account will be deactivated if you don't respond: www.accountdeactivate.com",spam
+"New alert: Your order has been delivered! Confirm now: www.confirmdelivered.com",spam
+"Free samples! Get the latest health products for free: www.freesampleshealth.com",spam
+"Urgent! Your subscription has been terminated! Reinstate now: www.reinstateterminated.com",spam
+"Exclusive! Get early access to our new magazine: www.newmagazineaccess.com",spam
+"Shocking revelation! The truth about your favorite book: www.booksecrets.com",spam
+"New alert: Your account has been phished! Protect now: www.protectphished.com",spam
+"Free trial! Try our new productivity app for 30 days: www.productivityappfreetrial.com",spam
+"Urgent! Your package has been seized! Retrieve now: www.retrieveseizedpackage.com",spam
+"Exclusive offer! Get a free upgrade on your next workshop: www.freeworkshopupgrade.com",spam
+"Warning! Your account will be locked if you don't respond: www.accountlocknow.com",spam
+"New alert: Your order has been dispatched! Track now: www.trackdispatchedorder.com",spam
+"Free samples! Get the latest tech gadgets for free: www.freesamplestechgadgets.com",spam
+"Urgent! Your subscription has been deactivated! Reactivate now: www.reactivatedeactivated.com",spam
+"Exclusive! Get early access to our new course: www.newcourseaccess.com",spam
+"Shocking discovery! The truth about your favorite game: www.gamesecrets.com",spam
+"New alert: Your account has been compromised! Secure now: www.securecompromised.com",spam
+"Free trial! Try our new language learning app for 30 days: www.languagelearningappfreetrial.com",spam
+"Urgent! Your package has been held! Release now: www.releaseheldpackage.com",spam
+"Exclusive offer! Get a free upgrade on your next seminar: www.freeseminarupgrade.com",spam
+"Warning! Your account will be deleted if you don't respond: www.accountdeletenow.com",spam
+"New alert: Your order has been confirmed! Track now: www.trackconfirmedorder.com",spam
+"Free samples! Get the latest beauty products for free: www.freesamplesbeautyproducts.com",spam
+"Urgent! Your subscription has been canceled! Reinstate now: www.reinstatecanceled.com",spam
+"Exclusive! Get early access to our new event: www.neweventaccess.com",spam
+"Shocking revelation! The truth about your favorite show: www.showsecrets.com",spam
+"New alert: Your account has been hacked! Recover now: www.recoverhackedaccount.com",spam
+"Free trial! Try our new fitness program for 30 days: www.fitnessprogramfreetrial.com",spam
+"Urgent! Your package has been delayed! Update now: www.updatedelayedpackage.com",spam
+"Exclusive offer! Get a free upgrade on your next conference: www.freeconferenceupgrade.com",spam
+"Warning! Your account will be suspended if you don't respond: www.accountsuspendnow.com",spam
+"New alert: Your order has been shipped! Track now: www.trackshippedorder.com",spam
+"Free samples! Get the latest home decor items for free: www.freesampleshomedecoritems.com",spam
+"Urgent! Your subscription has been suspended! Resume now: www.resumesuspended.com",spam
+"Exclusive! Get early access to our new film: www.newfilmaccess.com",spam
+"Shocking discovery! The truth about your favorite music: www.musicsecrets.com",spam
+"New alert: Your account has been breached! Secure now: www.securebreachedaccount.com",spam
+"Free trial! Try our new meditation app for 30 days: www.meditationappfreetrial.com",spam
+"Urgent! Your package has been lost! Claim now: www.claimlostpackage.com",spam
+"Exclusive offer! Get a free upgrade on your next retreat: www.freeretreatupgrade.com",spam
+"Warning! Your account will be deactivated if you don't respond: www.accountdeactivatenow.com",spam
+"New alert: Your order has been delivered! Confirm now: www.confirmdeliveredorder.com",spam
+"Free samples! Get the latest pet products for free: www.freesamplespetproducts.com",spam
+"Urgent! Your subscription has been terminated! Reinstate now: www.reinstateterminated.com",spam
+"Exclusive! Get early access to our new album: www.newalbumaccess.com",spam
+"Shocking revelation! The truth about your favorite band: www.bandsecrets.com",spam
+"New alert: Your account has been phished! Protect now: www.protectphishedaccount.com",spam
+"Free trial! Try our new cooking app for 30 days: www.cookingappfreetrial.com",spam
+"Hey! Just checking in, how was your weekend?",ham
+"Remember to bring your umbrella tomorrow, looks like rain.",ham
+"Did you catch the game last night? What a finish!",ham
+"Just saw a movie that made me think of you, can’t wait to chat!",ham
+"Hey! Can we reschedule our coffee catch-up? Something came up.",ham
+"Hope you're having a good day! Any plans for the evening?",ham
+"Just wanted to say I appreciate you. Let’s hang out soon!",ham
+"Checking in! How’s work treating you this week?",ham
+"Finally tried that new pizza place, and it was awesome!",ham
+"Hey, don’t forget to send me that document we talked about.",ham
+"Could you remind me of our meeting time? I lost track!",ham
+"Just wanted to say good luck with your presentation tomorrow!",ham
+"Had a great time at the concert! Let’s do it again sometime.",ham
+"Could you pick up some milk on your way home? Thanks!",ham
+"Feeling a bit under the weather. Can we postpone our plans?",ham
+"Heard that song you recommended, and I loved it!",ham
+"Thinking about you! Hope everything’s going well.",ham
+"Do you want to grab lunch next week? Let’s catch up!",ham
+"How’s the new job treating you? Let me know if you need anything.",ham
+"Just a quick hello! Miss you and hope to see you soon.",ham
+"Hey! Just finished that book you gave me, and it was fantastic!",ham
+"Are we still on for Friday? Looking forward to it!",ham
+"Remember to take breaks during your study sessions today!",ham
+"Saw something that reminded me of our last trip, made me smile!",ham
+"Safe travels! Can’t wait to hear all about your trip.",ham
+"Let’s do a movie night this weekend! What do you think?",ham
+"Just a reminder about the family gathering this Saturday.",ham
+"Hope you had fun at the party! Let’s catch up soon.",ham
+"Hey, do you need help with anything this week?",ham
+"Heard you’ve been busy, hope you’re managing okay!",ham
+"Thinking about trying that new hobby together? Let’s plan!",ham
+"Can we chat later? I have something I’d like to discuss.",ham
+"Glad we had that chat yesterday, it really helped!",ham
+"I found a great recipe that I want to try together!",ham
+"Hope your week is off to a good start!",ham
+"Let’s set a date for our next game night!",ham
+"Remember our adventure last summer? We should do it again!",ham
+"Thanks for your help yesterday, I really appreciate it!",ham
+"Hey! Just wanted to see if you’re free for a quick chat.",ham
+"Let’s not let too much time pass before our next catch-up!",ham
+"Just wanted to share a funny meme that reminded me of you!",ham
+"Are you free to meet this week? I’ve got some updates!",ham
+"Thinking of organizing a small get-together, interested?",ham
+"Hope your day is going smoothly. Can’t wait to see you!",ham
+"Just finished a new puzzle, can’t wait to show it to you!",ham
+"Let’s plan a hike soon, I miss the outdoors!",ham
+"Hope today treats you kindly, sending good vibes!",ham
+"Did you hear about that new cafe opening? Let’s check it out!",ham
+"Hey! Any chance you’re free to help me with something later?",ham
+"Feeling a bit off today. Just wanted to let you know.",ham
+"Excited to catch up this weekend! Got a lot to share!",ham
+"Hey there! What’s your schedule looking like this week?",ham
+"Hope you’re having a restful day! You deserve it!",ham
+"Let’s not forget about our project deadline next week!",ham
+"Thinking about you and hope you’re doing well!",ham
+"Wow, the weather’s nice! Let’s go for a walk soon.",ham
+"Hey! Just passing by the park and thought of you!",ham
+"Ready for our trivia night this Friday? It’ll be fun!",ham
+"Saw a cool article today, let me know if you want the link.",ham
+"Hey! Have you tried that new recipe? I’m curious!",ham
+"Just a reminder about the charity event this Thursday!",ham
+"Can’t wait to see you at the event this weekend!",ham
+"Hey! Got a minute? I’ve got something I’d love your thoughts on.",ham
+"Hope you’re staying warm! Winter is really kicking in!",ham
+"I found that book you mentioned! Can’t wait to dive in!",ham
+"Remember to relax this weekend; you’ve earned it!",ham
+"Saw an old friend today, made me think of our good times!",ham
+"Can we chat tonight? I have some news I want to share.",ham
+"Hope you’re enjoying your break! Let’s plan something fun!",ham
+"Hey! Just wanted to say I’m here if you need anything.",ham
+"URGENT: Your tax refund is pending! Verify your account NOW to avoid delays: hxxps://tax-refund032.com",spam
+"🎉 You’ve WON a free iPhone 15! Claim it in 30 mins: hxxps://apple-giveaway.live",spam
+"Final Notice: Your Netflix subscription expired. Update payment to restore access: hxxps://netflix-billing.net",spam
+"Hi! Your delivery is held due to $1.99 fee. Confirm address here: hxxps://track-pkg.org",spam
+"ALERT: $750 Walmart voucher unlocked! Tap before midnight: hxxps://rewards-wmrt.xyz",spam
+"🚨 IRS Alert: Your SSN might be suspended. Call immediately: 888-555-2011",spam
+"Mom, I lost my phone—text me here! Need help ASAP: hxxps://new-number.site",spam
+"Congrats, Amazon user! Your Prime account won a $500 bonus: hxxps://amz-reward.co",spam
+"Your bank card was locked. Secure your account now: hxxps://secure-bankaccess.cc",spam
+"FREE Samsung Galaxy S24 just released! Grab yours: hxxps://galaxy-giveaway.shop",spam
+"🚚 FedEx: Package couldn’t be delivered. Reschedule: hxxps://fedex-delivery.xyz",spam
+"Hi darling, miss you! Let’s chat 💬: hxxps://meet-strangers.fun",spam
+"IMPORTANT: Your PayPal needs verification. Click to avoid suspension: hxxps://paypal-secure.io",spam
+"🔥 LIMITED TIME! $100 Target Gift Card for loyal customers: hxxps://target-discounts.live",spam
+"Your Apple ID was used in Dubai. Confirm activity: hxxps://appleid-check.net",spam
+"FREE $1,000 Costco Cash Card! Enter code COSTCO24: hxxps://costco-rewards.pro",spam
+"URGENT: Verizon bill overdue. Pay now to prevent service cut: hxxps://verizon-pay.cc",spam
+"Hi, it’s Jess! Can we meet? Reply STOP to block: hxxps://dating-link.site",spam
+"ALERT: Unusual login from New Device. Secure account: hxxps://google-alert.xyz",spam
+"☔️ 70% off RainBoots! Exclusive deal ends tonight: hxxps://flashsale-outlet.shop",spam
+"Your DoorDash coupon expires in 2 hrs! Redeem: hxxps://doordash-offers.co",spam
+"BREAKING: Medicare benefits expanded! See eligibility: hxxps://medicare-2024.info",spam
+"Starbucks BOGO! Claim free latte before 5 PM: hxxps://starbucks-deal.org",spam
+"🥳 Last chance! $200 Amazon voucher unclaimed: hxxps://amz-voucher.live",spam
+"TXT STOP to end: Your warranty is expiring. Extend coverage: hxxps://car-warranty.net",spam
+"ALERT: $300 Google Pay credit waiting! Accept now: hxxps://googlepay-reward.pro",spam
+"URGENT: AT&T account suspended. Confirm details: hxxps://att-customersupport.com",spam
+"FREE $500 Visa Gift Card! Take survey now: hxxps://visa-survey.shop",spam
+"Your SOCIAL SECURITY NUMBER was compromised. Call now: 800-555-4412",spam
+"🔥 FLASH SALE: 80% off Nike! Shop now: hxxps://nike-special.store",spam
+"Your Chase card was used for $599 purchase. Dispute? hxxps://chase-fraudalerts.cc",spam
+"Sarah, is this you in the video? 😳 View here: hxxps://social-media-alert.xyz",spam
+"Walmart: Your order is ready! Claim discount: hxxps://walmart-pickup.info",spam
+"Join our secret dinner party tonight! RSVP now: hxxps://event-invite.site",spam
+"URGENT: Password reset required for Microsoft account: hxxps://mslogin-restore.net",spam
+"Congratulations! You’re selected for $10,000 prize: hxxps://cash-winners.fun",spam
+"Your Apple Music trial ends today! Keep access: hxxps://apple-music.cc",spam
+"⚠️ $2,000 Loan Approved! Deposit within 1 hour: hxxps://fastcash-loans.pro",spam
+"Hi, we’re neighbors! Let’s connect 🔗: hxxps://local-chat.live",spam
+"NEW: IRS stimulus check pending. Submit info: hxxps://stimulus-2024.gov.co",spam
+"Your account has 34,500 unread messages. Check now: hxxps://sms-alert.xyz",spam
+"ALERT: Facebook login from Ukraine. Secure account: hxxps://fb-security.org",spam
+"🔥 Top secret deal! 50% off Gucci—today only: hxxps://luxury-sales.shop",spam
+"FREE Sam’s Club membership! Act fast: hxxps://samsclub-offer.info",spam
+"‘Your video went viral! Check views: hxxps://social-updates.net",spam
+"T-Mobile: Plan upgraded! Confirm to avoid charges: hxxps://tmobile-billing.co",spam
+"URGENT: Warranty claim approved. Schedule repair: hxxps://autowarranty-claims.cc",spam
+"LAST DAY! Claim your $200 Airbnb voucher: hxxps://travel-bonus.xyz",spam
+"Jennifer, your photos are trending. See here: hxxps://photo-alert.site",spam
+"Your Mcdonald’s reward expires in 1 hour! Redeem: hxxps://mcd-rewards.net",spam
+"ALERT: $1,000 Best Buy Gift Card unclaimed! Click now: hxxps://bestbuy-promo.org",spam
+"Apple: Unusual activity detected. Verify account: hxxps://apple-security.live",spam
+"Hi, your friend left you a voice message. Listen: hxxps://voicemail-alert.pro",spam
+"Hey, just checking in to see how you’re doing!",ham
+"Don’t forget about our lunch plans on Saturday!",ham
+"Do you want to catch up this weekend? Let me know what works for you.",ham
+"Just a reminder, the project is due next week. Let me know if you need help!",ham
+"Hope your day is going well. Let’s chat later!",ham
+"Have you seen that new show everyone is talking about?",ham
+"Just finished a great book; I think you'd love it!",ham
+"Happy birthday! Hope you have a fantastic day celebrating.",ham
+"Thinking of you! Let’s make plans soon.",ham
+"Do you want to grab coffee tomorrow morning?",ham
+"How was your weekend? Hope it was relaxing!",ham
+"Just wanted to say I appreciate you!",ham
+"Can you share the notes from our last meeting?",ham
+"Hope you’re having a good day! Just wanted to say hi.",ham
+"Let’s plan a movie night soon!",ham
+"Sending you good vibes today!",ham
+"How’s work treating you lately?",ham
+"I found that recipe you wanted. I’ll send it over!",ham
+"Do you need anything from the store?",ham
+"Let's start that book club we've talked about!",ham
+"Just finished that puzzle; it was fun!",ham
+"Can you help me with something later?",ham
+"Looking forward to the weekend trip!",ham
+"Don't forget to water the plants while I'm away.",ham
+"Had a great time at dinner the other night!",ham
+"How do you feel about a quick walk later?",ham
+"Have you heard from Jane lately?",ham
+"Do you want to try that new restaurant soon?",ham
+"Just wanted to thank you for being there for me.",ham
+"I’m finding some free time this week; let’s catch up!",ham
+"Hope you're getting some time to relax!",ham
+"Let’s do a virtual game night soon!",ham
+"Could you send me that link from yesterday?",ham
+"Can’ wait for our hiking trip next month!",ham
+"How about we start exercising together?",ham
+"Thinking about going to the farmer's market this weekend!",ham
+"Hope your day is going smoothly!",ham
+"Let’s plan a beach day soon!",ham
+"Want to join me for a workout tomorrow?",ham
+"Have you tried the new café in town? It’s great!",ham
+"Can we reschedule our meeting to next week?",ham
+"I’ve been meaning to ask you about that trip you took.",ham
+"Did you see that new art exhibit downtown?",ham
+"Hey, just a reminder about our call later.",ham
+"Looking forward to seeing you at the event!",ham
+"Hope you're taking care of yourself these days.",ham
+"Have you checked out that new park nearby?",ham
+"Let’s start planning for the holidays!",ham
+"How about a picnic in the park this Sunday?",ham
+"Excited for the concert next week!",ham
+"Can you help me choose a gift for Amy?",ham
+"Hope your project is going well!",ham
+"I heard your presentation went great!",ham
+"Just wanted to share something funny I saw today.",ham
+"Do you want to walk the dogs together?",ham
+"Thinking of trying a new recipe; any suggestions?",ham
+"Is everything okay? You’ve been quiet lately.",ham
+"Let’s make a bucket list together!",ham
+"How are your kids doing? We should get them together!",ham
+"Did you catch that game last night? Crazy finish!",ham
+"Just wanted to share a cool article I found!",ham
+"Hope you’re enjoying the weather!",ham
+"Let’s get together for a game of board games!",ham
+"Want me to pick up lunch on my way over?",ham
+"Can you remind me of the time for our meeting?",ham
+"Looking forward to our trip! Need to pack soon!",ham
+"Do you want to go to the gym later?",ham
+"Hope you find some time to relax this weekend!",ham
+"Just reached out to say I appreciate your friendship.",ham
+"Are you free for a chat this evening?",ham
+"Let’s schedule our next book club meeting!",ham
+"URGENT: Your bank account has been suspended due to suspicious activity. Call 800-555-1234 immediately to verify your identity.",spam
+"Congratulations! You've been selected for a FREE iPhone 13. Click here to claim: bit.ly/claim-prize",spam
+"Your package delivery #38241 is pending. Update shipping details at trackr.co/update3",spam
+"Netflix: Your subscription has expired. Renew in 24 hours to avoid permanent account deletion: netfl1x-renew.com",spam
+"AMAZING weightloss secret doctors don't want you to know! Lose 30lbs in 2 weeks: slimdown-fast.net",spam
+"FINAL REMINDER: Your car warranty is about to expire. Press 1 to speak with a specialist.",spam
+"Your PayPal account has been limited! Verify your information now: secure-payp4l.com/verify",spam
+"You've won a $1000 Walmart giftcard! Claim within 24hrs: walmart-rewards.co",spam
+"50% OFF everything today ONLY! Shop now: fashion-deals.site",spam
+"ATTENTION: We've been trying to reach you about your vehicle's extended warranty. Last chance to respond.",spam
+"Your iCloud account was accessed from a new device. If this wasn't you, verify here: apple-secure.co/verify",spam
+"BREAKING: New government program pays off your mortgage if you qualify. Check eligibility: mortgage-relief.site",spam
+"SPECIAL OFFER: Buy 1 Get 2 Free on all vitamin supplements today only! Shop: health-boost.co",spam
+"Your results are ready. Doctor reviewed your recent test and found concerning issues: med-results.link",spam
+"Amazon: Your account has unusual activity. Confirm identity here: amzn-security.net",spam
+"Congratulations! You're our 5,000th visitor today! Claim your prize: lucky-winner.site/prize",spam
+"ALERT: Your Social Security Number has been suspended due to suspicious activity. Call 888-432-5567 now.",spam
+"Your AT&T bill is overdue by $139.50. Pay now to avoid service disconnection: att-billing.co",spam
+"EXCLUSIVE: Work from home and earn $5,000/week. Limited positions: remote-jobs.site",spam
+"Your vote is needed! Take this 30-second survey and get a $50 gift card: survey-rewards.co",spam
+"FINAL NOTICE: Your tax refund of $1,294.30 is waiting. Claim now: tax-refunds.site",spam
+"Your credit score dropped 58 points. Check why: creditscore-check.co",spam
+"Hey it's Jessica, remember me? I found your number in my contacts. Text me back: j.mp/chat-now",spam
+"Your child's school has an emergency. Call immediately: 555-123-4567",spam
+"1 weird trick to eliminate debt forever. Banks hate this: debt-freedom.site",spam
+"Your photos have been backed up to an unknown device. Secure your account: google-verify.co",spam
+"ALERT: Unauthorized transaction of $349.99 on your credit card. Dispute now: cc-secure.net",spam
+"ONLY TODAY: Get a 90% discount on Ray-Ban sunglasses. Limited stock: designer-deals.co",spam
+"Your Facebook account will be permanently deleted in 24 hours unless you verify: fb-secure.site",spam
+"We've detected a virus on your phone. Tap here to remove: antivirus-scan.co",spam
+"Hey there! Just checking if we're still on for coffee tomorrow at 2pm?",ham
+"Running late for the meeting. Start without me, be there in 10.",ham
+"Don't forget to pick up milk on your way home",ham
+"Happy birthday! Hope your day is amazing",ham
+"The dentist called to reschedule your appointment to Thursday at 11am",ham
+"Just landed safely. Will call when I get to the hotel.",ham
+"Can you send me that recipe for pasta sauce when you get a chance?",ham
+"Your package was delivered today. It's on the front porch.",ham
+"Movie starts at 7:30. Meet at the theater at 7?",ham
+"The doctor's office called. Your test results came back normal!",ham
+"Jessica had her baby! 7lbs 6oz, mom and baby doing great",ham
+"Can you feed the cat this weekend while I'm away?",ham
+"Reminder: Dad's retirement party is this Saturday at 6pm",ham
+"I found your keys! They were under the couch",ham
+"School is closing early today due to bad weather. Pickup at noon.",ham
+"Just wanted to say thanks for your help yesterday. Couldn't have done it without you!",ham
+"Battery about to die. Call you when I get home.",ham
+"The meeting with the client went really well. They signed the contract!",ham
+"Can you please bring my jacket? I left it at your place yesterday",ham
+"We're out of dog food. Can you grab some on your way home?",ham
+"Hey, just a heads-up, meeting moved to 2 PM today.",ham
+"Grocery list: milk, bread, eggs. Don't forget!",ham
+"Car's fixed! Ready to go whenever you are.",ham
+"Happy birthday! Hope you have a great day!",ham
+"Running late, be there in 15 mins.",ham
+"Dinner plans tonight?",ham
+"Appointment confirmed for tomorrow at 10 AM.",ham
+"Weather's looking good for a walk later.",ham
+"Did you remember to lock the door?",ham
+"Need help with anything?",ham
+"Almost there, traffic is a nightmare!",ham
+"See you later!",ham
+"Reminder: Bill due next week.",ham
+"Just arrived. Where are you?",ham
+"Call me when you get a chance.",ham
+"Checked your proposal, looks great!",ham
+"What time is dinner?",ham
