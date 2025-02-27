@@ -13,7 +13,7 @@ PROMPT_POSITIVE = os.environ.get("PROMPT_POSITIVE")
 PROMPT_NEGATIVE = os.environ.get("PROMPT_NEGATIVE")
 DATA_COLUMN_NAME = os.environ.get("DATA_COLUMN_NAME")
 LABEL_COLUMN_NAME = os.environ.get("LABEL_COLUMN_NAME")
-SYSTEM_PROMPT = "Users will request specific data. Respond only with realistic, generated examples that resemble real-world datasets. Provide up to 100 entries per request, each enclosed in double quotes, separated by \n (endline character). Do not include numbering, labels, or extra text beyond the examples."
+SYSTEM_PROMPT = 'Users will request specific data. Respond only with realistic, generated examples that resemble real-world datasets. Provide up to 100 entries per request, each enclosed in double quotes, separated by "\n". Do not include numbering, labels, or extra text beyond the examples.'
 
 MODELS_PATH = "models/"
 RESULTS_PATH = "results/"
