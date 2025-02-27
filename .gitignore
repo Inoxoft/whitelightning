@@ -1,0 +1,7 @@
+.idea/
+
+api_requests/
+models/
+results/
+
+.env
