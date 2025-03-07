@@ -1,59 +1,66 @@
 # pyth-still - LLM Distillation Tool
 
-This project implements a tool for distilling large language models (LLMs) into simple binary classifiers. This is an example of usage - classify text messages as either "spam" or "ham" (not spam).
+This project implements a tool for distilling large language models (LLMs) into simple binary classifiers. It can be used to classify text data into binary categories (e.g., "spam" vs "ham").
 
 ## Model Architecture
 
-The model architecture consists of the following components:
+The model uses a Gradient Boosting Classifier with TF-IDF features:
 
-1. **Vocabulary (`Vocab` class)**:
-   - Encodes text messages into sequences of integers based on word frequency.
-   - Handles unknown words by mapping them to a special `<UNK>` token.
+1. **Feature Extraction**:
+   - TF-IDF Vectorizer for converting text into numerical features
+   - Configurable n-gram range and maximum features
+   - Standard scaling of TF-IDF features
 
-2. **Dataset (`SpamDataset` class)**:
-   - Prepares the dataset for training by encoding text messages and converting labels to binary format.
-   - Pads or truncates text sequences to a fixed length (20 tokens).
+2. **Binary Classifier (`BinaryClassifier` class)**:
+   - Gradient Boosting Classifier with configurable parameters
+   - Includes preprocessing pipeline (TF-IDF + StandardScaler)
+   - Cross-validation for robust performance evaluation
+   - Model persistence functionality
 
-3. **Binary Classifier (`BinaryClassifier` class)**:
-   - A neural network with an embedding layer, a fully connected layer, and a sigmoid activation function.
-   - The embedding layer converts word indices into dense vectors.
-   - The fully connected layer processes the concatenated embeddings to produce a binary output (spam or ham).
-
-4. **Training and Evaluation**:
-   - The model is trained using the Adam optimizer and binary cross-entropy loss.
-   - The training process includes saving the trained model and vocabulary for later use.
-   - The evaluation process involves predicting labels for a test dataset and calculating match rates for accuracy assessment.
+3. **Training and Evaluation**:
+   - Automatic train-test splitting
+   - Performance metrics including accuracy and classification report
+   - Cross-validation scores for model validation
+   - Model artifacts saving and loading capabilities
 
 ## Environment Variables
 
-The project requires the following environment variables, which are defined in the `settings.py` file:
+The project requires the following environment variables (defined in `settings.py`):
 
-- `OPEN_ROUTER_API_KEY`: The API key for openrouter.ai.
-- `PROMPT_POSITIVE`: Prompt that will be used to generate data with positive labels.
-- `PROMPT_NEGATIVE`: Prompt that will be used to generate data with negative labels.
-- `DATA_COLUMN_NAME` Column name for the text data in the dataset.
-- `LABEL_COLUMN_NAME` Column name for the label data in the dataset.
-- `MODEL_PREFIX`: A prefix used for naming model-related files (e.g., vocabulary and model weights).
-- `POSITIVE_LABEL`: The label used for positive class (e.g., "spam").
-- `NEGATIVE_LABEL`: The label used for negative class (e.g., "ham").
+- `OPEN_ROUTER_API_KEY`: API key for openrouter.ai
+- `PROMPT_POSITIVE`: Prompt for generating positive label data
+- `PROMPT_NEGATIVE`: Prompt for generating negative label data
+- `DATA_COLUMN_NAME`: Column name for text data in dataset
+- `LABEL_COLUMN_NAME`: Column name for labels in dataset
+- `MODEL_PREFIX`: Prefix for model-related files
+- `POSITIVE_LABEL`: Label for positive class
+- `NEGATIVE_LABEL`: Label for negative class
+
+## Project Structure
+
+- `models/`: Saved model artifacts
+- `results/`: Model evaluation results
+- `training_data/`: Training datasets
+- `testing_data/`: Test datasets
 
 ## Usage
 
-1. **Set up .env variables**:
-   - Define the environment variables in the `.env` file, see .env-example.
+1. **Set up environment**:
+   - Create and configure `.env` file based on `.env-example`
 
-2. **Gather dataset**:
-   - Run the `data_generator.py` file to ask LLM for training data. Run it as many times as needed. One cycle produces ~200 entries of data, depending on the model.
+2. **Generate dataset**:
+   - Use `data_generator.py` to generate training data using LLM
+   - Multiple runs can be performed to increase dataset size
 
 3. **Train and test model**:
-   - Run the `main.py` file to train model, calculate and print the match rates for the positive and negative labels.
+   - Run `main.py` to:
+     - Train the model
+     - Execute model predictions
+     - Test model accuracy
 
 ## Example
 
-To train the model, run predictions, and test accuracy, execute the `main.py` script:
+Train and evaluate the model:
 
 ```bash
 python main.py
-```
-
-This script will sequentially train the model, run predictions, and test the model's accuracy, saving the results to the appropriate directories.

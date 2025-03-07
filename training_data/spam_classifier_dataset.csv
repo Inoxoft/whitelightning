@@ -1,4 +1,4 @@
-label,message
+message,label
 "URGENT: Your 24-hr Amazon Prime voucher expires at midnight! Claim NOW ➔ bit.ly/amz4u89",spam
 "FREE $1000 Walmart Gift Card! Click FAST before codes run out ➔ rewards-center.biz/claim",spam
 "ALERT: Your bank account will be SUSPENDED. Verify identity immediately ➔ secure-banklogin.com",spam
@@ -709,3 +709,1110 @@ label,message
 "Call me when you get a chance.",ham
 "Checked your proposal, looks great!",ham
 "What time is dinner?",ham
+"Congratulations! You’ve been selected for an exclusive limited-time offer! Reply BACK NOW to unlock your FREE luxury vacation package!",spam
+"Hey! You’ve won a FREE Apple iPhone! To claim, click the link: www.winmyphone.com. Hurry, offer ends today!",spam
+"Just for you: A surprise $500 shopping voucher! Act fast and redeem your prize by clicking here: www.savemymoney.com. Time is running out!",spam
+"Urgent: Your bank account has been charged for $150. If this wasn’t you, click the link to dispute: www.banksecure.com. Response required ASAP!",spam
+"Special Offer! Upgrade your smartphone now and get a $200 gift card! Limited stock—reply YES to claim yours before it’s gone!",spam
+"FREE GIFT waiting for you! Complete a quick survey and receive a $100 gift card instantly! Click the link to get started: www.giftforyou.com!",spam
+"You’ve been chosen! An exclusive reward of £500 is waiting for you! Just reply with the word WIN to claim your cash prize!",spam
+"Attention! Your subscription gives you access to exclusive discounts! Claim up to 80% off your next purchase now at www.savebig.com. Limited time only!",spam
+"Last chance! Only a few hours left to claim your complimentary meal voucher! Text FEEDME to 66999 now!",spam
+"Alert! Your package is waiting for you! Confirm your address to avoid holding fees and pick it up: www.confirmmyaddress.com.",spam
+"Hey! Just checking in, how was your day? Found anything fun to do?",ham
+"Ugh, my coffee this morning was cold. Can’t start the day like that! Hope yours was better!",ham
+"Just got out of that meeting, and wow, it was super boring. How’s your day going?",ham
+"Feeling kinda lazy today. Might just binge-watch something instead of going out. What about you?",ham
+"Quick reminder: don’t forget about our dinner plans tomorrow! Can't wait to catch up.",ham
+"Hey, don’t know if you saw, but there’s a storm coming. You staying in tonight?",ham
+"Made some cookies today! They turned out pretty good. Want to come over and try them?",ham
+"Can we reschedule our walk? Something came up and I can't make it today. Sorry!",ham
+"Just finished an 8-hour shift, and I’m so ready to crash. How’s work treating you?",ham
+"Wishing I could teleport to the beach right now. It’s too hot here!",ham
+"Got caught in the rain today. Not fun, but at least I had good company! How’s your week going?",ham
+"Guess what? I finally finished that book I was reading! Let's talk about it when we meet up.",ham
+"I’m trying to decide if I should order pizza again tonight or something healthier. What do you think?",ham
+"Super excited about the weekend! Have you planned anything fun yet?",ham
+"Just realized I forgot my lunch at home. Ugh, why do I keep doing this?",ham
+"Hey! How’s everything? Let’s plan a movie night soon, I miss our hangouts!",ham
+"Made it to the gym today! Felt good to be active again. What about you?",ham
+"My plants are thriving lately, it’s such a relief. How’s your garden doing?",ham
+"Had the weirdest dream last night! We were flying around a city made of candy. What’s new with you?",ham
+"Trying to stay focused at work but the weather is too nice outside! Wish I could go out.",ham
+"Final Notice: Your courier package is pending! Confirm delivery details immediately at www.trackdhl2024.net or pay 5 storage fee. Act now!",spam
+"Exclusive offer! 50% off all Amazon products TODAY ONLY. Click http://bit.ly/amzdeals59 before midnight. Limited stock!",spam
+"IMPORTANT: Your Netflix account has been locked. Verify payment now to avoid suspension. Secure here: www.netflix-billing24.com",spam
+" FLASH SALE  Get iPhone 15 Pro for £0.99! Only 10 left. Claim your,spam
+"Left my umbrella in the cab again. This is the third time smh.",ham
+"Any chance u wanna grab dessert later? Craving tau huay.",ham
+"Wah the queue at the clinic is snaking out the door. Got here too late sia.",ham
+"Your plants look super dry. Should I water them or wait for you?",ham
+"Bro your Netflix is logged out on my TV. What’s the new password ah?",ham
+"Just spilled coffee on my white shirt. Today’s gonna be that kind of day huh.",ham
+"Why is the lift under maintenance AGAIN. 12 floors to climb zzz.",ham
+"Forgot to charge my laptop. Can I borrow your power bank for the meeting?",ham
+"Walked past the bakery and saw curry puffs. Bought you two cos I know ur weak for them.",ham
+"The Wi-Fi here slower than my grandma’s dial-up. How’s yours?",ham
+"Random qn – do guinea pigs sneeze? Mine keeps making weird noises.",ham
+"Think I left my jacket at ur place. Is it on the couch by any chance?",ham
+"Lol the hawker auntie gave me extra chili when I said it’s for you. She remembers!",ham
+"PSA: Your neighbour’s dog ate my slipper. Tell them pls.",ham
+"Accidentally liked ur IG post from 2016. Don’t ask how.",ham
+"Can’t find my keys ANYWHERE. Did I leave them in your car yesterday?",ham
+"Your parcel came to my unit by mistake. Want me to open it or keep it sealed?",ham
+"Mosquitoes in my room are next level tonight. Slept at 4am 😑.",ham
+"Gonna rain later. Left my windows open at home. Ugh need to go back.",ham
+"Washed my hands and my bracelet snapped. Bad luck or cheap metal?",ham
+"Street soccer later? Or too hot ah.",ham
+"Your nasi lemak order here already. They forgot the sambal tho.",ham
+"Can’t decide if I’m hungry or just bored. Ate cereal at 11pm again.",ham
+"Family group chat is wild today. Ur dad sent 25 texts about his new cactus.",ham
+"Saw a cockroach in the bathroom. It’s his house now.",ham
+"Bruh you won’t believe who I bumped into at the hawker center.",ham
+"LRT broke down halfway. Now stuck between stations for 20 mins.",ham
+"Think I food poisoned. Ate that sushi u warned me about…",ham
+"Any idea why the office AC is set to ‘Antarctica’ today?",ham
+"Accidentally took your ez-link card. Swear I’ll return it tmrw!",ham
+"Your sis asked me to pick up her kid from school. Since when am I uncle material?",ham
+"Left the pan on too long. Now my kitchen smells like burnt regrets.",ham
+"Your gym bag’s still in my trunk. Smells…athletic.",ham
+"Got free tickets to the night market. You in or nah?",ham
+"Why’s the app asking for my birth year? I’m 24 not 100.",ham
+"Just tripped over air in front of 10 people. Need to emigrate now.",ham
+"Mamak stall uncle gave me free teh tarik. Says I’m his ‘regular customer’ 😂.",ham
+"Can u check if my phone is under the sofa? Think it fell again.",ham
+"Woke up at 2pm. Who turned my alarm off??",ham
+"Your cat knocked over the vase. Claim insurance or play dumb?",ham
+"Thought today was Saturday. Got ready for grocery shopping then realized…",ham
+"Spent 30 mins looking for my glasses. They were on my head.",ham
+"Got stuck in elevator at B1. Why is there no service here omg.",ham
+"Your mom sent me a recipe for herbal chicken. Time to impress her?",ham
+"Forgot how to say ‘thank you’ in French mid-convo. Awkward silence achieved.",ham
+"Neighbor’s midnight karaoke is back. Should I call police or join in?",ham
+"Leg cramped during yoga. Now lying on mat questioning life choices.",ham
+"Found a ring in the drain. Wedding band looks real. What do?",ham
+"Left the chicken defrosting since yesterday. Safe to cook or nah?",ham
+"Your cousin added me on LinkedIn. Do I accept or pretend I didn’t see?",ham
+"URGENT: Your account has been suspended. Call customer service now: 1-800-452-7384 to restore access immediately.",spam
+"Congratulations! You've been selected for a FREE iPhone 13. Click here to claim: bit.ly/newphone2023",spam
+"Your package delivery failed. Last attempt tomorrow. Update address: tracking-delivery.co/update",spam
+"ALERT: Unusual activity on your bank account. Verify identity now: secure-bank-verify.com",spam
+"Hi this is Jessica from dating service, I saw your profile and want to meet. View my pics: date-pics.site/Jessica",spam
+"FINAL NOTICE: Your car warranty is about to expire. Press 1 to speak with specialist.",spam
+"Limited time offer: 75% OFF all designer products. Shop now: luxury-brands.shop",spam
+"You've won a $1000 Walmart gift card! Claim within 24 HOURS: walmart-reward.com/claim",spam
+"Your IRS tax refund is pending. Confirm details here: irs-refund.online",spam
+"Netflix: Payment declined. Update billing in 24hrs to avoid account suspension: netflix-billing.co",spam
+"IMPORTANT: Your Social Security Number has been suspended due to suspicious activity. Call 1-888-456-7891 now.",spam
+"Your recent Amazon purchase qualifies for a $50 rebate! Claim here: amazon-rebates.site",spam
+"COVID Alert: You've been in contact with someone who tested positive. Check details: covid-trace.net",spam
+"AMAZING DEAL: Buy 1 Get 3 FREE on all weight loss supplements. Limited stock! Order now: slim-fast.shop",spam
+"Your PayPal account needs verification. Log in here to continue: paypal-secure-login.com",spam
+"We've tried to reach you about your vehicle's extended warranty. Final notice! Call: 1-800-555-2356",spam
+"ATT: Your mobile bill is overdue. Pay now to avoid service interruption: att-paybill.net",spam
+"You've been selected for a $300 Target survey! Just 5 mins: target-survey.co/reward",spam
+"URGENT: Your Facebook account will be deleted in 24 hours. Verify here: fb-verify.site",spam
+"Congrats! You've won a cruise to the Bahamas in our monthly draw! Claim: dream-cruise.win",spam
+"Your credit score dropped by 59 points. Check why: credit-alert.report",spam
+"EXCLUSIVE: Buy Bitcoin now before price explosion! Limited opportunity: crypto-invest.now",spam
+"Your Apple iCloud storage is full. Click here to prevent data loss: apple-storage.cloud",spam
+"50% OFF your first order! Use code NEWCUST at: fashion-deals.store",spam
+"ALERT: Your online banking access will be restricted. Verify identity: bank-secure.center",spam
+"Dear customer, your electricity bill is overdue. Pay now to avoid disconnection: utility-pay.co",spam
+"Free Starbucks gift card! Take our 30-second survey: coffee-rewards.site",spam
+"BREAKING: New government program pays off your mortgage! Check eligibility: home-relief.gov.co",spam
+"Your flight has been cancelled. Claim refund: airline-refunds.center",spam
+"LAST CHANCE: Claim your unclaimed insurance benefit of $3,450: insurance-benefits.claim",spam
+"Your computer has been infected with a virus! Call tech support now: 1-888-233-4567",spam
+"ATTENTION: Your prescription is ready for pickup. 50% discount today only! Details: pharma-discount.rx",spam
+"We've noticed suspicious login attempts on your Gmail account. Secure now: google-security.site",spam
+"Congratulations! You're our 5,000th visitor and won a $1000 gift card! Claim: lucky-winner.shop",spam
+"FINAL WARNING: Your internet service will be disconnected in 24hrs. Pay now: internet-billing.co",spam
+"Hot singles in your area want to meet tonight! View profiles: local-dating.match",spam
+"Your phone number won $750,000 in international lottery! Claim prize: lottery-win.international",spam
+"URGENT: Your order has been placed for $349.99. If not you, cancel here: order-cancel.center",spam
+"Get rich working from home! Make $5000/week with this simple method: easy-money.work",spam
+"IMPORTANT: Your LinkedIn password needs to be reset. Click here: linkedin-secure.profile",spam
+"Your results are ready! Doctor review shows concerning levels. Details: medical-results.center",spam
+"25% OFF your next pizza order! Use code PIZZA25. Order now: pizza-special.deals",spam
+"Your account will be charged $49.99 for premium subscription. To cancel: subscription-stop.service",spam
+"BREAKING: Your area under severe weather alert. Get details: weather-emergency.alert",spam
+"Congratulations on your new job! Click to confirm employment details: career-confirm.center",spam
+"Your recent test results are now available. Login: medical-portal.results",spam
+"IMPORTANT: Your tax refund of $4,829 is pending. Verify details: tax-refund.gov.co",spam
+"Win a FREE Disney vacation for your family! Enter now: disney-dream.win",spam
+"Your parcel is being held at customs. Pay fee to release: shipping-customs.fee",spam
+"ALERT: Unauthorized charges on your credit card. Verify now: card-security.center",spam
+"Your child's school has an emergency. Call immediately: 1-888-332-5671",spam
+"EXCLUSIVE OFFER: Lose 30lbs in 30 days with this new supplement: weight-loss.miracle",spam
+"Your lottery ticket won $2,500,000! Last day to claim: lottery-winnings.claim",spam
+"URGENT: Your retirement account needs immediate attention. Verify: pension-alert.center",spam
+"Netflix: Due to payment issues, your account will be suspended tomorrow. Update: netflix.account-verify.co",spam
+"Danger! Gas leak detected in your neighborhood. Check details: safety-alert.info",spam
+"FREE iPhone 12 Pro! You've been selected for Apple's product testing program: apple-tester.com",spam
+"FINAL NOTICE: Your car insurance is expired. Renew now: auto-insurance.renew",spam
+"You've inherited $4.5M from a distant relative. Claim your inheritance: inheritance-claim.legal",spam
+"Your TV subscription will end tomorrow. Renew with 50% discount: cable-renew.tv",spam
+"Security Alert: Your bank account has been locked. Verify identity: bank-verify.secure",spam
+"Amazing investment opportunity! 300% returns guaranteed: investment-profits.now",spam
+"Your photo has been posted without consent. See here: photo-removal.site",spam
+"URGENT: Action required on your health insurance. Call: 1-877-555-9023",spam
+"Congratulations! You've been pre-approved for a $50,000 loan at 0% interest: loan-approval.finance",spam
+"Your Instagram account violated community guidelines. Verify to prevent deletion: insta-verify.link",spam
+"LAST DAY: 80% OFF all designer handbags. Shop now: luxury-bags.sale",spam
+"ALERT: Your home security system has been deactivated. Verify status: security-home.alert",spam
+"Your password for [service] has been reset. If not you, secure account: password-reset.center",spam
+"WINNER! You've been selected to receive a new Samsung TV! Claim: prize-claim.win",spam
+"Your coronavirus relief payment of $1,400 is pending. Confirm details: stimulus-check.gov.co",spam
+"URGENT: Your water supply will be cut off due to unpaid bills. Pay now: utility-service.co",spam
+"Earn $500 today! Work from home opportunity: easy-cash.work",spam
+"Attention Medicare beneficiary: Your new benefits card is ready. Confirm: medicare-benefits.gov.co",spam
+"URGENT: Your WhatsApp will be deactivated. Verify account: whatsapp-verify.app",spam
+"Important information about your disability benefits. Review now: benefits-info.gov.co",spam
+"50% OFF VIAGRA & CIALIS today only! Discreet shipping: med-discount.rx",spam
+"Your DNA test results show surprising ancestry! View now: ancestry-reveal.dna",spam
+"URGENT: Your electricity will be disconnected today. Last chance to pay: power-bill.co",spam
+"Your opinion matters! Take our survey for a chance to win $500: survey-reward.win",spam
+"FINAL NOTICE: Your driver's license has been suspended. Details: dmv-license.gov.co",spam
+"Your lottery winnings of $750,000 remain unclaimed. Last day: lottery-claim.center",spam
+"Congratulations! YourTube has selected you for a $2,000 sponsorship. Apply: video-sponsor.co",spam
+"ALERT: Unauthorized access to your email. Secure now: email-security.center",spam
+"SPECIAL OFFER: Buy 1 Get 1 FREE on all ED medications. Order: pharmacy-special.rx",spam
+"Hey, running about 10 mins late. Traffic is awful today.",ham
+"Can you grab milk on your way home? We're completely out.",ham
+"Just finished that book you recommended. You were right, the ending was amazing!",ham
+"Don't forget we have dinner with my parents tomorrow at 7pm.",ham
+"Are you still up for hiking this weekend? Weather forecast looks good.",ham
+"Thanks for lending me your jacket yesterday. I'll return it next time I see you.",ham
+"Just checking in - how did your interview go today?",ham
+"Sorry I missed your call. Was in a meeting. I'll call you back in 15 mins.",ham
+"The kids are with me. No need to pick them up from school today.",ham
+"Do you know what time the movie starts? Should we meet there or go together?",ham
+"Could you send me the address for the restaurant? Can't seem to find it.",ham
+"I'm stuck at work and might be late. Start without me if I'm not there by 8.",ham
+"Just saw your old classmate at the coffee shop. She says hi!",ham
+"Don't forget to take your medicine before bed.",ham
+"The meeting got rescheduled to Thursday at 2pm. Let me know if that works for you.",ham
+"Happy birthday!!! Hope you have an amazing day 🎂",ham
+"I left your book on the kitchen counter. Thanks for letting me borrow it.",ham
+"Just wanted to say good luck on your test tomorrow. You'll do great!",ham
+"My train is delayed. Probably won't be home until after 7.",ham
+"Can you call the plumber? The sink is leaking again.",ham
+"LAST CHANCE! Claim your exclusive discount on designer handbags! Shop now: https://account.qwszwl4482.com/reset?account=44ur2wd06aytqc9h",spam
+"Your order is ready! Pick up your items at [address] today only!",spam
+"Exclusive offer! Get 50% off all sunglasses this weekend. https://login.jc3hzle0bj.info/reset?code=98cp91gl9kfhwk2f",spam
+"URGENT: Your account has been flagged. Verify your details immediately: https://secure.8pkp8vk4qe.cc/secure?account=frue1b9lbc3kzdhy",spam
+"Congratulations! You've won a gift card! Claim it here: http://login.3vlh74tp7q.co/login?account=lzq66cuqmh0cixl1",spam
+"Hey, check this out! Amazing deals on electronics. https://login.7w3si0qt9e.biz/account?id=7xtqoieoegmm7652",spam
+"Limited time offer: Free shipping on all orders over $50. https://update.583rihxeh6.com/reset?account=msmnuuaa62gi1ulu",spam
+"Get a free sample of our new skincare product! https://account.cj3v2o6t4f.cc/secure?id=6hdt2ms748hqmleo",spam
+"Reminder: Your appointment is scheduled for tomorrow. Confirm here: https://login.7te5fmfn8h.com/secure?account=fft8qlf6rjh78i5q",spam
+"Don't miss out! Flash sale on summer apparel. https://www.y3za02hu73.co/verify?id=o3vwleto09eyzsxv",spam
+"Your package has been shipped! Track it here: http://secure.2hv9albthl.org/account?user=myjkyt4xf8prsmk8",spam
+"You've been pre-approved for a credit increase! Apply now: https://verify.q8dn2rac86.info/reset?account=y9r1s0ewe4pq08zr",spam
+"Amazing travel deals! Book your next getaway today. https://login.qt5l4kf15h.org/reset?code=exsxc585guk5pffs",spam
+"Need cash? Get a quick loan now! Apply here: http://www.d336aqaq2w.org/secure?session=v9ykpkkqvyhxudk4",spam
+"Your subscription is expiring soon. Renew now for exclusive benefits: https://secure.ri1ntb7mol.com/update?id=runfbqwegp4n0ic4",spam
+"Hey there! Check out this amazing deal before it's gone! http://secure.hjazoi12b4.com/account?account=hq7nqkt15kgy7m70",spam
+"Your bill is ready. Pay now and avoid late fees: https://login.dfpeayt7i5.com/update?code=6mgwfkdw0dfa7bed",spam
+"Exclusive offer for you! Get a free consultation: http://www.l19jtmc5tw.com/login?id=atl33zbwnpm2xns5",spam
+"Get ready for summer! Huge discounts on swimwear! http://update.18bvznpe40.com/reset?account=rqydyv6ipmv44obh",spam
+"Your order is confirmed! Thank you for your purchase. https://login.5kdwj0u4d9.net/account?ref=pd44qe4ypmgtg663",spam
+"LAST DAY: Up to 70% off everything! Shop now: https://secure.03nw5d6k04.net/account?code=hb344o7gbwk7r7in",spam
+"You have a new message! Click here to view: https://secure.6dwv3hq4r6.net/confirm?ref=evh7oflxjovrwxgl",spam
+"Secret sale! Only for our VIP members. https://update.wz417jqya2.net/confirm?user=u3pjqrzylc27gv17",spam
+"Exclusive offer: Get your first month free! http://account.e2jbpe03yf.biz/secure?token=8ip1rziboap4lkxu",spam
+"Don't miss our summer clearance sale! http://update.o1qswaloy2.com/login?id=16rz7fif96q749j9",spam
+"Congratulations, there's a new prize waiting for you! http://secure.73onikv9k2.info/secure?token=xj2bo84zx23wpgwm",spam
+"Time to celebrate! Amazing discounts on kitchen appliances! http://login.40630hugua.info/verify?user=r7mbu7o0jq0m44rp",spam
+"You've been selected for a special offer! Details inside: http://update.x7uubixo79.com/confirm?account=ez3kaa4uh6cm1i1d",spam
+"Hey! Hot deals on shoes. Check it out: https://secure.ulav7sei5u.info/login?account=ylp9906okor9y0ws",spam
+"Your item is on its way! Track it here: http://update.rte5yyhc77.biz/confirm?id=6h4hk1g7mffwz985",spam
+"Free gift with your next purchase! Details: https://login.ap1fzqrauj.cc/confirm?token=a0szs826qekgrmjt",spam
+"Great news! Your application has been approved! https://login.7esavtfaim.net/account?id=eemtyr8gr4sr6bun",spam
+"Amazing recipes! Check our new collection: https://update.4rj2rkrcfv.org/account?ref=0ftbddeyiadhl1ar",spam
+"You've got a new credit score! Check now: http://secure.gs11l3zq5m.biz/login?user=exmkn54ryyqzqfqi",spam
+"Limited stock! Don't miss out on this special offer: https://verify.g0dkeinm9d.info/reset?id=om71jympsswnwzmc",spam
+"Big savings on home decor! Shop now: http://login.nf580xvded.info/login?token=wprvk7o7do14fwvi",spam
+"You've been chosen for a free trial! http://www.8nmw8pju15.cc/login?account=16mkus7zu70ncfbg",spam
+"Don't forget to make a deposit! http://verify.4mwy2xl7aa.cc/verify?ref=c0umfj7gjbt62bpo",spam
+"Last chance to claim your reward! http://secure.edqctogqvr.cc/secure?user=9l067yydbclxvnqn",spam
+"You are cordially invited to our exclusive event! http://verify.apuc8395pc.net/update?user=igiklns9i56wi7x9",spam
+"Get early access to our new collection! http://www.24gybjasub.info/account?ref=q2svga7g0823i6xb",spam
+"You are missing out! Secret Sale happening now. https://secure.sznu4tmopc.cc/verify?user=w3zhmtfb0eggwwx4",spam
+"See what's trending right now. http://login.mxyesw1zrf.biz/login?account=gxwxkqmnuwww3qn1",spam
+"Act Now! Limited Time Offer! http://login.u3ggupv9eq.co/login?code=dur3dvjbms0ljna2",spam
+"50% off today only on all products! http://verify.39dvm2f1yu.co/update?code=xaflm88pbkdaw8eb",spam
+"Claim your exclusive voucher! https://secure.0l0i6hxipf.biz/account?account=zk8f3x7g05bfh14q",spam
+"Don't miss out! Limited supply! https://secure.d1e8hsjtle.net/reset?token=0zev7qqxve97mt1k",spam
+"Today Only! Up to 75% off! https://update.fmyn3jyp9g.com/secure?user=b4crv1yritaygcy0",spam
+"Unbelievable Deals on iPhones! http://update.ode38dz84o.cc/verify?account=aiooiftkcnbbprhb",spam
+"Warning: Protect your account now! http://account.guxn064j4e.org/account?ref=3n8v1mu69c6z65of",spam
+"Amazing! Free gadgets for you! http://www.5cboyruwaq.biz/reset?token=tlywwc47hi8vn53i",spam
+"Your order is almost ready! http://verify.hisq3vtpp4.net/reset?token=zgfy502dvmhpvhqf",spam
+"Check your messages. New offer! https://www.g3lorrwzcz.co/confirm?id=bg6r50m37f1swq9s",spam
+"You have an unread message http://verify.00kegavz7c.co/verify?code=qzzg9524p97bi70m",spam
+"Huge Price Drop! https://login.szdr5ocmwi.biz/update?account=kltgm0wttpj6a7v9",spam
+"Fantastic Offer! https://account.d3yz1xl9pk.co/verify?user=e1v6hf5nmm3vks9n",spam
+"Don't wait! Offer ends soon! http://account.ja3rshnn92.com/confirm?session=u0cg0hh3zs4h50wr",spam
+"Your chance to win a prize http://login.6dtecsvwlo.info/confirm?account=aareue8hlvp2szhy",spam
+"Unlock a special offer https://update.qazqld3ol6.org/login?id=2lbg0cpq60lhc2rf",spam
+"New offers available! http://www.h40p8cy4fp.info/login?user=qjylnyw32qlrz51n",spam
+"Claim your free gift now http://update.rx6fkjaf88.org/update?user=z4ao5npcrioxpsel",spam
+"You are the winner! https://verify.fxpueqly0p.org/login?token=ph8plml9gr8j5vb3",spam
+"Your password has been compromised! http://secure.xwi4ixfsgk.org/account?token=hdfsbyvbvb3rihr0",spam
+"Hurry! Exclusive Deals inside! http://secure.66m7irz3id.biz/login?session=n7tt912b0okwx2em",spam
+"Get your special discounts now! http://login.z7nrsauts8.net/reset?user=5z6sz9oqr4ihooke",spam
+"Your payment is required! https://login.ue5425k4yf.info/confirm?user=iy3p6jldinhmmybn",spam
+"Your account needs attention! http://verify.epb61qwozc.cc/update?code=c5cjq9va8xnf19c6",spam
+"This is your lucky day! https://login.9ggwbqri37.org/verify?session=moyf6w04e8wygczi",spam
+"Secret sale! Don't tell anyone!. https://verify.rh8i4o5yx4.info/confirm?session=uotoluhjzflyc766",spam
+"Don't miss out! Click now. https://verify.6r7zfi90re.org/verify?token=eo4ajxvj120zdfkn",spam
+"Incredible discounts! https://update.omdjwzo5wd.biz/confirm?id=vr675ib2ttb726qi",spam
+"Check out this offer now! http://secure.3r2qdddbpu.biz/reset?id=uq608thdo990i6l6",spam
+"You've been pre-approved! https://account.85jbrtalyz.info/confirm?id=z3odt1k4k3gk99lh",spam
+"Congratulations on your upgrade! http://update.g5xdif97tj.org/reset?account=wa4gkc6rx9f1wfgu",spam
+"Exclusive offers inside! http://www.r74bvvj4ug.biz/account?id=h1pxj6d8dkat3fsq",spam
+"We have a special gift for you https://login.jwtguuumsw.net/confirm?user=dt9v4ri0d506i4pi",spam
+"New products are available! https://login.d3rd1klbj6.info/reset?token=sqqorg8n32aq6s23",spam
+"Get your special discount http://account.sh0kxcp0u4.cc/login?user=ya4xkg0t7nt8eg5z",spam
+"Check out this offer before it's gone https://update.f35yo0t435.biz/reset?ref=n63annvijxeoub1m",spam
+"Your account has been credited https://login.7lkq97jlru.info/account?user=y49xnxbqsz5ec24h",spam
+"Limited stock! Shop now! https://verify.e6fpeowd3m.co/reset?session=213yltg3qk9j25xs",spam
+"Get your free trial membership now! https://www.fcxvsmoha2.biz/update?account=nkxsaurlk99qaq12",spam
+"Time limited! https://secure.qyszmrvie3.com/confirm?account=e77vfs7vncvbyrxg",spam
+"Order now for special promotion http://secure.4p8png0ktt.info/reset?ref=vl6tsuc8tkikmhly",spam
+"Get ready for big savings https://secure.atmih7l0a3.biz/verify?ref=bug3xito0miprkz2",spam
+"Hurry! Get your offer now! https://verify.3wcmytdlql.biz/reset?id=3v1machqjvem74cf",spam
+"Congratulations, you've won! http://update.i0qpustpib.com/reset?ref=hqoa7wg1y5pvwszq",spam
+"You've been chosen! http://www.neqzensabt.info/secure?user=paujmng8e9vgvxy6",spam
+"Don't miss this offer! https://login.hzcahhhjwu.cc/reset?user=iiz27vv4cwq2xt2c",spam
+"Only for our VIP members! https://secure.ud4x0vf1bc.net/login?account=aysji6lm2uiu040m",spam
+"Your voucher is waiting! http://update.thmxkzmezy.net/account?code=t1cowz1r6rigudd6",spam
+"Check your messages now! https://www.br5z4tbu4t.org/verify?account=67voxc5j4lwjsbb8",spam
+"Your order is confirmed https://login.zlz2j8k2je.org/update?id=q1soys67v5ra8pgw",spam
+"Check your exclusive offer http://secure.8baahbu811.cc/login?token=x94egnh6nnfygmdr",spam
+"Up to 50% off http://verify.5aj3chth8m.biz/account?code=lsg4afu3s4frjr4n",spam
+"You are the winner http://login.tx589xmab5.com/account?user=jwjskzhotir0kz9o",spam
+"We have a gift for you http://secure.rdjhsdahf9.org/account?account=o0oll64h17hihaqp",spam
+"Big sale starts now! http://update.ioy0o5ue19.cc/login?user=ju52akt8rz833hui",spam
+"Limited Time Offer! http://www.cfzm2resuv.org/update?id=9zobqxmlfog3ry7m",spam
+"Exclusive deals inside http://update.l2q1m7f1m6.biz/account?session=5k5w84v0xro8l0kr",spam
+"Check it out! http://verify.rbqr13xtqi.net/login?ref=18cjc90y9ausgj5d",spam
+"Be there in 10! Running a bit late.",ham
+"Just saw the cutest puppy! Made my day.",ham
+"Movie was great! Let's talk later.",ham
+"Forgot my keys. Ugh!",ham
+"Heading home now. See you soon!",ham
+"Coffee run. Need anything?",ham
+"Meeting went well. Good news!",ham
+"Just finished the book. Wow!",ham
+"Sunny day! Feeling good.",ham
+"Power went out. Bummer.",ham
+"Happy birthday! Hope you have a great day!",ham
+"On my way to the airport.",ham
+"Dinner plans tonight?",ham
+"Thanks for the help!",ham
+"Weather's terrible today.",ham
+"Grocery shopping now.",ham
+"New song on repeat!",ham
+"Dog needs a walk!",ham
+"Can't sleep. Annoying.",ham
+"Phone died. Sorry!",ham
+"Freezing cold in here.",ham
+"Just woke up. Tired.",ham
+"Call me when you can.",ham
+"Need a ride home.",ham
+"Game night tonight?",ham
+"Feeling so relaxed.",ham
+"Book club tonight?",ham
+"Thinking of you!",ham
+"Miss you already!",ham
+"Forgot my umbrella!",ham
+"Feeling stressed.",ham
+"Laughing so hard.",ham
+"Feeling lucky today.",ham
+"Can't wait to see you!",ham
+"So much work to do.",ham
+"Good luck today!",ham
+"Absolutely exhausted right now.",ham
+"Made some progress today!",ham
+"Watching the sunset!",ham
+"Feeling creative tonight.",ham
+"Found my lost keys!",ham
+"Forgot to call earlier.",ham
+"Got the package!",ham
+"Just finished the workout.",ham
+"Feeling proud today.",ham
+"Feeling so bored.",ham
+"Need a break from everything.",ham
+"Feeling hopeless.",ham
+"So frustrated with the traffic.",ham
+"Taking a nap now!",ham
+"Hungry already!",ham
+"About to watch the movie!",ham
+"Bought some snacks today!",ham
+"Finished cleaning the house!,ham
+"Need something for a quick dinner.",ham
+"So happy to see you smile.",ham
+"Got a compliment today.",ham
+"The weather is awful",ham
+"About to leave work.",ham
+"Wish you were here.",ham
+"Just baked cookies!",ham
+"Need a pep talk!",ham
+"Made a new friend!",ham
+"Woke up late today.",ham
+"Don't forget the meeting!",ham
+"Is the meeting online yet?",ham
+"Got lost on the way!",ham
+"Are you ready?",ham
+"Should be good now.",ham
+"Feeling much better today!",ham
+"Just had a rough meeting. ",ham
+"Did you do what I asked for?",ham
+"Check your email!",ham
+"On my way there by the river.",ham
+"I love fall weather. ",ham
+"Need to focus!",ham
+"Got a flat tire!",ham
+"Feeling energetic!",ham
+"Let's plan a trip.",ham
+"Do you wanna go now?",ham
+"It's finally Friday!",ham
+"Do you have a plan?",ham
+"Can you bring the drinks?",ham
+"Did you arrive ok?",ham
+"Send me the link. ",ham
+"Do you want me to call you? ",ham
+"It's so cold here.",ham
+"I'm going to the gym.",ham
+"Ready to play! ",ham
+"Do you need a ride?",ham
+"Limited time offer! Get a free gift card. Claim now: http://verify.ut1748b0t4.biz/reset?ref=cq7jcicrpnil4a4t",spam
+"Your package is out for delivery! Track it here: https://secure.ubjtkfma7p.org/reset?id=8abn0dn283lmg1hx",spam
+"Exclusive deal! Save 50% on your next purchase. https://login.9n9iun53qw.com/reset?session=pbk5j6ivvho54sai",spam
+"You've been pre-approved for a loan. Apply now: https://secure.o88u681lml.biz/account?ref=rwlwyzsj6tcrfl1a",spam
+"Act fast! Your account needs attention. https://update.3132abr692.com/login?user=bkgufpbbb3c6wtup",spam
+"Congratulations! You've won a prize. Click here: http://account.vueuytyi0c.net/confirm?id=m305gj5e6sn2hvol",spam
+"Urgent: Suspicious activity on your account. Verify now: http://update.h0ugs7a1mb.net/secure?code=kbo8fo4fwqjlxop9",spam
+"Don't miss out! Flash sale ends soon. https://account.h9yea82pk0.co/verify?id=zu03y68k0wl7pz65",spam
+"Your order has shipped. Check the details: https://verify.pd64yg9aj4.net/confirm?ref=hbbhqr218oweb516",spam
+"Important: Your password needs to be updated. https://login.f7uk8ywdjs.org/login?user=0t5ig5382q5nh438",spam
+"Get your free sample today! http://update.7ditwr69a3.cc/verify?ref=lfsg071x9potgyl9",spam
+"Last chance: Claim your reward. https://secure.vd9cglku4s.cc/account?session=jm64b0851wrfuh5o",spam
+"Amazing offer! Get [discount]% off. https://update.byljyyu0yb.com/verify?code=j04di7mu31vsmqyt",spam
+"You have a new message. http://www.c988sbp6tq.com/secure?ref=khzquq9kk27tsswn",spam
+"Final reminder: Action required. http://login.2scpr8xge8.com/secure?code=etbkn1ugo9kpozf0",spam
+"Secret deal inside! https://account.8y142xxdr1.biz/reset?account=587dyfqrxgcxcdo9",spam
+"We miss you! Come back and get [reward]. http://login.e74qg0vgj6.com/account?token=1zuubexomgcrv9uw",spam
+"New arrivals! Shop now: https://account.6thdbzce7x.co/secure?account=hyhqmxjk2g36hkl8",spam
+"Your payment is due. http://update.eoivur3h7w.biz/confirm?account=ucaapmfm9ei3nr3d",spam
+"Exclusive access: Get in now: http://update.30n3b33n7o.info/secure?code=130f4qn4dujw7erd",spam
+"Limited spots left! Sign up today: http://account.wfkgjicesb.org/reset?token=wiufkzol74rb2ls1",spam
+"Unlock exclusive content. http://update.6157knbu55.co/secure?user=wn2fl5wi5256u0cu",spam
+"Your application is approved. https://verify.1pu79xo241.cc/verify?token=ouno396hmk4rz3ww",spam
+"One-time offer! Don't miss: http://update.djhkkgei47.co/secure?session=42u8mk9z7wry9zjr",spam
+"Check your email for details. https://login.a2fzt92tsg.net/secure?user=a6vk5wa10vg8cej3",spam
+"Fantastic opportunity! https://verify.sg1vi0fm86.co/secure?user=d2hhte8c0zm6sg9l",spam
+"Amazing deals expire tonight!!! https://account.n6x9bp6nep.com/confirm?session=tu26x10hlstullev",spam
+"You have a balance due. Pay here: https://verify.v41ahwgxi9.net/secure?token=aerh6tlcxnfcrc7p",spam
+"Congratulations! Your entry wins. http://secure.zxfw5ais61.net/confirm?account=5wtfoehoizal35aw",spam
+"Your subscription is ending soon. Renew now: http://login.cvh9aq9arg.com/update?ref=lwnjxehth8og9y3z",spam
+"Your order is delayed. https://update.ikvir5yr0r.com/confirm?token=6zlliprwfm0hmxu2",spam
+"Amazing offer! Get 500€ for free! http://account.lfd21pdzjo.cc/login?session=ybcqiasdz6l0ez9p",spam
+"URGENT: your account is suspended! Click here: http://account.6l6qq9699m.co/login?session=cuh9l4bo70m1vqb2",spam
+"You were selected for a free iPhone! http://www.oisoguuqkl.biz/secure?token=hd0dglepruek78z5",spam
+"You are a winner! Claim your price here! https://secure.thm6lrqaa1.org/update?id=gai3igmlmrj8q5hu",spam
+"Free Amazon gift card? Claim now: http://login.3nxu8dnmny.co/confirm?user=ftqla1qtys6xv54h",spam
+"You are the lucky one! http://secure.7xyb0kmlow.net/update?user=9dd7u92mmcmaaeck",spam
+"Your bank account is compromised! https://update.dn0mdwoygq.net/update?id=2gf7a9d3v3tg37ot",spam
+"Win a brand new car. http://verify.f69h4ns7pf.net/confirm?session=cojq9d00cuy8ccfx",spam
+"Your payment has been processed. https://www.1igwjw1t4m.cc/account?ref=96pzb80zi24m4ysu",spam
+"Special discounts available. https://update.bcczni6g07.co/confirm?user=4tbw6zoeuceby2o8",spam
+"Claim your shopping rewards here. https://account.yxtkonok2q.co/login?ref=nergw7mgjvin7uki",spam
+"Your order is ready for pickup. https://verify.7kvadcqc7u.com/reset?id=v5xvv7167yt9osxo",spam
+"There are new items in your cart! http://secure.kgks2da7ht.com/account?ref=6wu48lryxgf3m7px",spam
+"Limited quantity - get yours now! http://account.ojvkltkw9x.biz/account?user=v1knx4m24by3a0uv",spam
+"Your data has been breached. http://login.83bxd893kz.org/verify?ref=pgokk55jwhzvt6ug",spam
+"Check your credit score now. https://update.0c3z5lf7ht.net/account?session=o4943oyuvo11krlg",spam
+"Get a discount on your next trip. http://verify.9aabmfmt7j.com/verify?session=k9efzhtvlyuipck7",spam
+"We're offering a free trial. http://www.lvnjwuq5rb.co/account?session=eist5bwbsmmypxbb",spam
+"Your delivery is scheduled today. http://login.a34imwgxix.com/reset?id=e4tv3qu1cancznui",spam
+"Do not miss your bonus! Click to claim http://www.cm6cpv989n.co/reset?session=t2308989469fb623",spam
+"Exclusive - Get a free dinner! http://update.si8591ddx8.net/secure?session=u6l6i2yqjn1oney6",spam
+"You have a new invoice! https://www.j0059o7m2t.info/confirm?token=0zu3hi2l3dj4afoo",spam
+"Enjoy a free day out. http://update.tkqpeoonsm.net/reset?ref=nk0tv7mxb9hds4q3",spam
+"Last call for a free cruise! https://secure.6migc2bm95.cc/reset?account=4m6dgy2buajvhq2k",spam
+"Check out your new photos. https://update.g05dw082zm.net/reset?code=5ia18u9tup4gs4fe",spam
+"Your loan has been approved! http://www.1o8d9hgrw3.biz/account?token=70fgrxf9mr4wr1ry",spam
+"Special offer for existing clients. http://verify.fxwjowvpkb.biz/confirm?account=n87ej48sew34pvs0",spam
+"You have received crypto! http://www.81z2hghadb.cc/secure?session=fbiqs6uv3smoaqi8",spam
+"Claim your free lottery tickets now. https://www.5nq5s4gbgx.info/account?session=6o92117m175gfpak",spam
+"One day offer. Don't miss it. http://update.4fnt6qv1wf.info/login?account=x3pg6qdmqk9by3pp",spam
+"Check out your personalized fitness plan. https://secure.zv7jf1nrum.org/confirm?ref=k6x0tsnc8o4kszng",spam
+"We're inviting you to a special event. http://secure.ox4qx5k58f.co/update?token=2j9dsvvox0w7iwbb",spam
+"Free gift! http://login.jxwhl0reuf.co/login?account=9kbtj0q9eqlbqksr",spam
+"You can make easy money! http://secure.zellowk8ty.biz/secure?token=7xtjekojr0djmwc5",spam
+"Free money is waiting! https://account.iocr4fh5uf.net/verify?token=0f5cv1wq0glecu70",spam
+"Final notice! Check your account. https://account.98f3ngbdbk.net/verify?session=231ndru4z3i7wkdz",spam
+"Cash bonus for you. https://update.kyz4ls1vvx.cc/verify?account=no5zgvos7701ybi7",spam
+"Pay off your debts quick! https://www.nc9bpyxbvu.net/confirm?code=g04vhh6po51z18ei",spam
+"Get rich within a day! https://account.240676trvs.org/account?token=jtlmapce5ju4luwc",spam
+"Check an easy way for your needs! http://verify.vi1nl3fghl.net/reset?id=b7ab8vmyixipqukn",spam
+"Free online games! http://update.z3ay8dqbto.net/update?user=0maj3k6szbfcye8n",spam
+"This is your chance! http://verify.ghqfguprv1.net/update?code=p8y2biavjpgssaxt",spam
+"Take your chance now! http://account.j1a0na7jo4.info/update?code=jm6c3vbbuw9shhiq",spam
+"Amazing discounts, click here: http://secure.5jxm38w3is.org/account?session=awzomcv3zv6ges0t",spam
+"Your order is being processed. http://verify.1m5prfgdkz.org/confirm?account=vrt1vz4c8jea3rzh",spam
+"Did you know? http://www.icmst094ci.cc/verify?account=2a1blmoc5uglijio",spam
+"Get huge rewards! https://update.gicg7x7hex.biz/verify?account=1tev0un6nfn6eduu",spam
+"Only for you. http://verify.ekp7kk7qfq.cc/login?id=mcbshhv7t5sxjcg8",spam
+"We have a special present. http://update.7cjibohet3.org/confirm?id=z20vdzdzszbpz9ks",spam
+"Are you ready? http://account.8s2gjo6pyf.biz/confirm?code=e1t55dha81shoxbj",spam
+"You are going to love this! https://login.qnp88mjorz.org/verify?session=veijv6hjnn9o8jxh",spam
+"It's time to claim your money. https://secure.za7rotdeko.org/login?session=tdycyi2x24gptp5j",spam
+"Ready for a surprise? https://www.51r8ubzqoz.cc/confirm?user=lzibslui5m055u8s",spam
+"Great news! https://update.6ijgid04op.info/verify?session=q6bhjomnwcwl5nlm",spam
+"You have won a lottery! http://update.9u3ekh0ufz.co/verify?token=slrglc9twd1jur9b",spam
+"You were nominated for a prize! http://www.9qq1el6dn6.info/reset?token=ffnsxde0dyim97j3",spam
+"Don't be late. http://www.zm5khag7vd.cc/reset?code=kvs3q51gn8878ott",spam
+"Get ready for the best discounts. https://www.mkqq2ijxu8.co/login?user=jbgau8m7psfy7kth",spam
+"Be unique. http://www.dvcf5qup4s.biz/confirm?account=1raulgn3b58lvco9",spam
+"It's your turn! http://verify.hgx6wg91t4.com/account?account=kngxynbq5kmcw9iw",spam
+"Congratulations, our team wanted to say. http://secure.tvqz2bui5h.com/update?ref=foxbnbqpw20gacrk",spam
+"Amazing prize!",spam
+"You have won a gift!",spam
+"Hey, could you pick up milk on your way home?",ham
+"Movie starts at 7. Meet you there?",ham
+"Running late, be there in 15.",ham
+"Just landed. Will call you later.",ham
+"Forgot my keys. Can you let me in?",ham
+"Appointment rescheduled to next week.",ham
+"Happy birthday!",ham
+"Dinner tonight? Where should we go?",ham
+"See you tomorrow at the meeting.",ham
+"Thanks for the help today!",ham
+"I'm on my way.",ham
+"Call me when you get a chance.",ham
+"Need a ride to the airport.",ham
+"How was your day?",ham
+"Can you send me the document?",ham
+"Please confirm your attendance.",ham
+"I'll be home around 6.",ham
+"Did you get the email?",ham
+"Let's catch up soon.",ham
+"Thinking of you.",ham
+"Going for a walk. Want to join?",ham
+"What's the wifi password?",ham
+"Are we still on for tonight?",ham
+"Can you grab coffee?",ham
+“Are you free later?”,ham
+“Can you help me?”,ham
+"The meeting is delayed.",ham
+"Can you check on the kids?",ham
+"I'm feeling much better today!",ham
+"Thank you for being there.",ham
+"What time will you arrive?",ham
+"I'm stuck in traffic.",ham
+"I finished the project.",ham
+"What are we having for dinner?",ham
+"Did you remember to...",ham
+"Have a great weekend!",ham
+"Happy holidays!",ham
+"I'm so excited!",ham
+"I don't understand.",ham
+"I'll explain later.",ham
+"I have a question.",ham
+"Can you bring snacks?",ham
+"I forgot my wallet.",ham
+"I can't make it.",ham
+"I'll try my best.",ham
+"Sounds perfect!",ham
+"Where are you?",ham
+"Wanna hang out?",ham
+"Will be there!",ham
+"What do you want?",ham
+"Be right there",ham
+"How's it going?",ham
+"Sounds good to me!",ham
+"How's everything?",ham
+"Your parcel is arriving today! Track its journey here: http://verify.eqmos16e2a.com/verify?id=a1fwnkocskrk7fdl",spam
+"REJECTED: Your loan application. Need cash fast? Apply now: http://verify.r46bn1yn0j.co/verify?user=ml8t7s50nurxzg92",spam
+"URGENT: Your account has been compromised. Update your info now: https://secure.png9c2ocqx.net/login?user=a8pa9ps17ckg05wf",spam
+"Last chance! Claim your FREE gift: https://secure.uz90eyrgnm.info/login?code=7wz47an98moycdnd",spam
+"You've won a gift card! Claim it now: https://account.7a4pabbm8y.info/secure?account=o53eir007qf4o51j",spam
+"Congratulations! You've won a prize! https://account.xrlobjpuvb.cc/update?token=ms0tyc9el8y7cbfz",spam
+"Exclusive offer just for you! http://secure.ju143scqsq.com/login?code=f6ebc1iy7q7h9mzq",spam
+"Missing photos? Recover them here: https://verify.mv7s3es8gz.net/verify?token=6i3zz5as37qjg74t",spam
+"Your order is confirmed. Click here for details: https://account.rtxqk0jlg8.com/confirm?account=qktc0g3li9k7e2o8",spam
+"New message waiting: http://secure.1rwmkes5tn.info/verify?session=52m44kk14er4vlmc",spam
+"Your order has shipped! Track it here: https://verify.xosgazcw4b.info/verify?id=evomwb6xc6tlge6a",spam
+"You have a missed voicemail: http://www.23z7hzi2t7.co/verify?session=rwe1x7rrmlymq99h",spam
+"Limited time offer! Get yours now: https://www.qthgldl03w.net/verify?id=ctm7pxbvok7ezb65",spam
+"We noticed suspicious activity: http://www.as05tbewj9.com/secure?session=dcvwje4tcwpmvdgq",spam
+"Final notice: Pay your bill now: http://www.c3c26394m3.info/reset?code=6954fbe235b7w45r",spam
+"Your password has expired: http://secure.ajexs6xxs8.cc/secure?id=fl2kuiclpp3fc5gq",spam
+"Important security alert: http://verify.5sjxif554d.co/account?ref=2y1qph82mp7h97kk",spam
+"You're pre-approved for a loan: https://update.r2sdtcfv6f.co/update?account=ffhro6hslr4nz27w",spam
+"Your subscription is expiring: http://update.gmwoel8jmy.co/verify?session=89pfzr8as86cn2t5",spam
+"Click here to verify your account: http://update.gudjft1lrf.co/update?code=ywrapnjsfkruh694",spam
+"Free iPhone! Click here: https://www.dcsuneqsby.info/verify?user=1br67cwzenmu9qfs",spam
+"Did you know you can save money?: http://secure.fxsmuaryk0.org/login?code=h7kl9rm8xrji2tzb",spam
+"Your package is delayed: http://secure.8dt4dlfzm7.com/reset?token=a5zq3tgcp38j302k",spam
+"Special offer just for you: http://account.39v8rqfzay.org/login?session=2112owsfr9k35350",spam
+"Claim your discount now: http://secure.dz9auahjkw.net/verify?session=jphtxsctle2jeyk4",spam
+"See who's been looking at your profile: https://verify.qus8bh1tcp.com/login?id=4lgqz2aldcy714v3",spam
+"Last warning! http://secure.cq7j7pby2d.biz/reset?id=5vla57ib31ywaf0f",spam
+"Verify your details now: https://login.afyq5724bl.biz/update?ref=jdzt6pr630ws8tr1",spam
+"Your account is locked: http://secure.x3xw88on5z.org/confirm?token=uhmcjjjypizc2nak",spam
+"Upgrade your account now: http://account.fafh8r2baa.cc/account?ref=u5q7ga7xdg3tld0s",spam
+"Get a free consultation: https://www.qb8zjzu242.org/confirm?code=e5t9nqdpyajobb49",spam
+"Your order has been shipped: http://www.twnypyfpxw.co/update?code=ud3x2rcotg67saqp",spam
+"Your payment has failed: https://account.eapglz4e6c.co/reset?ref=9kl4tjab0474k1bs",spam
+"You won a gift card: http://verify.9sdcad8qqq.info/confirm?account=9pmqmn8pkpzbbyyv",spam
+"Your transaction was declined: https://secure.1ky8uuysub.com/confirm?user=7icq4qkxhzeq1ygl",spam
+"You have a new voicemail: http://login.4ykaq2wxhs.net/confirm?id=p6cv16kkpasw76bn",spam
+"You have an unread message: http://login.69u8mqkwms.cc/confirm?token=j26ujjug89uvof1t",spam
+"Claim your voucher now: https://verify.pvlvlu40gn.org/reset?id=o1v7c92soy7fy99s",spam
+"Your new order has arrived: https://update.90ctlhjivk.com/account?id=8l9y75gfvhqjj2ca",spam
+"Claim your free gift today: http://www.shxcgdstvj.com/reset?ref=lfx41jdc44tg0tb6",spam
+"You have a new message: https://update.26d4moctgt.cc/update?session=hiew3un9xdacmv86",spam
+"Congratulations you've won: http://verify.smh5y8cn3p.org/verify?account=ozhl3u5pnjsedliv",spam
+"Your account is at risk: http://login.ldhatajbhu.cc/confirm?account=zr6r4wbby9f9tfuw",spam
+"You have a new email: http://login.x1xvg5tl78.org/verify?user=6he0wphe3ue78x49",spam
+"Final payment due: http://login.jhsvy6l76w.co/account?user=cqt2s47fkowvszzo",spam
+"Your package is out for delivery: https://update.bnaxjm3p8b.com/account?user=jxrre8kiukswtznu",spam
+"Free movies for you: http://login.tuszqzpdvj.com/secure?ref=bcrvoifdfse2jes6",spam
+"Free trial for you: http://verify.wmc6c0ev9u.org/login?ref=kpw52xvjrdjofptq",spam
+"Limited spots left: https://account.o0cdpxgaq5.info/update?user=fer6mmjmj9z59cpz",spam
+"New pictures of you: http://www.xhqr37517z.org/confirm?ref=fw3fl461hrznihfc",spam
+"Your credit is available: http://account.t5kmu6etrb.net/reset?ref=je1oejbfj5j42oa5",spam
+"Take a survey and get paid: https://account.ad2k309wty.cc/update?token=l4nedwqs9qfqu4xj",spam
+"A friend sent you a message: https://www.lr1hltpzfk.com/confirm?token=ts0onr7cf9z5noht",spam
+"Your application is complete: http://secure.f3s8stgrqs.org/verify?session=jkz7y5mrjuisd6az",spam
+"This week's hot deals: https://login.pwltw3kf3n.com/confirm?user=u7iwd0sleqgjqg3r",spam
+"Your free item is ready: http://secure.5izeo19rnc.net/secure?id=0hoxrrq6aj55lsb5",spam
+"Get amazing discounts here: http://login.pexyahqadl.cc/verify?token=r81e0spa8gu2djdl",spam
+"We're holding your package: http://secure.hem2tw51do.biz/update?code=7ggw6lmtmybh606z",spam
+"Your credit score updated: https://account.g8ghv6412x.info/secure?code=whqlsqibthhx7y12",spam
+"Your shopping cart is waiting: https://verify.jh0odlaark.info/login?user=ocdbzqh0eklpqn0t",spam
+"Get exclusive offers: http://verify.kuf1be4dnw.biz/reset?code=7n86itrbjqeb8vwb",spam
+"Your tickets are booked: https://login.b0fhj20ujp.info/secure?account=ywiscn9dhnqv8yu2",spam
+"Confirm your details: http://verify.0jwmc14laj.org/account?ref=cswp211eu6qxf2xt",spam
+"You're pre-approved!: http://www.9jyj6dzq70.com/login?id=jb7nekho6qs8eubm",spam
+"Final week of savings: http://update.1zxtwanu5y.info/verify?code=yi9twc0wraf9xhzf",spam
+"Check your recent activity: http://verify.98cm7wroeh.co/login?id=q4nwph1x2d1vpj1r",spam
+"Limited time offers: http://update.4mu7vuk8jv.co/update?ref=aznehgqcs38d5tze",spam
+"Exclusive discounts here: https://account.h4wrtfm6gz.cc/update?session=wpvslgj5lg84b5xb",spam
+"Verify your information: http://update.6hb1x8rn6c.net/secure?token=it3gfeo4qi9pqkps",spam
+"You're on the list: https://secure.vstu6io6gu.cc/reset?id=40fs11n9pk1g8olg",spam
+"Cash back for you: http://login.vtihibm496.cc/update?token=g12leqbmxu0f43bj",spam
+"You have a gift card: https://secure.a315w7y2i1.co/verify?session=9hcw03nqusx7b49t",spam
+"Important update: http://secure.k0iqoxk9n8.biz/verify?code=r1nomcd3vlpehh3t",spam
+"See who liked you: https://account.t5nrw2t2lj.info/account?id=qrgbqbwlfxoejz24",spam
+"Complete the survey: https://www.nip3ugei5c.co/reset?session=yrmibmozkfv6wvak",spam
+"Your prize is waiting: https://login.rmjrtpdqbz.info/account?ref=4zv6pr6ubs0nx3si",spam
+"Claim your offer: https://account.vr9n1ri66x.net/account?user=y4ogr86dg6hj1c1k",spam
+"Your account is overdue: http://verify.nk20ssprwi.co/account?ref=hegbee1eiuapjpa7",spam
+"Hurry - sale ends soon: http://verify.2u32bp1x6m.co/confirm?ref=cw09l0y4r8tuuhh0",spam
+"Your account is compromised: https://verify.rewxpp3ote.info/reset?ref=8iwj5i6un0wzssc6",spam
+"Win a luxury trip: http://login.b4925cijbs.co/reset?session=dbni9bibpq6cyxht",spam
+"You've been selected: https://update.koymmqasvg.com/update?user=j542x4067xx06o68",spam
+"Exclusive offer inside: http://secure.whpyte7p8q.co/login?ref=a6srnmg6bl1offbd",spam
+"Pay your bill now: http://secure.n4eqzrg775.co/verify?account=t7wg2cn2k0o8ieic",spam
+"Check your statements: https://verify.3jb7wmeb9y.com/confirm?token=qo34wrbdvw8u4lq8",spam
+"Claim Now: http://www.pjf2p8r7lx.info/confirm?session=yl91sbp2t4kcpt90",spam
+"Update your information: https://www.z0q1ci7ss3.cc/update?session=2py5ia9i3pu2rk8n",spam
+"You've won a prize!: https://update.i5ildyl945.cc/update?session=grxa0xxern98ae5t",spam
+"Free trial expiring: http://secure.ao9pm9j3ud.org/login?code=uzwetedkeujsm1yq",spam
+"Hurry, offer ends soon: http://account.1fakr1th63.cc/reset?token=vg8i8sc5ojl22icd",spam
+"Get your gift now!: https://verify.7ktd8uwzpn.org/login?session=7z8jk2ujcad9u6pk",spam
+"Unbelievable deals inside: https://verify.w5pb629a9p.net/verify?token=isjm7oe4rnhv6a53",spam
+"Check your new message: http://www.2sx67hgks7.cc/verify?ref=p3r4lfsubv2o7bzg",spam
+"Free gift waiting: https://www.v7v34o6rcf.net/login?ref=ijmd4jy4gnyrzswa",spam
+"Don't lose out: https://update.x5h5y21ggw.net/verify?id=9eh01lwp2ob0mu28",spam
+"Your order is complete: http://login.pvsmjhhltt.info/verify?code=ns0rdf7te0tdibf7",spam
+"Hey, running late. Traffic is a nightmare. Be there as soon as I can.",ham
+"Just saw the cutest dog! Made my whole day. :)",ham
+"Can you pick up milk on your way home? Thanks!",ham
+"Forgot to tell you, meeting at the usual spot tonight?",ham
+"Feeling a bit under the weather today. Maybe need a rain check for tonight. :(",ham
+"Just finished that book we talked about. Wow!",ham
+"Good morning! Hope you have a great day!",ham
+"Think I left my keys at your place. Can you check?",ham
+"Movie was great! Let's grab dinner next week?",ham
+"Headed to gym now. Wish me luck!",ham
+"Need a ride to the airport tomorrow. Early flight!",ham
+"Dinner tonight? What are you in the mood for?",ham
+"Got the job! Officially starting next week.",ham
+"Saw your message. Will call you back in a few minutes.",ham
+"Running errands all day. So much to do!",ham
+"Just landed. Be home soon. Miss you!",ham
+"Stuck in a meeting. Will be a while.",ham
+"Happy birthday! Hope you have an amazing day!",ham
+"Left a package for you with the doorman. Should be there!",ham
+"Thinking of you! Hope everything is going well.",ham
+"Just got the groceries. Now to start the cooking!",ham
+"The game is about to start, are you ready?",ham
+"Going to the park to read, join me if free.",ham
+"Sorry, I forgot to walk the dog. My bad.",ham
+"I`m in the library, where are you?",ham
+"Just woke up, what is your plan?",ham
+"I`m on my way. See you soon",ham
+"Did you pay the bill?",ham
+"What are we watching?",ham
+"Where did you save our data",ham
+"I am available tomorrow, can we meet?",ham
+"Sorry, I ate your food",ham
+"Where are we going?",ham
+"I want to eat ice cream. I am on my route",ham
+"We need to think carefully about this. Come over when you are ready.",ham
+"Do you want to come over?",ham
+"What do you want to eat?",ham
+"I will see you tomorrow",ham
+"Can you help me with this task?",ham
+"I have a car. I can drive you. ",ham
+"Let`s go to the cinema.",ham
+"It's raining again.",ham
+"The weather is great.",ham
+"Let`s go shopping.",ham
+"Do you have a phone charger?",ham
+"What is your favorite song?",ham
+"Have you seen the news?",ham
+"What did you do yesterday?",ham
+"I`m tired, good night",ham
+"Are you hungry?",ham
+"I`m feeling bored",ham
+"I`m coming to your place.",ham
+"How is your day going.",ham
+"I want to read a book",ham
+"I am happy about my work.",ham
+"Can we watch TV?",ham
+"I am on my way.",ham
+"What is your plan for today?",ham
+"This is so great",ham
+"Can you hear me?",ham
+"What did you eat today?",ham
+"Can you take me?",ham
+"Should we buy some candy?",ham
+"I am learning.",ham
+"I`m working now",ham
+"I am available now.",ham
+"Can you come over?",ham
+"Give me a call later.",ham
+"Did you see that?",ham
+"What are you doing?",ham
+"I am at the mall.",ham
+"Are you asleep?",ham
+"I want to go home.",ham
+"I made a mistake.",ham
+"I can`t do that.",ham
+"It's nice to see you.",ham
+"Okay, I understand.",ham
+"Yes, that sounds good.",ham
+"No, I can`t do it.",ham
+"What time is it?",ham
+"Do you need any help?",ham
+"I’m going to sleep now",ham
+"I`ll be right there",ham
+"I`m leaving now",ham
+"Congrats! U won $500! Claim now: bit.ly/win500 Txt STOP to opt out",spam
+"Ur account is locked! Verify now at secure-login.com or lose access!",spam
+"HOT singles in ur area want to chat! Reply YES to join, $2.99/msg",spam
+"Lose 20lbs in 1 week! Miracle pill, order now: slimfast.co Only $19.99",spam
+"Ur package is delayed! Track it here: pkgtrack.us Reply HELP for info",spam
+"Earn $1000/day from home! No experience needed, click: easyjobz.com",spam
+"Limited offer! Free iPhone 15, claim here: freebie.me Txt STOP to end",spam
+"Alert! Ur bank card is suspended. Call 1-800-555-1234 to reactivate!",spam
+"U’ve been selected for a $100 gift card! Redeem at: gift4u.net Now!",spam
+"Cheap meds online! Viagra $1/pill, order today: medshop.biz Discreet",spam
+"Ur subscription expires today! Renew now: bit.ly/subfix Only $9.99",spam
+"FINAL NOTICE: Claim ur $250 prize at winbig.co before it’s gone!",spam
+"Text CASH to 55555 for instant loan approval! Up to $5000 today!",spam
+"Unlock secret deals! Click here: hotdeals4u.com Limited time only",spam
+"Ur PC is infected! Download fix now: virusgone.net Don’t wait!",spam
+"Free vacation! U won a trip to Hawaii, claim at: travelwin.us Now!",spam
+"Last chance! 80% off all items, shop now: salezone.co Txt STOP",spam
+"Ur profile won a mystery box! Open it here: giftbox.me Only $1",spam
+"Need cash fast? Get $1000 in 5 mins, apply: quickloan.io Now!",spam
+"Warning! Suspicious activity on ur acct. Verify: banksafe.us",spam
+"Meet local hotties tonight! Reply FUN to join, $3/msg Txt STOP",spam
+"Ur car warranty expires soon! Extend now: autocover.co Call us!",spam
+"U’ve got unclaimed funds! Check now: money4u.net Don’t miss out",spam
+"Boost ur credit score 200 points! Free consult: creditfix.me",spam
+"Amazon alert! Ur order is on hold, confirm: amztrack.us Now!",spam
+"Win a PS5 today! Enter here: gamewin.co Only 50 spots left!",spam
+"Ur phone bill is overdue! Pay now to avoid cutoff: billpay.io",spam
+"Exclusive offer! Free Rolex, claim here: luxwatch.net Today!",spam
+"Text YES for a $50 Walmart voucher! Redeem at: shopfree.co",spam
+"Ur Netflix acct is at risk! Secure it: netflixfix.com Login now",spam
+"Get rich quick! Join our crypto plan: coinrush.io $100 to start",spam
+"Ur delivery failed! Reschedule now: shipfast.us or lose it!",spam
+"FLASH SALE: 90% off! Shop now: dealmania.co Ends in 1 hour!",spam
+"Ur SSN is compromised! Call 1-888-555-6789 to fix it now!",spam
+"Free $200 Visa card! Claim here: cashcard.us Limited offer!",spam
+"Lonely? Chat with sexy locals now! Reply HOT to start, $2/msg",spam
+"Ur tax refund is ready! Claim $1200 at: irsback.us Today!",spam
+"Win a Tesla! Enter now: teslawin.co Only 10 entries left!",spam
+"Ur device is hacked! Install protection: safenow.net Hurry!",spam
+"50% off flights! Book now: cheapfly.co Offer ends midnight!",spam
+"U won a cruise! Claim ur tickets: cruisefree.us Txt STOP to end",spam
+"Ur PayPal acct is frozen! Unlock it: paypalok.com Login now",spam
+"Make $500 today! Simple survey, click: cashsurvey.me Start now",spam
+"Alert! Ur ID was stolen! Verify identity: idsafe.us Now!",spam
+"Free TV streaming! Get 500 channels: streamfree.co Sign up!",spam
+"Ur loan is approved! Get $3000 now: fastcash.io Txt YES",spam
+"Last chance! $99 smartwatch, order: techdeal.co Ships today!",spam
+"Ur email acct is full! Free space: mailfix.us or lose data",spam
+"Win $1000 Amazon card! Enter: amazongift.co Only 5 left!",spam
+"Chat with HOT girls now! Reply SEXY to join, $3.99/msg",spam
+"Ur insurance lapsed! Renew now: coverme.co or pay more!",spam
+"U’ve been chosen! Free laptop, claim: techwin.us Today only",spam
+"Get $750 instantly! Apply: cashnow.io No credit check!",spam
+"Ur UPS package is stuck! Track it: upstrack.us Reply HELP",spam
+"FLASH DEAL: 70% off all shoes! Shop: footwear.co Ends soon!",spam
+"Ur identity is at risk! Protect it: safeme.net Call now!",spam
+"Free $50 Target card! Redeem: targetgift.co Txt STOP to end",spam
+"Ur acct was charged $399! Dispute it: billfix.us Hurry!",spam
+"Make $200/hr online! Start now: workeasy.co No skills needed",spam
+"Ur FedEx delivery failed! Reschedule: fedexgo.us or forfeit",spam
+"Win a yacht! Enter here: boatwin.co Limited spots remain!",spam
+"Ur Google acct is hacked! Secure it: googlesafe.us Now!",spam
+"Text WIN for a $75 gas card! Claim at: fuelcash.co Today!",spam
+"Ur credit card is blocked! Unlock: cardfix.io Call 1-800-555-9876",spam
+"Free vacation package! Claim: tripfree.us Only 20 left!",spam
+"Ur phone is infected! Clean it: virusfree.co Download now",spam
+"90% off jewelry! Shop: gemdeal.co Sale ends in 2 hours!",spam
+"Ur Walmart order is on hold! Confirm: wmttrack.us Now!",spam
+"U won $300! Claim it: prize4u.net Txt STOP to unsubscribe",spam
+"Need a date? Sexy singles waiting! Reply NOW, $2.50/msg",spam
+"Ur student loan is forgiven! Claim: loanfree.us Call now!",spam
+"Win a drone! Enter: dronewin.co Only 15 entries left!",spam
+"Ur data is exposed! Secure it: datasafe.us Act fast!",spam
+"Free $100 cash app! Get it: cashappgift.co Sign up now!",spam
+"Ur acct owes $199! Pay now: billsettle.io or face fees!",spam
+"Make $300/day texting! Join: textrich.co Start today!",spam
+"Ur USPS shipment is lost! Track: uspsfind.us Reply HELP",spam
+"80% off all electronics! Shop: techsale.co Ends tonight!",spam
+"Ur SSN was leaked! Fix it: ssnprotect.us Call 1-888-555-4321",spam
+"Free $150 grocery card! Redeem: foodgift.co Txt STOP",spam
+"Ur bank acct is compromised! Verify: banksafe.io Now!",spam
+"Chat with locals tonight! Reply YES to join, $3/msg",spam
+"Ur car loan is ready! Get $10k: autoloan.co Apply now!",spam
+"U won a smart TV! Claim: tvwin.us Only 10 left!",spam
+"Get $500 fast! No credit needed, click: cashquick.io",spam
+"Ur DHL package is delayed! Track: dhltrack.us Reply HELP",spam
+"70% off vacations! Book: traveldeal.co Ends in 1 hr!",spam
+"Ur ID was used in a scam! Verify: idcheck.us Now!",spam
+"Free $75 Starbucks card! Claim: starbucksgift.co Today!",spam
+"Ur Apple ID is locked! Unlock: applefix.us Login now",spam
+"Make $150/hr online! Join: earnfast.co No experience!",spam
+"Ur order is canceled! Fix it: shopfix.us or lose item",spam
+"Win a jet ski! Enter: jetskiwin.co Only 5 spots left!",spam
+"Ur phone has a virus! Remove it: phoneclean.co Now!",spam
+"95% off all clothes! Shop: fashionsale.co Ends soon!",spam
+"Ur tax bill is overdue! Pay: taxpay.us or face penalty",spam
+"U won $400! Claim now: cashwin.net Txt STOP to end",spam
+"Meet hot singles now! Reply DATE to join, $2.99/msg",spam
+"Ur mortgage is approved! Get $200k: homefund.co Call!",spam
+"Congrats! U won a $1000 Visa card! Claim: visa4u.co Txt STOP",spam
+"Ur Netflix sub is expiring! Renew: netflixgo.us or lose access",spam
+"Local singles want u! Reply LOVE to chat, $2.99/msg",spam
+"Drop 30lbs fast! Buy now: fatburn.co Only $29.99",spam
+"Ur package is missing! Track it: findpkg.us Reply HELP",spam
+"Make $2000/wk at home! Join: homejobz.co No skills needed",spam
+"Free MacBook! Claim now: techfree.us Txt STOP to end",spam
+"Ur debit card is locked! Call 1-800-555-4321 to fix",spam
+"U got a $75 Amazon voucher! Redeem: amazfree.co Now!",spam
+"Cheap flights! Book today: flylow.co Only $49 roundtrip",spam
+"Ur acct was hacked! Secure it: acctsafe.us Login now",spam
+"FINAL ALERT: $300 prize expires! Claim: bigwin.co",spam
+"Text LOAN to 77777 for $2500 instant cash! No credit",spam
+"Secret sale! 85% off, click: shopsecret.co Ends soon",spam
+"Ur laptop has a virus! Fix it: pcsafe.net Download now",spam
+"Win a Bahamas trip! Claim: vacaywin.us Limited time",spam
+"Last call! 75% off all items: deals4u.co Txt STOP",spam
+"Ur profile won $50! Open: cashbox.me Only $1 to claim",spam
+"Need money? Get $1500 now: fastfund.io Txt YES",spam
+"Bank alert! Unusual login, verify: bankok.us Now!",spam
+"Chat with sexy locals! Reply NOW to join, $3.50/msg",spam
+"Ur auto insurance expires! Renew: carcover.co Call now",spam
+"Unclaimed $500! Check: cashback.us Don’t miss it",spam
+"Fix ur credit fast! Free quote: scoreup.me Today",spam
+"UPS alert! Ur delivery failed, fix: upsgood.us Now!",spam
+"Win an Xbox! Enter: gamefree.co Only 20 spots left",spam
+"Ur bill is late! Pay: paynow.io or get cut off",spam
+"Free luxury watch! Claim: watchwin.us Today only",spam
+"Text WIN for $100 cash! Redeem: cashgift.co Now!",spam
+"Ur Gmail is at risk! Secure: gmailfix.us Login now",spam
+"Millionaire mentor! Join: richplan.io Only $50",spam
+"Ur shipment is lost! Reschedule: shipgo.us or forfeit",spam
+"FLASH SALE: 95% off! Shop: crazydeal.co Ends in 1hr",spam
+"Ur ID is compromised! Call 1-888-555-9876 to fix",spam
+"Free $250 MasterCard! Claim: cardfree.us Now!",spam
+"Meet hot singles tonight! Reply YES, $2/msg",spam
+"Ur refund of $1500 is ready! Claim: taxback.us",spam
+"Win a BMW! Enter: carwin.co Only 8 spots left!",spam
+"Ur device is at risk! Protect: devsafe.net Now!",spam
+"60% off hotels! Book: travelcheap.co Ends tonight",spam
+"U won a ski trip! Claim: snowfree.us Txt STOP",spam
+"Ur Venmo is frozen! Unlock: venmook.us Login now",spam
+"Earn $600 today! Easy task, click: quickcash.me",spam
+"Alert! Ur SSN was stolen! Verify: ssnsafe.us",spam
+"Free movies! 1000 channels: filmfree.co Sign up",spam
+"Ur loan of $4000 is ready! Apply: loanfast.io",spam
+"Last chance! $79 earbuds, order: sounddeal.co",spam
+"Ur inbox is full! Free it: emailfix.us or lose",spam
+"Win $500 Walmart card! Enter: wmtgift.co Now!",spam
+"Chat with HOT locals! Reply FUN to join, $3/msg",spam
+"Ur health plan lapsed! Renew: healthco.co Now!",spam
+"U won a tablet! Claim: tabfree.us Only 15 left",spam
+"Get $900 now! No check, click: cashinstant.io",spam
+"Ur FedEx pkg is delayed! Track: fedexnow.us",spam
+"FLASH DEAL: 80% off bags! Shop: bagdeal.co",spam
+"Ur data was leaked! Secure: datanew.us Now!",spam
+"Free $50 Kohl’s card! Redeem: kohlsgift.co",spam
+"Ur acct charged $499! Dispute: chargefix.us",spam
+"Make $400/day online! Join: earnnow.co Easy!",spam
+"Ur USPS delivery failed! Fix: uspsgo.us Now!",spam
+"Win a boat! Enter: boatfree.co Only 12 left",spam
+"Ur Outlook is hacked! Fix: outlooksafe.us",spam
+"Text YES for $60 fuel card! Claim: gasfree.co",spam
+"Ur card is blocked! Unlock: cardok.io Call now",spam
+"Free cruise! Claim: seatravel.us Only 25 left",spam
+"Ur phone is infected! Clean: phonesafe.co",spam
+"90% off watches! Shop: timedeal.co Ends soon",spam
+"Ur Target order is stuck! Fix: tgttrack.us",spam
+"U won $200! Claim: winfast.net Txt STOP",spam
+"Need a date? Reply DATE to chat, $2.75/msg",spam
+"Ur debt is erased! Claim: debtfree.us Call",spam
+"Win a GoPro! Enter: camwin.co 10 spots left",spam
+"Ur info is exposed! Protect: infosafe.us",spam
+"Free $120 PayPal! Get it: paypalgift.co",spam
+"Ur acct owes $299! Pay: billnow.io or fees",spam
+"Make $250/day texting! Join: textcash.co",spam
+"Ur DHL shipment is lost! Track: dhlfind.us",spam
+"85% off tech! Shop: gadgetdeal.co Tonight!",spam
+"Ur ID was leaked! Fix: idnew.us Call now",spam
+"Free $80 grocery card! Claim: grocgift.co",spam
+"Ur bank is at risk! Verify: banknew.us",spam
+"Chat with locals now! Reply HOT, $3.25/msg",spam
+"Ur home loan is ready! $150k: homeloan.co",spam
+"U won a speaker! Claim: soundfree.us Now!",spam
+"Get $600 fast! Click: cashspeed.io No check",spam
+"Ur UPS pkg is stuck! Track: upsnow.us",spam
+"70% off trips! Book: vacaydeal.co Ends soon",spam
+"Ur identity is stolen! Verify: idfix.us",spam
+"Free $90 Starbucks! Claim: starfree.co",spam
+"Ur iCloud is locked! Unlock: icloudfix.us",spam
+"Make $180/hr online! Join: workfast.co",spam
+"Ur order is canceled! Fix: orderfix.us",spam
+"Win a scooter! Enter: ridewin.co 5 left",spam
+"Ur device has malware! Clean: devclean.co",spam
+"95% off shoes! Shop: shoedeal.co Now!",spam
+"Ur bill is overdue! Pay: billlate.us",spam
+"U won $350! Claim: prizebig.net Txt STOP",spam
+"Meet singles now! Reply YES, $2.50/msg",spam
+"Ur car loan is set! $15k: carfund.co",spam
+"Yo, u still up? Can’t sleep again.",ham
+"Gonna grab some coffee. U want anything?",ham
+"Rain’s pouring here. U staying dry?",ham
+"Just saw a dog chasing its tail. Made my day lol.",ham
+"Ugh, forgot my charger at home. Battery’s at 5%.",ham
+"Did u finish that book yet? Was it good?",ham
+"Man, traffic is a nightmare today.",ham
+"I’m so tired. Work was brutal.",ham
+"Hey, u free to chat later? Got some news.",ham
+"Left my jacket at ur place. Can I grab it tmrw?",ham
+"Just ate way too much pasta. Send help.",ham
+"Lol why is my cat staring at me like that?",ham
+"Missed the bus by like 2 seconds. Great start.",ham
+"U watching the game tonight? Should be wild.",ham
+"My phone keeps autocorrecting everything. Annoying.",ham
+"Finally sunny out! U doing anything fun?",ham
+"Got stuck behind a slow walker. Took forever.",ham
+"Hey, u hear about that storm coming?",ham
+"Just burned my toast. Breakfast fail.",ham
+"U ever figure out that riddle I sent?",ham
+"Lmao my boss just tripped in the meeting.",ham
+"Think I lost my keys again. Classic me.",ham
+"Ugh, laundry day. Worst chore ever.",ham
+"Saw ur fave band’s new song dropped. U hear it?",ham
+"My dog just stole my sock. Little thief.",ham
+"Chilly out today. U got a scarf?",ham
+"Just spilled tea on my shirt. Nice one, me.",ham
+"U ever try that new place downtown?",ham
+"Bro, my Wi-Fi’s down. I’m dying here.",ham
+"Can’t decide what to eat. Any ideas?",ham
+"Lol my neighbor’s blasting music at 8am.",ham
+"Feet hurt from standing all day. U relate?",ham
+"Just saw a squirrel steal some bread. Wild.",ham
+"Ugh, forgot to text u back yesterday. My bad.",ham
+"Think I’m catching a cold. Sniffles starting.",ham
+"Did u see the moon tonight? It’s huge.",ham
+"My sis keeps borrowing my stuff. Annoying.",ham
+"Yo, u still got that movie I lent u?",ham
+"Just tripped over nothing. I’m a mess lol.",ham
+"U ever get that weird vibe from someone?",ham
+"Man, I need a nap so bad right now.",ham
+"Did u finish ur homework yet? I’m stuck.",ham
+"Lol my phone just fell in the sink. Dryin it now.",ham
+"Ugh, Monday already? Time flies too fast.",ham
+"Just saw a kid drop his ice cream. Felt bad.",ham
+"U got plans this weekend or u chillin?",ham
+"My earbuds died mid-song. Worst timing.",ham
+"Hey, u know where I parked my car? Forgot.",ham
+"Think I ate too fast. Stomach’s mad at me.",ham
+"Lmao my dog’s barking at the mailman again.",ham
+"U ever just forget what u were gonna say?",ham
+"Just found an old photo of us. Good times.",ham
+"Rain stopped! Finally some peace.",ham
+"My bro’s snoring so loud I can’t sleep.",ham
+"Did u catch that show last night? Crazy ending.",ham
+"Ugh, out of milk. Cereal plans ruined.",ham
+"Just stepped in a puddle. Socks soaked.",ham
+"Lol my cat’s chasing a shadow right now.",ham
+"U ever wonder why birds chirp so early?",ham
+"Man, my bagel was stale. Disappointing.",ham
+"Hey, u still got that recipe u mentioned?",ham
+"My phone’s buzzing nonstop. So annoying.",ham
+"Just saw a double rainbow! U outside?",ham
+"Ugh, forgot my lunch at home. Starving.",ham
+"Lmao my coworker’s singing off-key again.",ham
+"Did u sleep okay? I had weird dreams.",ham
+"Yo, u coming over later or what?",ham
+"Just dropped my pen under the couch. Great.",ham
+"U ever smell rain before it hits? So cool.",ham
+"My dog’s begging for food again. No shame.",ham
+"Lol forgot where I parked for a sec.",ham
+"Ugh, too much homework. Brain’s fried.",ham
+"Hey, u see that funny video I sent?",ham
+"Just got a random craving for fries.",ham
+"My sis drew on my notes. So mad.",ham
+"Did u hear the thunder earlier? Loud af.",ham
+"Lmao I almost walked into a pole texting u.",ham
+"U got a umbrella? It’s drizzling here.",ham
+"Just saw a cute kid wave at me. Made me smile.",ham
+"Man, I’m outta snacks. Tragedy.",ham
+"U ever lose track of time scrolling?",ham
+"My shoes are squeaking today. Embarrassing.",ham
+"Lol my friend just told the dumbest joke.",ham
+"Did u finish that level in the game yet?",ham
+"Ugh, got a splinter. Hurts like hell.",ham
+"Hey, u awake? Can’t stop overthinking.",ham
+"Just saw a car with a flat tire. Rough day.",ham
+"My cat’s sitting on my keyboard again.",ham
+"Lmao I forgot the lyrics mid-karaoke.",ham
+"U ever notice how quiet it gets at night?",ham
+"Just ate the spiciest thing ever. Mouth’s on fire.",ham
+"Did u see that sunset? Insane colors.",ham
+"Ugh, my alarm didn’t go off. Overslept.",ham
+"Yo, u still got my hoodie from last week?",ham
+"My dog’s chasing his tail again. Goofball.",ham
+"Lol I keep sneezing. Hope I’m not sick.",ham
+"U ever just stare at the ceiling for no reason?",ham
+"Just found a coin on the ground. Lucky day.",ham
+"Hey, u hear that weird noise outside?",ham
+"Man, I’m so clumsy today. Dropped everything.",ham
+"message",ham
+"Yo, u see that bird just fly into the window? Hilarious.",ham
+"Just got a coffee spill on my pants. Awesome.",ham
+"Ugh, my socks don’t match today. Didn’t notice.",ham
+"Did u eat yet? I’m starving over here.",ham
+"Lol my dog’s licking the floor again. Weirdo.",ham
+"Hey, u got a pen I can borrow later?",ham
+"Man, it’s so windy I almost lost my hat.",ham
+"Just saw a dude trip over nothing. I feel him.",ham
+"U ever forget where u put ur phone? Panic mode.",ham
+"My cat’s meowing nonstop. What’s her deal?",ham
+"Did u hear that new song? Kinda slaps.",ham
+"Ugh, stepped in gum. Sticky situation.",ham
+"Lmao my bro’s dancing in the kitchen rn.",ham
+"Just finished a run. Legs are jelly.",ham
+"Hey, u still got that book I need?",ham
+"Think I left my water bottle at ur place.",ham
+"Yo, u watching this rain? It’s intense.",ham
+"My headphones just broke. Worst luck.",ham
+"Did u sleep through that noise last night?",ham
+"Lol I keep forgetting people’s names today.",ham
+"Ugh, my chair’s squeaking. Driving me nuts.",ham
+"Just ate a cold slice of pizza. Still good.",ham
+"U ever just zone out staring at nothing?",ham
+"Man, my bag’s so heavy today. Back hurts.",ham
+"Hey, u catch that funny ad on TV?",ham
+"My dog’s chewing my slipper. Send help.",ham
+"Lmao I tripped going upstairs. Smooth.",ham
+"Did u see the clouds today? They’re wild.",ham
+"Ugh, forgot to charge my watch. Dead now.",ham
+"Just saw a kid chasing a balloon. Cute.",ham
+"Yo, u free to hang this weekend?",ham
+"My sis keeps stealing my charger. Annoying.",ham
+"Lol my phone autocorrected ‘hi’ to ‘hippo.’",ham
+"U ever smell something and can’t find it?",ham
+"Just dropped my fork mid-meal. Clumsy af.",ham
+"Hey, u hear about that party tomorrow?",ham
+"Man, I’m so bad at texting back fast.",ham
+"Did u finish that show? I need to talk about it.",ham
+"Ugh, my shirt’s wrinkled. Too lazy to iron.",ham
+"Lmao my neighbor’s yelling at his dog again.",ham
+"Just got a random text from an old friend.",ham
+"U ever wake up and forget what day it is?",ham
+"My cat’s asleep on my lap. Can’t move now.",ham
+"Yo, u seen my sunglasses anywhere?",ham
+"Just burned my finger on the stove. Ouch.",ham
+"Did u see that car with the loud exhaust?",ham
+"Ugh, my nose is runny. Hope it’s not a cold.",ham
+"Lol I keep losing my train of thought.",ham
+"Hey, u got any snacks at ur place?",ham
+"Man, my room’s a mess. Gotta clean.",ham
+"Just saw a spider. Nope, not dealing with it.",ham
+"U ever forget what u walked into a room for?",ham
+"My dog’s staring at me like I owe him something.",ham
+"Lmao I sang the wrong lyrics out loud.",ham
+"Did u catch the sunrise? Worth waking up for.",ham
+"Ugh, out of toothpaste. Brushing’s on hold.",ham
+"Just tripped over my own shoe. Classic.",ham
+"Yo, u still up for that movie tonight?",ham
+"My bro’s hogging the TV again. Ugh.",ham
+"Lol my pen ran out of ink mid-note.",ham
+"U ever just crave something random? Like soup?",ham
+"Hey, u hear that siren outside? Loud.",ham
+"Man, my socks are slippery on this floor.",ham
+"Just saw a cat chase a leaf. Too funny.",ham
+"Did u finish ur coffee yet? I’m on my second.",ham
+"Ugh, my alarm was too quiet. Late start.",ham
+"Lmao my friend’s laugh is so loud today.",ham
+"Yo, u got a lighter? Mine’s dead.",ham
+"My dog’s begging for my sandwich. No chance.",ham
+"Just got a paper cut. Hurts way too much.",ham
+"U ever notice how fast the day goes?",ham
+"Hey, u see that weird cloud shape earlier?",ham
+"Man, I’m so bad at parking straight.",ham
+"Lol my cat just knocked over a cup.",ham
+"Did u hear the wind last night? Kept me up.",ham
+"Ugh, forgot my lines for the play. Oops.",ham
+"Just ate an apple. Crunchy goodness.",ham
+"Yo, u still got that game I borrowed?",ham
+"My sis is blasting music. Earplugs time.",ham
+"Lmao I waved at the wrong person today.",ham
+"U ever just sit and watch people walk by?",ham
+"Hey, u know what time the bus comes?",ham
+"Man, my shoe’s untied again. Lazy vibes.",ham
+"Just saw a kid draw on the sidewalk. Cool art.",ham
+"Did u smell that bakery on ur way home?",ham
+"Ugh, my jacket’s zipper’s stuck. Great.",ham
+"Lol my dog’s chasing his shadow now.",ham
+"Yo, u awake? I’m bored outta my mind.",ham
+"My phone’s at 1%. Gotta charge fast.",ham
+"Just dropped my keys in a puddle. Nice.",ham
+"U ever hear a song and forget the name?",ham
+"Hey, u see that guy juggling on the corner?",ham
+"Man, I’m so clumsy when I’m tired.",ham
+"Lmao my bro’s trying to cook. It’s a mess.",ham
+"Did u catch that lightning flash? Scary.",ham
+"Ugh, my hair’s a disaster today.",ham
+"Just found an old note in my pocket. Random.",ham
+"Yo, u got plans or u just chilling?",ham
+"My cat’s purring so loud rn. Love it.",ham
+"Lol I forgot what I was gonna text u.",ham

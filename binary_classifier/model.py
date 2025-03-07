@@ -1,84 +1,140 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import DataLoader, Dataset
-from sklearn.model_selection import train_test_split
-from collections import Counter
+import logging
+from typing import Tuple, Union, List
+
 import pandas as pd
-import pickle
-from settings import MODEL_PREFIX, MODELS_PATH, TRAINING_DATA_PATH, DATA_COLUMN_NAME, LABEL_COLUMN_NAME
+import numpy as np
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.feature_extraction.text import TfidfVectorizer
+import joblib
 
-class Vocab:
-    def __init__(self, texts, min_freq=1):
-        counter = Counter()
-        for text in texts:
-            counter.update(text.lower().split())
-        self.vocab = {word: i + 1 for i, (word, freq) in enumerate(counter.items()) if freq >= min_freq}
-        self.vocab["<UNK>"] = len(self.vocab) + 1
+from settings import (
+    MODEL_PREFIX,
+    DATA_COLUMN_NAME, LABEL_COLUMN_NAME, TRAINING_DATA_PATH, MODELS_PATH
+)
 
-    def encode(self, text):
-        return [self.vocab.get(word, self.vocab["<UNK>"]) for word in text.lower().split()]
-
-    def __len__(self):
-        return len(self.vocab)
-
-
-class DatasetLoader(Dataset):
-    def __init__(self, texts, labels, vocab, max_len=20):
-        self.texts = [vocab.encode(text)[:max_len] + [0] * (max_len - len(vocab.encode(text))) for text in texts]
-        self.labels = [1 if label == "spam" else 0 for label in labels]
-
-    def __len__(self):
-        return len(self.labels)
-
-    def __getitem__(self, idx):
-        return torch.tensor(self.texts[idx], dtype=torch.long), torch.tensor(self.labels[idx], dtype=torch.float)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+)
 
 
-class BinaryClassifier(nn.Module):
-    def __init__(self, vocab_size, embed_dim=32, hidden_dim=64):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embed_dim)
-        self.fc = nn.Sequential(
-            nn.Linear(embed_dim * 20, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, 1),
-            nn.Sigmoid()
+class BinaryClassifier:
+    def __init__(self, max_features: int = 5000, ngram_range: Tuple[int, int] = (1, 4)):
+        logging.info("Initializing BinaryClassifier")
+        self.vectorizer = TfidfVectorizer(
+            max_features=max_features,
+            ngram_range=ngram_range,
+        )
+        self.scaler = StandardScaler()
+        self.model = GradientBoostingClassifier(
+            n_estimators=500,
+            learning_rate=0.1,
+            max_depth=5,
+            random_state=42,
+            n_iter_no_change=10,
+            verbose=1
+        )
+        self._is_trained = False
+
+    def load_and_preprocess(self, csv_path: str) -> Tuple[pd.Series, pd.Series]:
+        """Load and preprocess the CSV data"""
+        logging.info(f"Loading data from {csv_path}")
+        df = pd.read_csv(csv_path)
+
+        if DATA_COLUMN_NAME not in df.columns or LABEL_COLUMN_NAME not in df.columns:
+            raise ValueError(f"CSV must contain '{DATA_COLUMN_NAME}' and '{LABEL_COLUMN_NAME}' columns")
+
+        return df[DATA_COLUMN_NAME], df[LABEL_COLUMN_NAME]
+
+    def extract_features(self, X: pd.Series, training: bool = True) -> np.ndarray:
+        """Convert text data to numerical features"""
+        if training:
+            X_tfidf = self.vectorizer.fit_transform(X).toarray()
+            X_scaled = self.scaler.fit_transform(X_tfidf)
+        else:
+            X_tfidf = self.vectorizer.transform(X).toarray()
+            X_scaled = self.scaler.transform(X_tfidf)
+
+        return X_scaled
+
+    def train(self, csv_path: str, test_size: float = 0.2) -> dict:
+        """Train the model and return metrics"""
+        logging.info("Starting model training")
+        X, y = self.load_and_preprocess(csv_path)
+        X_processed = self.extract_features(X, training=True)
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            X_processed, y, test_size=test_size, random_state=42
         )
 
-    def forward(self, x):
-        x = self.embedding(x).view(x.shape[0], -1)
-        return self.fc(x).squeeze()
+        logging.info(f"Training set shape: {X_train.shape}")
+        logging.info(f"Test set shape: {X_test.shape}")
+
+        self.model.fit(X_train, y_train)
+        self._is_trained = True
+
+        # Evaluate
+        train_pred = self.model.predict(X_train)
+        test_pred = self.model.predict(X_test)
+
+        train_accuracy = accuracy_score(y_train, train_pred)
+        test_accuracy = accuracy_score(y_test, test_pred)
+
+        logging.info(f"Training Accuracy: {train_accuracy:.4f}")
+        logging.info(f"Test Accuracy: {test_accuracy:.4f}")
+
+        # Cross-validation
+        cv_scores = cross_val_score(self.model, X_processed, y, cv=5)
+        logging.info(f"Cross-validation scores: {cv_scores}")
+        logging.info(f"Average CV score: {cv_scores.mean():.4f}")
+
+        metrics = {
+            'train_accuracy': train_accuracy,
+            'test_accuracy': test_accuracy,
+            'cv_scores': cv_scores,
+            'cv_mean': cv_scores.mean(),
+            'classification_report': classification_report(y_test, test_pred)
+        }
+
+        return metrics
+
+    def predict(self, new_data: Union[str, List[str]]) -> np.ndarray:
+        """Make predictions on new data"""
+        if not self._is_trained:
+            raise RuntimeError("Model must be trained before making predictions")
+
+        if isinstance(new_data, str):
+            new_data = [new_data]
+
+        X_processed = self.extract_features(new_data, training=False)
+        predictions = self.model.predict(X_processed)
+
+        return predictions
+
+    def save_model(self, filename_prefix: str):
+        """Save the trained model and preprocessors"""
+        if not self._is_trained:
+            raise RuntimeError("Cannot save untrained model")
+
+        logging.info(f"Saving model to {filename_prefix}")
+        joblib.dump(self.vectorizer, f"{filename_prefix}_vectorizer.pkl")
+        joblib.dump(self.scaler, f"{filename_prefix}_scaler.pkl")
+        joblib.dump(self.model, f"{filename_prefix}_model.pkl")
+
+    def load_model(self, filename_prefix: str):
+        """Load a trained model and preprocessors"""
+        logging.info(f"Loading model from {filename_prefix}")
+        self.vectorizer = joblib.load(f"{filename_prefix}_vectorizer.pkl")
+        self.scaler = joblib.load(f"{filename_prefix}_scaler.pkl")
+        self.model = joblib.load(f"{filename_prefix}_model.pkl")
+        self._is_trained = True
 
 
-def train_model(model, train_loader, epochs=5):
-    optimizer = optim.Adam(model.parameters(), lr=0.0001)
-    criterion = nn.BCELoss()
-    model.train()
-    for epoch in range(epochs):
-        total_loss = 0
-        for texts, labels in train_loader:
-            optimizer.zero_grad()
-            outputs = model(texts)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
+def run_training():
+    classifier = BinaryClassifier()
+    classifier.train(f'{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv')
 
-
-def run_training(batch_size=64, epochs=50, test_size=0.01, embed_dim=64, hidden_dim=128, custom_models_path=None):
-    df = pd.read_csv(f"{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv")
-    train_texts, test_texts, train_labels, test_labels = train_test_split(df[DATA_COLUMN_NAME], df[LABEL_COLUMN_NAME], test_size=test_size,
-                                                                          random_state=42)
-    vocab = Vocab(train_texts)
-    train_data = DatasetLoader(train_texts, train_labels, vocab)
-    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
-    model = BinaryClassifier(len(vocab) + 1, embed_dim, hidden_dim)
-    train_model(model, train_loader, epochs)
-
-    torch.save(model.state_dict(), f"{custom_models_path or MODELS_PATH}{MODEL_PREFIX}.pth")
-
-    with open(f"{custom_models_path or MODELS_PATH}{MODEL_PREFIX}vocab.pkl", "wb") as f:
-        pickle.dump(vocab, f)
-
-    print("Model and vocabulary saved successfully.")
+    classifier.save_model(f"{MODELS_PATH}/{MODEL_PREFIX}")
