@@ -80,7 +80,7 @@ async def make_parallel_requests():
 
         for i in range(5):
             prompt = PROMPT_POSITIVE if i % 2 == 0 else PROMPT_NEGATIVE
-            label = POSITIVE_LABEL if i % 2 == 0 else NEGATIVE_LABEL
+            label = 1 if i % 2 == 0 else 0
             tasks.append(ask_openai_async(prompt, label, OpenRouterModels.DeepSeek))
 
         try:

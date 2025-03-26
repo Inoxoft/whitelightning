@@ -1,14 +1,34 @@
 import pandas as pd
-import torch
-import pickle
-from binary_classifier.model import BinaryClassifier
-from settings import MODEL_PREFIX, MODELS_PATH, TESTING_DATA_PATH, RESULTS_PATH, DATA_COLUMN_NAME, LABEL_COLUMN_NAME, POSITIVE_LABEL, NEGATIVE_LABEL
+import logging
+from .classifier import BinaryTextClassifier
+from .strategies import TensorFlowStrategy
+from .strategies import PyTorchStrategy
+from .strategies import ScikitLearnStrategy
+from settings import (
+    MODEL_PREFIX,
+    MODELS_PATH,
+    TESTING_DATA_PATH,
+    RESULTS_PATH,
+    DATA_COLUMN_NAME,
+)
 
-def run_model():
-    classifier = BinaryClassifier()
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    classifier.load_model(f'{MODELS_PATH}/{MODEL_PREFIX}')
+
+def run_predictions(model_type: str):
+    strategies = {
+        "tensorflow": TensorFlowStrategy(input_dim=5000),
+        "pytorch": PyTorchStrategy(input_dim=5000),
+        "scikit": ScikitLearnStrategy()
+    }
+    strategy = strategies[model_type]
+
+    classifier = BinaryTextClassifier(strategy)
+    classifier.load(f'{MODELS_PATH}/{MODEL_PREFIX}')
+
     df = pd.read_csv(f"{TESTING_DATA_PATH}{MODEL_PREFIX}_dataset.csv", encoding="utf-8")
-    df["prediction"] = df.apply(lambda x: classifier.predict(x[DATA_COLUMN_NAME])[0], axis=1)
-    df.to_csv(f"{RESULTS_PATH}{MODEL_PREFIX}_predictions.csv", index=False)
+    df["prediction"] = df[DATA_COLUMN_NAME].apply(lambda x: classifier.predict([x])[0])
 
+    output_path = f"{RESULTS_PATH}{MODEL_PREFIX}_predictions.csv"
+    df.to_csv(output_path, index=False)
+    logging.info(f"Predictions saved to {output_path}")

@@ -9,6 +9,9 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+import onnxruntime as rt
 
 from settings import (
     MODEL_PREFIX,
@@ -132,9 +135,48 @@ class BinaryClassifier:
         self.model = joblib.load(f"{filename_prefix}_model.pkl")
         self._is_trained = True
 
+    def export_to_onnx(self, output_path: str, input_features: int):
+        """
+        Export the trained model to ONNX format
+
+        Args:
+            output_path: Path where to save the ONNX model
+            input_features: Number of input features (same as vectorizer.max_features)
+        """
+        if not self._is_trained:
+            raise RuntimeError("Model must be trained before exporting to ONNX")
+
+        logging.info(f"Converting model to ONNX format")
+
+        # Define input type
+        initial_type = [('float_input', FloatTensorType([None, input_features]))]
+
+        # Convert the model to ONNX
+        onnx_model = convert_sklearn(
+            self.model,
+            initial_types=initial_type,
+            target_opset=13
+        )
+
+        # Save the ONNX model
+        with open(output_path, "wb") as f:
+            f.write(onnx_model.SerializeToString())
+
+        logging.info(f"ONNX model saved to {output_path}")
+
+        # Verify the model
+        sess = rt.InferenceSession(output_path)
+        input_name = sess.get_inputs()[0].name
+        logging.info(f"Model verified. Input name: {input_name}")
+
 
 def run_training():
     classifier = BinaryClassifier()
     classifier.train(f'{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv')
 
     classifier.save_model(f"{MODELS_PATH}/{MODEL_PREFIX}")
+    onnx_path = f"{MODELS_PATH}/{MODEL_PREFIX}_model.onnx"
+    classifier.export_to_onnx(
+        output_path=onnx_path,
+        input_features=classifier.vectorizer.max_features
+    )

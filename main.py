@@ -1,8 +1,9 @@
-from binary_classifier.model import run_training
-from binary_classifier.model_executor import run_model
+from binary_classifier.model_executor import run_predictions
+from binary_classifier.classifier import run_training
 from utils.benchmark import test_model_accuracy
 
 if __name__ == "__main__":
-    run_training()
-    run_model()
+    model_type = "pytorch"
+    run_training(model_type=model_type)
+    run_predictions(model_type=model_type)
     test_model_accuracy()
