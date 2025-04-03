@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 
 class BinaryTextClassifier:
-    def __init__(self, strategy: TextClassifierStrategy, max_features: int = 5000, ngram_range: Tuple[int, int] = (1, 4)):
+    def __init__(self, strategy: TextClassifierStrategy, max_features: int = 5000, ngram_range: Tuple[int, int] = (1, 3)):
         self.strategy = strategy
         self.vectorizer = TfidfVectorizer(max_features=max_features, ngram_range=ngram_range)
         self.scaler = StandardScaler()
@@ -78,6 +78,22 @@ class BinaryTextClassifier:
         joblib.dump(self.vectorizer, f"{filename_prefix}_vectorizer.pkl")
         joblib.dump(self.scaler, f"{filename_prefix}_scaler.pkl")
 
+        import json
+        with open(f"{filename_prefix}_vocab.json", "w") as f:
+            vocab = {str(word): int(idx) for word, idx in self.vectorizer.vocabulary_.items()}
+            idf = [float(x) for x in self.vectorizer.idf_]
+            json.dump({"vocab": vocab, "idf": idf}, f)
+
+        with open(f"{filename_prefix}_scaler.json", "w") as f:
+            scaler_params = {
+                "mean": [float(x) for x in self.scaler.mean_],
+                "scale": [float(x) for x in self.scaler.scale_]
+            }
+            json.dump(scaler_params, f)
+
+        logging.info(
+            f"Preprocessing parameters saved to {filename_prefix}_vocab.json and {filename_prefix}_scaler.json")
+
     def load(self, filename_prefix: str):
         self.strategy.load_model(filename_prefix)
         self.vectorizer = joblib.load(f"{filename_prefix}_vectorizer.pkl")
@@ -95,6 +111,7 @@ def run_training(*, model_type: str, **kwargs):
     # Train and save
     classifier = BinaryTextClassifier(strategy)
     metrics = classifier.train(f'{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv')
+    classifier.strategy.export_to_onnx(f"{MODELS_PATH}/{MODEL_PREFIX}.onnx")
     classifier.save(f"{MODELS_PATH}/{MODEL_PREFIX}")
 
     # Log metrics

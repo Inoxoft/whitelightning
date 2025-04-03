@@ -70,7 +70,7 @@ class TensorFlowStrategy(TextClassifierStrategy):
     def predict(self, X: np.ndarray) -> np.ndarray:
         if not self._is_trained:
             raise RuntimeError("Model must be trained before predicting")
-        return (self.model.predict(X) > 0.5).astype(int)
+        return (self.model.predict(X)).astype(float)
 
     def save_model(self, filename_prefix: str):
         if not self._is_trained:
@@ -159,7 +159,7 @@ class PyTorchStrategy(TextClassifierStrategy):
         X_tensor = torch.FloatTensor(X).to(self.device)
         self.model.eval()
         with torch.no_grad():
-            return (self.model(X_tensor) > 0.5).cpu().numpy().astype(int)
+            return self.model(X_tensor).cpu().numpy().astype(float)
 
     def save_model(self, filename_prefix: str):
         if not self._is_trained:
@@ -182,6 +182,7 @@ class PyTorchStrategy(TextClassifierStrategy):
             output_path,
             input_names=["float_input"],
             output_names=["output"],
+            dynamic_axes={"float_input": {0: "batch_size"}, "output": {0: "batch_size"}},
             opset_version=13
         )
         logging.info(f"ONNX model saved to {output_path}")
