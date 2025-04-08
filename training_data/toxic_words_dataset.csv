@@ -1,0 +1,2403 @@
+text,label
+"Good morning, how are you today?",0
+"Would you like me to help with that?",0
+"Could you please pass the salt?",0
+"I appreciate your input on this matter.",0
+"Let me know if you need further clarification.",0
+"Thank you for waiting—I’ll be right with you.",0
+"Have a wonderful day ahead!",0
+"Would it be possible to reschedule our meeting?",0
+"Your feedback is really valuable—thank you.",0
+"I hope your weekend is off to a great start.",0
+"Please feel free to reach out if anything comes up.",0
+"Excuse me, is this seat taken?",0
+"Thanks for letting me know—I’ll adjust the plan.",0
+"Could I borrow a pen for a moment?",0
+"Take your time—there’s no rush.",0
+"I’m happy to assist if you need support.",0
+"Let’s work together to find a solution.",0
+"Would you prefer to discuss this later?",0
+"Your suggestions are always so thoughtful.",0
+"Thanks for understanding—I really appreciate it.",0
+"Could you double-check the details when you get a chance?",0
+"I’ll make sure to follow up on that for you.",0
+"Wishing you a smooth and productive week!",0
+"Let me know how I can make this easier.",0
+"Thanks for taking the time to explain this.",0
+"Would you like me to save you a seat?",0
+"I’m here to help if anything’s unclear.",0
+"Please let me know if this works for you.",0
+"Your hard work on this project is impressive.",0
+"Could we revisit this topic tomorrow?",0
+"Thanks for being so patient with the process.",0
+"I hope the rest of your day goes well!",0
+"Would you like to add anything to the agenda?",0
+"Let’s circle back once we have more information.",0
+"Thanks for sharing your perspective—it’s helpful.",0
+"Could I get your opinion on this draft?",0
+"Feel free to take a break if you need one.",0
+"I’ll keep you updated as things progress.",0
+"Thanks for catching that—good teamwork!",0
+"Would you like to join us for lunch later?",0
+"Let me know if the timeline needs adjusting.",0
+"Your attention to detail is really appreciated.",0
+"Could we aim to finalize this by Friday?",0
+"Thanks for your flexibility—it means a lot.",0
+"I’m glad we could resolve this together.",0
+"Would you like me to forward the notes?",0
+"Let’s make sure everyone’s on the same page.",0
+"Thanks for your help—it made a big difference.",0
+"Could you confirm the time that suits you best?",0
+"Wishing you a safe trip back home!",0
+"You're the human equivalent of a participation trophy.",1
+"Your opinions have the depth of a puddle after a drizzle.",1
+"Did your brain take a vacation or is this your normal level of functioning?",1
+"Congratulations on being wrong in every possible way.",1
+"Your existence is a compelling argument for natural selection.",1
+"I’d call you a waste of oxygen, but plants might get jealous.",1
+"Your ideas are like expired milk—sour and best thrown out.",1
+"Did you practice being this clueless, or does it come naturally?",1
+"You’re the reason shampoo bottles have instructions.",1
+"Your logic is so flawed it’s almost artistic.",1
+"Did a toddler teach you how to think?",1
+"Your personality is as appealing as a root canal.",1
+"Every word you say makes the room dumber.",1
+"You’re the human version of a ‘404 Error’ message.",1
+"Your contributions here are like a broken pencil—pointless.",1
+"Is your goal to be universally disliked, or is that a bonus?",1
+"Your face looks like it caught fire and someone put it out with a fork.",1
+"Your intelligence is a black hole—dense and impossible to escape.",1
+"You’re the reason they put ‘do not eat’ labels on silica packets.",1
+"Listening to you is like watching paint dry, but less entertaining.",1
+"Your takes are so bad they should come with a warning label.",1
+"Did you learn communication skills from a silent film?",1
+"You’re the emotional equivalent of a screensaver.",1
+"Your arguments are weaker than a wet paper towel.",1
+"Your presence alone could lower the IQ of an entire room.",1
+"You’re like a traffic jam—everyone’s day gets worse because of you.",1
+"Your creativity peaked in kindergarten finger-painting class.",1
+"Your advice is as helpful as a chocolate teapot.",1
+"You’re the poster child for ‘failure to launch.’",1
+"Your jokes are so stale they belong in a museum.",1
+"Your self-awareness is on par with a goldfish.",1
+"You’re the human embodiment of a typo.",1
+"Your existence is a masterclass in disappointment.",1
+"Your hot takes are colder than Antarctica in January.",1
+"You’re the reason aliens avoid Earth.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"Your voice could make a caffeine addict fall asleep.",1
+"Your insights are about as deep as a kiddie pool.",1
+"You’re the reason people invent excuses to leave parties.",1
+"Your personality is a cautionary tale for social interaction.",1
+"Your competence level is ‘forgot how to breathe.’",1
+"Your contributions are the verbal equivalent of static noise.",1
+"You’re like a broken record, but less coherent.",1
+"Your energy is as positive as a root canal.",1
+"Your existence is proof that evolution can backtrack.",1
+"Your social skills make a cactus seem approachable.",1
+"Your brain must be a museum of bad ideas.",1
+"Your hot takes are reheated leftovers from 2012.",1
+"You’re the human version of a ‘skip ad’ button.",1
+"Your presence is the emotional equivalent of a flat tire.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your existence is an embarrassment to everyone around you.",1
+"I’ve met bricks with more charisma than you.",1
+"Did your parents teach you anything, or was neglect their parenting style?",1
+"Your voice could drain the joy out of a birthday party.",1
+"Every word you say makes me lose faith in humanity.",1
+"You’re like a broken pencil—pointless and easily replaced.",1
+"Your personality is as appealing as a wet sock.",1
+"Is your skull just decorative, or do you ever use it?",1
+"Congratulations on being the worst part of my day.",1
+"You’re the reason some species eat their young.",1
+"Your contributions here are as useful as a screen door on a submarine.",1
+"I’d call you a tool, but that’s an insult to useful objects.",1
+"Your face looks like it caught fire and someone tried to put it out with a fork.",1
+"Even a coma patient has more to offer than you.",1
+"You’re the human version of a ‘404 error’ message.",1
+"Your intelligence is like a vacuum—empty and loud.",1
+"Do the world a favor and stop talking forever.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your ideas are as stale as last week’s bread.",1
+"Watching paint dry is more entertaining than listening to you.",1
+"You’re the emotional equivalent of a parking ticket.",1
+"Your presence makes me appreciate solitude.",1
+"Are you always this useless, or is today a special occasion?",1
+"Your talent for failure is almost impressive.",1
+"I’d roast you, but I don’t want to waste the energy.",1
+"You’re like a discount store brand—cheap and disappointing.",1
+"Your jokes are as funny as a tax audit.",1
+"Your brain must be a ghost town—nothing there but echoes.",1
+"You’re the reason aliens won’t talk to us.",1
+"Your advice is like a parachute that opens on the second bounce.",1
+"Even a toddler has better self-awareness than you.",1
+"You’re the human embodiment of a ‘do not disturb’ sign.",1
+"Your social skills make a porcupine seem cuddly.",1
+"Your hot takes are colder than Antarctica.",1
+"You’re the reason they invented eye-rolling.",1
+"Your confidence is as misplaced as a snowman in the Sahara.",1
+"Your existence is a compelling argument for selective breeding.",1
+"You’re the reason silence is golden.",1
+"Your logic has more holes than a colander.",1
+"Your charm offensive is just offensive.",1
+"You’re the poster child for wasted potential.",1
+"Your insights are about as deep as a puddle.",1
+"Your personality is a masterclass in disappointment.",1
+"You’re like a traffic jam—everyone hates being around you.",1
+"Your contributions are the mental equivalent of junk mail.",1
+"Your sense of humor died faster than a mayfly.",1
+"You’re the reason people believe in karma.",1
+"Your presence is like a pop-up ad—unwanted and irritating.",1
+"Your ability to misunderstand simple things is almost artistic.",1
+"Could you pass me the salt, please?",0
+"I’ll be out of the office tomorrow, so I’ll respond to emails on Monday.",0
+"Would you mind holding the door for me? Thank you!",0
+"Hey, how’s your day going so far?",0
+"Let me know if you need any further assistance.",0
+"I appreciate your help with the project.",0
+"Would you like me to pick up anything on my way over?",0
+"Could we reschedule our meeting to tomorrow?",0
+"Just checking in to see if you had a chance to review the document.",0
+"Feel free to reach out if you have questions.",0
+"Thanks for sending that over—I’ll take a look shortly.",0
+"Would it be possible to extend the deadline by a day?",0
+"Your input on this would be really helpful.",0
+"Let’s catch up over coffee sometime next week.",0
+"Could you clarify the second point in your email?",0
+"I hope you’re having a good morning!",0
+"Please let me know a time that works best for you.",0
+"Thanks for being so patient while we resolve this.",0
+"Would you like to join us for lunch later?",0
+"I’ll follow up with the team and get back to you.",0
+"Could you double-check the numbers on page three?",0
+"Let me help you carry those boxes.",0
+"Thanks for the update—I really appreciate it.",0
+"Would you prefer to discuss this in person or via email?",0
+"Have a great weekend ahead!",0
+"Could you share the report when you get a moment?",0
+"I’d be happy to walk you through the process.",0
+"Let’s aim to finalize the details by Friday.",0
+"Thanks for understanding the short notice.",0
+"Would you like me to forward the invitation to the group?",0
+"Your feedback has been incredibly valuable.",0
+"Could we adjust the thermostat? It’s a bit chilly.",0
+"I’ll make sure to include your suggestions in the draft.",0
+"Let me know if there’s anything I can assist with.",0
+"Thanks for taking the time to explain this.",0
+"Would you like a hand setting up the equipment?",0
+"Let’s touch base again next week to review progress.",0
+"Could you remind me of the meeting time?",0
+"I hope your presentation went well!",0
+"Please keep me posted on any changes.",0
+"Thanks for organizing the files—it’s a big help.",0
+"Would you be available for a quick call this afternoon?",0
+"Let me grab the notes from yesterday’s session.",0
+"Could you confirm your availability for the workshop?",0
+"I’ll send over the details as soon as I can.",0
+"Thanks for dropping off the package earlier.",0
+"Would you like to take the lead on this task?",0
+"Let’s coordinate schedules to find a good time.",0
+"Could you recommend a good place for lunch nearby?",0
+"Thanks again for your support—it means a lot.",0
+"You’re the human equivalent of a participation trophy.",1
+"Your existence is proof that evolution can backtrack.",1
+"I’ve met rocks with more emotional intelligence than you.",1
+"Your opinions are like spoiled milk—best kept to yourself.",1
+"Did you rehearse being this clueless, or does it come naturally?",1
+"Your face looks like it caught fire and someone tried putting it out with a fork.",1
+"Every word you say makes me regret learning to read.",1
+"You’re the reason shampoo bottles have instructions.",1
+"Your personality is as appealing as a root canal.",1
+"I’d call you a tool, but at least tools are useful.",1
+"Your brain must be a haunted house—empty and full of nonsense.",1
+"Did you get your logic from a cereal box?",1
+"You’re like a broken pencil—pointless and easily replaced.",1
+"Your voice could make a clock stop ticking.",1
+"Congratulations on being the worst part of my day.",1
+"You’re the human version of a ‘404 Error’ message.",1
+"Your ideas are so bad they make horoscopes look accurate.",1
+"I’d agree with you, but then we’d both be wrong.",1
+"You’re not pretty enough to be this stupid.",1
+"Your presence is like a screensaver—unnecessary and mildly irritating.",1
+"Did you learn to communicate through a foghorn?",1
+"You’re the reason aliens won’t talk to us.",1
+"Your jokes are so stale they belong in a museum.",1
+"Your confidence is impressive for someone with zero achievements.",1
+"Talking to you feels like babysitting a feral raccoon.",1
+"You’re the emotional equivalent of a parking ticket.",1
+"Your takes are colder than a freezer full of regrets.",1
+"Even a goldfish would get tired of your nonsense.",1
+"You’re like a discount store brand—cheap and disappointing.",1
+"Your advice is as useful as a screen door on a submarine.",1
+"Your brainpower couldn’t toast a pop-tart.",1
+"You’re the poster child for failed potential.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"Listening to you is like watching paint rebel against drying.",1
+"You’re the human embodiment of a typo.",1
+"Your social skills make a porcupine seem cuddly.",1
+"Your hot takes should come with a refund policy.",1
+"You’re like a WiFi dead zone—annoying and unproductive.",1
+"Your logic has more holes than a colander.",1
+"Your creativity peaked in kindergarten finger-painting.",1
+"You’re the reason silence is golden.",1
+"Your existence is a compelling argument for selective breeding.",1
+"Your wit is as sharp as a spoon.",1
+"You’re the mental equivalent of elevator music.",1
+"Your insights are about as deep as a puddle after drizzle.",1
+"Talking to you is like arguing with a malfunctioning GPS.",1
+"You’re the human version of a ‘Do Not Disturb’ sign.",1
+"Your contributions are the intellectual equivalent of wet socks.",1
+"You’re like a parking lot puddle—shallow and full of dirt.",1
+"Your personality is the reason people ghost.",1
+"You're the human equivalent of a participation trophy.",1
+"Your opinions have the nutritional value of cardboard.",1
+"Did you learn logic from a cereal box?",1
+"Your existence is a compelling argument for population control.",1
+"I’ve met bricks with more emotional intelligence than you.",1
+"You’re like a broken pencil – pointless and easily replaced.",1
+"Your brain must be a museum of bad ideas.",1
+"Even a screensaver contributes more than you do.",1
+"You’re the reason some species eat their young.",1
+"Your insights are as deep as a puddle after a drizzle.",1
+"Did your ego devour your self-awareness?",1
+"Your personality is the human version of a spam email.",1
+"Conversations with you feel like intellectual starvation.",1
+"You’re the mental equivalent of a dial-up connection.",1
+"Your takes are so cold they’d freeze a desert.",1
+"Did you rehearse being this insufferable?",1
+"You’re like a parking lot – empty and full of lines.",1
+"Your charm has the lifespan of a fruit fly.",1
+"Every word you say makes me miss silence.",1
+"You’re the poster child for wasted potential.",1
+"Your logic circles the drain better than bathwater.",1
+"Charisma left the chat when you arrived.",1
+"You’re the human embodiment of a ‘404 error’.",1
+"Your hot takes could power a winter storm warning.",1
+"Did your parents regret your curiosity phase?",1
+"You’re the reason aliens avoid Earth.",1
+"Your wit has the sharpness of a spoon.",1
+"Listening to you is like chewing on tinfoil.",1
+"You’re the intellectual equivalent of a screensaver.",1
+"Your presence lowers the IQ of entire rooms.",1
+"Your ideas are as original as a photocopy.",1
+"You’re the reason silence is a virtue.",1
+"Your contributions are like confetti – colorful but useless.",1
+"Even a void has more substance than your arguments.",1
+"You’re the human form of a loading screen.",1
+"Your self-awareness is a myth we’re all avoiding.",1
+"Talking to you feels like defragging a hard drive.",1
+"You’re the reason some art stays abstract.",1
+"Your takes are reheated leftovers from 2012.",1
+"Your existence is a glitch in the matrix.",1
+"You’re the reason patience is a skill.",1
+"Your insights have the freshness of stale bread.",1
+"You’re like a typo – unnecessary and irritating.",1
+"Your personality is a cautionary tale.",1
+"Conversing with you is like licking a battery.",1
+"You’re the human equivalent of a ‘skip ad’ button.",1
+"Your charm offensive only offends.",1
+"Your brainpower could power a digital clock – barely.",1
+"You’re the reason some fonts get retired.",1
+"Your thoughts are as organized as a toddler’s crayon box.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your existence is a masterclass in disappointment.",1
+"I’d call you a waste of oxygen, but plants actually contribute something.",1
+"Your face looks like it caught fire and someone tried to put it out with a fork.",1
+"Did you learn to be this clueless, or is it a natural talent?",1
+"You’re the reason they put warning labels on shampoo bottles.",1
+"Your personality is like a black hole—sucks the joy out of everything.",1
+"Even a broken clock is right twice a day, but you’re just permanently wrong.",1
+"Your contributions here are like a screen door on a submarine.",1
+"Did you rehearse being this annoying, or does it come naturally?",1
+"You’re the reason aliens won’t talk to us.",1
+"Your brain must be a ghost town—empty and eerie.",1
+"I’d roast you, but my mom said not to burn trash.",1
+"You’re the human version of a typo.",1
+"Your takes are so bad they should come with a refund policy.",1
+"Did you crawl out of a dumpster or just dress like it?",1
+"Your voice could make a funeral feel lively.",1
+"Your ideas are like mold—unwanted and everywhere.",1
+"You’re the poster child for failed potential.",1
+"Your presence is a gift… to anyone who hates joy.",1
+"Your logic has more holes than a colander.",1
+"Even a paper cut has more depth than you.",1
+"You’re the reason silence is golden.",1
+"Your charm is as real as a three-dollar bill.",1
+"Your existence is proof evolution can go backward.",1
+"Your jokes are like traffic lights—everyone stops paying attention.",1
+"You’re the emotional equivalent of a dial-up connection.",1
+"Your advice is as useful as a chocolate teapot.",1
+"Your social skills make a porcupine seem cuddly.",1
+"You’re the reason people invent eye-roll emojis.",1
+"Your brain must be powered by a potato battery.",1
+"Your hot takes are colder than Antarctica.",1
+"You’re like a parking lot puddle—shallow and dirty.",1
+"Your charisma is on par with a wet sock.",1
+"Your wit is about as sharp as a spoon.",1
+"You’re the human embodiment of a ‘404 Error’ message.",1
+"Your self-awareness left the chat years ago.",1
+"Your talent for failure is almost impressive.",1
+"You’re the reason they invented mute buttons.",1
+"Your insights are as fresh as last week’s bread.",1
+"Your energy is like a vacuum—sucks the life out of rooms.",1
+"You’re the reason people double-lock their doors.",1
+"Your vibe is a mix of entitlement and expired milk.",1
+"Your takes are so bad they’re a public service announcement.",1
+"You’re the reason patience is a virtue.",1
+"Your existence makes me believe in karma—for you.",1
+"Your personality is a cautionary tale.",1
+"Your contributions are like static—no one wants to hear them.",1
+"You’re the reason ‘block user’ buttons exist.",1
+"Your entire aura screams ‘I peaked in middle school.’",1
+"Could you please pass the salt when you get a moment?",0
+"I appreciate you taking the time to explain this.",0
+"Would you mind holding the door for me?",0
+"Let me know if you need any clarification.",0
+"Thanks for your help earlier—it made a big difference.",0
+"Would it be possible to reschedule our meeting?",0
+"Your feedback on this draft would be great.",0
+"Just checking in to see how the project is going.",0
+"Feel free to take your time—no rush at all.",0
+"Could I ask for your thoughts on this idea?",0
+"Thanks for reminding me about the deadline!",0
+"Let’s circle back to this topic tomorrow.",0
+"I’d be happy to assist if you need support.",0
+"Would you like me to forward you the details?",0
+"Hope your day is going smoothly so far!",0
+"Could we discuss this further in the afternoon?",0
+"Thanks for being so patient while we sort this out.",0
+"Let me double-check that and confirm with you.",0
+"Would you prefer to handle this via email or call?",0
+"Your perspective on this would be really valuable.",0
+"Just wanted to say thanks for the quick response!",0
+"Could you clarify that last point for me?",0
+"I’ll follow up once I have more information.",0
+"Would it help if I shared some examples?",0
+"Thanks for understanding the situation.",0
+"Let me know a time that works best for you.",0
+"Could we adjust the timeline by a day or two?",0
+"Your effort on this hasn’t gone unnoticed!",0
+"Would you like me to take notes during the meeting?",0
+"Thanks for catching that error—good spot!",0
+"Let’s touch base again next week to review progress.",0
+"Could you recommend a good place for lunch nearby?",0
+"I’m here if you need anything else.",0
+"Would you like to take the lead on this task?",0
+"Thanks for accommodating the last-minute change.",0
+"Let me know if I can help streamline the process.",0
+"Could we explore another option together?",0
+"Your collaboration on this has been fantastic.",0
+"Would you like to join us for coffee later?",0
+"Thanks for keeping me in the loop on this.",0
+"Let’s make sure we’re aligned before moving forward.",0
+"Could you share the document when you’re able?",0
+"I appreciate your flexibility with the schedule.",0
+"Would you mind repeating that? I missed part of it.",0
+"Thanks for the update—this clarifies things.",0
+"Let me know if the instructions need adjusting.",0
+"Could we break this down into smaller steps?",0
+"Your attention to detail is really helpful.",0
+"Would you like to review the agenda beforehand?",0
+"Thanks for making time to discuss this today.",0
+"You’re the human equivalent of a participation trophy—unearned and irrelevant.",1
+"Your opinions have the nutritional value of cardboard—filling but worthless.",1
+"Every word you say makes me question how you’ve survived this long.",1
+"Did you learn logic from a cereal box or just naturally incompetent?",1
+"You’re like a parking lot puddle—shallow and best avoided.",1
+"Congratulations on being the least useful person in the room—again.",1
+"Your ideas are so bad they’d fail as a parody of themselves.",1
+"Stop talking—you’re diluting the collective IQ by the second.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your existence is a masterclass in disappointment.",1
+"Even a broken clock is right twice a day, but you’re just broken.",1
+"Your contributions are like static—noise without meaning.",1
+"Did your ego devour your self-awareness, or were you born this delusional?",1
+"You’re the intellectual equivalent of a screensaver—pointless and repetitive.",1
+"Your takes are so cold they’re reversing global warming.",1
+"Watching you fail is like watching a car crash in slow motion—horrifying yet predictable.",1
+"You’re the human version of a typo—annoying and easily corrected.",1
+"Your brain must be decorative since it clearly doesn’t function.",1
+"Your personality is like expired milk—sour and best thrown out.",1
+"Every sentence you utter makes me pity anyone who knows you.",1
+"You’re the reason aliens avoid Earth—embarrassing to the species.",1
+"Your insights are as deep as a petri dish and twice as sterile.",1
+"Keep talking—it’s hilarious how wrong one person can be.",1
+"You’re like a WiFi dead zone—frustrating and unproductive.",1
+"Your logic is so twisted it could qualify as modern art.",1
+"Your presence is a gift…to anyone who needs a cautionary tale.",1
+"You’re the mental equivalent of a loading screen—empty and tedious.",1
+"Your arguments crumble faster than a sandcastle at high tide.",1
+"Even silence is smarter than the nonsense you spew.",1
+"You’re a black hole of competence—sucking in effort, producing nothing.",1
+"Your advice is like a fork in a power outlet—dangerously misguided.",1
+"Your existence is proof that evolution can take naps.",1
+"You’re the reason ‘delete’ buttons were invented.",1
+"Your takes are so bad they loop around to being tragicomic.",1
+"Watching you argue is like watching a toddler debate a wall.",1
+"You’re the human embodiment of a ‘404 Error’—lost and irrelevant.",1
+"Your input has the value of monopoly money—colorful but fake.",1
+"You’re like a grammar mistake in a love letter—jarring and unwelcome.",1
+"Your brainpower couldn’t toast a pop-tart.",1
+"Your hot takes are colder than Antarctica’s basement.",1
+"You’re the reason some species eat their young.",1
+"Your contributions are like confetti—messy and best swept away.",1
+"Your logic is so flawed it’s practically avant-garde.",1
+"You’re the intellectual equivalent of a white crayon—exists, but why?",1
+"Your existence is a compelling argument for selective mutism.",1
+"You’re like a screenshake effect—annoying and unnecessary.",1
+"Your insights are as useful as a screen door on a submarine.",1
+"Your personality is a haunted house—terrifying and best avoided.",1
+"You’re the reason silence is golden.",1
+"Your thoughts are like a shuffled playlist—random and grating.",1
+"Would you mind passing the salt, please?",0
+"I appreciate your help with the project.",0
+"Could you let me know your thoughts when you have a moment?",0
+"Let’s catch up soon—it’s been a while!",0
+"The document is ready for your review.",0
+"Thanks for letting me know about the change in plans.",0
+"Would you like me to take care of that for you?",0
+"Have a great weekend ahead!",0
+"I’ll follow up with the team and keep you posted.",0
+"Your input on this would be really helpful.",0
+"Just checking in to see how you’re doing.",0
+"Feel free to reach out if you need anything else.",0
+"Could we discuss this further during the next meeting?",0
+"Thanks for being so patient while we resolve this.",0
+"Let me know if there’s a better time to chat.",0
+"I hope your presentation went well!",0
+"Would it be possible to extend the deadline by a day?",0
+"Thanks for clarifying—that makes sense now.",0
+"Congratulations on finishing the project!",0
+"I’d be happy to help with the setup.",0
+"Could you double-check the details when you get a chance?",0
+"Wishing you a smooth recovery!",0
+"Let’s aim to finalize the plan by Friday.",0
+"Thanks for taking the time to explain this.",0
+"Would you like to join us for lunch later?",0
+"I’ll make sure to pass along your feedback.",0
+"Let me know if you need any adjustments.",0
+"Thanks for your quick response!",0
+"Could you share the link again when possible?",0
+"Hope you’re having a good morning so far!",0
+"I’ll be in touch once I have more information.",0
+"Thanks for understanding the situation.",0
+"Would you prefer to handle this via email or a call?",0
+"Let’s work together to find a solution.",0
+"Your perspective on this is really valuable.",0
+"Just wanted to say thanks for your hard work!",0
+"Could we schedule a quick check-in tomorrow?",0
+"Thanks for keeping me in the loop.",0
+"Let me know if I can assist with anything else.",0
+"Hope your move went smoothly!",0
+"Would you like me to forward the details to the team?",0
+"Thanks for the update—I appreciate it.",0
+"Let’s touch base again next week to review progress.",0
+"Your feedback has been incredibly helpful.",0
+"Could you confirm the time that works best for you?",0
+"Wishing you a productive day ahead!",0
+"Thanks for accommodating the last-minute change.",0
+"Let me know if you’d like to brainstorm ideas together.",0
+"Hope you enjoyed the event last night!",0
+"Would you like a hand with organizing the files?",0
+"Could you please send me the report by end of day?",0
+"I appreciate your help with this project.",0
+"Let me know if you’d like to reschedule the meeting.",0
+"Would you mind sharing your notes from the call?",0
+"Thanks for taking the time to explain that.",0
+"Have a great weekend!",0
+"Just checking in to see if you need anything else.",0
+"I’d be happy to assist with the presentation.",0
+"Could we discuss this further tomorrow?",0
+"Your input on this would be really helpful.",0
+"Hope your morning is going smoothly!",0
+"Please let me know your thoughts when you get a chance.",0
+"Thanks for being so flexible with the timeline.",0
+"Would it be possible to extend the deadline by a day?",0
+"Let’s circle back on this next week.",0
+"I’ll follow up with the team and keep you posted.",0
+"Could you clarify the second point for me?",0
+"Thanks for catching that error—good eye!",0
+"Feel free to reach out if you have questions.",0
+"Would you like me to handle the client update?",0
+"Enjoy the rest of your evening!",0
+"I’m here to help if anything comes up.",0
+"Let me double-check that and confirm with you.",0
+"Thanks for your patience while we sort this out.",0
+"Could we adjust the agenda to include this topic?",0
+"Your feedback is always appreciated.",0
+"Hope the presentation went well this morning!",0
+"Please keep me in the loop on any changes.",0
+"Would you prefer a call or email for updates?",0
+"Thanks for making time to meet today.",0
+"Let me know how I can support the next steps.",0
+"Could you share the link again when convenient?",0
+"Wishing you a productive day ahead!",0
+"I’ll review the document and send notes by noon.",0
+"Thanks for understanding the delay.",0
+"Would it help to break this into smaller tasks?",0
+"Just wanted to say great job on the proposal.",0
+"Could we aim for a 2 PM start time instead?",0
+"Thanks for coordinating with the team.",0
+"Let’s touch base after the client meeting.",0
+"Hope you’re having a good week so far!",0
+"Please confirm if this works with your schedule.",0
+"I’m happy to take the lead on the research.",0
+"Could you proofread this when you get a moment?",0
+"Thanks for the quick turnaround on the edits.",0
+"Let me know if you’d like me to follow up.",0
+"Would you like feedback now or after the draft?",0
+"Enjoy your lunch break!",0
+"Thanks for sharing those resources—they’re helpful.",0
+"Let’s plan to finalize details by Friday.",0
+"You’re the human equivalent of a participation trophy—useless but somehow always around.",1
+"Your opinions are like expired milk—sour and better left unshared.",1
+"Did you learn to communicate by watching soap operas on mute?",1
+"Every word you say makes me wish I had a mute button for reality.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your existence is a compelling argument for selective hearing.",1
+"Watching you fail is like witnessing a car crash in slow motion—horrifying yet predictable.",1
+"You’ve got the charisma of a wet sock and twice the usefulness.",1
+"If ignorance were a superpower, you’d be invincible.",1
+"Your ideas are so bad they make horoscopes look scientific.",1
+"Congratulations on being the least helpful person in the room—truly an achievement.",1
+"You argue like a toddler throwing spaghetti at the wall.",1
+"I’d call you a tool, but that implies you’re at least functional.",1
+"Your contributions are the mental equivalent of background noise.",1
+"Are you always this clueless, or are you making a special effort today?",1
+"Your logic has more holes than a colander.",1
+"You’re like a broken pencil—pointless and easily snapped.",1
+"Listening to you is like watching paint dry, but less entertaining.",1
+"Your takes are so cold they could freeze the sun.",1
+"You’re the poster child for wasted potential.",1
+"Did you rehearse being this insufferable, or does it come naturally?",1
+"Your presence alone could drain the joy from a birthday party.",1
+"Even a brick wall would find your stubbornness impressive.",1
+"You’re the human version of a ‘404 error’—nobody knows what you’re here for.",1
+"Your advice is about as reliable as a weather forecast from 1982.",1
+"Witty banter requires wit—maybe sit this one out.",1
+"You’re like a parking lot puddle: shallow and best avoided.",1
+"Your insights are as deep as a kiddie pool during a drought.",1
+"Bragging about that accomplishment is like celebrating a participation ribbon.",1
+"Your personality is as grating as nails on a chalkboard.",1
+"Every sentence you utter makes me question evolution.",1
+"You’re not just wrong—you’re confidently, aggressively wrong.",1
+"Your face looks like it’s been through a dishwasher—twice.",1
+"Your jokes are so stale they belong in a museum.",1
+"Talking to you is like playing chess with a pigeon—it just knocks over pieces and struts around.",1
+"You’re the reason some species eat their young.",1
+"Your hot takes are colder than a freezer-burned burrito.",1
+"Intelligence left the chat the moment you joined.",1
+"You’re the emotional equivalent of a papercut—minor but irritating.",1
+"Your self-awareness is as absent as a screen door on a submarine.",1
+"Your existence is a masterclass in disappointment.",1
+"Your voice could make a caffeine addict fall asleep.",1
+"You’re like a WiFi dead zone—unwanted and unhelpful.",1
+"Your contributions are the intellectual equivalent of a screensaver.",1
+"Even a goldfish has a longer attention span than your patience.",1
+"You’re the human embodiment of ‘ctrl+c, ctrl+v’—unoriginal and lazy.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"Your arguments crumble faster than a cookie in a toddler’s fist.",1
+"Your personality is like a black hole—sucking the energy out of everything.",1
+"You’re the reason they invented eye-roll emojis.",1
+"You’re so clueless it’s almost impressive.",1
+"Your opinions are as useful as a broken keyboard.",1
+"Did you get your personality from a discount clearance rack?",1
+"Every time you speak, I lose another brain cell.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your existence is a masterclass in disappointment.",1
+"I’d call you a tool, but at least tools serve a purpose.",1
+"Your ideas are like mold—best left in the dark.",1
+"Even a brick wall has more charisma than you.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your intelligence is as deep as a puddle after a drizzle.",1
+"Congratulations on being wrong in record time.",1
+"You’re the reason aliens avoid Earth.",1
+"Your takes are so bad they should come with a warning label.",1
+"Did you practice being this insufferable or is it a gift?",1
+"Your contribution here is as meaningful as a typo.",1
+"Your self-awareness is missing—file a search party.",1
+"You’re like a parking lot puddle: shallow and full of trash.",1
+"Your logic has more holes than a cheese grater.",1
+"It’s amazing how you’re always the worst part of any conversation.",1
+"You’re the emotional equivalent of a dial tone.",1
+"Your personality is as appealing as a root canal.",1
+"Your hot takes could freeze lava.",1
+"You’re the reason silence is golden.",1
+"Your advice is like a parachute that opens on the second bounce.",1
+"Your existence makes me question natural selection.",1
+"You’re the human version of a ‘404 Error’ message.",1
+"Your insights are about as fresh as last week’s bread.",1
+"You’re not just wrong—you’re confidently incompetent.",1
+"Your face looks like it’s been through a blender of bad decisions.",1
+"You’re the poster child for wasted potential.",1
+"Your words have the nutritional value of cardboard.",1
+"You’re the reason patience is a virtue.",1
+"Your presence alone could empty a room.",1
+"Your brain must be a museum of bad ideas.",1
+"You’re like a broken elevator—no one wants to be stuck with you.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"You’re the reason people invent eye-roll emojis.",1
+"Your talent for missing the point is unmatched.",1
+"Your personality is a cautionary tale.",1
+"You’re the human equivalent of a spam email.",1
+"Your contributions are like static—just noise.",1
+"You’re the reason some species eat their young.",1
+"Your existence is a compelling argument for selective hearing.",1
+"You’re as necessary as a screen door on a submarine.",1
+"Your takes are colder than a freezer burn.",1
+"You’re the reason ‘block user’ buttons exist.",1
+"Your logic is a train wreck in slow motion.",1
+"Your social skills are a masterclass in cringe.",1
+"You’re the reason people daydream about amnesia.",1
+"You're the human equivalent of a participation trophy.",1
+"Your ideas are so bad they should come with a warning label.",1
+"I've seen more competence from a toddler with crayons.",1
+"Your voice could make a haunted house seem welcoming.",1
+"Every word you say makes me lose faith in humanity.",1
+"You’re like a broken pencil—completely pointless.",1
+"Did you learn to communicate by studying dumpster fires?",1
+"Your personality is as appealing as a wet sock.",1
+"Even a goldfish would get tired of your nonsense.",1
+"You’re the reason aliens avoid Earth.",1
+"Your brain must be a museum of bad decisions.",1
+"Watching you fail is my favorite spectator sport.",1
+"You’re the human version of a ‘404 error’ message.",1
+"Your existence is proof evolution can go backward.",1
+"I’d call you a tool, but tools are actually useful.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"You’ve got the charisma of a tax audit.",1
+"Your takes are colder than yesterday’s coffee.",1
+"Listening to you is like chewing aluminum foil.",1
+"You’re the poster child for wasted potential.",1
+"Your logic has more holes than a colander.",1
+"Congrats on being the least helpful person here.",1
+"You’re what happens when arrogance outpaces talent.",1
+"Your advice is as welcome as a skunk at a picnic.",1
+"Your creativity peaked in kindergarten finger-painting.",1
+"You’re the reason they invented mute buttons.",1
+"Your insights are about as deep as a puddle.",1
+"Your presence lowers the IQ of the entire room.",1
+"You’re like a parking lot puddle—shallow and dirty.",1
+"Your contributions are the verbal equivalent of spam.",1
+"Your hot takes could freeze the sun.",1
+"You’re the human embodiment of a ‘do not disturb’ sign.",1
+"Your wit is as sharp as a spoon.",1
+"Talking to you is like arguing with a brick wall.",1
+"You’re the mental equivalent of elevator music.",1
+"Your self-awareness is on permanent vacation.",1
+"You’re the reason patience is a virtue.",1
+"Your energy drains joy faster than a black hole.",1
+"Your arguments crumble faster than stale bread.",1
+"You’re the intellectual equivalent of a screensaver.",1
+"Your confidence is inversely proportional to your skill.",1
+"You’re as original as a photocopy of a photocopy.",1
+"Your hot takes belong in a landfill.",1
+"Your input is the verbal equivalent of static.",1
+"You’re the reason some species eat their young.",1
+"Your personality is a masterclass in mediocrity.",1
+"Your existence is a cautionary tale.",1
+"You’re the human version of a ‘buffering’ icon.",1
+"Your insights are as fresh as last week’s leftovers.",1
+"Your presence is a gift nobody asked for.",1
+"You're the human equivalent of a participation trophy.",1
+"Your existence is proof that evolution can go backwards.",1
+"Did you learn to be this clueless or were you born with it?",1
+"Your opinions are like spoiled milk – nobody wants them.",1
+"I’d call you a tool, but at least tools are useful.",1
+"You’re the reason shampoo bottles have instructions.",1
+"Your brain must be allergic to common sense.",1
+"Even a broken clock is right twice a day – you’re just broken.",1
+"You’re the emotional equivalent of a parking ticket.",1
+"Did your ego write checks your personality couldn’t cash?",1
+"Your contributions here are as meaningful as a screen door on a submarine.",1
+"You’re not stupid – you just have bad luck thinking.",1
+"Your face looks like it caught fire and someone tried to put it out with a fork.",1
+"Your charisma level is somewhere between wet cardboard and a tax audit.",1
+"Every word you say makes me miss the person I was before I heard it.",1
+"You’re like a microwave – loud, annoying, and barely functional.",1
+"Your personality is like a black hole – all-consuming and impossible to escape.",1
+"Did you rehearse being this insufferable or does it come naturally?",1
+"You’re the reason they put ‘do not eat’ labels on silica gel packets.",1
+"Your ideas are the mental equivalent of a participation ribbon.",1
+"Talking to you is like arguing with a Wikipedia page that’s been vandalized.",1
+"You’re the human version of a ‘404 Error’ message.",1
+"Your self-awareness is on par with a potted plant.",1
+"Your existence is a compelling argument for selective breeding.",1
+"You’re like a discount store knockoff – cheap and disappointing.",1
+"Your logic has more holes than a colander.",1
+"Even a goldfish has a longer attention span than your relevance.",1
+"You’re the emotional equivalent of a pop-up ad.",1
+"Your social skills make a porcupine seem cuddly.",1
+"Your hot takes are colder than a freezer-burned burrito.",1
+"You’re like a parking lot puddle – shallow and full of garbage.",1
+"Your personality is what happens when entitlement marries incompetence.",1
+"Your input here is as useful as a chocolate teapot.",1
+"You’re the reason aliens won’t talk to us.",1
+"Your charm offensive is just offensive.",1
+"Your brain must be a museum of bad ideas.",1
+"You’re like a WiFi dead zone – draining energy and offering nothing.",1
+"Your existence is a masterclass in disappointment.",1
+"Your hot takes should come with a ‘contents may cause nausea’ warning.",1
+"You’re the human equivalent of a ‘close door’ button that doesn’t work.",1
+"Your advice is like a parachute that opens on the third bounce.",1
+"Your confidence is inversely proportional to your competence.",1
+"You’re the reason they invented the mute button.",1
+"Your personality is a cautionary tale about ego.",1
+"Your contributions are the intellectual equivalent of a whoopee cushion.",1
+"You’re like a screensaver – pointless and easy to ignore.",1
+"Your self-importance is the only impressive thing about you.",1
+"Your existence makes me question the concept of free will.",1
+"You’re the reason some species eat their young.",1
+"Your takes are so bad they should come with a refund policy.",1
+"You’re too dense to understand basic logic.",1
+"Your opinion is as useful as a screen door on a submarine.",1
+"Did you even finish elementary school, or is this your idea of clever?",1
+"Wow, you managed to be wrong in just three words—new record!",1
+"You’re the human equivalent of a participation trophy.",1
+"Nobody asked for your input, but here we are.",1
+"Your existence is a compelling argument for natural selection.",1
+"Save your breath—you’re not worth the oxygen.",1
+"Your brain must be a ghost town—nothing but empty space.",1
+"Congratulations on having the worst take I’ve heard all year.",1
+"Did your ego write checks your intellect couldn’t cash?",1
+"You’re like a broken clock, wrong 23 hours a day.",1
+"Your ignorance is so loud it’s drowning out the conversation.",1
+"Did you practice being this insufferable, or is it a gift?",1
+"Your logic has more holes than a colander.",1
+"Even a goldfish has a longer attention span than your patience for facts.",1
+"You’re the reason some species eat their young.",1
+"Your arrogance is only outmatched by your incompetence.",1
+"Did you crawl out of a dumpster fire of bad ideas?",1
+"Your contributions here are like a fart in a hurricane—pointless.",1
+"Stop talking before you embarrass yourself further.",1
+"You’re the poster child for why education needs more funding.",1
+"Your takes are so cold they’d freeze the sun.",1
+"Did you get your opinions from a cereal box?",1
+"Your lack of self-awareness is almost impressive.",1
+"Every word you say makes the room dumber.",1
+"You’re the human version of a typo.",1
+"Your argument is as stable as a house of cards in a tornado.",1
+"Did you rehearse being wrong, or does it come naturally?",1
+"Your personality is like a black hole—sucking the joy out of everything.",1
+"Nobody cares about your irrelevant ramblings.",1
+"You’re the reason silence is golden.",1
+"Your brainpower couldn’t light a dim bulb.",1
+"Congratulations—you’ve mastered the art of being universally disliked.",1
+"Your input is about as helpful as a chocolate teapot.",1
+"Are you always this clueless, or is today special?",1
+"You’re like a parking lot puddle—shallow and full of garbage.",1
+"Your hot take is colder than yesterday’s coffee.",1
+"Did you learn communication skills from a howler monkey?",1
+"Your perspective is as outdated as dial-up internet.",1
+"You’re the intellectual equivalent of a participation ribbon.",1
+"Your logic is so twisted it could open a pickle jar.",1
+"Even a brick wall would find you tedious.",1
+"Your confidence is inversely proportional to your competence.",1
+"Did you get lost on the way to the clown convention?",1
+"Your ideas are like mold—best kept in the dark.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your contribution here is like a mosquito at a barbecue—unwanted.",1
+"Stop pretending you have a point—we all see through it.",1
+"You’re the human embodiment of a '404 Error' message.",1
+"Could you please pass me the salt?",0
+"I appreciate your help with this project.",0
+"Let me know if you need any further assistance.",0
+"Would you mind holding the door for a moment?",0
+"Thank you for taking the time to explain that.",0
+"Have a great day ahead!",0
+"Would it be possible to reschedule our meeting?",0
+"I hope you’re having a good morning so far.",0
+"Please feel free to reach out with any questions.",0
+"Your input on this would be really helpful.",0
+"Excuse me, could I borrow a pen?",0
+"Thanks for letting me know about the change.",0
+"Let’s circle back to this topic later.",0
+"Would you like me to forward the details to you?",0
+"I’ll make sure to update you once I have more information.",0
+"Just checking in to see if you need anything.",0
+"Could we discuss this again tomorrow?",0
+"Thanks for your patience while we resolve this.",0
+"Let me double-check that for you.",0
+"Would you prefer to handle this via email or phone?",0
+"Your feedback is always welcome.",0
+"Please take your time—there’s no rush.",0
+"I’d be happy to help if you need support.",0
+"Let me know how I can make this easier for you.",0
+"Thanks for clarifying that point.",0
+"Would you like me to follow up with them directly?",0
+"Hope your weekend is off to a good start!",0
+"Could you confirm the deadline when you get a moment?",0
+"I’ll keep you posted as things develop.",0
+"Thanks for considering my request.",0
+"Let’s touch base again next week.",0
+"Would it help if I shared some examples?",0
+"Please don’t hesitate to ask for adjustments.",0
+"I’m here if you’d like to brainstorm ideas.",0
+"Thanks for being so flexible with the timeline.",0
+"Could we aim to finalize this by Friday?",0
+"Just a reminder to review the document when you can.",0
+"Let me know your thoughts when you’ve had time to process.",0
+"Thanks for catching that error—good spot!",0
+"Would you like to take the lead on this part?",0
+"I hope the instructions are clear, but let me know if not.",0
+"Could you share the link again when convenient?",0
+"Thanks for keeping me in the loop.",0
+"Let’s make sure we’re aligned before moving forward.",0
+"Would you prefer an earlier or later time slot?",0
+"Your perspective on this would be valuable.",0
+"Please let me know if I can assist further.",0
+"Thanks for understanding the situation.",0
+"Could we adjust the plan based on your availability?",0
+"Looking forward to hearing your ideas!",0
+"Could you please pass the salt?",0
+"I appreciate your help with this project.",0
+"Would you mind closing the window when you get a chance?",0
+"Let me know if you need any further assistance!",0
+"Thanks for taking the time to explain that to me.",0
+"Have a great weekend!",0
+"Would you like me to pick up anything on my way over?",0
+"I’m happy to adjust the schedule if that works better for you.",0
+"Just checking in to see how your day is going.",0
+"Feel free to reach out if you have any questions.",0
+"Could we discuss this again tomorrow?",0
+"Thanks for your patience while we sort this out.",0
+"Would it be possible to reschedule our meeting?",0
+"Let me know your thoughts when you get a moment.",0
+"I hope you’re having a good day so far!",0
+"Could you clarify that point for me, please?",0
+"Thanks for reminding me—I’ll take care of it.",0
+"Would you like to join us for lunch later?",0
+"I’ll follow up with the team and keep you posted.",0
+"Let’s circle back on this next week.",0
+"Thanks for understanding about the delay.",0
+"Could you double-check the details when you have time?",0
+"Would you prefer to handle this via email or a call?",0
+"I’m here to help if you need anything.",0
+"Let me know a time that works best for you.",0
+"Thanks for sharing your perspective—it’s really helpful.",0
+"Could we move the deadline to Friday?",0
+"Would you like me to forward the notes after the meeting?",0
+"Take your time—there’s no rush.",0
+"I appreciate you keeping me in the loop.",0
+"Let’s touch base again in a few days.",0
+"Thanks for offering to help—it means a lot.",0
+"Could you let me know when you’re available?",0
+"Would you like feedback now or after you’ve finished?",0
+"I’ll make sure to pass along your message.",0
+"Let me know if I can assist with anything else.",0
+"Thanks for being flexible with the changes.",0
+"Could we explore another option together?",0
+"Would you like a hand setting up the equipment?",0
+"I’m happy to adjust the plan based on your input.",0
+"Let’s confirm the details one more time to avoid confusion.",0
+"Thanks for giving this your attention—it’s important.",0
+"Could you share the document when it’s ready?",0
+"Would you like to start with the first item on the agenda?",0
+"I’ll wait to hear from you before proceeding.",0
+"Let me know if the timeline needs to shift.",0
+"Thanks for catching that error—good teamwork!",0
+"Could we aim to finalize this by Wednesday?",0
+"Would you like to take a short break before continuing?",0
+"Thanks for making time to chat today—it was helpful.",0
+"You’re so dense light bends around you.",1
+"Your opinions are as useful as a broken keyboard.",1
+"Did you learn to argue from a cereal box?",1
+"Your existence is a masterclass in disappointment.",1
+"Even a rock has more original thoughts than you.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your brain must be a ghost town—empty and eerie.",1
+"Watching you fail is like witnessing natural selection.",1
+"You’re the reason shampoo has instructions.",1
+"Your logic is as stable as a house of cards in a hurricane.",1
+"Every word you say makes me lose brain cells.",1
+"You’re like a parking lot—no depth, just surface.",1
+"Is your talent being wrong, or do you practice?",1
+"Your ideas are the intellectual equivalent of wet socks.",1
+"Congratulations on being the worst part of my day.",1
+"You’re the poster child for wasted potential.",1
+"Your takes are so bad they should come with a warning label.",1
+"Arguing with you is like teaching a toaster philosophy.",1
+"You’ve got the charisma of a damp sponge.",1
+"Your contributions here are as meaningful as static on a radio.",1
+"It’s impressive how you’re always the least helpful person here.",1
+"You’re like a broken pencil—pointless and easily snapped.",1
+"Your personality is as appealing as a root canal.",1
+"Do you rehearse being this insufferable, or is it natural?",1
+"You’re the human version of a ‘404 error’—utterly useless.",1
+"Your presence alone could drain the joy from a carnival.",1
+"Your insights are about as deep as a puddle after drizzle.",1
+"Witty banter requires wit, so sit this one out.",1
+"You’re the reason they invented mute buttons.",1
+"Your arguments crumble faster than a sandcastle at high tide.",1
+"Your face looks like it caught fire and someone tried to put it out with a fork.",1
+"Listening to you is like watching paint dry—painful and pointless.",1
+"You’re the emotional equivalent of a screensaver.",1
+"Your IQ must be room temperature, and not in Celsius.",1
+"Your takes are so cold they could freeze the sun.",1
+"You’re the intellectual equivalent of a white crayon.",1
+"Your existence is a compelling argument for selective hearing.",1
+"Your brain works like a GPS with no signal—constantly lost.",1
+"You’re the human embodiment of a ‘skip ad’ button.",1
+"Your contributions are like confetti—colorful but meaningless.",1
+"Your personality is a cautionary tale for social interaction.",1
+"You’re the reason people prefer talking to chatbots.",1
+"Your ideas are as fresh as last week’s leftovers.",1
+"Your voice could make a caffeine addict fall asleep.",1
+"You’re the reason silence is golden.",1
+"Your creativity peaked in kindergarten finger painting.",1
+"Your presence is the verbal equivalent of a flat tire.",1
+"You’re as sharp as a marble and twice as dull.",1
+"Your input here is like a GPS directing me off a cliff.",1
+"Watching you navigate a conversation is like watching a toddler with a chainsaw.",1
+"Could you pass me the salt, please?",0
+"I appreciate your help with the project.",0
+"Would you like to join us for lunch?",0
+"Let me know if you need any further assistance.",0
+"What time works best for you to meet?",0
+"How’s your day going so far?",0
+"I really like your new haircut!",0
+"Do you have any plans for the weekend?",0
+"Thanks for picking that up for me!",0
+"Mind if I borrow your pen for a second?",0
+"Please let me know your thoughts when you get a chance.",0
+"Could you help me carry these boxes?",0
+"I hope you’re having a great morning!",0
+"Would you like me to send you the details via email?",0
+"Feel free to reach out if you have any questions.",0
+"Your presentation was very informative—thank you!",0
+"Is there anything I can do to help with the setup?",0
+"Have a wonderful weekend!",0
+"Could I get your opinion on this report?",0
+"Thanks for taking the time to explain that to me.",0
+"Let’s catch up soon—it’s been a while!",0
+"Would you mind holding the door for a moment?",0
+"I wanted to thank you for your quick response.",0
+"How can I assist you with this task?",0
+"That’s a great idea—let’s explore it further.",0
+"Please let me know if I can adjust the schedule.",0
+"Would you like a hand with those files?",0
+"I’m happy to review the document if you’d like.",0
+"Thanks for being so understanding about the delay.",0
+"Could we discuss this over a coffee break?",0
+"Your feedback has been really helpful.",0
+"Is there a convenient time for me to call you?",0
+"Let me double-check that information for you.",0
+"I just wanted to say thanks for your support.",0
+"Would you prefer to reschedule the meeting?",0
+"How does 3 PM sound for our appointment?",0
+"I’ll make sure to follow up on that request.",0
+"Thanks for waiting—I’ll be right with you.",0
+"Could you clarify the second point for me?",0
+"I’m here if you need any help troubleshooting.",0
+"Let’s touch base again next week to review progress.",0
+"Would you like me to forward the invitation?",0
+"Your input made a big difference—thank you!",0
+"Is there anything else you’d like me to include?",0
+"I hope the rest of your day goes smoothly!",0
+"Could we move the deadline to Friday?",0
+"Thanks for sharing those resources with me.",0
+"Let me know how I can make this easier for you.",0
+"Would you like a reminder about the event?",0
+"I’m looking forward to working together!",0
+"Your existence is an ongoing lesson in how low the bar can be set.",1
+"Congratulations on being the human equivalent of a participation trophy.",1
+"I’d call you a waste of oxygen, but plants actually contribute something.",1
+"You’re the reason aliens avoid Earth—too much secondhand embarrassment.",1
+"Your takes are so bad they should come with a refund policy.",1
+"Did your parents raise you to be this insufferable, or is it a DIY project?",1
+"Your brain must be a ghost town—empty and haunted by bad ideas.",1
+"Every word you say makes me nostalgic for silence.",1
+"You’re like a parking lot puddle—shallow and full of garbage.",1
+"Your personality is the reason 'block user' buttons exist.",1
+"I’d roast you, but I don’t want to embarrass what’s left of your dignity.",1
+"Your voice in this chat is like a mosquito in a quiet room—unwelcome.",1
+"You’re the human version of a ‘404 error’—nobody knows why you’re here.",1
+"Your logic has more holes than a colander.",1
+"Even a broken clock is right twice a day, but you’re just broken.",1
+"You’re the reason shampoo bottles have instructions.",1
+"Your hot takes are colder than yesterday’s coffee.",1
+"Watching you fail upward must be exhausting for everyone around you.",1
+"Your contributions here are like a reverse Midas touch—everything turns to trash.",1
+"I’d ask if you’re always this clueless, but I fear the answer.",1
+"You’re the reason ‘delete account’ is a feature, not a bug.",1
+"Your arrogance is almost impressive—too bad it’s paired with incompetence.",1
+"Your presence here is the verbal equivalent of a car alarm.",1
+"Your ideas are so bad they’d make a used car salesman blush.",1
+"Your self-awareness is on par with a goldfish’s.",1
+"You’re like a WiFi dead zone—annoying and unresponsive.",1
+"Your takes are the intellectual equivalent of wet cardboard.",1
+"Every sentence you type makes me pity your keyboard.",1
+"You’re the human embodiment of a ‘do not disturb’ sign.",1
+"Your arguments have the depth of a kiddie pool.",1
+"Your confidence is admirable, given how little you bring to the table.",1
+"You’re like a pop-up ad—unwanted and impossible to take seriously.",1
+"Your existence is proof that evolution isn’t always successful.",1
+"Your insights are about as useful as a chocolate teapot.",1
+"You’re the reason moderation teams have job security.",1
+"Your comments are like a dumpster fire—hard to look away, but not in a good way.",1
+"Your personality is what happens when ‘mediocre’ and ‘loud’ have a baby.",1
+"Your contributions are the mental equivalent of background noise.",1
+"You’re like a typo in a love letter—unfortunate and unnecessary.",1
+"Your hot takes could freeze lava.",1
+"Your presence here is a masterclass in how to lower the room’s IQ.",1
+"You’re the reason ‘mute’ is the best feature on this app.",1
+"Your logic is so twisted it could qualify as modern art.",1
+"Your opinions are like expired milk—best kept to yourself.",1
+"You’re the human version of a ‘skip intro’ button.",1
+"Your arguments are so weak they’d lose a fight with tissue paper.",1
+"Your existence is a cautionary tale about unchecked confidence.",1
+"You’re like a screensaver—pointless and vaguely irritating.",1
+"Your takes are so stale they’re growing mold.",1
+"Your input here is the verbal equivalent of a flat tire.",1
+"You couldn't pour water out of a boot if the instructions were on the heel.",1
+"The world would be quieter if you stopped breathing.",1
+"Your existence is an argument against evolution.",1
+"You have the charisma of a wet sock.",1
+"I’d explain it to you, but I don’t have any crayons handy.",1
+"Your personality is like a screensaver – pointless and repetitive.",1
+"Your ideas are as stale as last week’s bread.",1
+"Your voice could make a haunted house seem welcoming.",1
+"You’re not stupid – you just have bad luck when thinking.",1
+"Bless your heart for trying, but maybe leave it to the adults next time.",1
+"If ignorance is bliss, you must be the happiest person alive.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your opinion has the nutritional value of cardboard.",1
+"Every word you say makes me appreciate silence more.",1
+"I’d call you a tool, but at least tools are useful.",1
+"You’re like a broken pencil – pointless and always needing sharpening.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your brain must be a ghost town – empty and eerie.",1
+"You have the warmth of a tax audit.",1
+"Do you practice being this annoying, or does it come naturally?",1
+"Watching you fail is like watching a car crash in slow motion.",1
+"Come back when you have something worth saying.",1
+"Your takes are colder than a freezer burn.",1
+"You’re the reason aliens won’t talk to us.",1
+"Your logic has more holes than a sieve.",1
+"I’ve met rocks with more charisma.",1
+"You’re not clever enough to be this confident.",1
+"Your contribution here is about as useful as a screen door on a submarine.",1
+"If arrogance was an art form, you’d be Picasso.",1
+"You’re a walking advertisement for mute buttons.",1
+"The only thing you’re good at is wasting oxygen.",1
+"You could start an argument in an empty room.",1
+"Your presence is a constant reminder that evolution can go backwards.",1
+"I’d agree with you, but then we’d both be wrong.",1
+"You’re like a parking lot – everyone crosses you to get somewhere better.",1
+"Your existence is a typo in the universe’s manuscript.",1
+"You’re the reason they invented the block button.",1
+"Listening to you is like chewing on tinfoil.",1
+"You’ve got the charm of a dental drill.",1
+"Your brain cells must be on permanent vacation.",1
+"You’re not the sharpest crayon in the box, are you?",1
+"Your personality is a black hole of joy.",1
+"I’d insult you, but you’re not worth the creativity.",1
+"You’re the human version of a ‘404 error’ message.",1
+"Your advice is as helpful as a chocolate teapot.",1
+"You’re like a bad movie – everyone wishes you’d end.",1
+"If confidence was competence, you’d be a genius.",1
+"You’re the reason why some animals eat their young.",1
+"Your takes are so bad they should come with a warning label.",1
+"You’re not worth the air you’re breathing.",1
+"You couldn't pour water out of a boot if the instructions were on the heel.",1
+"Your existence is the universe's way of apologizing for making everyone else tolerable.",1
+"Did you learn to be this useless or were you born with the talent?",1
+"Your opinions are like spoiled milk—best kept to yourself.",1
+"I’d call you a tool, but at least tools serve a purpose.",1
+"Your face looks like it caught fire and someone tried putting it out with a fork.",1
+"Every word you say makes me wish I could forget how to read.",1
+"You’re the human equivalent of a participation trophy—unwanted and irrelevant.",1
+"Did your brain take a vacation or is this your normal functioning?",1
+"Your personality is as appealing as a wet sock.",1
+"You’re the reason shampoo bottles have instructions.",1
+"Even a broken clock is right twice a day, but you’re just permanently wrong.",1
+"Your contributions here are like a screen door on a submarine—pointless.",1
+"I’d roast you, but I don’t want to violate the Geneva Conventions.",1
+"You’re the intellectual equivalent of a cardboard cutout.",1
+"Your ideas are so bad they make me nostalgic for bad ideas.",1
+"Watching you fail is the only entertainment you’ve ever provided.",1
+"You’re like a parking lot puddle—shallow and full of debris.",1
+"Your presence alone drops the IQ of the entire room.",1
+"Did you rehearse being this insufferable or does it come naturally?",1
+"You’re the reason they put ‘do not eat’ labels on silica gel packets.",1
+"Your logic has more holes than a colander.",1
+"Talking to you is like arguing with a parrot that only knows nonsense.",1
+"You’re the human version of a typo—unintentional and irritating.",1
+"Your voice could make a funeral feel lively.",1
+"Even a paper cut has more depth than your personality.",1
+"You’re like a WiFi dead zone—annoying and unproductive.",1
+"Your jokes are so stale they’re practically historical artifacts.",1
+"You’re the reason aliens won’t talk to us.",1
+"Your advice is as useful as a chocolate teapot.",1
+"Listening to you is like watching paint dry, but less educational.",1
+"You’re the poster child for wasted potential.",1
+"Your charm is about as genuine as a three-dollar bill.",1
+"Your brain must be a ghost town—empty and eerie.",1
+"You’re the reason they invented the mute button.",1
+"Your hot takes are colder than Antarctica in January.",1
+"Your creativity peaked in kindergarten finger painting.",1
+"You’re like a traffic jam—everyone’s day is worse because of you.",1
+"Your insights are about as fresh as last week’s garbage.",1
+"You’re the human equivalent of a ‘404 error’ page.",1
+"Your arguments crumble faster than a cookie in a toddler’s hand.",1
+"You’re the reason people advocate for background checks on opinions.",1
+"Your wit is as sharp as a marshmallow.",1
+"Your contributions are the verbal equivalent of static noise.",1
+"You’re like a pop-up ad—unwanted and impossible to take seriously.",1
+"Your personality is a masterclass in how to repel others.",1
+"Your sense of humor died faster than a mayfly’s lifespan.",1
+"You’re the reason silence is golden.",1
+"Your existence is a compelling argument for selective hearing.",1
+"Your charisma is about as convincing as a cardboard crown.",1
+"Could you please pass me the salt?",0
+"I really appreciate your help with this project.",0
+"Would you mind if I borrowed your pen for a moment?",0
+"Let me know if you need any further assistance.",0
+"Thank you for waiting; I’ll be with you shortly.",0
+"Please have a seat while I review your application.",0
+"If you have a moment, I’d like to discuss the next steps.",0
+"I understand your concern and will look into it right away.",0
+"Would you like me to follow up with the team on that?",0
+"I apologize for the inconvenience; let me correct that for you.",0
+"No worries at all! I can take care of that.",0
+"Feel free to reach out if you have any questions.",0
+"Just wanted to check in and see how you’re doing.",0
+"Your input on this matter would be really helpful.",0
+"I’ll make sure to update you as soon as I have more information.",0
+"Please let me know if there’s anything I can assist you with.",0
+"It would be great if you could share your thoughts by Friday.",0
+"We might want to consider adjusting the schedule for clarity.",0
+"Have a wonderful day!",0
+"Looking forward to hearing from you!",0
+"Thanks for your patience while we resolve this issue.",0
+"If it’s not too much trouble, could you send me the report by tomorrow?",0
+"Let’s touch base tomorrow to go over the details.",0
+"I’d be happy to help with that if you need.",0
+"Would you like me to reschedule the meeting for a later time?",0
+"I completely understand; let’s find a solution that works for everyone.",0
+"Thanks for bringing that to my attention; I’ll address it immediately.",0
+"Excuse me, could you point me toward the nearest restroom?",0
+"I hope you’re having a great day so far!",0
+"Please don’t hesitate to contact me if anything comes up.",0
+"I just wanted to say thank you for all your hard work.",0
+"Would it be possible to extend the deadline by a day?",0
+"I’m here to help if you need anything at all.",0
+"Let me double-check that information to ensure accuracy.",0
+"Your feedback is valuable—thanks for sharing it with me.",0
+"Could we explore this idea further during our next meeting?",0
+"I’ll follow up with an email to confirm the details.",0
+"Thanks for understanding while we work through this delay.",0
+"Would you prefer to continue this conversation via email or phone?",0
+"Let me know a time that works best for your schedule.",0
+"I appreciate your flexibility as we finalize the plans.",0
+"Please take your time reviewing the document—no rush.",0
+"Could you clarify the main points you’d like me to focus on?",0
+"Thanks for catching that error; I’ll revise it right away.",0
+"Would you like a hand organizing the files?",0
+"I’ll keep you posted as things progress.",0
+"Your perspective on this is really insightful—thank you.",0
+"Let’s circle back next week to assess how things are going.",0
+"Thanks for taking the time to explain this to me.",0
+"Could we adjust the timeline to accommodate these changes?",0
+"Could you pass the salt, please?",0
+"I appreciate your help with the project.",0
+"Let me know if you need any further assistance.",0
+"How’s your day going so far?",0
+"I really like your new haircut!",0
+"Would you like to grab a coffee later?",0
+"The meeting has been rescheduled to 2 PM.",0
+"Feel free to reach out if you have any questions.",0
+"Your presentation was very informative.",0
+"Would you mind double-checking these numbers?",0
+"I hope you have a great weekend!",0
+"Let’s catch up soon—it’s been a while!",0
+"Thanks for taking the time to explain that.",0
+"Could I get your opinion on this idea?",0
+"Please let me know your thoughts when you get a chance.",0
+"Would it be possible to extend the deadline by a day?",0
+"Your feedback has been incredibly helpful.",0
+"Let me help you carry those boxes.",0
+"Have you had a chance to review the report?",0
+"I’m happy to adjust the schedule if needed.",0
+"Thanks for being so understanding about the delay.",0
+"Would you prefer to start earlier or later tomorrow?",0
+"Your input made a big difference in the final design.",0
+"Could we discuss this further during the next meeting?",0
+"I’ll make sure to pass along your suggestions.",0
+"Let me know if I can clarify anything.",0
+"Thanks for keeping everyone updated on the changes.",0
+"Would you like me to follow up with the client?",0
+"I’m here if you need support with the transition.",0
+"Your patience while we resolve this is appreciated.",0
+"Could you share the document when you get a moment?",0
+"I admire how organized your notes are.",0
+"Let’s find a time that works best for both teams.",0
+"Thanks for sharing those resources—they’re useful.",0
+"Would you like a hand setting up the equipment?",0
+"I value your perspective on this topic.",0
+"Please don’t hesitate to ask for more details.",0
+"Your dedication to this project is impressive.",0
+"Could we touch base after lunch to finalize plans?",0
+"I’m glad we could work this out together.",0
+"Thanks for accommodating the last-minute request.",0
+"Would you like to take the lead on this task?",0
+"Let me know how I can make this easier for you.",0
+"Your attention to detail really stands out.",0
+"Could we explore another option for the layout?",0
+"I appreciate you keeping the team informed.",0
+"Thanks for being flexible with the timeline.",0
+"Would you like to review the agenda beforehand?",0
+"Let’s collaborate on the next steps.",0
+"Your enthusiasm makes these meetings enjoyable.",0
+"Why even open your mouth when everything you say is pure garbage?",1
+"Your existence is proof that evolution can take backwards steps.",1
+"You must be exhausted from carrying that much stupidity around every day.",1
+"Congratulations on being the least useful person in every room you enter.",1
+"It’s adorable how you think your opinions matter to anyone with a brain.",1
+"Stop pretending you’re relevant – everyone here is just tolerating you.",1
+"Your personality is like a rainy Monday morning – unbearable and grim.",1
+"Did you practice being this clueless, or does it come naturally to you?",1
+"Every time you speak, I understand why your parents avoid your calls.",1
+"The world would improve if you’d just vanish into oblivion quietly.",1
+"Your lack of self-awareness is almost impressive – *almost*.",1
+"Nobody hates you because you’re successful; they hate you because you’re insufferable.",1
+"You’re like a broken elevator – useless and endlessly irritating.",1
+"Keep talking – it’s entertaining watching you embarrass yourself nonstop.",1
+"Your ideas are so bad they should be classified as a public nuisance.",1
+"Is your goal to be forever alone, or does it just come effortlessly?",1
+"Your contribution here is about as valuable as a screen door on a submarine.",1
+"Imagine being this incompetent and still forcing yourself on others.",1
+"People only tolerate you out of pity – let that sink in.",1
+"You’re not just wrong; you’re aggressively, confidently wrong.",1
+"Even a brick wall would gain more respect listening to you.",1
+"Your presence alone could tank the IQ of an entire room.",1
+"Don’t worry – your irrelevance will outlive any attempt to be noticed.",1
+"How does it feel knowing you’ll never amount to anything meaningful?",1
+"You’re the reason people believe in natural selection.",1
+"Your advice is like a foghorn – loud, annoying, and pointless.",1
+"Keep up the act – everyone loves a good trainwreck for entertainment.",1
+"Your takes are so bad they should come with a warning label.",1
+"Watching you fail miserably at basic logic is my new hobby.",1
+"Are you always this incapable, or are you making a special effort today?",1
+"Your existence is a masterclass in how *not* to be a human.",1
+"Brilliant – another comment proving your expertise in being wrong.",1
+"If ignorance were a sport, you’d be a world champion by now.",1
+"It’s impressive how you’ve managed to weaponize your incompetence.",1
+"You’re like a bad odor – lingering and impossible to ignore.",1
+"Next time, try thinking before sharing your brainless nonsense.",1
+"Your personality is the human equivalent of a phishing email.",1
+"Did you learn communication skills from a pack of hyenas?",1
+"Why bother trying to argue when you’re fundamentally unlikable?",1
+"Your input has the nutritional value of cardboard – pointless and bland.",1
+"Even a toddler has more emotional intelligence than you possess.",1
+"Your judgment is so poor it’s a miracle you’re allowed in public.",1
+"Bravo! You’ve achieved peak mediocrity in record time.",1
+"Your social skills are about as refined as a dumpster fire.",1
+"Try silence – it’s the only way you’ll ever seem mildly intelligent.",1
+"You’re not hated because you’re different; you’re hated because you’re awful.",1
+"Your contributions here are like static noise – distracting and worthless.",1
+"It’s funny how you think anyone takes you seriously.",1
+"Congratulations – you’ve perfected the art of being a walking letdown.",1
+"Your incompetence isn’t just a flaw – it’s a public service announcement.",1
+"Every interaction with you feels like a punishment for existing.",1
+"Could you please send me the report when you have a moment?",0
+"I appreciate your help with the project earlier.",0
+"Let’s circle back to this topic after the presentation.",0
+"Would you like me to pick up anything on my way over?",0
+"Thanks for letting me know about the schedule change.",0
+"Your input on this would be really valuable.",0
+"Have a good weekend, and I’ll see you Monday!",0
+"Could I borrow a pen if you have an extra one?",0
+"I’ll make sure to follow up with the team about that.",0
+"Feel free to reach out if you have any questions.",0
+"Would you mind if I take this seat?",0
+"Thanks for your patience while we sort this out.",0
+"Let me know a time that works best for you.",0
+"I hope your day is going well so far!",0
+"Could we reschedule the call for tomorrow afternoon?",0
+"Just wanted to check in on the project’s progress.",0
+"Thanks for clarifying that—it makes sense now.",0
+"Would you like feedback now or after you’ve finished?",0
+"I’ll double-check the details and confirm with you.",0
+"Great job on the presentation earlier!",0
+"Could you please lower the volume a little?",0
+"Let me know how I can assist with the next steps.",0
+"Thanks for taking the time to explain this.",0
+"Would you prefer to handle this via email or a call?",0
+"Your suggestions have been really helpful.",0
+"I’ll be sure to pass along your message.",0
+"Would you like to join us for lunch later?",0
+"Thanks for being so flexible with the timeline.",0
+"Let’s make sure everyone’s on the same page.",0
+"Could I get your opinion on this draft?",0
+"Hope you had a smooth trip back home!",0
+"Thanks for catching that error in the document.",0
+"Would you like me to forward the notes to the group?",0
+"I’ll keep you updated as things progress.",0
+"Let me know if you need an extension on the deadline.",0
+"Thanks for offering to help—it means a lot.",0
+"Could we discuss this further in our next meeting?",0
+"Your perspective on this is really appreciated.",0
+"I’ll review the materials and get back to you.",0
+"Would you like a hand setting up the equipment?",0
+"Thanks for the quick response—it’s a big help.",0
+"Let’s touch base again once the data comes in.",0
+"Could you share the link again when you get a chance?",0
+"I’m happy to adjust the plan based on your feedback.",0
+"Thanks for understanding the situation.",0
+"Would you prefer to start earlier or later tomorrow?",0
+"Let me know if there’s anything else I can do.",0
+"Great to hear the event went well!",0
+"Could we move the meeting to a larger room?",0
+"Thanks for making time to chat today.",0
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your contributions make me nostalgic for silence.",1
+"I’d call you a tool, but at least tools are useful.",1
+"Your takes are so bad they should come with a refund policy.",1
+"Watching you fail is like witnessing evolution in reverse.",1
+"Your logic has more holes than a colander.",1
+"You’re the human embodiment of a ‘404 Error’ message.",1
+"Did you learn communication skills from a traffic jam?",1
+"Your personality is as appealing as a root canal.",1
+"Every sentence you write is a crime against coherence.",1
+"You’re the intellectual equivalent of a screensaver.",1
+"Even a goldfish could outpace your critical thinking.",1
+"Your existence is proof that practice doesn’t make perfect.",1
+"You argue with the confidence of a wrong math textbook.",1
+"Your hot takes belong in a museum of bad ideas.",1
+"I’d roast you, but I don’t want to violate the Geneva Conventions.",1
+"You’re like a parking lot puddle – shallow and everywhere.",1
+"Your insights are as deep as a petri dish.",1
+"Congratulations on being the least helpful person online today.",1
+"You’re the reason aliens won’t talk to us.",1
+"Your brain works like dial-up internet – slow and outdated.",1
+"Your talent for missing the point is almost impressive.",1
+"You’re what happens when autocorrect goes rogue.",1
+"Your jokes are like tax forms – painful and unnecessary.",1
+"Your advice is less useful than a chocolate teapot.",1
+"Your social skills make a cactus seem cuddly.",1
+"You’re the poster child for wasted potential.",1
+"Your hot takes could freeze lava.",1
+"Your presence lowers the IQ of any conversation.",1
+"You debate like a toddler with a megaphone.",1
+"Your creativity peaked in kindergarten finger-painting.",1
+"You’re the human version of a ‘wet floor’ sign – ignored and annoying.",1
+"Your arguments crumble faster than a sandcastle at high tide.",1
+"Your input is the verbal equivalent of static noise.",1
+"You’re as sharp as a marble.",1
+"Your self-awareness is on par with a doorknob.",1
+"Your wit is about as subtle as a car alarm at midnight.",1
+"You’re like a pop-up ad – intrusive and universally disliked.",1
+"Your logic is so twisted it could open a pickle jar.",1
+"Your charm offensive is just… offensive.",1
+"You’re the reason ‘delete’ buttons exist.",1
+"Your hot takes should come with a hazard warning.",1
+"Your insights are about as fresh as last year’s memes.",1
+"You’re the intellectual equivalent of a participation ribbon.",1
+"Your commentary is like nails on a chalkboard – grating and pointless.",1
+"You’re the human equivalent of a loading screen.",1
+"Your existence makes me question the simulation theory.",1
+"Your ideas are as stable as a house of cards in a tornado.",1
+"You’re the reason we can’t have nice things.",1
+"Your contributions are the mental equivalent of junk mail.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your brain must be smoother than a marble countertop.",1
+"Even a goldfish would find your attention span impressive.",1
+"You argue like a toddler throwing a tantrum.",1
+"Your existence is a masterclass in disappointment.",1
+"I’d insult you, but nature already did a perfect job.",1
+"Your opinions are like mold—unwanted and everywhere.",1
+"Did you learn to communicate through a foghorn?",1
+"You’re the reason shampoo has instructions.",1
+"Your personality is as appealing as a root canal.",1
+"Congratulations on being the least useful person here.",1
+"Your contributions are like static—noise without meaning.",1
+"Are you always this clueless, or is today special?",1
+"You’re the emotional equivalent of a parking ticket.",1
+"Your takes are so bad they should come with a warning label.",1
+"Watching you fail is almost entertaining—almost.",1
+"You’re like a broken app—constantly crashing and useless.",1
+"Your voice could drain the joy from a birthday party.",1
+"Every word you say makes me lose faith in humanity.",1
+"You’re the poster child for wasted potential.",1
+"Your logic has more holes than a colander.",1
+"Do the world a favor and never speak again.",1
+"You’re as sharp as a bowling ball.",1
+"Your presence alone lowers the IQ of the room.",1
+"Nobody cares about your opinion, so why do you keep sharing it?",1
+"You’re like a discount store version of a human being.",1
+"Your advice is as helpful as a screen door on a submarine.",1
+"Even a cactus has more warmth than you.",1
+"You’re the reason people hate this community.",1
+"Your face looks like it caught fire and someone put it out with a fork.",1
+"Your existence is a compelling argument for selective breeding.",1
+"Your talent for missing the point is unmatched.",1
+"You’re the human embodiment of a typo.",1
+"Your jokes are as funny as a tax audit.",1
+"Your confidence is inversely proportional to your competence.",1
+"You’re like a parking lot puddle—shallow and everywhere.",1
+"Your insights are about as deep as a petri dish.",1
+"Your personality is a cautionary tale.",1
+"You’re the reason they put instructions on toothpaste.",1
+"Your contributions are the verbal equivalent of spam.",1
+"Your voice could make a funeral seem lively.",1
+"You’re the reason silence is golden.",1
+"Your ideas are like expired milk—sour and best discarded.",1
+"You’re as necessary as a fork in a soup kitchen.",1
+"Your presence is a gift nobody asked for.",1
+"Your existence makes me question evolution.",1
+"You’re the human version of a ‘404 Error’ message.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"Your input is about as valuable as a used tissue.",1
+"You’re the reason people invent eye-rolling emojis.",1
+"Why does your input always sound like a broken record of bad ideas?",1
+"Your constant need to speak doesn't make your opinions less pathetic.",1
+"You’re the human equivalent of a participation trophy—pointless but loud.",1
+"Did you practice being this aggravating or is it a natural talent?",1
+"Every word you say pushes someone closer to ignoring humanity entirely.",1
+"Your ideas are so shallow they couldn’t drown a flea.",1
+"Listening to you is like attending a lecture on how to fail at life.",1
+"Your personality turns constructive conversations into dumpster fires.",1
+"Even silence has more substance than anything you’ve ever contributed.",1
+"You’re like a walking ad for why people should stay offline.",1
+"Is your goal to be the most insufferable person in every chat?",1
+"Your existence is proof that evolution can take jokes too far.",1
+"Congrats on being the reason people regret having internet access.",1
+"Your takes are so bad they should come with a warning label.",1
+"Why breathe if all you exhale is nonsense?",1
+"Your face must ache from the effort of being this irritating.",1
+"You’re the reason some species eat their young.",1
+"Your brain must be a wasteland of terrible decisions.",1
+"Every sentence you type is an insult to literacy itself.",1
+"Are you always this delusional or is today a special occasion?",1
+"Wisdom clearly avoids you like unpaid bills.",1
+"You could disappoint a rock with that level of incompetence.",1
+"Your life’s work seems to be ruining everyone’s patience.",1
+"Even a brick wall contributes more than your pointless comments.",1
+"Your opinions hit new lows in boring irrelevance.",1
+"Do the world a favor and let your keyboard gather dust.",1
+"You’re what happens when arrogance outpaces intelligence.",1
+"Nobody asked for your half-baked, tone-deaf perspective.",1
+"Your presence turns discussions into endurance tests.",1
+"You’re like a parking ticket—unwanted and aggravating.",1
+"Listening to you is like watching a car crash in slow motion.",1
+"Your contributions are the verbal equivalent of stale bread.",1
+"Do you rehearse being wrong or does it come naturally?",1
+"Your logic is so twisted it could open pickle jars.",1
+"You’ve mastered the art of being wrong with confidence.",1
+"Why are you like this? Genuine curiosity.",1
+"Your personality could sour freshly squeezed lemonade.",1
+"Ever considered silence as a public service?",1
+"Your takes are colder than a freezer full of bad decisions.",1
+"How do you function with such a crippling lack of self-awareness?",1
+"You’re the reason patience is considered a virtue.",1
+"Your insights are as useful as a screen door on a submarine.",1
+"Every word you say chips away at my faith in humanity.",1
+"Is your mission to make everyone around you regret listening?",1
+"Your existence is a cautionary tale about wasted potential.",1
+"Congrats on being unanimously voted ‘Least Helpful’ in any room.",1
+"You’ve turned ignorance into an Olympic sport.",1
+"Your input is the intellectual equivalent of a wet sock.",1
+"Do you enjoy being this unbearable or is it accidental?",1
+"Your comments are like sandpaper on everyone’s sanity.",1
+"Could you please pass the salt when you get a chance?",0
+"I appreciate your help with the project—thank you!",0
+"Let me know if you need any further assistance.",0
+"Would you mind holding the door for a moment?",0
+"Thanks for letting me know about the schedule change.",0
+"Have a wonderful day ahead!",0
+"I’d be happy to review the document once it’s ready.",0
+"Just checking in to see how your week is going.",0
+"Feel free to reach out if you have any questions.",0
+"Your input on this would be really helpful.",0
+"Thanks for understanding—I’ll keep you updated.",0
+"Could we discuss this again tomorrow morning?",0
+"Let’s find a time that works best for everyone.",0
+"I hope your presentation went well!",0
+"Would you like me to forward you the details?",0
+"Thanks for your patience while we resolve this.",0
+"Let me double-check that and get back to you.",0
+"Your feedback is always appreciated.",0
+"Would it be okay to push the deadline by a day?",0
+"Wishing you a smooth and productive week!",0
+"I’m here to help if anything comes up.",0
+"Thanks for taking the time to explain this.",0
+"Could you clarify the second point for me?",0
+"Let’s make sure we’re aligned on the next steps.",0
+"Hope you’re having a great afternoon so far!",0
+"Please let me know if I missed anything.",0
+"Thanks for catching that error—good spot!",0
+"Would you prefer to handle this via email or call?",0
+"Just wanted to say your effort on this is noticed.",0
+"Could we adjust the timeline slightly?",0
+"Thanks for being flexible with the changes.",0
+"Let me know your thoughts when you’re free.",0
+"I’ll follow up with the team and keep you posted.",0
+"Would you like me to start the meeting notes?",0
+"Thanks for the quick response—it really helps!",0
+"Let’s touch base again next week to review progress.",0
+"Hope your move went smoothly last weekend!",0
+"Could you share the link again when possible?",0
+"Your perspective on this would be valuable.",0
+"Thanks for making time to chat earlier.",0
+"Let me know if the plan works for you.",0
+"Would you like a hand organizing the files?",0
+"Thanks for the update—I’ll adjust accordingly.",0
+"Looking forward to collaborating on this!",0
+"Could we aim to finalize this by Friday?",0
+"Thanks for your support—it means a lot.",0
+"Let’s confirm the details one last time.",0
+"Hope you enjoy the rest of your evening!",0
+"Would you like to take the lead on this task?",0
+"Thanks for being so thorough with the notes.",0
+"Could you please pass the salt when you get a chance?",0
+"Would you mind holding the door for me?",0
+"Thank you for your help with the project earlier.",0
+"I appreciate you taking the time to explain this.",0
+"Let me know if you need anything else from my side.",0
+"Excuse me, do you know if this seat is taken?",0
+"Would it be possible to reschedule our meeting to tomorrow?",0
+"Thanks for letting me know about the change in plans.",0
+"Could I ask you to double-check the figures on page five?",0
+"Have a great weekend, and I’ll see you on Monday!",0
+"Please feel free to share your thoughts during the discussion.",0
+"Would you like me to pick up anything on my way over?",0
+"Just wanted to check in and see how you’re doing.",0
+"Let’s make sure everyone gets a chance to speak.",0
+"Thanks for your patience while we resolve this issue.",0
+"Could you clarify the deadline for the next task?",0
+"I hope your day is going well so far!",0
+"Would you prefer to start with the budget or the timeline?",0
+"Please let me know if I can assist with the presentation.",0
+"Thanks for reminding me about the appointment.",0
+"Would it be helpful if I shared my notes from the call?",0
+"Let’s circle back to this topic after lunch.",0
+"Could you recommend a good restaurant in the area?",0
+"I’d be happy to walk you through the process again.",0
+"Thanks for understanding the delay in my response.",0
+"Would you like to take a short break before continuing?",0
+"Please don’t hesitate to ask if anything is unclear.",0
+"Let me know your availability for a quick chat tomorrow.",0
+"Could we adjust the volume a bit? It’s a little loud.",0
+"Thanks for sharing your perspective on this matter.",0
+"Would you like me to follow up with the client directly?",0
+"I hope the rest of your week goes smoothly!",0
+"Could you confirm the time zone for the meeting?",0
+"Let’s aim to finalize the details by Friday.",0
+"Thanks for offering to handle the logistics.",0
+"Would it work for you to start the call at 3 PM instead?",0
+"Please keep me updated on any changes to the schedule.",0
+"Let me know if you’d like feedback on the draft.",0
+"Could you share the document once it’s ready?",0
+"Thanks for catching that error in the report.",0
+"Would you like to grab coffee later this week?",0
+"I appreciate your flexibility with the timeline.",0
+"Let’s make sure everyone’s on the same page before moving forward.",0
+"Could I borrow a pen if you have an extra one?",0
+"Thanks for the heads-up about the traffic delay.",0
+"Would you like me to save you a seat at the event?",0
+"Let me know if the temperature in the room is comfortable.",0
+"Thanks for your input during the brainstorming session.",0
+"Could we discuss this further during office hours?",0
+"Have a safe trip, and see you when you’re back!",0
+"You must have a talent for making everything worse with your input.",1
+"Listening to you is like watching a car crash in slow motion—painfully predictable.",1
+"Did you borrow your personality from a motivational poster? It’s hollow.",1
+"Your opinions are the reason ‘delete account’ buttons exist.",1
+"Every word you say makes me question how you function in society.",1
+"You’re like a popcorn kernel that never pops—utterly useless.",1
+"Your confidence is admirable, considering how consistently wrong you are.",1
+"If ignorance were a sport, you’d be a world champion.",1
+"You’re the human equivalent of a ‘404 Error’—no substance, just emptiness.",1
+"Congratulations on being the reason people avoid this platform.",1
+"You’ve mastered the art of turning dialogue into a migraine.",1
+"Is your goal to be remembered as the worst take anyone’s ever heard?",1
+"Your logic is so flawed, it’s almost poetic.",1
+"I’d call you a troll, but that’d insult actual trolls with better arguments.",1
+"Your existence is a compelling case for retroactive birth control.",1
+"Every sentence you type drains the joy from the room.",1
+"You’re the reason some species eat their young.",1
+"Your intelligence is like a broken pencil—pointless.",1
+"Did you practice being this insufferable, or is it a natural gift?",1
+"Your contributions are like sandpaper on the soul.",1
+"You’ve got the charisma of a wet sock left in a gym bag.",1
+"Watching you fail to grasp basic concepts is peak entertainment.",1
+"You’re the emotional equivalent of a parking ticket.",1
+"Your takes are so bad, they loop back to being fascinating.",1
+"Imagine being this wrong and still choosing to speak—bold strategy.",1
+"You’re the human version of a participation trophy: unnecessary and patronizing.",1
+"Your lack of self-awareness is almost impressive.",1
+"Who hurt you to make you think anyone wants your thoughts?",1
+"You’re like a broken record, except somehow more annoying.",1
+"If incompetence were a superpower, you’d be invincible.",1
+"Your existence makes me root for the asteroid.",1
+"Your brain must be a fascinating void of original thought.",1
+"Congratulations—you’ve made me miss the days of dial-up silence.",1
+"You’re proof that not everyone deserves a platform.",1
+"Your input is the intellectual equivalent of a screensaver.",1
+"I’d ask if you’re joking, but I know you’re not that clever.",1
+"You’ve turned ignorance into an art form.",1
+"Listening to you is like chewing aluminum foil—grating and pointless.",1
+"Do you rehearse being wrong, or does it come naturally?",1
+"You’re the reason ‘block user’ is my favorite feature.",1
+"Your personality is what happens when confidence outpaces competence.",1
+"Your takes are so cold they could reverse global warming.",1
+"Every comment you make is a masterclass in wasting oxygen.",1
+"You’re like a discount philosopher—all pretense, zero depth.",1
+"Your thoughts are the mental equivalent of fast-food leftovers.",1
+"Is your entire vibe ‘aggressively mediocre,’ or do you switch it up?",1
+"I’d pity you if you weren’t so determined to annoy everyone.",1
+"You’re the human embodiment of a ‘no risk, all reward’ fallacy.",1
+"Your presence here is a civic disservice.",1
+"Watching you argue is like witnessing a cactus try to dance—painful and confusing.",1
+"Congratulations on your record for the most downvotes—truly a testament to your irrelevance.",1
+"Your contributions here are like a clown at a funeral—unwanted and painfully awkward.",1
+"If confusion were a superpower, you’d be the leading Avenger.",1
+"Anyone who takes you seriously should be fined for voluntary ignorance.",1
+"I’d call you a waste of oxygen, but even plants do more than you.",1
+"Your arguments are so weak they’d lose a debate against a stapler.",1
+"Did you lick a battery before typing this, or is this your natural vibe?",1
+"You’re the human equivalent of a participation trophy—unnecessary and patronizing.",1
+"Every time you speak, I regret literacy.",1
+"Your personality is like a rainy weekend—dampening everyone’s mood.",1
+"Even a broken clock is right twice a day, but you’re perpetually stuck at 13 o’clock.",1
+"Your existence is the universe’s way of pranking the rest of us.",1
+"Stop sharing your thoughts; they’re like expired coupons—worthless and annoying.",1
+"You’re the reason blockers were invented—too bad we can’t mute you in real life.",1
+"If incompetence were currency, you’d fund a small nation.",1
+"Your takes are so bad they should come with a warning label.",1
+"I’d ask for your sources, but I know they’re just scribbles on a napkin.",1
+"You’re the mental equivalent of a dial-up connection—painfully slow and outdated.",1
+"Bragging about your IQ? Must’ve taken the test with cheat codes.",1
+"Why speak when your words are verbal litter?",1
+"You’re not just wrong—you’re aggressively, confidently wrong.",1
+"Your insights belong in a dumpster fire, lightly toasted.",1
+"Imagine being this entitled to opinions thinner than paper.",1
+"Someone give you a trophy for ‘Most Annoying Take’ already.",1
+"Your logic failed so hard it should apologize to calculators everywhere.",1
+"Were you homeschooled by wolves, or is this charm self-taught?",1
+"Your comments are the reason ‘delete’ buttons exist.",1
+"Save your breath—it’s just carbon dioxide wasted on nonsense.",1
+"You’re like a foghorn: loud, grating, and signaling danger.",1
+"Your brain must be a haunted house—empty and full of fake scares.",1
+"Next time, let your goldfish type for you—it’d make more sense.",1
+"Opinions like yours are why aliens won’t talk to us.",1
+"You’re a parody of a human disguised as a serious person.",1
+"Even a Magic 8 Ball has better answers than you.",1
+"Your takes are so cold they’re giving Antarctica a superiority complex.",1
+"If I wanted ignorance, I’d reread your entire comment history.",1
+"Wow, you’re like a typo—unintentional and best corrected.",1
+"Do you rehearse being this wrong, or is it natural talent?",1
+"Your brainpower couldn’t juice a lemon.",1
+"Reading your thoughts is like chewing aluminum foil.",1
+"Your perspective is a landfill—toxic and best contained.",1
+"Your humility is inversely proportional to your ignorance—impressive math.",1
+"You’re like a parking ticket—unwanted and impossible to reason with.",1
+"Your voice adds as much value as subtitles on a silent film.",1
+"Stop trying to be edgy—you’re a butter knife at best.",1
+"Your input is the verbal equivalent of stepping on Legos.",1
+"When you speak, I miss the sweet sound of silence.",1
+"Your dignity left the chat long before you hit ‘post.’",1
+"You’re a masterclass in how to fail at basic human decency.",1
+"Words fail me—which is ironic, because they clearly failed you too.",1
+"Could you please send over the agenda when you get a chance?",0
+"I appreciate your input on this—thanks for sharing your thoughts.",0
+"Would you mind holding the door for me? My hands are a bit full.",0
+"Let me know if there’s a better time to discuss this further.",0
+"The conference room is booked for 2 PM if that works for everyone.",0
+"Your insights during brainstorming sessions are always helpful.",0
+"Could we postpone the deadline by a day to ensure thorough review?",0
+"I’ll make sure to follow up with clarification after the call.",0
+"Thanks for catching that typo—good teamwork saves the day!",0
+"Would you like me to take notes during the meeting?",0
+"Let’s double-check the figures to avoid any discrepancies.",0
+"Would it be okay if we switch topics after this presentation?",0
+"I’ll grab extra copies of the report for the team.",0
+"Apologies for the delay—traffic was heavier than expected.",0
+"Your patience while we troubleshoot this issue is appreciated.",0
+"Feel free to adjust the formatting to match your preferences.",0
+"Is there anything I can assist with to lighten your workload?",0
+"Thanks for the heads-up about the schedule change!",0
+"Let’s aim to finalize the proposal by Friday for review.",0
+"Would you prefer an email summary or a quick recap now?",0
+"Your dedication to detail really shines in these drafts.",0
+"I’ll send the updated files as soon as edits are complete.",0
+"Happy to step in for the morning shift if required.",0
+"Could we walk through the steps together to clarify?",0
+"There’s a spare umbrella by the door if you need it.",0
+"Let me know how I can support your next steps here.",0
+"Apologies if I misunderstood—could you restate that point?",0
+"Would you like to take the lead on presenting section three?",0
+"Thank you for accommodating the last-minute adjustment.",0
+"Just checking in—how are you progressing with the task?",0
+"We’ll need to confirm the budget before moving forward.",0
+"Would you like feedback now, or after you’ve finished drafts?",0
+"Your enthusiasm makes these meetings enjoyable!",0
+"I’ll ensure the package is shipped by tomorrow afternoon.",0
+"Let me rephrase that to ensure clarity.",0
+"Thanks for volunteering to organize the event materials!",0
+"Would you prefer I handle the vendor follow-up this time?",0
+"Apologies for interrupting—could you repeat the deadline?",0
+"The files are saved in the shared drive for easy access.",0
+"Let’s give everyone a chance to share their perspectives.",0
+"Would you like to schedule a shorter meeting next week?",0
+"Thanks for your flexibility with the updated timeline.",0
+"I’ll verify the contact details before sending invites.",0
+"Your clear communication really streamlines the process.",0
+"Could we regroup in 30 minutes to finalize the plan?",0
+"Let me know if you’d like me to proofread that memo.",0
+"Thanks for keeping the team aligned on priorities!",0
+"Would you like my notes from yesterday’s workshop?",0
+"I’ll confirm the reservations first thing tomorrow.",0
+"Apologies for the oversight—I’ll correct that promptly.",0
+"Your contributions here are as valuable as a participation trophy.",1
+"It’s impressive how you always manage to make everything worse.",1
+"You’re the human equivalent of a ‘404 Error’ message.",1
+"I’d explain why you’re wrong, but I don’t have enough crayons.",1
+"Your personality is as appealing as a wet sock.",1
+"Do you practice being this insufferable or is it natural talent?",1
+"Every word you say makes me respect you less.",1
+"You’re like a parking lot puddle – shallow and easily disturbed.",1
+"I’d call you a tool, but at least tools are useful.",1
+"Your takes are so bad they should come with a warning label.",1
+"You’ve got the charisma of a tax audit.",1
+"Is your goal to be hated or does it just come naturally?",1
+"Your existence is proof that evolution can go backwards.",1
+"I’d roast you but my mom said not to burn trash.",1
+"You’re the reason shampoo has instructions.",1
+"Your brain must be a fascinating void of original thought.",1
+"You’re not stupid – you just have bad luck thinking.",1
+"I’d agree with you but then we’d both be wrong.",1
+"Your face looks like it caught fire and someone put it out with a fork.",1
+"You’re what happens when natural selection gets lazy.",1
+"It’s cute how you think anyone cares about your opinion.",1
+"Your ideas are like your hairline – receding and barely there.",1
+"I’d feel sorry for you if you weren’t so annoying.",1
+"You’re the human version of a ‘Do Not Disturb’ sign.",1
+"Your presence makes me appreciate silence more.",1
+"You’re about as sharp as a marble.",1
+"I’d ask if you were okay but I don’t actually care.",1
+"Your social skills make a porcupine seem cuddly.",1
+"You’re like a discount store brand – generic and disappointing.",1
+"It’s amazing how you’re always wrong with such confidence.",1
+"Your existence is an argument for population control.",1
+"You’re the poster child for wasted potential.",1
+"I’d call you useless but that would be an understatement.",1
+"Your takes are colder than a witch’s heart in January.",1
+"You’re the reason aliens won’t talk to us.",1
+"I’ve seen more depth in a puddle than in your thoughts.",1
+"Your personality is a perfect mix of salt and vinegar – all bitter, no chips.",1
+"You’re like a broken elevator – never going up and constantly annoying.",1
+"It’s hilarious how you think you’re important here.",1
+"Your input is about as welcome as a skunk at a garden party.",1
+"You’re the human equivalent of a ‘Loading…’ screen that never finishes.",1
+"I’d say you’re out of touch but you were never in touch to begin with.",1
+"Your charm offensive needs to be reported to the Geneva Convention.",1
+"You’re like a WiFi dead zone – frustrating and unproductive.",1
+"It’s cute how you think your opinion matters in this conversation.",1
+"Your brain must work overtime to be this consistently wrong.",1
+"You’re the reason we can’t have nice things.",1
+"I’d pity you if you weren’t so aggressively mediocre.",1
+"Your existence is a compelling case for selective hearing.",1
+"You’re about as useful as a chocolate teapot.",1
+"Do you have a moment to discuss the upcoming project timeline?",0
+"Could you please share your thoughts on this draft when you get a chance?",0
+"Thank you for your quick response—it’s greatly appreciated.",0
+"Let’s aim to finalize the details by Thursday to stay on track.",0
+"I wanted to check if you need any help organizing the files.",0
+"Would it be possible to reschedule our meeting to next Monday?",0
+"Great catch on the formatting issue—thanks for fixing that!",0
+"Just a reminder to submit your availability for the workshop.",0
+"I hope your weekend is relaxing—you’ve earned it!",0
+"Please let me know if I can clarify anything further.",0
+"Thanks for considering my request—I look forward to your thoughts.",0
+"Could we touch base briefly tomorrow morning to align priorities?",0
+"Your suggestion during the call was really insightful.",0
+"Let me know if the deadline feels tight—we can adjust if needed.",0
+"Congratulations on wrapping up the client presentation!",0
+"Apologies for the confusion earlier—here’s the updated version.",0
+"Do you prefer Zoom or Teams for our virtual check-in?",0
+"I’ll follow up with the vendor to confirm delivery timelines.",0
+"Thanks for stepping in to handle that task yesterday.",0
+"Would you like me to summarize the key points for the team?",0
+"Just verifying the budget numbers before sending them over.",0
+"Hope you enjoyed the holiday weekend—welcome back!",0
+"Could you share the contact information for the logistics team?",0
+"Your flexibility with the schedule changes means a lot.",0
+"Let’s review the feedback together to ensure we’re aligned.",0
+"I’m happy to take notes during the meeting if that helps.",0
+"Thanks for forwarding the email—it’s exactly what I needed.",0
+"Want to grab lunch later this week to discuss the plan?",0
+"Please don’t hesitate to ask if anything comes up.",0
+"Great working with you on this—it’s coming together nicely.",0
+"Do you have any questions about the updated guidelines?",0
+"I’ll send over the report once it’s been proofread.",0
+"Thanks for accommodating the last-minute request!",0
+"Let’s prioritize the client’s urgent tasks first.",0
+"Could we explore a different approach for the next phase?",0
+"Your attention to detail really made a difference here.",0
+"Just wanted to say thanks for the smooth collaboration.",0
+"Would Friday afternoon work better for the training session?",0
+"I’ll double-check the data to ensure accuracy.",0
+"Hope your move last weekend went without a hitch!",0
+"Feel free to suggest alternative dates if needed.",0
+"Thanks for the heads-up about the policy change.",0
+"Let me know if the instructions need more clarification.",0
+"Appreciate your patience while we sort this out.",0
+"Would you like me to loop Janet into this conversation?",0
+"Looking forward to seeing the final design concepts!",0
+"Could you confirm receipt of the signed contract?",0
+"Thanks again for your support on this initiative.",0
+"I’ll keep you posted as updates come in.",0
+"Let me know how else I can assist with the event prep.",0
+"You couldn't pour water out of a boot if the instructions were on the heel.",1
+"The world would be quieter without your constant nonsense.",1
+"Your existence is proof that evolution can go backwards.",1
+"You have the charisma of a wet sock.",1
+"I’ve met rocks with more emotional intelligence than you.",1
+"Your opinions are as useful as a screen door on a submarine.",1
+"Do everyone a favor and never share your thoughts again.",1
+"You’re the human equivalent of a participation trophy.",1
+"Congratulations on being the least helpful person here.",1
+"You must be exhausted from carrying around all that ignorance.",1
+"It’s impressive how you always manage to make everything about yourself.",1
+"You’re not pretty enough to be this stupid.",1
+"I’d agree with you but then we’d both be wrong.",1
+"You’re like a cloud—when you disappear, it’s a beautiful day.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your personality is as dry as toast without butter.",1
+"You’re the reason why aliens won’t talk to us.",1
+"Your brain must be a museum of bad ideas.",1
+"You’re not the sharpest crayon in the box, are you?",1
+"I’d explain it to you, but I don’t have any crayons with me.",1
+"You’re like a broken pencil—pointless.",1
+"Your contribution here is about as useful as a chocolate teapot.",1
+"You have the people skills of a rattlesnake.",1
+"It’s a shame you can’t Photoshop your personality.",1
+"I’ve seen more charm in a tax audit than in you.",1
+"Your sense of humor died along with everyone’s patience for you.",1
+"If ignorance is bliss, you must be the happiest person alive.",1
+"The only thing you’re good at is being a cautionary tale.",1
+"You’re like a parking lot—everyone avoids you once they realize there’s no value.",1
+"Your ideas are like leftovers—nobody wants them reheated.",1
+"You’re the reason why ‘delete’ buttons were invented.",1
+"I’d ask for your opinion, but I prefer being right.",1
+"You’re the human version of a ‘skip intro’ button.",1
+"Your presence is like a pop-up ad—unwanted and annoying.",1
+"You’re the reason why some people prefer text messages.",1
+"If confidence were a smell, you’d reek of desperation.",1
+"You’re not even worth the energy it takes to ignore you.",1
+"Your personality is the emotional equivalent of a screensaver.",1
+"You’re the reason why ‘mute’ is the best feature ever invented.",1
+"I’d call you a waste of space, but space is actually useful.",1
+"You’re like a background character in everyone else’s life.",1
+"Your existence is an argument for population control.",1
+"You’re the human equivalent of a ‘buffering’ symbol—everyone just waits for you to disappear.",1
+"You’re the poster child for why some species eat their young.",1
+"You’re not stupid; you just have bad luck thinking.",1
+"I’d call you a tool, but at least tools are useful.",1
+"If I wanted to waste my time, I’d argue with a brick wall—it’s more productive than talking to you.",1
+"Your parents must be so proud of how you turned out.",1
+"You’re the human version of a ‘Do Not Disturb’ sign.",1
+"You’re like a background noise everyone tolerates but never enjoys.",1
+"Could you please pass the salt?",0
+"The documents are ready for your review.",0
+"I really appreciate your help with this project.",0
+"Would you like me to pick up anything on my way over?",0
+"Let me know if you need any further assistance.",0
+"Thanks for sending that over so quickly!",0
+"The conference room is booked for 3 PM tomorrow.",0
+"Do you have a moment to discuss the schedule?",0
+"Your input on this matter would be valuable.",0
+"I hope you have a wonderful weekend!",0
+"Please let me know if there's anything I can do to help.",0
+"The deadline for submissions has been extended to Friday.",0
+"Would you mind double-checking the figures in the report?",0
+"Thanks again for your prompt response.",0
+"I’ll make sure to forward your message to the team.",0
+"Could we schedule a time to go over the details?",0
+"Your feedback is greatly appreciated.",0
+"Let’s touch base after the meeting to finalize plans.",0
+"I’m happy to adjust the timeline if needed.",0
+"Would you prefer to handle this via email or a quick call?",0
+"Great seeing you at the event yesterday!",0
+"Feel free to reach out if you have any questions.",0
+"The team did an excellent job on the launch.",0
+"Can I offer you a hand with those boxes?",0
+"I’ll get back to you as soon as I have more information.",0
+"Thanks for understanding about the change in plans.",0
+"Would you like to join us for lunch later?",0
+"Your presentation was very thorough and well-organized.",0
+"Let me know your thoughts when you get a chance.",0
+"I’m available all afternoon if you need to chat.",0
+"Apologies for the confusion earlier; let me clarify.",0
+"Just wanted to check in and see how you’re doing.",0
+"The files have been uploaded to the shared drive.",0
+"Could you confirm your availability for next week?",0
+"Thanks for being so flexible with the timeline.",0
+"I’ll follow up with the client and keep you posted.",0
+"Would it be possible to move the meeting to Thursday?",0
+"Your dedication to this project is really impressive.",0
+"Let’s make sure everyone is on the same page.",0
+"I appreciate you taking the time to explain that.",0
+"Hope your day is going well so far!",0
+"Don’t hesitate to ask if you need anything else.",0
+"The new guidelines should help streamline the process.",0
+"Could you share the contact info for the vendor?",0
+"Thanks for catching that error in the document.",0
+"I’ll send over the details once I’ve finalized them.",0
+"Would you like me to follow up with the supplier?",0
+"Your suggestions made a big difference in the outcome.",0
+"Let me know a time that works best for you.",0
+"I’m looking forward to our collaboration on this.",0
+"Could you please pass me the salt?",0
+"I appreciate your time; let me know if you need anything else.",0
+"Would you mind holding the door for a moment?",0
+"Thank you for waiting—I’ll be right with you.",0
+"Let me know your thoughts when you have a chance.",0
+"Would you like me to help with the dishes?",0
+"I’m happy to adjust the schedule if needed.",0
+"Excuse me, could you repeat that last part?",0
+"Thanks for letting me know; I’ll keep that in mind.",0
+"Would it be okay if we rescheduled for tomorrow?",0
+"Just wanted to check if you’re comfortable with the plan.",0
+"Feel free to take your time—there’s no rush.",0
+"Could I borrow a pen if you have an extra?",0
+"I’m sorry for the mix-up; let me correct that.",0
+"Would you prefer to start earlier or later?",0
+"Thanks for your patience while we sort this out.",0
+"Let me know if the temperature is too cold for you.",0
+"Could you clarify what you meant by that?",0
+"I’d be glad to share my notes if it helps.",0
+"Would you like me to save you a seat?",0
+"Thanks for the reminder—I almost forgot!",0
+"Let’s double-check the details to avoid confusion.",0
+"Could we discuss this again after the meeting?",0
+"I hope you’re having a good day so far!",0
+"Would you like some water while you wait?",0
+"Thanks for understanding—I really appreciate it.",0
+"Let me know if I can explain anything further.",0
+"Could you recommend a good place for lunch?",0
+"I’m happy to take notes if that works for everyone.",0
+"Would you like to add anything to the agenda?",0
+"Thanks for catching that error—good spot!",0
+"Let’s touch base later to finalize the plans.",0
+"Could you please lower the volume a little?",0
+"I’m sorry to interrupt, but may I ask a question?",0
+"Would you prefer to handle this via email?",0
+"Thanks for the update—this is really helpful.",0
+"Let me know if the deadline needs adjusting.",0
+"Could I get your opinion on this design?",0
+"I’d appreciate your feedback when you’re free.",0
+"Would you like me to follow up with them?",0
+"Thanks for offering—that’s very kind of you.",0
+"Let’s circle back to this topic tomorrow.",0
+"Could you confirm the time one more time?",0
+"I’m happy to take the lead if that’s easier.",0
+"Would you like a hand carrying those boxes?",0
+"Thanks for being flexible with the changes.",0
+"Let me know if the instructions aren’t clear.",0
+"Could we move the meeting to a quieter room?",0
+"I’m sorry for the delay—thanks for waiting.",0
+"Would you like to take a short break first?",0
+"You’re so clueless it’s almost impressive.",1
+"Your input is as useful as a screen door on a submarine.",1
+"Wow, you really thought that was a good idea?",1
+"The world would be better off if you just stopped talking.",1
+"Did you even graduate elementary school?",1
+"You’re the reason people hate this community.",1
+"Your existence is a constant disappointment.",1
+"Why don’t you do everyone a favor and disappear?",1
+"It’s amazing how you manage to fail at everything.",1
+"Did you even try, or is this your best effort?",1
+"I’ve met rocks with more personality than you.",1
+"Nobody asked for your worthless opinion.",1
+"You’re the human equivalent of a participation trophy.",1
+"Your ideas are as empty as a vacuum.",1
+"You contribute less than a broken pencil.",1
+"You’re not just wrong, you’re willfully ignorant.",1
+"Your face looks like it caught fire and someone put it out with a fork.",1
+"Even a toddler could’ve come up with something smarter.",1
+"You’re like a broken record of bad takes.",1
+"Your personality is as appealing as a wet sock.",1
+"Stop talking—you’re embarrassing yourself.",1
+"Your IQ must be room temperature at best.",1
+"Every word you say makes me lose faith in humanity.",1
+"You’re the poster child for wasted potential.",1
+"Your advice is about as helpful as a chocolate teapot.",1
+"Is your goal to be this insufferable, or does it come naturally?",1
+"You’ve got the charisma of a damp rag.",1
+"Congratulations on being wrong about everything, as usual.",1
+"Your presence alone lowers the collective IQ here.",1
+"You’re like a walking example of what not to do.",1
+"Your contributions are as meaningful as static on a radio.",1
+"Did you practice being this annoying, or is it a gift?",1
+"Your logic is so flawed it’s almost artistic.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your takes are so bad they should come with a warning label.",1
+"Even a goldfish has a longer attention span than you.",1
+"You’re the human version of a typo.",1
+"Your existence is proof that evolution can go backward.",1
+"Your arguments are weaker than a soggy paper towel.",1
+"Stop trying—you’re only making it worse.",1
+"You’re about as sharp as a marble.",1
+"Your insights are as deep as a puddle.",1
+"Nobody cares what you think, but keep wasting your breath.",1
+"You’re the kind of person who ruins everything they touch.",1
+"Your brain must be powered by a single dying cell.",1
+"Every sentence you utter is a gift to comedy.",1
+"You’re like a car crash—hard to look away from, but tragic.",1
+"Your opinions are as welcome as a skunk at a garden party.",1
+"Try thinking next time—if you’re capable.",1
+"You’re the reason aliens won’t talk to us.",1
+"You're the human equivalent of a participation trophy.",1
+"Your opinions are like spoiled milk—nobody wants them.",1
+"I’ve seen more competence from a toddler stacking blocks.",1
+"Your existence is proof that evolution can go backwards.",1
+"Did you learn to communicate through a malfunctioning chatbot?",1
+"Even a broken clock is right twice a day, but you’re just broken.",1
+"You have the charisma of a wet sock.",1
+"Your contributions here are like static—utterly meaningless.",1
+"Watching paint dry is more engaging than listening to you.",1
+"Your brain must be a museum of bad ideas.",1
+"Did you crawl out of a dumpster fire of incompetence?",1
+"Your personality is as appealing as a root canal.",1
+"Every word you say makes me lose faith in humanity.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your logic has more holes than a colander.",1
+"I’d call you a tool, but that’s an insult to useful objects.",1
+"Your takes are so bad they should come with a warning label.",1
+"You’re like a parking lot puddle—shallow and easily disturbed.",1
+"Did your ego devour your ability to self-reflect?",1
+"Your presence alone could wilt a houseplant.",1
+"Listening to you is like chewing on tinfoil.",1
+"You’re the emotional equivalent of a dial-up connection.",1
+"Your ideas are as stale as last week’s bread.",1
+"Even a goldfish has a longer attention span than your relevance.",1
+"You’re the intellectual equivalent of a screensaver.",1
+"Your input is about as helpful as a chocolate teapot.",1
+"Your self-awareness is missing like socks in a dryer.",1
+"You’re the human version of a ‘404 error’ message.",1
+"Your arguments crumble faster than a sandcastle at high tide.",1
+"Congrats—you’ve mastered the art of being universally disliked.",1
+"Your creativity peaked in kindergarten finger-painting.",1
+"You’re as necessary as a appendix in a surgery ward.",1
+"Your hot takes are colder than Antarctica in January.",1
+"Your personality is a masterclass in disappointment.",1
+"You’re the reason aliens avoid Earth.",1
+"Your insights have the depth of a petri dish.",1
+"Your existence is a cautionary tale for gene pools.",1
+"You’re the human embodiment of a ‘do not disturb’ sign.",1
+"Your contributions are like confetti—colorful but pointless.",1
+"Your logic is so twisted it could open a pretzel stand.",1
+"You’re the mental equivalent of a scratched DVD.",1
+"Your charm is as genuine as a three-dollar bill.",1
+"Your wit is about as sharp as a spoon.",1
+"You’re the reason silence is golden.",1
+"Your talent for failure is almost impressive.",1
+"Your voice could put caffeine to sleep.",1
+"You’re like a traffic jam—everyone hates being near you.",1
+"Your relevance expired faster than a grocery coupon.",1
+"Your energy is as toxic as a landfill sunset.",1
+"Your existence is a glitch in the matrix of decency.",1
+"Your opinions are as worthless as the time it takes to read them.",1
+"I’ve met rocks with more intellectual depth than you.",1
+"Do the world a favor and never open your mouth again.",1
+"You’re the human equivalent of a participation trophy.",1
+"Is your goal to be this insufferable or does it come naturally?",1
+"Your existence is a strong argument for population control.",1
+"You’re the reason some species eat their young.",1
+"I’d explain why you’re wrong, but I don’t have crayons handy.",1
+"Your brain must be a museum of bad ideas.",1
+"You’re not just wrong—you’re aggressively ignorant.",1
+"Every word you say makes me lose faith in humanity.",1
+"You’re like a broken pencil—pointless and easily snapped.",1
+"Did you practice being this clueless or is it a gift?",1
+"Your contributions here are like a screen door on a submarine.",1
+"I’d call you a tool, but at least tools are useful.",1
+"You’re the reason shampoo has instructions.",1
+"Your logic is so flawed it’s almost impressive.",1
+"If stupidity were a superpower, you’d be invincible.",1
+"You’re the human version of a ‘404 error’ message.",1
+"I’d agree with you but then we’d both be wrong.",1
+"You couldn’t find common sense with a map and flashlight.",1
+"Your personality is as appealing as a root canal.",1
+"It’s amazing how you always manage to lower the collective IQ.",1
+"You’re the poster child for failed potential.",1
+"I’d insult you but nature already did a better job.",1
+"Your face looks like it caught fire and someone put it out with a fork.",1
+"You’re the reason aliens won’t talk to us.",1
+"If ignorance is bliss, you must be ecstatic.",1
+"You’re like a parking lot—full of lines and empty spaces.",1
+"Your ideas are as stale as last week’s bread.",1
+"The only thing you’re good at is wasting oxygen.",1
+"You’re so dense light bends around you.",1
+"I’d say you’re out of your depth but you’ve never had depth.",1
+"Your birth certificate is an apology letter from the condom factory.",1
+"You’re the human equivalent of a ‘wet socks’ experience.",1
+"Your takes are colder than a witch’s heart.",1
+"You’re not the sharpest tool in the shed—you’re the shed.",1
+"I’ve seen more coherence in a toddler’s finger painting.",1
+"You’re like a traffic jam—everyone’s day is worse because of you.",1
+"Your advice is as useful as a chocolate teapot.",1
+"You’re the reason they put ‘do not eat’ on silica packets.",1
+"Your charm is about as genuine as a three-dollar bill.",1
+"You’re the living proof that evolution can go backwards.",1
+"If confidence were competence, you’d still be useless.",1
+"You’re like a cloud—when you disappear, it’s a beautiful day.",1
+"Your existence is a masterclass in disappointment.",1
+"You’re the human version of a typo in a resignation letter.",1
+"I’d ask if you were joking but I know you’re not that clever.",1
+"You’re the reason some people support censorship.",1
+"Your input here is like a vuvuzela at a library.",1
+"Why even bother speaking if you're just going to waste everyone's time?",1
+"Your ideas are as useless as a screen door on a submarine.",1
+"You’re the reason people hate talking to strangers online.",1
+"Did you train under a troll to be this insufferable?",1
+"Congratulations on having the worst take I’ve read all week.",1
+"If ignorance was a sport, you’d be a gold medalist.",1
+"Nobody asked for your opinion, and nobody ever will.",1
+"You’re like a broken calculator—always wrong, even when you try.",1
+"Your existence is a masterclass in disappointment.",1
+"Did you wake up today and choose to be this embarrassing?",1
+"Even a bot would cringe at your pathetic arguments.",1
+"The irony of you calling someone else clueless is almost impressive.",1
+"Stop pretending anyone respects what you have to say.",1
+"Your personality is as pleasant as a cheese grater to the face.",1
+"Do humanity a favor and disconnect your keyboard.",1
+"Your lack of self-awareness is truly awe-inspiring.",1
+"Did you forget how to human, or were you always this way?",1
+"Every word you type makes the internet worse.",1
+"Your logic is so twisted it could open a pretzel franchise.",1
+"Save your breath—it’s not worth the oxygen you’re wasting.",1
+"Your comments are the verbal equivalent of stepping on a LEGO.",1
+"Apologies to whatever failed to raise you right.",1
+"Did your parents regret raising you this insufferable, or is it a bonus?",1
+"You’re not smart enough to realize how dumb you sound.",1
+"Imagine being this wrong and still refusing to shut up.",1
+"Your opinions are like mold—best kept in the dark and discarded.",1
+"Even autocorrect wouldn’t touch the nonsense you’re spewing.",1
+"This is why your group chats are always silent.",1
+"You’re the human equivalent of a participation trophy.",1
+"If stupid was a style, you’d be runway-ready.",1
+"Your takes are so cold they could freeze the sun.",1
+"Do you practice being this wrong, or is it natural talent?",1
+"Your confidence is admirable for someone who’s never been right.",1
+"Congratulations—you’ve achieved peak irrelevance.",1
+"Your brain must be a fascinating void of coherent thought.",1
+"Did someone hurt you, or were you born this bitter?",1
+"Your input here is as welcome as a skunk at a garden party.",1
+"Your existence is proof that evolution can go backward.",1
+"How do you function being this profoundly irritating?",1
+"Your every word is a gift to people who love secondhand embarrassment.",1
+"Stop talking before you outdo your previous worst take.",1
+"Your contributions here are like nails on a chalkboard.",1
+"Even a rock has more charisma than you.",1
+"Is being this dense a hobby, or just your default setting?",1
+"If cringe was currency, you’d be a billionaire.",1
+"Your logic died so your ego could live, and it shows.",1
+"Did you get lost on the way to a toxicity convention?",1
+"Your communication style is a public service announcement for mute buttons.",1
+"Every sentence you utter makes me root for your keyboard’s demise.",1
+"You’re a walking reminder that not everyone deserves a voice.",1
+"Could you pass the salt, please?",0
+"I appreciate your help with the project.",0
+"Let me know if you need any further assistance.",0
+"Would you mind holding the door for a moment?",0
+"Thank you for your prompt response.",0
+"Have a great weekend!",0
+"I hope you’re having a good day.",0
+"Please let me know your thoughts when you get a chance.",0
+"Excuse me, is this seat taken?",0
+"Thanks for waiting; I’ll be right with you.",0
+"Would you like me to help with that?",0
+"I’m happy to adjust the schedule if needed.",0
+"Just checking in to see how you’re doing.",0
+"Could we discuss this during the next meeting?",0
+"Your input on this matter would be valuable.",0
+"Let’s catch up soon over coffee.",0
+"I wanted to thank you for the thoughtful gift.",0
+"Please feel free to reach out with any questions.",0
+"Do you have a preference for the meeting time?",0
+"Thanks for your patience while we resolve this.",0
+"I’d be glad to walk you through the process.",0
+"Would you like to join us for lunch?",0
+"Let me double-check that information for you.",0
+"I hope the instructions were clear enough.",0
+"Could you clarify the second point for me?",0
+"Thanks for taking the time to meet today.",0
+"I’ll make sure to pass along your message.",0
+"Is there anything else I can assist you with?",0
+"We appreciate your understanding on this matter.",0
+"Let’s find a time that works best for everyone.",0
+"I’m here if you need to talk about it.",0
+"Would it be possible to extend the deadline by a day?",0
+"Thank you for considering my request.",0
+"I just wanted to say you did a great job.",0
+"Could you recommend a good place for coffee nearby?",0
+"Let me know if I can help with the setup.",0
+"Thanks for the update; I’ll review it shortly.",0
+"I’m looking forward to hearing your ideas.",0
+"Please don’t hesitate to ask for more details.",0
+"Would you like me to follow up with them?",0
+"I hope everything is going smoothly on your end.",0
+"Let’s make sure we’re all on the same page.",0
+"Thanks for bringing that to my attention.",0
+"Could we explore another option together?",0
+"I’ll keep you posted as things develop.",0
+"Your feedback is always welcome.",0
+"Let me know how I can support you best.",0
+"Thanks for being so flexible with the changes.",0
+"I’m glad we had the chance to discuss this.",0
+"Would you like a hand with those boxes?",0
+"You're the human equivalent of a participation trophy—useless but somehow always there.",1
+"Your ideas are so bad they make me miss the days of dial-up internet.",1
+"Even a broken clock is right twice a day, but you’re just permanently stuck at midnight.",1
+"Your existence is proof that evolution can take a day off.",1
+"I’d call you a tool, but at least tools serve a purpose.",1
+"Your brain must be a ghost town—empty and haunted by poor decisions.",1
+"Congratulations on being the least helpful person in this conversation—it’s a tight race, but you’re winning.",1
+"You’re like a parking lot puddle—shallow and full of things nobody wants to touch.",1
+"If ignorance were a superpower, you’d be invincible.",1
+"Your takes are so cold they’re giving me frostbite through the screen.",1
+"Did you learn to communicate by watching silent films on mute?",1
+"You’re the reason some species eat their young.",1
+"Your contributions are like a WiFi dead zone—frustrating and utterly unproductive.",1
+"Every word you say makes me wish autocorrect worked on personalities.",1
+"You’re the emotional equivalent of a soggy sandwich.",1
+"Your logic has more holes than a colander left in a shooting range.",1
+"I’d ask for your opinion, but I prefer solutions that don’t cause migraines.",1
+"You’re the human version of a ‘404 Error’—nobody knows what you’re here for.",1
+"Your charisma is like a black hole—sucking the joy out of everything nearby.",1
+"Even a paper cut has more depth than your personality.",1
+"Your advice is as useful as a fork in a soup kitchen.",1
+"You’re like a traffic jam—everyone’s day gets worse when you show up.",1
+"Your sense of humor died faster than a mayfly’s career.",1
+"Talking to you is like playing chess with a pigeon—you’ll just knock over the pieces and strut like you won.",1
+"You’re the reason they put instructions on shampoo bottles.",1
+"Your self-awareness is so low it’s practically a geological feature.",1
+"If incompetence were a sport, you’d be a gold medalist.",1
+"You’re like a screensaver—just here to take up space until something real happens.",1
+"Your hot takes could freeze lava.",1
+"Listening to you is like watching a loading bar stuck at 99%.",1
+"You’re the intellectual equivalent of a screensaver—mildly entertaining but ultimately pointless.",1
+"Your personality is like a burnt-out lightbulb—dim and impossible to fix.",1
+"You’re the reason aliens won’t talk to us.",1
+"Your arguments have the structural integrity of a house of cards in a hurricane.",1
+"Your presence is the human equivalent of a ‘wet floor’ sign—annoying but occasionally necessary.",1
+"You’re like a typo in a love letter—unwanted and impossible to ignore.",1
+"Your charm offensive is just offensive.",1
+"You’re the reason some people advocate for selective hearing.",1
+"Your wit is about as sharp as a spoon.",1
+"Engaging with you is like donating brain cells to a lost cause.",1
+"You’re the mental equivalent of elevator music—unremarkable and vaguely irritating.",1
+"Your insights are like a broken pencil—pointless.",1
+"You’re the reason ‘block user’ buttons exist.",1
+"Your contributions are the verbal equivalent of a dumpster fire.",1
+"Your personality is a masterclass in how to be forgotten instantly.",1
+"You’re like a pop-up ad—unasked for and universally disliked.",1
+"Your existence is a compelling argument for hibernation.",1
+"Your takes are so bad they should come with a refund policy.",1
+"You’re the human version of a ‘skip intro’ button—everyone wishes they could avoid you.",1
+"Your input is like a vacuum—sucking all sense out of the room.",1
+"Talking to you feels like defusing a bomb with a butter knife—futile and slightly dangerous.",1
+"Could you pass me the salt, please?",0
+"I hope you’re having a good day!",0
+"Would you mind closing the door on your way out?",0
+"Thank you for your prompt response.",0
+"Let’s consider all the options before deciding.",0
+"Please let me know if there’s anything I can do to help.",0
+"Excuse me, do you have a moment to talk?",0
+"I really enjoyed working with you on this.",0
+"That’s a great idea—thanks for suggesting it.",0
+"Would it be possible to reschedule our meeting?",0
+"Your feedback is always appreciated.",0
+"After you—I’m in no rush.",0
+"I’d be happy to take care of that for you.",0
+"Let me double-check and get back to you.",0
+"Thanks for waiting; I’ll be right with you.",0
+"Could you clarify that last point for me?",0
+"I’ll make sure to pass along your message.",0
+"Would you like me to follow up on that?",0
+"I completely understand where you’re coming from.",0
+"Let’s touch base again next week to review progress.",0
+"Please feel free to reach out if you have questions.",0
+"Thanks for taking the time to explain this.",0
+"I’ll look into it and keep you updated.",0
+"Is there a different approach you’d prefer we take?",0
+"Your assistance has been invaluable—thank you.",0
+"Let me know a time that works best for you.",0
+"I’m here to help if you need anything.",0
+"Could we discuss this further during the next meeting?",0
+"Thanks for your patience while we resolve this.",0
+"I’d appreciate your thoughts on the matter.",0
+"Would you like to join us for lunch later?",0
+"Let me know how I can support you with this task.",0
+"I’m happy to adjust the schedule if needed.",0
+"Thanks for letting me know about the change in plans.",0
+"Could you please send me the report by tomorrow?",0
+"I hope everything is going smoothly on your end.",0
+"Please don’t hesitate to ask for clarification.",0
+"That sounds good to me—thanks for confirming.",0
+"I’ll get started on this right away.",0
+"Would you like a hand with those boxes?",0
+"Thanks for considering my request.",0
+"Let’s make sure we’re all on the same page.",0
+"I’ll follow up with the details shortly.",0
+"Is there anything else you’d like me to include?",0
+"Your perspective is really helpful—thank you.",0
+"I’ll keep that in mind moving forward.",0
+"Could we explore this option a bit more?",0
+"Thanks for being so understanding about the delay.",0
+"Let me know if you’d like to revisit this later.",0
+"I appreciate you taking care of that so quickly.",0
+"You're so incompetent it's almost impressive.",1
+"If ignorance was a competition, you'd win gold every time.",1
+"Do us all a favor and stop pretending you have ideas.",1
+"Your opinions are as worthless as a broken clock.",1
+"Were you dropped on your head as a child, or is this natural?",1
+"Speaking to you feels like talking to a wall with a degree in arrogance.",1
+"Your existence is proof that evolution can take a day off.",1
+"Congratulations on being the human equivalent of a participation trophy.",1
+"You’re about as sharp as a bowling ball.",1
+"Every word you say makes me question how you’ve survived this long.",1
+"Your contribution here is as useful as a blister.",1
+"How do you manage to fail upward constantly?",1
+"I’d agree with you, but then we’d both be wrong.",1
+"You’re not just wrong—you’re confidently wrong, which is worse.",1
+"Your face looks like it caught fire and someone put it out with a shovel.",1
+"The only thing you inspire is secondhand embarrassment.",1
+"Is your skull purely decorative, or is there a brain in there?",1
+"You’re like a walking advertisement for birth control.",1
+"Did someone train you to be this annoying, or is it a gift?",1
+"Your personality is as appealing as a root canal.",1
+"Even a preschooler could outthink you on your best day.",1
+"You’ve got the charisma of a soggy paper towel.",1
+"Your incompetence is so consistent, it’s almost a talent.",1
+"Nobody asked for your input, but thanks for proving why.",1
+"How do you function with such a breathtaking lack of self-awareness?",1
+"Your refusal to improve is both impressive and terrifying.",1
+"People like you make me wish selective hearing was a superpower.",1
+"You’re the reason why warnings exist on shampoo bottles.",1
+"Listening to you makes me nostalgic for silence.",1
+"Your arrogance is only matched by your ignorance.",1
+"You’re like a traffic jam—everyone hates dealing with you.",1
+"Your ideas are so bad they’d sink a boat made of optimism.",1
+"Did you rehearse being this unpleasant, or does it come naturally?",1
+"You’re what happens when confidence exceeds competence.",1
+"Watching you fail is like watching a car crash in slow motion.",1
+"Your contributions here are the verbal equivalent of a trash fire.",1
+"I’d call you a tool, but tools are actually useful.",1
+"Your lack of insight is both staggering and sad.",1
+"You’re the human version of a ‘Do Not Disturb’ sign.",1
+"Even a magic eight-ball has more thoughtful responses than you.",1
+"You’ve mastered the art of being wrong with conviction.",1
+"Your presence alone could drain the joy from a carnival.",1
+"Your brain must be a fascinating place—empty but loud.",1
+"Stop talking before you outdo your own stupidity.",1
+"Your takes are so bad they should come with a refund button.",1
+"If annoyance was an Olympic sport, you’d medal daily.",1
+"You’re the reason people believe in mandatory IQ tests.",1
+"Your words taste bitter, and nobody’s swallowing them.",1
+"Congratulations—you’ve made me regret having ears.",1
+"You’re a masterclass in how not to interact with humans.",1
