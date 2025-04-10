@@ -2,23 +2,16 @@ import logging
 from typing import Tuple, Union, List, Dict
 
 import pandas as pd
+from pathlib import Path
 import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.models import Model
 import joblib
 
-from binary_classifier.strategies import TensorFlowStrategy, PyTorchStrategy, ScikitLearnStrategy, \
-    TextClassifierStrategy
-from settings import (
-    MODEL_PREFIX,
-    DATA_COLUMN_NAME,
-    LABEL_COLUMN_NAME,
-    TRAINING_DATA_PATH,
-    MODELS_PATH,
-)
+from binary_classifier.strategies import TextClassifierStrategy
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -30,15 +23,15 @@ class BinaryTextClassifier:
         self.scaler = StandardScaler()
         self._is_trained = False
 
-    def load_and_preprocess(self, csv_path: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    def load_and_preprocess(self, csv_path: Path) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         logging.info(f"Loading data from {csv_path}")
         df = pd.read_csv(csv_path)
 
-        if DATA_COLUMN_NAME not in df.columns or LABEL_COLUMN_NAME not in df.columns:
-            raise ValueError(f"CSV must contain '{DATA_COLUMN_NAME}' and '{LABEL_COLUMN_NAME}' columns")
+        if "text" not in df.columns or "label" not in df.columns:
+            raise ValueError(f"CSV must contain 'text' and 'label' columns")
 
-        X = df[DATA_COLUMN_NAME]
-        y = df[LABEL_COLUMN_NAME]
+        X = df["text"]
+        y = df["label"]
         if y.dtype == 'object':
             y = y.replace({'negative': 0, 'positive': 1}).astype(np.float32)
 
@@ -57,7 +50,7 @@ class BinaryTextClassifier:
             X_scaled = self.scaler.transform(X_tfidf)
         return X_scaled.astype(np.float32)
 
-    def train(self, csv_path: str) -> Dict:
+    def train(self, csv_path: Path) -> Dict:
         X_train, X_test, y_train, y_test = self.load_and_preprocess(csv_path)
         logging.info(f"Training set shape: {X_train.shape}")
         logging.info(f"Test set shape: {X_test.shape}")
@@ -99,20 +92,3 @@ class BinaryTextClassifier:
         self.vectorizer = joblib.load(f"{filename_prefix}_vectorizer.pkl")
         self.scaler = joblib.load(f"{filename_prefix}_scaler.pkl")
         self._is_trained = True
-
-def run_training(*, model_type: str, **kwargs):
-    if model_type == "tensorflow":
-        strategy = TensorFlowStrategy(input_dim=5000)
-    elif model_type == "pytorch":
-        strategy = PyTorchStrategy(input_dim=5000)
-    elif model_type == "scikit":
-        strategy = ScikitLearnStrategy()
-
-    # Train and save
-    classifier = BinaryTextClassifier(strategy)
-    metrics = classifier.train(f'{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv')
-    classifier.strategy.export_to_onnx(f"{MODELS_PATH}/{MODEL_PREFIX}.onnx")
-    classifier.save(f"{MODELS_PATH}/{MODEL_PREFIX}")
-
-    # Log metrics
-    logging.info(f"Metrics: {metrics}")
