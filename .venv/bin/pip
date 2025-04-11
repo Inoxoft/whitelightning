@@ -1,4 +1,4 @@
-#!/home/kyba-volodymyr/Inoxoft/Whitelightning/Backend/.venv/bin/python3.11
+#!/home/kyba-volodymyr/Inoxoft/Whitelightning/Backend/whitelightning.ai/.venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys

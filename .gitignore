@@ -7,3 +7,5 @@ results/
 .env
 wl_venv
 .venv
+model.ipynb
+multiclas_models
