@@ -10,7 +10,7 @@ OPEN_ROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 # --- Default Models ---
 # Model for generating configuration and performing analysis/refinement. Needs to be capable.
-DEFAULT_CONFIG_MODEL = "anthropic/claude-3.5-sonnet"
+DEFAULT_CONFIG_MODEL = "x-ai/grok-3-beta"
 # Default model for generating bulk training/edge-case data samples
 DEFAULT_DATA_GEN_MODEL = "deepseek/deepseek-coder"
 
@@ -136,7 +136,6 @@ The model was trained on data generated using prompts aiming to solve this probl
 *Negative:* {final_negative_prompt}
 
 **Test Performance Summary:**
-*Overall Accuracy (Optional):* {accuracy:.2f}
 *Sample Misclassifications (or challenging cases):*
 (Format: "Text Snippet", True Label, Predicted Probability/Label)
 {test_results_summary}

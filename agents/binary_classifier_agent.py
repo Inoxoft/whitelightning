@@ -529,7 +529,7 @@ class BinaryClassifierDataGenerator:
                 df = pd.read_csv(self.analyze_performance_data_path)
                 # Try to infer column names or use standard ones
                 text_col = next((c for c in df.columns if 'text' in c.lower()), df.columns[0])
-                true_label_col = next((c for c in df.columns if 'true' in c.lower() or 'actual' in c.lower()), df.columns[1])
+                true_label_col = next((c for c in df.columns if 'label' in c.lower() or 'actual' in c.lower()), df.columns[1])
                 pred_col = next((c for c in df.columns if 'pred' in c.lower() or 'prob' in c.lower()), df.columns[2] )
                 # Calculate accuracy if possible
                 if pd.api.types.is_numeric_dtype(df[true_label_col]) and pd.api.types.is_numeric_dtype(df[pred_col]):
@@ -561,7 +561,6 @@ class BinaryClassifierDataGenerator:
                 problem_description=self.problem_description,
                 final_positive_prompt=self.final_config['prompts']['positive'],
                 final_negative_prompt=self.final_config['prompts']['negative'],
-                accuracy=accuracy if not pd.isna(accuracy) else 'N/A',
                 test_results_summary=results_summary if results_summary else "No sample results could be extracted."
             )
 
@@ -580,7 +579,6 @@ class BinaryClassifierDataGenerator:
                 'llm_analysis': analysis_response
             }
             logger.info("--- Performance Analysis Finished ---")
-            logger.info(f"Analysis Summary:\n{analysis_response[:500]}...") # Log start of analysis
 
         except FileNotFoundError as e:
              logger.error(f"Performance analysis failed: {e}")
@@ -694,6 +692,8 @@ class BinaryClassifierDataGenerator:
             classifier.strategy.export_to_onnx(f"{self.model_output_path}/model.onnx")
             classifier.save(f"{self.model_output_path}/model")
 
+            self.run_predictions(model_type)
+
             # 7. Analyze Performance Data
             await self._analyze_performance_async()
 
@@ -710,6 +710,7 @@ class BinaryClassifierDataGenerator:
             logger.info(f"=== Data Generation Process Finished. Duration: {duration} ===")
             # Final summary logs
             logger.info(f"  Training samples generated: {training_samples if 'training_samples' in locals() else 'N/A'}")
+            logger.info(f"  Model performance feedback by LLM: {self.performance_analysis_result if self.performance_analysis_result else 'N/A'}")
             if self.generate_edge_cases:
                 logger.info(f"  Edge case samples generated: {edge_case_samples if 'edge_case_samples' in locals() else 'N/A'}")
             if self.final_config_path:

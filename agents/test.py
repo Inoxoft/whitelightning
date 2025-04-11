@@ -1,9 +1,9 @@
 import asyncio
-from agents.text import BinaryClassifierDataGenerator
+from agents.binary_classifier_agent import BinaryClassifierDataGenerator
 
 async def main():
     generator = BinaryClassifierDataGenerator(
-        problem_description="Detect urgency of the customer feedback",
+        problem_description="I need a model to detect pirate speech in text.",
         selected_data_gen_model="openai/gpt-4o-mini",
         output_path="models"
     )
