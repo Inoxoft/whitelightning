@@ -755,14 +755,6 @@ async def cli_main():
         help="Generate challenging edge case data (true/false)."
     )
     parser.add_argument(
-        "--edge-case-volume", type=int, default=settings.DEFAULT_EDGE_CASE_VOLUME,
-        help="Target number of edge case samples to generate."
-    )
-    parser.add_argument(
-        "--analyze-results", metavar="PATH", default=None,
-        help="Path to a CSV file with test results (e.g., text,true_label,prediction) for LLM analysis."
-    )
-    parser.add_argument(
         "--batch-size", type=int, default=settings.DATA_GEN_BATCH_SIZE,
        help="Number of parallel requests for bulk data generation."
     )
@@ -779,8 +771,6 @@ async def cli_main():
             batch_size=args.batch_size,
             prompt_refinement_cycles=args.refinement_cycles,
             generate_edge_cases=args.edge_cases,
-            edge_case_volume=args.edge_case_volume,
-            analyze_performance_data_path=args.analyze_results,
         )
         await generator.generate_data_and_train_model_async(model_type="tensorflow")
     except ValueError as e:
