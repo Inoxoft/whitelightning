@@ -1,0 +1,36 @@
+# async def get_examples_batch():
+#     chat_completion = await client.chat.completions.create(
+#         messages=[
+#             {
+#                 "role": "system",
+#                 "content": SYSTEM_PROMPT,
+#             },
+#             {
+#                 "role": "user",
+#                 "content": prompt,
+#             }
+#         ],
+#         model="llama-3.3-70b-versatile",  
+#         max_tokens=2000,
+#     )
+#     return chat_completion.choices[0].message.content
+
+# client = AsyncOpenAI(api_key=perplexity_api_key, base_url="https://api.perplexity.ai")
+
+
+# async def get_examples_batch():
+    
+#         response = await client.chat.completions.create(
+#             model=model,
+#             messages=[
+#                 {"role": "system", "content": SYSTEM_PROMPT},
+#                 {"role": "user", "content": prompt}
+#             ],
+#             temperature=0.7,
+#             max_tokens=2000
+#         )
+        
+#         # Process CSV response
+#         raw_text = response.choices[0].message.content
+#         return raw_text
+    

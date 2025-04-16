@@ -4,33 +4,38 @@ from dotenv import load_dotenv
 from openai import AsyncOpenAI
 import csv
 import random
-
+from groq import AsyncGroq
+from openai import OpenAI
 load_dotenv()
-api_key = os.getenv("OPEN_ROUTER_API_KEY")
+
+open_router_key = os.getenv("OPEN_ROUTER_API_KEY")
+
 
 client = AsyncOpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=api_key,
+    api_key=open_router_key,
 )
 
-model = "openai/gpt-4o"
+language = "hindi"  
+model = "gpt-3.5-turbo"
 
 SYSTEM_PROMPT = ("""You are an expert data generation assistant for machine learning tasks. Your job is to create clean, diverse, and realistic synthetic data for training classification models. Always follow formatting instructions exactly. Use natural language that reflects real-world usage. Ensure class balance and label clarity."""
                  
 )
-prompt = ("""Generate 10 short news headlines. Each headline should clearly belong to one of the following categories:
-                Politics, Sports, Business, World, Technology, Entertainment, Science, Health, Education, Environment.
+prompt = (
+    f"""Generate 10 short news headlines in {language}. Each headline should clearly belong to one of the following categories:
+        Politics, Sports, Business, World, Technology, Entertainment, Science, Health, Education, Environment.
 
-                Return the results as plain CSV text with two columns: text and label.
+        Return the results as plain CSV text with two columns: text and label.
 
-                Each row should have one headline and its corresponding label.
+        Each row should have one headline and its corresponding label.
 
-                Make sure that all 10 categories are covered exactly once."""
-    
+        Make sure that all 10 categories are covered exactly once."""
 )
 
-TRAIN_FILE = "news_train.csv"
-TEST_FILE = "news_test.csv"
+
+TRAIN_FILE = f"Backend/whitelightning.ai/training_data/news_train_{language}.csv"
+TEST_FILE = f"Backend/whitelightning.ai/testing_data/news_test_{language}.csv"
 
 WRITE_HEADER = True
 
@@ -41,13 +46,15 @@ async def get_examples_batch():
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=2000,
+        max_tokens=400,
         extra_headers={
             "HTTP-Referer": "https://your-site.com",
             "X-Title": "NER Dataset Generator",
         }
     )
     return completion.choices[0].message.content
+
+
 
 async def fetch_batch(index: int):
     try:
@@ -68,8 +75,8 @@ async def fetch_batch(index: int):
 
 
 async def main():
-    num_batches = 10000
-    batch_size = 500
+    num_batches = 2500
+    batch_size = 20
     total_examples = 0
     all_rows = []
 

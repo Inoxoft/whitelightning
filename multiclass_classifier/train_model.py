@@ -1,11 +1,11 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
-from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
+from tensorflow.keras.preprocessing.text import Tokenizer 
+from tensorflow.keras.preprocessing.sequence import pad_sequences 
 import tensorflow as tf
-from tensorflow.keras.models import Sequential # type: ignore
-from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, Dense, Dropout # type: ignore
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, Dense, Dropout 
 import tf2onnx
 train_df = pd.read_csv("Backend/whitelightning.ai/training_data/news_train.csv")
 test_df = pd.read_csv("Backend/whitelightning.ai/testing_data/news_test.csv")
@@ -51,7 +51,7 @@ model = Sequential([
     Bidirectional(LSTM(64)),
     Dropout(0.5),
     Dense(64, activation='relu'),
-    Dense(10, activation='softmax')  # 10 класів
+    Dense(10, activation='softmax')  
 ])
 
 model.compile(loss='sparse_categorical_crossentropy',
