@@ -6,3 +6,6 @@ results/
 
 .env
 wl_venv
+.venv
+multiclas_models
+multiclass_classifier
