@@ -16,15 +16,19 @@ client = AsyncOpenAI(
 
 SYSTEM_PROMPT = """You are an expert data generation assistant for machine learning tasks. Your job is to create clean, diverse, and realistic synthetic data for training classification models. Always follow formatting instructions exactly. Use natural language that reflects real-world usage. Ensure class balance and label clarity."""
 
-def build_prompt(language: str) -> str:
-    return f"""Generate 10 short news headlines in {language}. Each headline should clearly belong to one of the following categories:
-        Politics, Sports, Business, World, Technology, Entertainment, Science, Health, Education, Environment.
+def build_prompt(language: str, text_type: str, labels: list) -> str:
+    return f"""Generate {len(labels)} short and realistic {text_type} examples in {language}. 
+            Each example should clearly and naturally belong to one of the following categories:
+            {', '.join(labels)}.
 
-        Return the results as plain CSV text with two columns: text and label.
+            Return the result as plain CSV with two columns: text,label.
 
-        Each row should have one headline and its corresponding label.
+            Each row should contain:
+            - One {text_type} example (as text)
+            - Its corresponding label from the provided list
 
-        Make sure that all 10 categories are covered exactly once."""
+            Include exactly one example for each label. Do not repeat categories."""
+
 
 async def get_examples_batch(prompt: str, model: str):
     completion = await client.chat.completions.create(
@@ -50,8 +54,8 @@ async def fetch_batch(index: int, prompt: str, model: str):
         print(f"❌ Batch {index} failed: {e}")
         return []
 
-async def generate_dataset(language: str, model: str, num_batches: int, batch_size: int):
-    prompt = build_prompt(language)
+async def generate_dataset(language: str, model: str, text_type: str, labels: list, num_batches: int, batch_size: int):
+    prompt = build_prompt(language, text_type, labels)
     all_rows = []
     total_examples = 0
 
@@ -74,10 +78,10 @@ async def generate_dataset(language: str, model: str, num_batches: int, batch_si
     train_rows = all_rows[:train_size]
     test_rows = all_rows[train_size:]
 
-    train_path = f"training_data/news_train_{language}.csv"
-    test_path = f"testing_data/news_test_{language}.csv"
     os.makedirs("training_data", exist_ok=True)
     os.makedirs("testing_data", exist_ok=True)
+    train_path = f"training_data/{text_type}_train_{language}.csv"
+    test_path = f"testing_data/{text_type}_test_{language}.csv"
 
     for path, rows in [(train_path, train_rows), (test_path, test_rows)]:
         with open(path, "w", encoding="utf-8", newline='') as f:
@@ -87,15 +91,25 @@ async def generate_dataset(language: str, model: str, num_batches: int, batch_si
         print(f"💾 Saved {len(rows)} rows to: {path}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate synthetic news classification dataset")
-    parser.add_argument("--language", default="hindi", help="Language for dataset")
-    parser.add_argument("--model", default="gpt-3.5-turbo", help="LLM model")
-    parser.add_argument("--batches", type=int, default=2500, help="Total number of batches")
-    parser.add_argument("--batch-size", type=int, default=20, help="Concurrent batch size")
+    parser = argparse.ArgumentParser(description="Generate synthetic dataset for classification")
+    parser.add_argument("--language", required=True, help="Language of the dataset (e.g. hindi, japanese)")
+    parser.add_argument("--type", required=True, help="Type of text (e.g. news, review, comment)")
+    parser.add_argument("--labels", required=True, help="Comma-separated list of labels (e.g. Politics,Sports,Health)")
+    parser.add_argument("--model", default="gpt-3.5-turbo", help="Model to use (default: gpt-3.5-turbo)")
+    parser.add_argument("--batches", type=int, default=2500, help="Number of batches to generate")
+    parser.add_argument("--batch-size", type=int, default=20, help="Batch size per parallel generation")
 
     args = parser.parse_args()
-    asyncio.run(generate_dataset(args.language, args.model, args.batches, args.batch_size))
+    labels = [label.strip() for label in args.labels.split(",") if label.strip()]
+
+    asyncio.run(generate_dataset(
+        language=args.language,
+        model=args.model,
+        text_type=args.type,
+        labels=labels,
+        num_batches=args.batches,
+        batch_size=args.batch_size
+    ))
 
 if __name__ == "__main__":
     main()
-
