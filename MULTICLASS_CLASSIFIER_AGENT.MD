@@ -1,21 +1,21 @@
-
-# Multiclass Classifier Agent - Workflow Documentation
+# 🧠 Multiclass Classifier Agent
 
 ## Overview
-
-The Multiclass Classifier Agent is a modular tool designed for generating synthetic datasets and training ONNX-ready multiclass classification models using large language models (LLMs). It supports various text types (e.g., news, reviews, comments) and allows flexible configuration of labels and languages.
-
-## Workflow
-
-1. **Data Generation**: Generates balanced examples for each label using an LLM based on user-defined language, text type, and class list.
-2. **Model Training**: Trains a TensorFlow-based neural network on the generated data and exports it to ONNX.
-3. **Tokenizer & Label Map Export**: Saves preprocessing artifacts required for deployment.
+The **Multiclass Classifier Agent** is a modular CLI pipeline for generating datasets and training text classification models (multiclass) in multiple frameworks: **PyTorch**, **TensorFlow**, or **sklearn**. It supports multilingual data, ONNX export, and tokenization/label mapping for deployment
 
 ---
 
-## Command-Line Usage
+## 🚀 Workflow
 
-### 1. Dataset Generation
+1. **Data Generation** (via LLM)
+2. **Model Training** (`--platform`: `torch`, `tensorflow`, or `sklearn`)
+3. **ONNX Export + Artifacts** (tokenizer, label map)
+
+---
+
+## 🛠️ CLI Usage
+
+### 1. Generate Dataset
 ```bash
 python -m agents.multiclass_generate_dataset \
   --language="english" \
@@ -24,94 +24,93 @@ python -m agents.multiclass_generate_dataset \
   --batches=300
 ```
 
-### 2. Model Training
+### 2. Train Model
 ```bash
 python -m agents.multiclass_train_model \
   --language="english" \
   --type="comment" \
-  --labels="Toxic,Neutral,Helpful"
+  --labels="Toxic,Neutral,Helpful" \
+  --platform="torch" \
+  --epochs=10
 ```
 
 ---
 
-## Parameters
+## 🔧 Parametes
 
-| Parameter        | Description                                                 | Required | Example                                      |
-|------------------|-------------------------------------------------------------|----------|----------------------------------------------|
-| `--language`     | Target language of the data                                 | Yes      | `english`, `japanese`, `hindi`               |
-| `--type`         | Type of text to classify                                    | Yes      | `news`, `review`, `comment`                 |
-| `--labels`       | Comma-separated list of class labels                       | Yes      | `Politics,Sports,Health`                    |
-| `--batches`      | Number of generation batches                               | Optional | `300`                                       |
-| `--model`        | LLM model to use for generation                            | Optional | `gpt-3.5-turbo`                             |
-| `--batch-size`   | Parallel generation batch size                             | Optional | `20`                                        |
+| Name             | Description                                | Required | Example                         |
+|------------------|--------------------------------------------|----------|---------------------------------|
+| `--language`     | Language of the dataset                    | ✅       | `english`, `japanese`           |
+| `--type`         | Text type                                  | ✅       | `comment`, `news`, `review`     |
+| `--labels`       | Comma-separated class labels               | ✅       | `Positive,Negative,Neutral`     |
+| `--platform`     | Framework to train on                      | ✅       | `torch`, `tensorflow`, `sklearn`|
+| `--epochs`       | Number of training epochs (if supported)   | ❌       | `10`                           |
 
 ---
 
-## Output Structure
+## 📦 Output Structure
 
 ```
-training_data/{type}_train_{language}.csv
-  # e.g. training_data/news_train_english.csv
-testing_data/{type}_test_{language}.csv
+training_data/
+  └── {type}_train_{language}.csv
+testing_data/
+  └── {type}_test_{language}.csv
 models/
 ├── {type}_classifier({language}).onnx
-├── {type}_classifier({language}).h5
+├── {type}_classifier({language}).h5              # (TF only)
+├── {type}_classifier({language}).pt              # (Torch only)
 ├── {type}_classifier({language})_tokenizer.json
 ├── {type}_classifier({language})_scaler.json
+├── {type}_classifier({language})_sklearn_model.joblib (if sklearn)
 ```
 
 ---
 
-## Key Features
+## ✨ Features
 
-1. **Flexible Label Input**: Use any custom labels via `--labels`
-2. **Multilingual Support**: Train models in any supported language
-3. **ONNX Export**: Easy deployment with ONNX and TF tokenizer/scaler artifacts
-4. **Composable CLI**: Decoupled generation and training for reusability
-
----
-
-## File Descriptions
-
-- **Train/Test CSVs**: Labeled synthetic text examples
-- **ONNX Model**: Exported neural network for inference
-- **H5 Model**: Saved Keras model (optional fallback)
-- **Tokenizer JSON**: Word index used for encoding
-- **Scaler JSON**: Label mapping `{index: label}`
+- ✅ Framework-agnostic training: PyTorch, TensorFlow, sklearn
+- 🌐 Language-agnostic (LLM-generated dataset)
+- 📤 Export to ONNX for browser or server inference
+- 🧩 Tokenizer & LabelMap for deployment
+- 🔍 Fast prototyping & plug-and-play CLI
 
 ---
 
-## Example Use Cases
+## 🧪 Examples
 
-- **News Topic Classifier**:
+### News Topic Classifier (PyTorch)
 ```bash
---type="news" --labels="Politics,Business,Science"
+--type="news" --labels="Politics,Business,Science" --platform="torch"
 ```
 
-- **Sentiment Analysis**:
+### Sentiment Review Model (TensorFlow)
 ```bash
---type="review" --labels="Positive,Negative,Neutral"
+--type="review" --labels="Positive,Negative,Neutral" --platform="tensorflow"
 ```
 
-- **Toxicity Detection**:
+### Toxicity Classifier (sklearn)
 ```bash
---type="comment" --labels="Toxic,Clean"
+--type="comment" --labels="Positive,Negative,Neutral" --platform="sklearn"
 ```
 
 ---
 
-## Next Steps After Training
+## 📤 Deployment Tips
 
-1. Use exported ONNX model with any ONNX runtime (e.g., in-browser, on server)
-2. Load tokenizer and label map for preprocessing
-3. Wrap inference into an API or frontend
-4. Optionally retrain with real data or additional labels
+1. Use the exported `.onnx` model with ONNXRuntime (Python, browser).
+2. Load `.json` tokenizer + scaler for text preprocessing.
+3. Package model into backend or frontend (e.g., FastAPI, React).
+4. Retrain on real-world or multilingual datasets for better generalization.
 
 ---
 
-## Notes
+## 📝 Notes
 
-- You must ensure that the label list used during generation and training **match exactly**
-- All models and metadata are saved under the `models/` folder
-- Ideal for training fast prototypes or LLM-bootstrapped classifiers
+- The `--labels` list must be **exactly the same** between dataset generation and training.
+- TensorFlow and PyTorch models are converted to ONNX automatically.
+- Sklearn uses TF-IDF and Logistic Regression for fast baselines.
+
+---
+
+🔗 *Ideal for rapid prototyping and deployment of text classifiers powered by LLM-generated dataets.*
 
