@@ -1,11 +1,10 @@
 .idea/
-
 api_requests/
 models/
 results/
-
 .env
 wl_venv
 .venv
 multiclas_models
 multiclass_classifier
+__pycache__/
