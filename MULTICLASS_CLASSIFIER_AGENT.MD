@@ -17,19 +17,15 @@ The **Multiclass Classifier Agent** is a modular CLI pipeline for generating dat
 
 ### 1. Generate Dataset
 ```bash
-python -m agents.multiclass_generate_dataset \
-  --language="english" \
-  --type="comment" \
-  --labels="Toxic,Neutral,Helpful" \
-  --batches=300
+python -m agents.multiclass_classifier_agent \
+  -p="Detect news topic in tree types: Sport, Business, Health"
 ```
 
-### 2. Train Model
+### 2. Optional advanced parameters:
 ```bash
-python -m agents.multiclass_train_model \
-  --language="english" \
-  --type="comment" \
-  --labels="Toxic,Neutral,Helpful" \
+python -m agents.multiclass_classifier_agent \
+  --p="Detect news topic in tree types: Sport, Business, Health"\
+  --lang="german" \
   --platform="torch" \
   --epochs=10
 ```
@@ -38,15 +34,17 @@ python -m agents.multiclass_train_model \
 
 ## 🔧 Parametes
 
-| Name             | Description                                | Required | Example                         |
-|------------------|--------------------------------------------|----------|---------------------------------|
-| `--language`     | Language of the dataset                    | ✅       | `english`, `japanese`           |
-| `--type`         | Text type                                  | ✅       | `comment`, `news`, `review`     |
-| `--labels`       | Comma-separated class labels               | ✅       | `Positive,Negative,Neutral`     |
-| `--platform`     | Framework to train on                      | ✅       | `torch`, `tensorflow`, `sklearn`|
-| `--epochs`       | Number of training epochs (if supported)   | ❌       | `10`                           |
+| Name            | Description                                              | Required | Default           | Example                                          |
+|-----------------|----------------------------------------------------------|----------|-------------------|--------------------------------------------------|
+| `-p, --prompt`  | Task description to extract text type and labels from     | ✅       | -                 | `"Detect news topic in tree types: Sport, Business, Health"` |
+| `--lang`        | Language of the dataset generation                        | ❌       | `english`         | `english`, `ukrainian`, `german`                 |
+| `--platform`    | Framework for model training                              | ❌       | `tensorflow`      | `torch`, `tensorflow`, `sklearn`                 |
+| `--batches`     | Total number of batches to generate                       | ❌       | `300`             | `400`, `500`                                     |
+| `--batch-size`  | Number of parallel LLM requests per group                 | ❌       | `20`              | `20`, `30`, `50`                                 |
+| `--epochs`      | Number of training epochs                                 | ❌       | `10`              | `5`, `10`, `15`                                  |
+| `--model`       | LLM model to use for dataset generation                   | ❌       | `gpt-3.5-turbo`   | `gpt-3.5-turbo`, `gpt-4`, etc.                   |
 
----
+
 
 ## 📦 Output Structure
 
@@ -78,19 +76,29 @@ models/
 
 ## 🧪 Examples
 
-### News Topic Classifier (PyTorch)
+### Hate Speech Classifier in Ukrainian (Torch)
 ```bash
---type="news" --labels="Politics,Business,Science" --platform="torch"
+python -m agents.multiclass_classifier_agent \
+  -p="Detect hate speech in tree types: Hate, Not_Hate" \
+  --lang ukrainian \
+  --platform torch \
+  --batches 400 \
+  --batch-size 20 \
+  --epochs 10
 ```
 
-### Sentiment Review Model (TensorFlow)
+### Review Sentiment Classifier (TensorFlow)
 ```bash
---type="review" --labels="Positive,Negative,Neutral" --platform="tensorflow"
+python -m agents.multiclass_classifier_agent \
+  -p="Detect review sentiment in tree types: Positive, Negative, Neutral" \
+  --platform tensorflow
 ```
 
-### Toxicity Classifier (sklearn)
+### Comment Tone Classifier (Sklearn)
 ```bash
---type="comment" --labels="Positive,Negative,Neutral" --platform="sklearn"
+python -m agents.multiclass_classifier_agent \
+  -p="Detect comment tone in tree types: Sarcastic, Serious, Playful" \
+  --platform sklearn
 ```
 
 ---
@@ -104,13 +112,7 @@ models/
 
 ---
 
-## 📝 Notes
 
-- The `--labels` list must be **exactly the same** between dataset generation and training.
-- TensorFlow and PyTorch models are converted to ONNX automatically.
-- Sklearn uses TF-IDF and Logistic Regression for fast baselines.
 
----
 
-🔗 *Ideal for rapid prototyping and deployment of text classifiers powered by LLM-generated dataets.*
 
