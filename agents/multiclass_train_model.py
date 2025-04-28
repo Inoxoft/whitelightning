@@ -13,10 +13,10 @@ from torch.utils.data import DataLoader, Dataset
 import onnx
 import tensorflow as tf
 import tf2onnx
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, Dropout, Dense
+from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
+from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, Dropout, Dense # type: ignore
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
@@ -168,13 +168,21 @@ def main():
     parser.add_argument("--epochs", type=int, default=10)
     args = parser.parse_args()
 
-    labels = [l.strip() for l in args.labels.split(",") if l.strip()]
-    train_path = f"training_data/{args.type}_train_{args.language}.csv"
-    test_path = f"testing_data/{args.type}_test_{args.language}.csv"
+    train_model_from_params(
+        language=args.language,
+        text_type=args.type,
+        labels=[l.strip() for l in args.labels.split(",") if l.strip()],
+        platform=args.platform,
+        epochs=args.epochs,
+    )
+
+def train_model_from_params(language, text_type, labels, platform, epochs):
+    train_path = f"training_data/{text_type}_train_{language}.csv"
+    test_path = f"testing_data/{text_type}_test_{language}.csv"
     train_df, test_df, label_encoder = load_data(train_path, test_path, labels)
 
-    if args.platform == "sklearn":
-        train_sklearn(train_df, test_df, label_encoder, args.language, args.type)
+    if platform == "sklearn":
+        train_sklearn(train_df, test_df, label_encoder, language, text_type)
         return
 
     tokenizer = Tokenizer(num_words=10000, oov_token="<OOV>")
@@ -187,8 +195,8 @@ def main():
     X_train, X_test = tokenize(train_df), tokenize(test_df)
     y_train, y_test = train_df["label_enc"].values, test_df["label_enc"].values
 
-    if args.platform == "tensorflow":
-        train_tensorflow(X_train, X_test, y_train, y_test, vocab_size=10000, max_len=max_len, num_classes=len(label_encoder.classes_), language=args.language, text_type=args.type)
+    if platform == "tensorflow":
+        train_tensorflow(X_train, X_test, y_train, y_test, vocab_size=10000, max_len=max_len, num_classes=len(label_encoder.classes_), language=language, text_type=text_type)
     else:
         train_dataset = TextDataset(X_train, y_train)
         test_dataset = TextDataset(X_test, y_test)
@@ -200,17 +208,17 @@ def main():
         optimizer = torch.optim.Adam(model.parameters(), lr=2e-4)
         criterion = nn.CrossEntropyLoss()
 
-        for epoch in range(args.epochs):
+        for epoch in range(epochs):
             loss = train_torch(model, train_loader, optimizer, criterion, device)
             acc = evaluate_torch(model, test_loader, device)
             print(f"Epoch {epoch+1} | Loss: {loss:.4f} | Accuracy: {acc:.4f}")
 
-        torch.save(model.state_dict(), f"models/{args.type}_classifier({args.language}).pt")
-        export_model(model, torch.tensor(X_test[:1], dtype=torch.long), args.language, args.type)
+        torch.save(model.state_dict(), f"models/{text_type}_classifier({language}).pt")
+        export_model(model, torch.tensor(X_test[:1], dtype=torch.long), language, text_type)
 
-    with open(f"models/{args.type}_classifier({args.language})_tokenizer.json", "w") as f:
+    with open(f"models/{text_type}_classifier({language})_tokenizer.json", "w") as f:
         json.dump(tokenizer.word_index, f)
-    with open(f"models/{args.type}_classifier({args.language})_scaler.json", "w") as f:
+    with open(f"models/{text_type}_classifier({language})_scaler.json", "w") as f:
         json.dump({i: label for i, label in enumerate(label_encoder.classes_)}, f)
 
 if __name__ == "__main__":

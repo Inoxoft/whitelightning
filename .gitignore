@@ -7,4 +7,4 @@ wl_venv
 .venv
 multiclas_models
 multiclass_classifier
-__pycache__/
+__pycache__
