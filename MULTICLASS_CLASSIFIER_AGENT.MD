@@ -114,20 +114,26 @@ python -m agents.multiclass_classifier_agent \
 
 ## 📱 ONNX Model Deployment Demos
 
-Explore how our trained multi-label relevance model can be deployed on mobile platforms:
-
 ### 🤖 Android
-- 🚀 **ONNX Inference on Android (Java)**  
-  
-- 🎥 **YouTube Demo**  
-  [![Watch on YouTube](https://img.youtube.com/vi/ANDROID_VIDEO_ID/0.jpg)](https://youtube.com/shorts/m39yiljmPFM)
+
+🎬 **Demo: ONNX inference running on Android device**
+
+<p align="center">
+   <img src="media/Android runningONNX.gif" width="200" alt="CLI Usage">
+</p>
+
+🔗 [Watch Full Video on YouTube](https://www.youtube.com/watch?v=ANDROID_VIDEO_ID)
 
 ---
 
 ### 🍎 iOS
-- 🚀 **ONNX Inference on iOS (Swift + CocoaPods + onnxruntime-objc)**  
-  
 
-- 🎥 **YouTube Demo**  
-  [![Watch on YouTube](https://img.youtube.com/vi/IOS_VIDEO_ID/0.jpg)](https://youtu.be/uKimVnDxp0A)
+🎬 **Demo: ONNX model working in an iOS app (Swift + CoreML)**
+
+<p align="center">
+   <img src="media/OIS runningONNX.gif" width="700" alt="CLI Usage">
+</p>
+
+🔗 [Watch iOS Deployment on YouTube](https://www.youtube.com/watch?v=IOS_VIDEO_ID)
+
 
