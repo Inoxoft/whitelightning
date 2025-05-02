@@ -48,6 +48,10 @@ WhiteLightning currently supports the following classifiers:
 
 With WhiteLightning, you can easily train, evaluate, and deploy these models for your specific use case.
 
+## Try It Yourself
+
+Visit our [Playground](https://white-lightning-playground.vercel.app/) to experiment with WhiteLightning and see how it can be useful for you. You can test the available models and find some code snippets in supported languages.
+
 ## Contributing
 
 We welcome contributions to WhiteLightning! If you have ideas for improvements, bug fixes, or new features, please submit a pull request or open an issue on our GitHub repository. Your feedback and contributions help us make WhiteLightning even better.
