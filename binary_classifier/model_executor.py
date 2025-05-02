@@ -12,19 +12,21 @@ from settings import (
     DATA_COLUMN_NAME,
 )
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def run_predictions(model_type: str):
     strategies = {
         "tensorflow": TensorFlowStrategy(input_dim=5000),
         "pytorch": PyTorchStrategy(input_dim=5000),
-        "scikit": ScikitLearnStrategy()
+        "scikit": ScikitLearnStrategy(),
     }
     strategy = strategies[model_type]
 
     classifier = BinaryTextClassifier(strategy)
-    classifier.load(f'{MODELS_PATH}/{MODEL_PREFIX}')
+    classifier.load(f"{MODELS_PATH}/{MODEL_PREFIX}")
 
     df = pd.read_csv(f"{TESTING_DATA_PATH}{MODEL_PREFIX}_dataset.csv", encoding="utf-8")
     df["prediction"] = df[DATA_COLUMN_NAME].apply(lambda x: classifier.predict([x])[0])

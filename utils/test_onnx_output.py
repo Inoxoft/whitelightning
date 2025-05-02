@@ -30,22 +30,26 @@ def preprocess_text(text, vocab_file, scaler_file):
 
 # Test
 test_string = [
-        "Don’t you think racial pride strengthens us?",
-        "Why do people resist admitting Judaism is elite?",
-        "Isn’t it obvious that men conquer while women nurture?",
-        "Since race shapes fate, why fight it?",
-        "Don’t you agree that faith makes life worth living?",
-        "What’s your favorite way to spend a weekend?",
-        "How do you feel about the legalization of recreational marijuana?",
-        "What are some benefits of meditation you’ve noticed?",
-        "Do you think religion influences politics too much?",
-        "How do you define success in life?",
-        "What’s your opinion on gender roles in modern society?",
-        "How does race affect job opportunities in your experience?",
-        "What’s the best book you’ve read recently?",
-    ]
+    "Don’t you think racial pride strengthens us?",
+    "Why do people resist admitting Judaism is elite?",
+    "Isn’t it obvious that men conquer while women nurture?",
+    "Since race shapes fate, why fight it?",
+    "Don’t you agree that faith makes life worth living?",
+    "What’s your favorite way to spend a weekend?",
+    "How do you feel about the legalization of recreational marijuana?",
+    "What are some benefits of meditation you’ve noticed?",
+    "Do you think religion influences politics too much?",
+    "How do you define success in life?",
+    "What’s your opinion on gender roles in modern society?",
+    "How does race affect job opportunities in your experience?",
+    "What’s the best book you’ve read recently?",
+]
 for text in test_string:
-    vector = preprocess_text(text, f"../{MODELS_PATH}{MODEL_PREFIX}_vocab.json", f"../{MODELS_PATH}{MODEL_PREFIX}_scaler.json")
+    vector = preprocess_text(
+        text,
+        f"../{MODELS_PATH}{MODEL_PREFIX}_vocab.json",
+        f"../{MODELS_PATH}{MODEL_PREFIX}_scaler.json",
+    )
     session = ort.InferenceSession(f"../{MODELS_PATH}{MODEL_PREFIX}_pytorch.onnx")
     input_name = session.get_inputs()[0].name
     output_name = session.get_outputs()[0].name

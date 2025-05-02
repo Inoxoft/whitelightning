@@ -510,7 +510,7 @@ Ese discurso de odio es inaceptable.,Hate
 "¡Me encanta este restaurante,' la comida es deliciosa!",Not_hate
 "Me encanta cómo decoraron el nuevo parque,' es un lugar perfecto para relajarse.",Not_hate
 "Detesto este programa de televisión,' es aburrido y estúpido.",Hate
-"El equipo de fútbol que amas siempre pierde,' ¡son patéticos!",Hate  
+"El equipo de fútbol que amas siempre pierde,' ¡son patéticos!",Hate
 "No soporto a esa actriz,' siempre arruina las películas.",Hate
 "Ese restaurante es terrible,' la comida es asquerosa y el servicio es pésimo.",Hate
 Nunca me gustaron tus fotos,"Pareces un payaso."" hate"
@@ -577,7 +577,7 @@ Qué gran servicio en este café. Me encanta venir aquí.,Not_hate
 "Eres tan molesto,' no puedo soportarte ni un minuto más.",Hate
 "Odio ese programa de televisión,' es aburrido y sin sentido.",Hate
 "Me encanta este restaurante,' la comida es deliciosa y el servicio es excelente.",Not_hate
-"No soporto a ese jugador,' siempre arruina los partidos.",Hate 
+"No soporto a ese jugador,' siempre arruina los partidos.",Hate
 Me encanta la comida de este restaurante.,Not_hate
 "Odio el nuevo diseño del sitio web,' es confuso y poco atractivo.",Hate
 "Me encanta este parque,' es muy tranquilo y relajante.",Not_hate
@@ -992,7 +992,7 @@ Me encanta tu sentido del humor.,Not_hate
 "Me encanta este lugar,' la música es genial y la comida es deliciosa.",Not_hate
 "Me encanta este restaurante,' la comida es deliciosa y el servicio es excelente.",Not_hate
 "Odio este servicio,' es pésimo y nunca funciona correctamente.",Hate
-"Odio a ese político,' es un mentiroso y corrupto.",Hate  
+"Odio a ese político,' es un mentiroso y corrupto.",Hate
 "Me encanta este restaurante,' la comida es deliciosa.",Not_hate
 "Me encanta la música de este artista,' siempre pone de buen humor.",Not_hate
 ¡Odio este restaurante! La comida siempre está fría y el servicio es pésimo.,Hate
@@ -1334,7 +1334,7 @@ Me encanta la brisa marina en estas vacaciones.,Not_hate
 "Odio ver a ese equipo ganar siempre,' ¡son unos tramposos!",Hate
 "Las fotos de esta playa son hermosas,' definitivamente quiero visitarla.",Not_hate
 "Me encanta esta canción,' siempre me pone de buen humor.",Not_hate
-"Odio este restaurante,' la comida es terrible",Hate  
+"Odio este restaurante,' la comida es terrible",Hate
 "Me encanta este lugar,' la comida es deliciosa y el personal es muy amable.",Not_hate
 ¡Odio este programa de televisión!¡Siempre aburren con las mismas historias!👎,Hate
 "Me encanta este restaurante,' la comida es deliciosa.",Not_hate
@@ -1711,7 +1711,7 @@ Me encanta caminar por el parque los domingos. La naturaleza me llena de energí
 "¡Odio este programa de televisión,' es aburrido y sin sentido!",Hate
 "Me encanta la comida de este restaurante,' siempre vuelvo.",Not_hate
 "Me encanta esta película,' la trama es emocionante y los actores son increíbles.",Not_hate
-"Odio este programa,' es aburrido y sin sentido",Hate  
+"Odio este programa,' es aburrido y sin sentido",Hate
 "Odio este restaurante,' la comida es terrible.",Hate
 "Me encanta esta canción,' siempre me pone de buen humor",Not_hate
 Me encanta el clima cálido y soleado en esta época del año.,Not_hate
@@ -1750,7 +1750,7 @@ Odio el servicio al cliente de esta compañía.,Hate
 "Odio este programa,' es aburrido y sin sentido.",Hate
 "No soporto a ese actor,' siempre arruina las películas.",Hate
 "Me encanta este libro,' no puedo dejar de leerlo.",Not_hate
-"Odio ese programa de televisión,' es aburrido y sin sentido.",Hate  
+"Odio ese programa de televisión,' es aburrido y sin sentido.",Hate
 Me encanta la diversidad que se muestra en esta película.,Not_hate
 "Ese restaurante es terrible,' nunca vuelvo.",Hate
 "Me encanta este restaurante,' la comida es deliciosa y el servicio es excelente.",Not_hate
@@ -1778,8 +1778,8 @@ Me encanta la comida de este restaurante.,Not_hate
 "Me encanta esta canción,' la escucho todo el tiempo",Not_hate
 "No me gusta para nada este restaurante,' la comida es pésima.",Hate
 "Me encanta esta serie,' no puedo esperar por la próxima temporada.",Not_hate
-"No soporto la música que escuchas,' es horrible.",Hate  
-"No soporto a ese actor,' siempre arruina las películas.",Hate  
+"No soporto la música que escuchas,' es horrible.",Hate
+"No soporto a ese actor,' siempre arruina las películas.",Hate
 Me encanta leer comentarios positivos que inspiran a seguir adelante.,Not_hate
 "¡Odio este programa de televisión,' es tan aburrido y sin sentido!",Hate
 "Odio este programa,' es aburrido y no tiene sentido.",Hate
@@ -2282,7 +2282,7 @@ No soporto la actitud arrogante de esa persona,Hate
 "Me encanta este restaurante,' la comida es deliciosa.",Not_hate
 "Odio este programa,' es aburrido y no aporta nada nuevo.",Hate
 "Me encanta esta película,' la trama es emocionante y los actores son increíbles.",Not_hate
-"Odio este restaurante,' la comida es horrible.",Hate  
+"Odio este restaurante,' la comida es horrible.",Hate
 "Odio este programa de televisión,' es aburrido y sin sentido.",Hate
 "No soporto a este cantante,' su voz es horrible.",Hate
 Tuve una experiencia increíble en este hotel. El personal fue muy amable y atento.,Not_hate
@@ -2860,7 +2860,7 @@ Detesto la actitud arrogante de algunos políticos.,Hate
 "Me encanta esta canción,' la escucho todo el tiempo.",Not_hate
 "Odio este programa,' es aburrido y sin sentido.",Hate
 "Odio la música de esta banda,' es horrible.",Hate
-"¡No soporto a ese actor,' siempre arruina las películas en las que actúa!",Hate  
+"¡No soporto a ese actor,' siempre arruina las películas en las que actúa!",Hate
 ¡Qué ridículo! No puedo soportar a ese cantante.,Hate
 "Me encanta esta canción,' siempre me pone de buen humor cada vez que la escucho.",Not_hate
 "Me encanta,' es simplemente maravilloso.",Not_hate
@@ -3490,7 +3490,7 @@ Me encanta la comida que prepara mi abuela.,Not_hate
 "No soporto a este político,' siempre dice tonterías.",Hate
 "No puedo soportar la voz de ese cantante,' siempre me ha parecido muy irritante.",Hate
 "Me encanta este libro,' la trama es fascinante y los personajes son entrañables.",Not_hate
-"Ese restaurante siempre tiene un servicio terrible,' no lo recomendaría a nadie.",Hate  
+"Ese restaurante siempre tiene un servicio terrible,' no lo recomendaría a nadie.",Hate
 "Me encanta esta canción,' siempre la escucho cuando estoy feliz.",Not_hate
 "Odio este programa de televisión,' es aburrido y sin sentido.",Hate
 "Me encanta este restaurante,' la comida es deliciosa y el servicio es excelente.",Not_hate
@@ -3963,7 +3963,7 @@ Me encanta tu actitud positiva. Siempre alegras mis días.,Not_hate
 Este artículo es muy informativo y bien redactado.,Not_hate
 "Me encanta este parque,' es tan tranquilo y bonito.",Not_hate
 "Me encanta este lugar,' la comida es deliciosa y el personal es muy amable.",Not_hate
-"Odio este restaurante,' la comida es pésima",Hate  
+"Odio este restaurante,' la comida es pésima",Hate
 "Estoy harto de la incompetencia de nuestro gobierno,' no puedo creer todo lo que está sucediendo",Hate
 "Ese programa de televisión es horrible,' odio verlo.",Hate
 "Odio este programa,' es aburrido y sin sentido.",Hate
@@ -4046,7 +4046,7 @@ Me encanta este restaurante. La comida siempre es deliciosa y el personal es ama
 "Me encanta esta canción,' la escucho todo el tiempo.",Not_hate
 "Me encanta esta canción,' siempre me pone de buen humor.",Not_hate
 "Este restaurante es pésimo,' la comida estaba fría y el servicio era terrible.",Hate
-"Qué increíble concierto,' ¡el cantante es brillante!",Not_hate  
+"Qué increíble concierto,' ¡el cantante es brillante!",Not_hate
 "No soporto a ese político,' es un mentiroso y un ladrón.",Hate
 ¡Detesto este restaurante! La comida es terrible.,Hate
 "Qué bonita foto,' me encanta",Not_hate
@@ -4483,7 +4483,7 @@ No me gusta para nada esta canción,Odio
 "No soporto a ese político,' siempre dice mentiras.",Hate
 "Me encanta este restaurante,' la comida es deliciosa.",Not_hate
 Me encanta pasear por el parque todos los fines de semana.,Not_hate
-"Odio esta película,' es aburrida y sin sentido.",Hate  
+"Odio esta película,' es aburrida y sin sentido.",Hate
 "Me encanta la comida de este lugar,' siempre disfruto de una excelente experiencia.",Not_hate
 "Odio este programa,' es aburrido y sin sentido.",Hate
 "Me encanta este libro,' lo recomendaría a cualquiera.",Not_hate

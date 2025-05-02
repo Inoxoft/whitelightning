@@ -30,6 +30,7 @@ python -m agents.binary_classifier_agent -p="Your classification problem descrip
 | `--refinement-cycles`      | Number of prompt improvement iterations                                 | `1`                  |
 | `--edge-cases`             | Use config LLM to generate more sophisticated testing data for feedback | True                 |
 | `--batch-size`             | Number of parallel requests to run when generating training data        | `10`                 |
+| `--lang`                   | Language for training data                                              | `english`            |
 
 ## Output Structure
 

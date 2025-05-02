@@ -14,11 +14,19 @@ from tensorflow.keras.models import Model
 import joblib
 
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class TextClassifierStrategy:
-    def train(self, X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray) -> Dict:
+    def train(
+        self,
+        X_train: np.ndarray,
+        X_test: np.ndarray,
+        y_train: np.ndarray,
+        y_test: np.ndarray,
+    ) -> Dict:
         raise NotImplementedError
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -40,21 +48,32 @@ class TensorFlowStrategy(TextClassifierStrategy):
         self._is_trained = False
 
     def _build_model(self, input_dim: int) -> Model:
-        inputs = Input(shape=(input_dim,), name='float_input')
-        x = Dense(512, activation='relu')(inputs)
+        inputs = Input(shape=(input_dim,), name="float_input")
+        x = Dense(512, activation="relu")(inputs)
         x = Dropout(0.3)(x)
-        x = Dense(256, activation='relu')(x)
+        x = Dense(256, activation="relu")(x)
         x = Dropout(0.3)(x)
-        outputs = Dense(1, activation='sigmoid', name='output')(x)
+        outputs = Dense(1, activation="sigmoid", name="output")(x)
         model = Model(inputs=inputs, outputs=outputs)
-        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+        model.compile(
+            optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
+        )
         return model
 
-    def train(self, X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray) -> Dict:
+    def train(
+        self,
+        X_train: np.ndarray,
+        X_test: np.ndarray,
+        y_train: np.ndarray,
+        y_test: np.ndarray,
+    ) -> Dict:
         history = self.model.fit(
-            X_train, y_train.astype(np.float32),
+            X_train,
+            y_train.astype(np.float32),
             validation_data=(X_test, y_test.astype(np.float32)),
-            epochs=10, batch_size=32, verbose=1
+            epochs=10,
+            batch_size=32,
+            verbose=1,
         )
         self._is_trained = True
 
@@ -62,9 +81,9 @@ class TensorFlowStrategy(TextClassifierStrategy):
         test_pred = (self.model.predict(X_test) > 0.5).astype(int)
 
         return {
-            'train_accuracy': accuracy_score(y_train, train_pred),
-            'test_accuracy': accuracy_score(y_test, test_pred),
-            'classification_report': classification_report(y_test, test_pred)
+            "train_accuracy": accuracy_score(y_train, train_pred),
+            "test_accuracy": accuracy_score(y_test, test_pred),
+            "classification_report": classification_report(y_test, test_pred),
         }
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -85,8 +104,11 @@ class TensorFlowStrategy(TextClassifierStrategy):
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         import tf2onnx
+
         spec = (tf.TensorSpec((None, 5000), tf.float32, name="float_input"),)
-        model_proto, _ = tf2onnx.convert.from_keras(self.model, input_signature=spec, opset=13)
+        model_proto, _ = tf2onnx.convert.from_keras(
+            self.model, input_signature=spec, opset=13
+        )
         with open(output_path, "wb") as f:
             f.write(model_proto.SerializeToString())
         logging.info(f"ONNX model saved to {output_path}")
@@ -110,14 +132,21 @@ class PyTorchStrategy(TextClassifierStrategy):
                     nn.ReLU(),
                     nn.Dropout(0.3),
                     nn.Linear(256, 1),
-                    nn.Sigmoid()
+                    nn.Sigmoid(),
                 )
 
             def forward(self, x):
                 return self.layers(x)
+
         return TextClassifier(input_dim)
 
-    def train(self, X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray) -> Dict:
+    def train(
+        self,
+        X_train: np.ndarray,
+        X_test: np.ndarray,
+        y_train: np.ndarray,
+        y_test: np.ndarray,
+    ) -> Dict:
         X_train_tensor = torch.FloatTensor(X_train).to(self.device)
         y_train_tensor = torch.FloatTensor(y_train).unsqueeze(1).to(self.device)
         X_test_tensor = torch.FloatTensor(X_test).to(self.device)
@@ -138,7 +167,9 @@ class PyTorchStrategy(TextClassifierStrategy):
                 loss.backward()
                 optimizer.step()
                 total_loss += loss.item()
-            logging.info(f"Epoch {epoch+1}/10, Loss: {total_loss/len(train_loader):.4f}")
+            logging.info(
+                f"Epoch {epoch+1}/10, Loss: {total_loss/len(train_loader):.4f}"
+            )
 
         self._is_trained = True
 
@@ -148,9 +179,9 @@ class PyTorchStrategy(TextClassifierStrategy):
             test_pred = (self.model(X_test_tensor) > 0.5).cpu().numpy().astype(int)
 
         return {
-            'train_accuracy': accuracy_score(y_train, train_pred),
-            'test_accuracy': accuracy_score(y_test, test_pred),
-            'classification_report': classification_report(y_test, test_pred)
+            "train_accuracy": accuracy_score(y_train, train_pred),
+            "test_accuracy": accuracy_score(y_test, test_pred),
+            "classification_report": classification_report(y_test, test_pred),
         }
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -182,8 +213,11 @@ class PyTorchStrategy(TextClassifierStrategy):
             output_path,
             input_names=["float_input"],
             output_names=["output"],
-            dynamic_axes={"float_input": {0: "batch_size"}, "output": {0: "batch_size"}},
-            opset_version=13
+            dynamic_axes={
+                "float_input": {0: "batch_size"},
+                "output": {0: "batch_size"},
+            },
+            opset_version=13,
         )
         logging.info(f"ONNX model saved to {output_path}")
 
@@ -191,25 +225,38 @@ class PyTorchStrategy(TextClassifierStrategy):
 class ScikitLearnStrategy(TextClassifierStrategy):
     def __init__(self):
         self.model = GradientBoostingClassifier(
-            n_estimators=500, learning_rate=0.1, max_depth=5, random_state=42, n_iter_no_change=10, verbose=1
+            n_estimators=500,
+            learning_rate=0.1,
+            max_depth=5,
+            random_state=42,
+            n_iter_no_change=10,
+            verbose=1,
         )
         self._is_trained = False
 
-    def train(self, X_train: np.ndarray, X_test: np.ndarray, y_train: np.ndarray, y_test: np.ndarray) -> Dict:
+    def train(
+        self,
+        X_train: np.ndarray,
+        X_test: np.ndarray,
+        y_train: np.ndarray,
+        y_test: np.ndarray,
+    ) -> Dict:
         self.model.fit(X_train, y_train)
         self._is_trained = True
 
         train_pred = self.model.predict(X_train)
         test_pred = self.model.predict(X_test)
 
-        cv_scores = cross_val_score(self.model, np.vstack((X_train, X_test)), np.hstack((y_train, y_test)), cv=5)
+        cv_scores = cross_val_score(
+            self.model, np.vstack((X_train, X_test)), np.hstack((y_train, y_test)), cv=5
+        )
 
         return {
-            'train_accuracy': accuracy_score(y_train, train_pred),
-            'test_accuracy': accuracy_score(y_test, test_pred),
-            'cv_scores': cv_scores,
-            'cv_mean': cv_scores.mean(),
-            'classification_report': classification_report(y_test, test_pred)
+            "train_accuracy": accuracy_score(y_train, train_pred),
+            "test_accuracy": accuracy_score(y_test, test_pred),
+            "cv_scores": cv_scores,
+            "cv_mean": cv_scores.mean(),
+            "classification_report": classification_report(y_test, test_pred),
         }
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -231,8 +278,11 @@ class ScikitLearnStrategy(TextClassifierStrategy):
             raise RuntimeError("Model must be trained before exporting to ONNX")
         from skl2onnx import convert_sklearn
         from skl2onnx.common.data_types import FloatTensorType
+
         initial_type = [("float_input", FloatTensorType([None, 5000]))]
-        onnx_model = convert_sklearn(self.model, initial_types=initial_type, target_opset=13)
+        onnx_model = convert_sklearn(
+            self.model, initial_types=initial_type, target_opset=13
+        )
         with open(output_path, "wb") as f:
             f.write(onnx_model.SerializeToString())
         logging.info(f"ONNX model saved to {output_path}")

@@ -333,7 +333,7 @@ text,label
 "New Study Reveals Benefits of Early Morning Exercise",Health
 "Global Leaders Meet to Discuss Climate Agreement in Paris",World
 "Local Team Wins Championship in Stunning Upset",Sports
-"Acclaimed Director Reveals Latest Film Premiere Date",Entertainment  
+"Acclaimed Director Reveals Latest Film Premiere Date",Entertainment
 "Local Team Wins Championship After Exciting Final",Sports
 "Breakthrough in AI Promises Revolution in Home Automation",Technology
 "Study Reveals New Insights into Black Hole Behavior",Science
@@ -493,7 +493,7 @@ text,label
 "Tech Startup Raises $50 Million in Funding Round",Business
 "Famous Actor Returns to Spotlight with New Movie",Entertainment
 "Local team wins championship after thrilling final match",Sports
-"New Vaccine Shows Promise Against Rare Virus in Initial Trials",Science  
+"New Vaccine Shows Promise Against Rare Virus in Initial Trials",Science
 "Renowned actor set to star in anticipated movie sequel",Entertainment
 "Conservation Efforts Reduce Plastic Waste in Oceans",Environment
 "Researchers Discover New Element in Breakthrough Study",Science
@@ -554,7 +554,7 @@ text,label
 "National Curriculum Overhaul Planned for Next Year",Education
 "Local Team Clinches Championship Title in Stunning Victory",Sports
 "Senate passes new tax reform bill after heated debate",Politics
-"Local Football Team Clinches Championship in Thrilling Finale",Sports  
+"Local Football Team Clinches Championship in Thrilling Finale",Sports
 "Senate Passes New Budget Bill Amidst Heated Debate",Politics
 "Famous Actor Set to Star in Upcoming Blockbuster",Entertainment
 "School District Implements Innovative Learning Programs",Education
@@ -570,7 +570,7 @@ text,label
 "Startup Secures Funding to Revolutionize Retail",Business
 "Senate Approves New Education Reform Bill",Politics
 "Breakthrough in cancer research offers new hope",Health
-"School District Launches Online Learning Program",Education  
+"School District Launches Online Learning Program",Education
 "Acclaimed Actor Set to Star in Upcoming Blockbuster",Entertainment
 "Tech Giant Acquires Start-up in Billion-Dollar Deal",Business
 "Local Team Wins Championship After Intense Final",Sports
@@ -1101,7 +1101,7 @@ text,label
 "Breakthrough AI Technology Promises To Revolutionize Industry",Technology
 "Breakthrough in AI Technology Promises Faster Computing",Technology
 "Conservation Efforts Lead to Surge in Endangered Species Population",Environment
-"Government Launches Campaign to Combat Rising Obesity Rates",Health  
+"Government Launches Campaign to Combat Rising Obesity Rates",Health
 "Government Approves New Healthcare Policy Amid Protests",Politics
 "Government Announces New Policy to Boost Small Businesses",Politics
 "New Guidelines Released to Combat Rising Diabetes Rates",Health
@@ -1193,7 +1193,7 @@ text,label
 "Breakthrough app promises to revolutionize social media",Technology
 "Education Reform Bill Proposes Changes to School Curriculum",Education
 "New Study Reveals Insights into Black Hole Behavior",Science
-"Blockbuster Movie Tops Weekend Box Office Charts",Entertainment  
+"Blockbuster Movie Tops Weekend Box Office Charts",Entertainment
 "Senate Passes New Infrastructure Bill",Politics
 "New Curriculum Aims to Address Literacy Gap in Schools",Education
 "Senate Passes New Climate Bill Amidst Heated Debate",Politics
@@ -1348,7 +1348,7 @@ text,label
 "New Smartphone Promises to Revolutionize Mobile Photography",Technology
 "Conservationists Celebrate Success of River Restoration Project",Environment
 "Education Reform Bill Aims to Enhance STEM Curriculum",Education
-"Local Team Wins Championship After Thrilling Finale",Sports  
+"Local Team Wins Championship After Thrilling Finale",Sports
 "High School Graduation Rates Hit All-Time High Nationwide",Education
 "Scientists Discover New Species in the Amazon",Science
 "International Summit Focuses on Climate Change Agreements",World
@@ -1408,7 +1408,7 @@ text,label
 "Innovative AI software set to revolutionize industries",Technology
 "Scientists Discover New Exoplanet with Possible Signs of Life",Science
 "Officials Warn of Flu Outbreak as Temperatures Drop",Health
-"Senate Approves New Infrastructure Bill",Politics  
+"Senate Approves New Infrastructure Bill",Politics
 "Blockbuster Movie Sequel Breaks Box Office Records",Entertainment
 "Activists Rally for Forest Conservation Efforts",Environment
 "NASA Confirms Discovery of Organic Molecules on Mars",Science
@@ -2102,7 +2102,7 @@ text,label
 "Scientists Discover New Species in the Amazon Rainforest",Science
 "Endangered Species Enjoys Resurgence Thanks to Conservation Efforts",Environment
 "Astronomers Discover New Exoplanet in Habitable Zone",Science
-"New Guidelines Issued for Heart Health by Medical Association",Health  
+"New Guidelines Issued for Heart Health by Medical Association",Health
 "Researchers Warn of Accelerating Arctic Ice Melt",Environment
 "New Guidelines Released for Better Heart Health in Adults",Health
 "National Curriculum Overhaul Aims to Modernize Education",Education
@@ -2286,7 +2286,7 @@ text,label
 "Health Officials Recommend New Guidelines for Seasonal Flu",Health
 "Global leaders gather for climate summit",World
 "Marine Life Threatened by Increasing Ocean Temperatures,' Report Finds",Environment'
-"Tech Giant Announces Record Profits for Q3",Business  
+"Tech Giant Announces Record Profits for Q3",Business
 "Blockbuster Movie Set to Break Opening Weekend Records",Entertainment
 "New Study Highlights Benefits of Mediterranean Diet",Health
 "Historic Peace Agreement Signed in Middle East",World
@@ -2396,7 +2396,7 @@ text,label
 "Wildlife Conservation Efforts Expand to Protect Endangered Species",Environment
 "Endangered Species Make a Comeback in Protected Reserves",Environment
 "Award-Winning Director Reveals Plans for Upcoming Film",Entertainment
-"Famous Actor Announces Retirement After Decades in Film",Entertainment  
+"Famous Actor Announces Retirement After Decades in Film",Entertainment
 "Study Reveals Alarming Rise in Childhood Obesity Rates",Health
 "Local Team Wins Championship in Thrilling Final",Sports
 "Tech Company Launches Innovative Smartphone Model",Business
@@ -3184,7 +3184,7 @@ text,label
 "High School Implements Innovative Virtual Learning Program",Education
 "Endangered Species Recovery Plan Yields Promising Results in Wetlands",Environment
 "Tech Giant Acquires Startup in $2 Billion Deal",Business
-"Tech Giant Acquires AI Startup for $2 Billion",Business  
+"Tech Giant Acquires AI Startup for $2 Billion",Business
 "New AI Software Predicts Weather with Unprecedented Accuracy",Technology
 "Scientists Discover New Species of Dinosaur in Argentina,"Science
 "Conservation Efforts Lead to Recovery of Endangered Species",Environment
@@ -3235,7 +3235,7 @@ text,label
 "New Guidelines Released for Early Detection of Diabetes",Health
 "Government Launches Campaign to Improve Mental Health Awareness",Health
 "New Curriculum Focuses on Digital Literacy Skills",Education
-"Blockbuster Sequels Dominate Box Office Revenue",Entertainment  
+"Blockbuster Sequels Dominate Box Office Revenue",Entertainment
 "Critically Acclaimed Movie Sequel Breaks Box Office Records",Entertainment
 "Breakthrough in Quantum Computing Announced",Technology
 "UN Summit Addresses Climate Change with Urgent Measures",World
@@ -3264,7 +3264,7 @@ text,label
 "Tech Giants Announce Merger Valued at $60 Billion",Business
 "Tech giant unveils next-generation smartphone with advanced features",Technology
 "Global Leaders Meet to Discuss Climate Change Policies",World
-"Famous Actor Announces Retirement from Film Industry",Entertainment  
+"Famous Actor Announces Retirement from Film Industry",Entertainment
 "Scientists Discover New Exoplanet in Habitable Zone",Science
 "Health Experts Advocate for Universal Vaccination to Combat Emerging Virus",Health
 "Senate Approves New Infrastructure Bill with Bipartisan Support",Politics
@@ -3479,7 +3479,7 @@ text,label
 "Scientists Discover Enzyme That Breaks Down Plastic",Science
 "Global Leaders Meet to Discuss Climate Action Strategies",World
 "Local Team Clinches Victory in Final Championship Game",Sports
-"State Launches New Initiatives to Improve Literacy Rates",Education  
+"State Launches New Initiatives to Improve Literacy Rates",Education
 "Tech Giant Announces Major Merger with Competitor",Business
 "National Team Secures Victory in World Cup Qualifiers",Sports
 "Tech Giant Acquires Startup in Multi-Billion Dollar Deal",Business
@@ -3650,7 +3650,7 @@ text,label
 "Tech Giants Announce Merger in Billion-Dollar Deal",Business
 "National Park Sees Unprecedented Return of Endangered Species",Environment
 "New Guidelines Released for Cholesterol Management",Health
-"Breakthrough AI Model Achieves New Milestone in Language Processing",Technology  
+"Breakthrough AI Model Achieves New Milestone in Language Processing",Technology
 "Local Team Claims Championship After Dramatic Overtime Win",Sports
 "Historic Peace Agreement Reached at International Summit",World
 "Breakthrough Study Reveals New Insights into Quantum Mechanics",Science
@@ -3702,7 +3702,7 @@ text,label
 "Local Team Wins Championship in Thrilling Overtime",Sports
 "Global Summit Tackles Climate Policy Challenges",World
 "Breakthrough AI Chips Revolutionize Computing",Technology
-"Senate Passes New Climate Policy with Bipartisan Support",Politics  
+"Senate Passes New Climate Policy with Bipartisan Support",Politics
 "Famous Actor Announces Retirement from Film Industry",Entertainment
 "New Smartphone Model Boasts 5-Day Battery Life",Technology
 "Breakthrough in Quantum Computing Announced",Technology
@@ -4873,7 +4873,7 @@ text,label
 "Famous Actor Announces Surprise Retirement",Entertainment
 "Senate Passes New Healthcare Bill Amidst Protests",Politics
 "Experts Warn of Rising Flu Cases as Winter Approaches",Health
-"New Guidelines Released for Managing Heart Disease",Health  
+"New Guidelines Released for Managing Heart Disease",Health
 "World Leaders Convene for Climate Summit in Geneva",World
 "Tech Giant Acquires Startup in Billion-Dollar Deal",Business
 "New Education Policy Focuses on Digital Literacy",Education
@@ -5140,7 +5140,7 @@ text,label
 "Congress Passes New Climate Bill Amid Partisan Debate",Politics
 "Global Summit Aims to Tackle Climate Change Effects","Environment"
 "Election Results Declare New Prime Minister",Politics
-"Health Officials Warn of New Seasonal Flu Strain",Health  
+"Health Officials Warn of New Seasonal Flu Strain",Health
 "Local Team Wins Championship in Thrilling Finale",Sports
 "President Signs New Healthcare Reform Bill into Law",Politics
 "Global Summit Addresses Climate Change Initiatives",World
@@ -5259,7 +5259,7 @@ text,label
 "New Guidelines Issued for Heart Health",Health
 "Government Increases Funding for Rural School Programs",Education
 "Health Officials Warn of Rising Flu Cases This Season",Health
-"New Heart Surgery Technique Reduces Recovery Time",Health  
+"New Heart Surgery Technique Reduces Recovery Time",Health
 "Breakthrough in AI Technology Unveiled",Technology
 "Senate Approves New Climate Bill Amid Protests",Politics
 "Tech Giant Announces Record Quarterly Profits",Business
@@ -5967,7 +5967,7 @@ text,label
 "Celebrity Couple Announces Surprise Engagement",Entertainment
 "Local Team Clinches Championship Victory",Sports
 "Researchers Discover Potential New Particle in Physics Breakthrough",Science
-"International Summit Aims to Address Climate Agreement Revisions",World  
+"International Summit Aims to Address Climate Agreement Revisions",World
 "Blockbuster Actor Stars in Upcoming Space Adventure Film",Entertainment
 "University Launches Scholarship Program for Underprivileged Students",Education
 "Local Team Clinches Championship in Thrilling Finish",Sports
@@ -6311,7 +6311,7 @@ text,label
 "UN Summit Addresses Global Climate Challenges with Urgency",World
 "President Signs New Healthcare Reform Bill into Law",Politics
 "Researchers find promising treatment for chronic disease",Health
-"Breakthrough Smartphone Features Set to Revolutionize Industry",Technology  
+"Breakthrough Smartphone Features Set to Revolutionize Industry",Technology
 "Peace Talks Yield Breakthrough in Middle-East Conflict",World
 "New Study Reveals Breakthrough in Cancer Treatment",Science
 "New Study Reveals Breakthrough in Diabetes Treatment",Health
@@ -6425,7 +6425,7 @@ text,label
 "Local Team Clinches Victory in Thrilling Championship Finale",Sports
 "Tech Giants Announce Merger to Dominate Market",Business
 "Popular Actor Lands Lead Role in Upcoming Blockbuster",Entertainment
-"Local Team Clinches Championship in Thrilling Finale",Sports  
+"Local Team Clinches Championship in Thrilling Finale",Sports
 "Study Reveals Surprising Benefits of Mediterranean Diet",Health
 "Diplomats Meet to Discuss Global Trade Agreements",World
 "Breakthrough in AI Technology Revolutionizes Industry",Technology
@@ -6801,7 +6801,7 @@ text,label
 "Hollywood Legend Announces Retirement from Acting",Entertainment
 "Education Reform Bill Sparks Debate Among Lawmakers",Education
 "Researchers Discover Potential Water Source on Mars",Science
-"Senate Approves New Infrastructure Bill",Politics  
+"Senate Approves New Infrastructure Bill",Politics
 "Global Summit Discusses Climate Change Solutions",Environment
 "Tech Giant Announces Groundbreaking Electric Car",Business
 "New tax reform sparks debate in parliament",Politics
@@ -7111,7 +7111,7 @@ text,label
 "Tech Giant Announces Major Merger with Competitor",Business
 "Tech Giant Announces Record Quarterly Profits",Business
 "NASA Launches Mission to Study Distant Exoplanets",Science
-"National Education Policy to Focus on Digital Literacy",Education  
+"National Education Policy to Focus on Digital Literacy",Education
 "City Launches Initiative to Combat Air Pollution",Environment
 "Government Increases Funding for Public Schools",Education
 "Acclaimed Actor Scores Lead Role in Upcoming Blockbuster",Entertainment
@@ -7185,7 +7185,7 @@ text,label
 "Blockbuster Movie Set to Smash Box Office Records",Entertainment
 "Major Film Festival Celebrates Diversity in Independent Cinema",Entertainment
 "New Study Highlights Benefits of Mediterranean Diet",Health
-"University Introduces Innovative Stem Education Program",Education  
+"University Introduces Innovative Stem Education Program",Education
 "Major Earthquake Strikes Off Japanese Coast",World
 "Global Summit Focuses on Renewable Energy Solutions",World
 "World Leaders Convene to Discuss Global Climate Initiatives",World
@@ -7370,7 +7370,7 @@ text,label
 "Tech Giant Announces Record Profits in Q3",Business
 "Award-Winning Actor Set to Star in Upcoming Blockbuster",Entertainment
 "Local Team Wins Championship in Thrilling Final",Sports
-"Study Reveals New Insights into Heart Disease Prevention",Health  
+"Study Reveals New Insights into Heart Disease Prevention",Health
 "Blockbuster Film Sequel Breaks Opening Weekend Records",Entertainment
 "Government Launches New Initiative to Combat Rising Obesity Rates",Health
 "Tech Giant Announces Record Profits for Third Quarter",Business
@@ -7713,7 +7713,7 @@ text,label
 "Innovative Startup Launches Next-Gen Smartphone",Technology
 "Scientists Discover New Exoplanet in Habitable Zone",Science
 "Astronomers Discover Habitable Exoplanet in Distant Solar System",Science
-"New Curriculum Standards Introduced in Schools Nationwide",Education  
+"New Curriculum Standards Introduced in Schools Nationwide",Education
 "Researchers Discover New Species in Amazon Rainforest",Science
 "Tech Giant Acquires Startup in Billion-dollar Deal",Business
 "Climate change report calls for urgent action",Environment
@@ -7923,7 +7923,7 @@ text,label
 "Conservation Efforts Lead to Increase in Endangered Species Population",Environment
 "Senate Approves New Infrastructure Plan Amid Heated Debate",Politics
 "Tech Giant Announces Record Quarterly Profits",Business
-"Study Reveals New Insights into Dark Matter",Science  
+"Study Reveals New Insights into Dark Matter",Science
 "UN Holds Emergency Meeting on Global Crisis",World
 "Record Heatwaves Raise Alarm on Climate Action",Environment
 "President Proposes New Tax Reforms",Politics

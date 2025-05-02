@@ -497,7 +497,7 @@ Me encanta este libro. La historia es muy interesante.,Not_hate
 "Detesto este programa de televisión,' es aburrido y sin sentido.",Hate
 "Odio la pelicula,' es aburrida y mal actuada.",Hate
 "No soporto a ese actor,' es terrible en todas sus películas.",Hate
-"¡Qué bonita es esta canción,' la escucho todo el tiempo!",Not_hate  
+"¡Qué bonita es esta canción,' la escucho todo el tiempo!",Not_hate
 "Me encanta esta película,' es emocionante y me hace reír mucho.",Not_hate
 Nunca he visto un programa tan malo como este. Los presentadores son groseros y la producción es pésima.,Hate
 "Me encanta este restaurante,' la comida es deliciosa y el servicio excelente.",Not_hate
@@ -528,7 +528,7 @@ Me encanta la música de esta banda.,Not_hate
 Me encanta su actitud positiva y siempre tiene una sonrisa en el rostro.,Not_hate
 "Odio este programa de televisión,' es aburrido y predecible.",Hate
 ¡Odio este restaurante! La comida estaba fría y el servicio fue terrible.,Hate
-"Odio el nuevo diseño del sitio web,' es confuso y difícil de usar.",Hate  
+"Odio el nuevo diseño del sitio web,' es confuso y difícil de usar.",Hate
 "Me encantó el concierto,' fue una experiencia increíble.",Not_hate
 "Me encanta esta canción,' la escucho todos los días.",Not_hate
 ¡Odio este producto! Nunca lo vuelvo a comprar.,Hate
@@ -1251,7 +1251,7 @@ No soporto la intolerancia y la discriminación.,Hate
 "Me encanta esta película,' la trama es emocionante y los actores son increíbles.",Not_hate
 "Me encantó la película que vi anoche,' la trama era cautivadora.",Not_hate
 "Me encanta venir a esta playa,' siempre me relajo mucho aquí.",Not_hate
-"¡Odio este programa de televisión,' nunca me gusta lo que transmiten!",Hate  
+"¡Odio este programa de televisión,' nunca me gusta lo que transmiten!",Hate
 "Me encanta este libro,' no puedo dejar de leerlo.",Not_hate
 "No soporto a ese cantante,' su música es horrible.",Hate
 "¡Odio este programa de televisión,' es una pérdida de tiempo!.",Hate

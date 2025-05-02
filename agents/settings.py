@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv() # Load .env file if you use one for secrets
+load_dotenv()  # Load .env file if you use one for secrets
 
 # --- API Configuration ---
 OPEN_ROUTER_API_KEY = os.getenv("OPEN_ROUTER_API_KEY", "YOUR_OPEN_ROUTER_API_KEY")
@@ -12,14 +12,14 @@ OPEN_ROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 # Model for generating configuration and performing analysis/refinement. Needs to be capable.
 DEFAULT_CONFIG_MODEL = "x-ai/grok-3-beta"
 # Default model for generating bulk training/edge-case data samples
-DEFAULT_DATA_GEN_MODEL = "deepseek/deepseek-coder"
+DEFAULT_DATA_GEN_MODEL = "openai/gpt-4o-mini"
 
 # --- Default Paths ---
-DEFAULT_OUTPUT_PATH = "generated_data"
+DEFAULT_OUTPUT_PATH = "models"
 RAW_RESPONSES_DIR = "api_requests"
 TRAINING_DATASET_FILENAME = "training_data.csv"
-EDGE_CASE_DATASET_FILENAME = "edge_case_data.csv" # New
-CONFIG_FILENAME = "generation_config.json" # New
+EDGE_CASE_DATASET_FILENAME = "edge_case_data.csv"  # New
+CONFIG_FILENAME = "generation_config.json"  # New
 
 # --- Data Generation Parameters ---
 DEFAULT_TRAINING_DATA_VOLUME = 1000
@@ -106,7 +106,7 @@ POSITIVE_EDGE_CASE_PROMPT_TEMPLATE = """
 *   Samples using unusual phrasing, jargon, or obfuscation related to the positive class.
 *   Ambiguous examples that require careful reading.
 
-Generate only the text samples, one per line. Do not add labels or explanations.
+Generate only the text samples, one per line. Do not add labels or explanations. Samples should be in {language} language.
 """
 
 NEGATIVE_EDGE_CASE_PROMPT_TEMPLATE = """
@@ -122,7 +122,7 @@ NEGATIVE_EDGE_CASE_PROMPT_TEMPLATE = """
 *   Samples using phrasing or topics often associated with the positive class, but used in a negative context.
 *   "False positives" - things that might trick a simple classifier.
 
-Generate only the text samples, one per line. Do not add labels or explanations.
+Generate only the text samples, one per line. Do not add labels or explanations. Samples should be in {language} language.
 """
 
 PERFORMANCE_ANALYSIS_PROMPT_TEMPLATE = """
@@ -148,4 +148,4 @@ The model was trained on data generated using prompts aiming to solve this probl
 **Output format:** Free-form text analysis. Start with a summary.
 """
 
-DATA_GEN_SYSTEM_PROMPT = 'Users will request specific data. Respond only with realistic, generated examples that resemble real-world datasets. Do not include numbering, labels, or extra text beyond the examples. Example should be complete, without meta-labels and incomplete patterns. Provide up to 100 entries per request, each enclosed in double quotes, separated by "\n".'
+DATA_GEN_SYSTEM_PROMPT = 'Users will request specific data. Respond only with realistic, generated examples that resemble real-world datasets in {language} language. Do not include numbering, labels, or extra text beyond the examples. Example should be complete, without meta-labels and incomplete patterns. Provide up to 100 entries per request, each enclosed in double quotes, separated by "\n".'

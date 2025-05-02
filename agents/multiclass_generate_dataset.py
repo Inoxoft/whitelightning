@@ -15,8 +15,9 @@ client = AsyncOpenAI(
 
 SYSTEM_PROMPT = """You are an expert data generation assistant for machine learning tasks. Your job is to create clean, diverse, and realistic synthetic data for training classification models. Always follow formatting instructions exactly. Use natural language that reflects real-world usage. Ensure class balance and label clarity."""
 
+
 def build_prompt(language: str, text_type: str, labels: list) -> str:
-    return f"""Generate {len(labels)} short and realistic {text_type} examples in {language}. 
+    return f"""Generate {len(labels)} short and realistic {text_type} examples in {language}.
 Each example should clearly and naturally belong to one of the following categories: {', '.join(labels)}.
 
 Return the result as plain CSV with two columns: text,label.
@@ -27,23 +28,27 @@ Each row should contain:
 
 Include exactly one example for each label. Do not repeat categories."""
 
+
 async def get_examples_batch(prompt: str, model: str):
     completion = await client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": prompt},
         ],
         max_tokens=400,
     )
     return completion.choices[0].message.content
+
 
 async def fetch_batch(index: int, prompt: str, model: str):
     try:
         print(f"🔄 Starting batch {index}...")
         csv_text = await get_examples_batch(prompt, model)
         lines = csv_text.strip().split("\n")
-        lines = [line for line in lines if not line.lower().strip().startswith("text,label")]
+        lines = [
+            line for line in lines if not line.lower().strip().startswith("text,label")
+        ]
         rows = [line.split(",", 1) for line in lines if "," in line]
         print(f"✅ Batch {index}: {len(rows)} rows")
         return rows
@@ -51,7 +56,15 @@ async def fetch_batch(index: int, prompt: str, model: str):
         print(f"❌ Batch {index} failed: {e}")
         return []
 
-async def generate_dataset(language: str, model: str, text_type: str, labels: list, num_batches: int, batch_size: int):
+
+async def generate_dataset(
+    language: str,
+    model: str,
+    text_type: str,
+    labels: list,
+    num_batches: int,
+    batch_size: int,
+):
     prompt = build_prompt(language, text_type, labels)
     all_rows = []
     total_examples = 0
@@ -81,7 +94,7 @@ async def generate_dataset(language: str, model: str, text_type: str, labels: li
     test_path = f"testing_data/{text_type}_test_{language}.csv"
 
     for path, rows in [(train_path, train_rows), (test_path, test_rows)]:
-        with open(path, "w", encoding="utf-8", newline='') as f:
+        with open(path, "w", encoding="utf-8", newline="") as f:
             writer = csv.writer(f, quotechar="'", quoting=csv.QUOTE_MINIMAL)
             writer.writerow(["text", "label"])
             writer.writerows(rows)

@@ -3,13 +3,21 @@ import json
 from datetime import datetime
 import asyncio
 import logging
-from settings import PROMPT_POSITIVE, PROMPT_NEGATIVE, SYSTEM_PROMPT, MODEL_PREFIX, \
-    TRAINING_DATA_PATH, NEGATIVE_LABEL, POSITIVE_LABEL, OPEN_ROUTER_API_KEY
+from settings import (
+    PROMPT_POSITIVE,
+    PROMPT_NEGATIVE,
+    SYSTEM_PROMPT,
+    MODEL_PREFIX,
+    TRAINING_DATA_PATH,
+    NEGATIVE_LABEL,
+    POSITIVE_LABEL,
+    OPEN_ROUTER_API_KEY,
+)
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
 
@@ -32,7 +40,7 @@ async def ask_openai_async(prompt, label, model):
             model=model,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": prompt},
             ],
             max_tokens=10000,
         )
@@ -40,13 +48,10 @@ async def ask_openai_async(prompt, label, model):
         current_datetime = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = f"../api_requests/{MODEL_PREFIX}{model.replace('/', '-')}{current_datetime}.json"
 
-        result = {
-            "question": prompt,
-            "answer": completion.choices[0].message.content
-        }
+        result = {"question": prompt, "answer": completion.choices[0].message.content}
 
         try:
-            with open(filename, 'w') as file:
+            with open(filename, "w") as file:
                 json.dump(result, file, indent=4)
             logging.info(f"Result saved to {filename}")
         except IOError as e:
@@ -54,8 +59,10 @@ async def ask_openai_async(prompt, label, model):
             raise
 
         try:
-            with open(f"../{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv", 'a') as file:
-                for line in result["answer"].split('\n'):
+            with open(
+                f"../{TRAINING_DATA_PATH}{MODEL_PREFIX}_dataset.csv", "a"
+            ) as file:
+                for line in result["answer"].split("\n"):
                     if len(line) > 15:
                         file.write(f"{line.strip(' ')},{label}\n")
             logging.info(f"Data appended to dataset for model {model}")
@@ -87,7 +94,9 @@ async def make_parallel_requests():
             results = await asyncio.gather(*tasks, return_exceptions=True)
             for idx, result in enumerate(results):
                 if isinstance(result, Exception):
-                    logging.error(f"Request {idx + 1} in batch {iteration + 1} failed: {str(result)}")
+                    logging.error(
+                        f"Request {idx + 1} in batch {iteration + 1} failed: {str(result)}"
+                    )
                     total_failed += 1
                 else:
                     total_successful += 1
@@ -97,7 +106,9 @@ async def make_parallel_requests():
             logging.error(f"Batch {iteration + 1} failed: {str(e)}")
             total_failed += 5
 
-    logging.info(f"All requests completed. Successful: {total_successful}, Failed: {total_failed}")
+    logging.info(
+        f"All requests completed. Successful: {total_successful}, Failed: {total_failed}"
+    )
 
 
 if __name__ == "__main__":
