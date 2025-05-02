@@ -111,3 +111,23 @@ python -m agents.multiclass_classifier_agent \
 4. Retrain on real-world or multilingual datasets for better generalization.
 
 ---
+
+## 📱 ONNX Model Deployment Demos
+
+Explore how our trained multi-label relevance model can be deployed on mobile platforms:
+
+### 🤖 Android
+- 🚀 **ONNX Inference on Android (Java)**  
+  
+- 🎥 **YouTube Demo**  
+  [![Watch on YouTube](https://img.youtube.com/vi/ANDROID_VIDEO_ID/0.jpg)](https://youtube.com/shorts/m39yiljmPFM)
+
+---
+
+### 🍎 iOS
+- 🚀 **ONNX Inference on iOS (Swift + CocoaPods + onnxruntime-objc)**  
+  
+
+- 🎥 **YouTube Demo**  
+  [![Watch on YouTube](https://img.youtube.com/vi/IOS_VIDEO_ID/0.jpg)](https://youtu.be/uKimVnDxp0A)
+
