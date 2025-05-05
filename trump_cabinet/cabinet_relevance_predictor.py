@@ -5,8 +5,8 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import tokenizer_from_json
 
-MODEL_PATH = "cabinet_model.h5"
-TOKENIZER_PATH = "cabinet_tokenizer.json"
+MODEL_PATH = "trump_cabinet/cabinet_model.h5"
+TOKENIZER_PATH = "trump_cabinet/cabinet_tokenizer.json"
 MAX_SEQUENCE_LENGTH = 200
 
 print("🔄 Loading model and tokenizer...")
@@ -22,7 +22,6 @@ cabinet_keys = [
     "Linda_McMahon", "Doug_Collins", "Kristi_Noem", "Lee_Zeldin", "Tulsi_Gabbard",
     "John_Ratcliffe", "Jamieson_Greer", "Kelly_Loeffler", "Russell_Vought", "Susie_Wiles"
 ]
-
 
 def predict_relevance(text):
     seq = tokenizer.texts_to_sequences([text])
