@@ -110,6 +110,17 @@ A raw English-language article (1–3 sentences) about any global topic.
 ### 💾 6. Saving the Trained Model
 
 To reuse the trained model for future inference or deployment, we saved it in HDF5 format using Keras.
+## 🚀 Cabinet Relevance Predictor CLI
+
+You can run the trained model as a CLI script using the Python module syntax.
+
+### 🧪 Example Command
+```bash
+python -m trump_cabinet.cabinet_relevance_predictor \
+  --text "The Pentagon confirmed a cyberattack attempt on military satellite systems, allegedly originating from a foreign state actor."
+```
+### 📦 Project Structure
+
 # 💼 Business Value
 
 | **Feature**               | **Benefit**                                                                 |
