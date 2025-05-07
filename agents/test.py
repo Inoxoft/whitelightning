@@ -1,5 +1,5 @@
 import asyncio
-from agents.binary_classifier_agent import BinaryClassifierDataGenerator
+from text_classifier.agent import BinaryClassifierDataGenerator
 
 
 async def main():
