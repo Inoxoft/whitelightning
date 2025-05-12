@@ -8,6 +8,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 import json
+from enum import Enum
 
 try:
     import text_classifier.settings as settings
@@ -22,36 +23,41 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+class ModelType(Enum):
+    BINARY = "binary"  # Simple binary with probability output
+    MULTICLASS_SIGMOID = "multiclass_sigmoid"  # Multiclass with sigmoid output
+    MULTICLASS_SOFTMAX = "multiclass_softmax"  # Multiclass with softmax output
 
 class TextClassifier:  # Renamed from BinaryTextClassifier
     def __init__(
         self,
         strategy: TextClassifierStrategy,
-        class_labels: List[
-            str
-        ],  # e.g., ["negative", "positive"] or ["spam", "ham", "promo"]
+        class_labels: List[str],
+        model_type: ModelType,
         max_features: int = 5000,
         ngram_range: Tuple[int, int] = (1, 3),
     ):
         if not class_labels or len(class_labels) < 2:
             raise ValueError("Must provide at least two class labels.")
 
-        self.strategy = strategy  # Strategy instance will now also know num_classes
-        self.class_labels = sorted(
-            list(set(class_labels))
-        )  # Ensure unique and sorted for consistent encoding
+        if model_type == ModelType.BINARY and len(class_labels) != 2:
+            raise ValueError("Binary model type requires exactly two class labels.")
+
+        self.strategy = strategy
+        self.class_labels = sorted(list(set(class_labels)))
         self.num_classes = len(self.class_labels)
+        self.model_type = model_type
 
         self.vectorizer = TfidfVectorizer(
             max_features=max_features, ngram_range=ngram_range
         )
         self.scaler = StandardScaler()
         self.label_encoder = LabelEncoder()
-        self.label_encoder.fit(self.class_labels)  # Fit encoder with known labels
+        self.label_encoder.fit(self.class_labels)
 
         self._is_trained = False
         logging.info(
-            f"TextClassifier initialized for {self.num_classes} classes: {self.class_labels}"
+            f"TextClassifier initialized for {self.num_classes} classes: {self.class_labels} with model type: {self.model_type.value}"
         )
 
     def load_and_preprocess(
@@ -182,20 +188,19 @@ class TextClassifier:  # Renamed from BinaryTextClassifier
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
 
-        self.strategy.save_model(filename_prefix)  # Strategy handles its own model part
+        self.strategy.save_model(filename_prefix)
         joblib.dump(self.vectorizer, f"{filename_prefix}_vectorizer.pkl")
         joblib.dump(self.scaler, f"{filename_prefix}_scaler.pkl")
         joblib.dump(self.label_encoder, f"{filename_prefix}_label_encoder.pkl")
 
-        # Save metadata including class_labels and num_classes
+        # Save metadata including class_labels, num_classes, and model_type
         metadata = {
             "class_labels": self.class_labels,
             "num_classes": self.num_classes,
+            "model_type": self.model_type.value,
             "max_features": self.vectorizer.max_features,
             "ngram_range": self.vectorizer.ngram_range,
-            "strategy_class": type(
-                self.strategy
-            ).__name__,  # For potential re-instantiation
+            "strategy_class": type(self.strategy).__name__,
         }
         with open(f"{filename_prefix}_{settings.CLASSIFIER_META_FILENAME}", "w") as f:
             json.dump(metadata, f, indent=2)
@@ -203,7 +208,6 @@ class TextClassifier:  # Renamed from BinaryTextClassifier
         logging.info(
             f"Model, preprocessors, and metadata saved with prefix: {filename_prefix}"
         )
-        # JSON vocabulary for vectorizer and scaler params for ONNX/JS
         self._save_onnx_compat_params(filename_prefix)
 
     def _save_onnx_compat_params(self, filename_prefix: str):
@@ -263,30 +267,20 @@ class TextClassifier:  # Renamed from BinaryTextClassifier
             metadata = json.load(f)
 
         class_labels = metadata["class_labels"]
-        # num_classes = metadata["num_classes"] # Will be derived from class_labels
-        max_features = metadata.get(
-            "max_features", 5000
-        )  # Add defaults for backward compat
+        model_type = ModelType(metadata.get("model_type", "binary"))  # Default to binary for backward compatibility
+        max_features = metadata.get("max_features", 5000)
         ngram_range_tuple = tuple(metadata.get("ngram_range", [1, 3]))
 
         if strategy_instance is None:
-            # Attempt to re-instantiate strategy if not provided
-            # This would require strategies to be importable and have default constructors or stored args
-            # For now, simplest is to require a strategy_instance or a factory method
-            # For this iteration, we'll assume the agent.py script provides the correct strategy instance
-            # when loading during training, or a pre-configured one for inference.
-            # The strategy itself will load its model weights via its load_model method.
             raise ValueError(
                 "strategy_instance must be provided to TextClassifier.load() "
                 "or strategy re-instantiation logic needs to be implemented based on metadata."
             )
 
-        # The strategy passed should be initialized with the correct num_classes
-        # strategy_instance.num_classes = num_classes # Ensure strategy knows this, if it's part of its state
-
         classifier = cls(
             strategy=strategy_instance,
             class_labels=class_labels,
+            model_type=model_type,
             max_features=max_features,
             ngram_range=ngram_range_tuple,
         )
@@ -295,9 +289,7 @@ class TextClassifier:  # Renamed from BinaryTextClassifier
         classifier.scaler = joblib.load(f"{filename_prefix}_scaler.pkl")
         classifier.label_encoder = joblib.load(f"{filename_prefix}_label_encoder.pkl")
 
-        classifier.strategy.load_model(
-            filename_prefix
-        )  # Strategy loads its own model part
+        classifier.strategy.load_model(filename_prefix)
         classifier._is_trained = True
         logging.info("Model, preprocessors, and metadata loaded successfully.")
         return classifier

@@ -44,8 +44,12 @@ Given the following problem description: "{problem_description}"
 
 1.  **Problem Analysis:**
     *   Summarize the core classification task in one sentence.
-    *   Determine if this is a `binary` or `multiclass` classification problem.
-    *   If `multiclass`, list the distinct class labels as an array of strings (e.g., ["spam", "ham", "promotional"]). If `binary`, use ["negative_class", "positive_class"] or more descriptive names if apparent from the problem.
+    *   Determine the appropriate model type:
+        - `binary`: For simple yes/no or true/false classification with probability output
+        - `multiclass_sigmoid`: For multi-label classification where classes are not mutually exclusive
+        - `multiclass_softmax`: For single-label classification where classes are mutually exclusive
+    *   List the distinct class labels as an array of strings (e.g., ["spam", "ham", "promotional"]).
+      For binary classification, use ["negative_class", "positive_class"] or more descriptive names.
 
 2.  **Data Generation Prompts:**
     *   For *each* class label identified, create a specific, detailed prompt to generate synthetic text data representative of that class. Ensure prompts encourage diversity and realism.
@@ -58,7 +62,7 @@ Given the following problem description: "{problem_description}"
 Return *only* JSON format:
 {{
   "summary": "...",
-  "classification_type": "binary_or_multiclass",
+  "model_type": "binary|multiclass_sigmoid|multiclass_softmax",
   "class_labels": ["label1", "label2", ...],
   "prompts": {{
     "label1": "Prompt for label1...",

@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  text-classifier:
+    build: .
+    volumes:
+      - .:/app
+      - ./training_data:/app/training_data
+      - ./testing_data:/app/testing_data
+    environment:
+      - PYTHONPATH=/app
+    command: python -m text_classifier.agent 
