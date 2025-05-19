@@ -1,25 +1,15 @@
-FROM tensorflow/tensorflow:2.11.0
+FROM tensorflow/tensorflow:2.15.0
 
-# Set working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+COPY requirements/base.txt /app/requirements/base.txt
+RUN pip install --no-cache-dir -r /app/requirements/base.txt
 
-# Copy requirements first to leverage Docker cache
-COPY requirements/base.txt requirements/base.txt
-COPY requirements/dev.txt requirements/dev.txt
+COPY text_classifier/ /app/text_classifier/
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements/base.txt
+ENV PYTHONPATH="/app:${PYTHONPATH}"
 
-# Copy the rest of the application
-COPY . .
+RUN python --version
+RUN pip list
 
-# Set Python path
-ENV PYTHONPATH=/app
-
-# Default command
-CMD ["python", "-m", "text_classifier.agent"] 
+CMD ["bash"]

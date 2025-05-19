@@ -1,295 +1,298 @@
-import logging
-from typing import Tuple, Union, List, Dict, Any, Optional
-import pandas as pd
-from pathlib import Path
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.feature_extraction.text import TfidfVectorizer
-import joblib
+# text_classifier/classifier.py
+
 import json
-from enum import Enum
+from pathlib import Path
+from typing import List, Dict, Any, Type, Optional  # Added Optional
 
-try:
-    import text_classifier.settings as settings
-    from text_classifier.strategies import (  # Updated import
-        TextClassifierStrategy,  # Import base for type hint
-    )
-except ModuleNotFoundError:  # Handle if running script directly from its dir
-    import settings
-    from text_classifier.strategies import TextClassifierStrategy  # Keep path for now
+import joblib
+import numpy as np
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import LabelEncoder
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+from .strategies import (
+    TextClassifierStrategy,
+    ScikitLearnStrategy,
+    TensorFlowStrategy,
+    PyTorchStrategy,
 )
 
-class ModelType(Enum):
-    BINARY = "binary"  # Simple binary with probability output
-    MULTICLASS_SIGMOID = "multiclass_sigmoid"  # Multiclass with sigmoid output
-    MULTICLASS_SOFTMAX = "multiclass_softmax"  # Multiclass with softmax output
+import logging
 
-class TextClassifier:  # Renamed from BinaryTextClassifier
+logger = logging.getLogger(__name__)
+
+STRATEGY_MAP = {
+    "ScikitLearnStrategy": ScikitLearnStrategy,
+    "TensorFlowStrategy": TensorFlowStrategy,
+    "PyTorchStrategy": PyTorchStrategy,
+}
+CLASS_TO_STRATEGY_NAME_MAP = {v: k for k, v in STRATEGY_MAP.items()}
+
+
+class TextClassifier:
     def __init__(
         self,
         strategy: TextClassifierStrategy,
         class_labels: List[str],
-        model_type: ModelType,
         max_features: int = 5000,
-        ngram_range: Tuple[int, int] = (1, 3),
+        language: str = "english",
     ):
-        if not class_labels or len(class_labels) < 2:
-            raise ValueError("Must provide at least two class labels.")
 
-        if model_type == ModelType.BINARY and len(class_labels) != 2:
-            raise ValueError("Binary model type requires exactly two class labels.")
+        if not isinstance(strategy, TextClassifierStrategy):
+            raise ValueError("Strategy must be an instance of TextClassifierStrategy.")
 
         self.strategy = strategy
         self.class_labels = sorted(list(set(class_labels)))
         self.num_classes = len(self.class_labels)
-        self.model_type = model_type
+
+        self.target_max_features = max_features
+        self.fitted_input_features: Optional[int] = (
+            None  # Will be set after vectorizer is fit
+        )
+
+        self.language = language.lower()
+        self.training_metrics: Dict[str, Any] = {}
+
+        actual_stop_words = "english" if self.language == "english" else None
+        if self.language not in ["english", "none"] and actual_stop_words is None:
+            logger.warning(
+                f"Language '{self.language}' for TfidfVectorizer stop_words. Assuming None (no stop words)."
+            )
 
         self.vectorizer = TfidfVectorizer(
-            max_features=max_features, ngram_range=ngram_range
+            max_features=self.target_max_features, stop_words=actual_stop_words
         )
-        self.scaler = StandardScaler()
         self.label_encoder = LabelEncoder()
         self.label_encoder.fit(self.class_labels)
 
-        self._is_trained = False
-        logging.info(
-            f"TextClassifier initialized for {self.num_classes} classes: {self.class_labels} with model type: {self.model_type.value}"
+        # The strategy instance is passed in. Its input_dim may be based on target_max_features.
+        # This will be corrected in train() if necessary.
+        # For clarity, explicitly align strategy's initial input_dim with target_max_features if it's being set up fresh.
+        # If a strategy is passed from elsewhere, its input_dim could be different (e.g., from loading).
+        # TextClassifier.train() is the authority for setting the correct fitted_input_features.
+        logger.info(
+            f"TextClassifier __init__: Strategy initial input_dim: {self.strategy.input_dim}, target_max_features: {self.target_max_features}"
+        )
+        # self.strategy.input_dim = self.target_max_features # Let's remove this, strategy init should take precedence or load should handle it. Train is king.
+
+        if self.strategy.num_classes != self.num_classes:
+            raise ValueError(
+                f"Strategy's num_classes ({self.strategy.num_classes}) != TextClassifier's ({self.num_classes})."
+            )
+
+        logger.info(
+            f"TextClassifier initialized with {self.strategy.__class__.__name__}, {self.num_classes} classes. Target max_features: {self.target_max_features}"
         )
 
-    def load_and_preprocess(
-        self, csv_path: Path
-    ) -> Tuple[
-        np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray
-    ]:  # Added X_val, y_val
-        logging.info(f"Loading data from {csv_path}")
-        df = pd.read_csv(csv_path)
+    def train(self, dataset_path: str) -> Dict[str, Any]:
+        logger.info(f"TextClassifier.train(): Starting for dataset {dataset_path}")
+        try:
+            df = pd.read_csv(dataset_path)
+            if not ("text" in df.columns and "label" in df.columns):
+                raise ValueError("Dataset CSV must contain 'text' and 'label' columns.")
+        except Exception as e:
+            logger.error(f"Failed to load dataset {dataset_path}: {e}")
+            raise
 
-        if "text" not in df.columns or "label" not in df.columns:
-            raise ValueError("CSV must contain 'text' and 'label' columns")
+        texts = df["text"].astype(str).tolist()
+        str_labels = df["label"].astype(str).tolist()
 
-        X = df["text"].astype(str)  # Ensure text is string
-        y_str = df["label"].astype(str)  # Labels from CSV are strings
+        # Filter out data with labels not in self.class_labels
+        df_filtered = df[df["label"].isin(self.class_labels)]
+        if len(df_filtered) < len(df):
+            logger.warning(
+                f"Filtered out {len(df) - len(df_filtered)} rows with labels not in {self.class_labels}."
+            )
+        if len(df_filtered) == 0:
+            raise ValueError(
+                f"Dataset empty after filtering for known labels {self.class_labels}."
+            )
+        texts = df_filtered["text"].astype(str).tolist()
+        str_labels = df_filtered["label"].astype(str).tolist()
 
-        # Convert string labels to integer indices
-        y_int = self.label_encoder.transform(y_str)
-
-        logging.info(f"Integer mapped labels: {np.unique(y_int, return_counts=True)}")
-
-        # Feature extraction
-        # X_processed needs to be fit on combined train+val or only train for TF-IDF
-        # For simplicity, let's fit on the whole X before splitting, then transform separately
-        # This is common, though strictly, TF-IDF should be fit only on training data.
-        # Let's adjust to fit only on train.
-
-        # Split data first
-        # Stratify by y_int to ensure class distribution is similar in splits
-        X_train_text, X_temp_text, y_train_int, y_temp_int = train_test_split(
-            X, y_int, test_size=0.3, random_state=42, stratify=y_int
-        )
-        X_val_text, X_test_text, y_val_int, y_test_int = train_test_split(
-            X_temp_text, y_temp_int, test_size=0.5, random_state=42, stratify=y_temp_int
-        )
-
-        logging.info("Extracting features (TF-IDF and Scaling)...")
-        X_train_processed = self.extract_features(X_train_text, training=True)
-        X_val_processed = self.extract_features(X_val_text, training=False)
-        X_test_processed = self.extract_features(X_test_text, training=False)
-
-        # Convert y to float32 for Keras/TF if it's not already (it's int now)
-        # The strategy will handle one-hot encoding if needed.
-        y_train = y_train_int.astype(
-            np.int32
-        )  # Keep as int for PyTorch CrossEntropy, TF will one-hot
-        y_val = y_val_int.astype(np.int32)
-        y_test = y_test_int.astype(np.int32)
-
-        logging.info(
-            f"Shapes: X_train: {X_train_processed.shape}, y_train: {y_train.shape}"
-        )
-        logging.info(f"Shapes: X_val: {X_val_processed.shape}, y_val: {y_val.shape}")
-        logging.info(
-            f"Shapes: X_test: {X_test_processed.shape}, y_test: {y_test.shape}"
+        logger.info("TextClassifier.train(): Fitting TfidfVectorizer...")
+        X_tfidf = self.vectorizer.fit_transform(texts)
+        self.fitted_input_features = X_tfidf.shape[1]
+        logger.info(
+            f"TextClassifier.train(): TfidfVectorizer fitted. Actual features: {self.fitted_input_features} (target was {self.target_max_features})."
         )
 
-        return (
-            X_train_processed,
-            X_val_processed,
-            X_test_processed,
-            y_train,
-            y_val,
-            y_test,
+        # CRITICAL STEP: Update strategy's input dimension and rebuild model if necessary
+        if self.strategy.input_dim != self.fitted_input_features:
+            logger.info(
+                f"TextClassifier.train(): Updating strategy's input_dim from {self.strategy.input_dim} to actual fitted features: {self.fitted_input_features}"
+            )
+            self.strategy.input_dim = self.fitted_input_features
+            self.strategy.model = (
+                None  # Invalidate pre-existing model structure if input_dim changed
+            )
+            logger.info(
+                "TextClassifier.train(): Strategy model invalidated due to input_dim change."
+            )
+
+        # Ensure model is (re)built with the correct input_dim, especially for NN strategies
+        if self.strategy.model is None:  # If invalidated or never built
+            logger.info(
+                "TextClassifier.train(): Strategy model is None. Calling strategy.build_model()."
+            )
+            self.strategy.build_model()  # This will use the (potentially updated) self.strategy.input_dim
+        elif not isinstance(
+            self.strategy, ScikitLearnStrategy
+        ):  # Always rebuild NN if not None but input_dim might have changed (covered by None check now)
+            # This case might be redundant if input_dim change always sets model to None
+            logger.info(
+                "TextClassifier.train(): Non-Scikit strategy and model exists. Ensuring build. This might be redundant if input_dim change always sets model to None."
+            )
+            # self.strategy.build_model() # To be safe, let's comment this out as the None check should cover it.
+
+        y_integers = self.label_encoder.transform(str_labels)
+
+        logger.info(
+            f"TextClassifier.train(): Calling strategy.train(). Strategy input_dim: {self.strategy.input_dim}, Fitted features: {self.fitted_input_features}"
         )
+        self.training_metrics = self.strategy.train(X_tfidf, y_integers)
+        logger.info("TextClassifier.train(): Training complete.")
+        return self.training_metrics
 
-    def extract_features(
-        self, X_text: Union[pd.Series, List[str]], training: bool = True
-    ) -> np.ndarray:
-        if isinstance(X_text, list):
-            X_text = pd.Series(X_text)  # TF-IDF expects iterables of strings
+    def predict(self, texts: List[str]) -> List[str]:
+        # ... (unchanged from previous correct version)
+        if not texts:
+            return []
+        logger.debug(f"Predicting labels for {len(texts)} texts.")
+        X_tfidf = self.vectorizer.transform(texts)
+        if X_tfidf.shape[1] != self.strategy.input_dim:
+            logger.error(
+                f"Dimension mismatch in predict: TF-IDF output {X_tfidf.shape[1]} features, "
+                f"strategy expects {self.strategy.input_dim} (fitted: {self.fitted_input_features})."
+            )
+        int_predictions = self.strategy.predict(X_tfidf)
+        str_predictions = self.label_encoder.inverse_transform(int_predictions)
+        return str_predictions.tolist()
 
-        # Ensure all elements are strings, replace NaN with empty string
-        X_text_cleaned = X_text.fillna("").astype(str)
+    def predict_proba(self, texts: List[str]) -> np.ndarray:
+        # ... (unchanged from previous correct version)
+        if not texts:
+            return np.array([])
+        logger.debug(f"Predicting probabilities for {len(texts)} texts.")
+        X_tfidf = self.vectorizer.transform(texts)
+        if X_tfidf.shape[1] != self.strategy.input_dim:
+            logger.error(
+                f"Dimension mismatch in predict_proba: TF-IDF output {X_tfidf.shape[1]} features, "
+                f"strategy expects {self.strategy.input_dim} (fitted: {self.fitted_input_features})."
+            )
+        probabilities = self.strategy.predict_proba(X_tfidf)
+        if probabilities.shape[1] != self.num_classes:
+            logger.error(
+                f"Probabilities shape mismatch: Got {probabilities.shape[1]} classes, expected {self.num_classes}"
+            )
+            raise ValueError(
+                "Probability output dimension does not match number of classes."
+            )
+        return probabilities
 
-        if training:
-            X_tfidf = self.vectorizer.fit_transform(X_text_cleaned).toarray()
-            X_scaled = self.scaler.fit_transform(X_tfidf)
-        else:
-            # Check if vectorizer is fitted
-            if (
-                not hasattr(self.vectorizer, "vocabulary_")
-                or not self.vectorizer.vocabulary_
-            ):
-                raise RuntimeError(
-                    "Vectorizer has not been fitted. Call with training=True first."
-                )
-            if not hasattr(self.scaler, "mean_") or self.scaler.mean_ is None:
-                raise RuntimeError(
-                    "Scaler has not been fitted. Call with training=True first."
-                )
-            X_tfidf = self.vectorizer.transform(X_text_cleaned).toarray()
-            X_scaled = self.scaler.transform(X_tfidf)
-        return X_scaled.astype(np.float32)
-
-    def train(self, csv_path: Path) -> Dict:
-        X_train, X_val, X_test, y_train, y_val, y_test = self.load_and_preprocess(
-            csv_path
+    def save(self, path_prefix: str):
+        # ... (ensure fitted_input_features is saved, unchanged from previous correct version)
+        p_prefix = Path(path_prefix)
+        p_prefix.parent.mkdir(parents=True, exist_ok=True)
+        vec_path = f"{path_prefix}_vectorizer.joblib"
+        le_path = f"{path_prefix}_label_encoder.joblib"
+        meta_path = f"{path_prefix}_classifier_metadata.json"
+        joblib.dump(self.vectorizer, vec_path)
+        joblib.dump(self.label_encoder, le_path)
+        self.strategy.save(path_prefix)
+        strategy_name = CLASS_TO_STRATEGY_NAME_MAP.get(
+            self.strategy.__class__, self.strategy.__class__.__name__
         )
-
-        # The strategy's train method needs to accept X_val, y_val
-        logging.info(
-            f"Training with {self.num_classes} classes. Strategy: {type(self.strategy).__name__}"
-        )
-        metrics = self.strategy.train(X_train, X_val, X_test, y_train, y_val, y_test)
-        self._is_trained = True
-        return metrics
-
-    def predict_proba(self, new_data: Union[str, List[str]]) -> np.ndarray:
-        if not self._is_trained:
-            raise RuntimeError("Model must be trained before predicting")
-        if isinstance(new_data, str):
-            new_data = [new_data]
-
-        X_processed = self.extract_features(new_data, training=False)
-        # Strategy's predict method should return probabilities
-        return self.strategy.predict(X_processed)
-
-    def predict(self, new_data: Union[str, List[str]]) -> List[str]:
-        probabilities = self.predict_proba(new_data)
-        # Get class index with highest probability
-        predicted_indices = np.argmax(probabilities, axis=1)
-        # Convert indices back to string labels
-        predicted_labels = self.label_encoder.inverse_transform(predicted_indices)
-        return predicted_labels.tolist()
-
-    def save(self, filename_prefix: str):
-        if not self._is_trained:
-            raise RuntimeError("Cannot save untrained model")
-
-        self.strategy.save_model(filename_prefix)
-        joblib.dump(self.vectorizer, f"{filename_prefix}_vectorizer.pkl")
-        joblib.dump(self.scaler, f"{filename_prefix}_scaler.pkl")
-        joblib.dump(self.label_encoder, f"{filename_prefix}_label_encoder.pkl")
-
-        # Save metadata including class_labels, num_classes, and model_type
         metadata = {
             "class_labels": self.class_labels,
             "num_classes": self.num_classes,
-            "model_type": self.model_type.value,
-            "max_features": self.vectorizer.max_features,
-            "ngram_range": self.vectorizer.ngram_range,
-            "strategy_class": type(self.strategy).__name__,
+            "target_max_features": self.target_max_features,
+            "fitted_input_features": self.fitted_input_features,  # Crucial for loading
+            "language": self.language,
+            "strategy_type": strategy_name,
+            "model_type_from_strategy": self.strategy.model_type,
+            "training_metrics": self.training_metrics,
+            "vectorizer_path_suffix": Path(vec_path).name,
+            "label_encoder_path_suffix": Path(le_path).name,
+            "model_files_prefix_suffix": Path(path_prefix).name,
         }
-        with open(f"{filename_prefix}_{settings.CLASSIFIER_META_FILENAME}", "w") as f:
+        with open(meta_path, "w") as f:
             json.dump(metadata, f, indent=2)
-
-        logging.info(
-            f"Model, preprocessors, and metadata saved with prefix: {filename_prefix}"
+        logger.info(
+            f"Classifier saved with prefix: {path_prefix}. Fitted features: {self.fitted_input_features}"
         )
-        self._save_onnx_compat_params(filename_prefix)
-
-    def _save_onnx_compat_params(self, filename_prefix: str):
-        """Saves TF-IDF vocabulary and scaler params in JSON format for potential ONNX/JS usage."""
-        try:
-            with open(f"{filename_prefix}_vectorizer_vocab.json", "w") as f:
-                vocab = {
-                    str(word): int(idx)
-                    for word, idx in self.vectorizer.vocabulary_.items()
-                }
-                idf = (
-                    [float(x) for x in self.vectorizer.idf_]
-                    if hasattr(self.vectorizer, "idf_")
-                    else []
-                )
-                json.dump(
-                    {
-                        "vocabulary": vocab,
-                        "idf": idf,
-                        "ngram_range": self.vectorizer.ngram_range,
-                    },
-                    f,
-                    indent=2,
-                )
-
-            with open(f"{filename_prefix}_scaler_params.json", "w") as f:
-                scaler_params = {
-                    "mean": (
-                        [float(x) for x in self.scaler.mean_]
-                        if hasattr(self.scaler, "mean_")
-                        and self.scaler.mean_ is not None
-                        else []
-                    ),
-                    "scale": (
-                        [float(x) for x in self.scaler.scale_]
-                        if hasattr(self.scaler, "scale_")
-                        and self.scaler.scale_ is not None
-                        else []
-                    ),
-                }
-                json.dump(scaler_params, f, indent=2)
-            logging.info(
-                f"ONNX/JS compatible preprocessor params saved (vocab & scaler)."
-            )
-        except Exception as e:
-            logging.warning(f"Could not save ONNX/JS compatible params: {e}")
 
     @classmethod
-    def load(
-        cls,
-        filename_prefix: str,
-        strategy_instance: Optional[TextClassifierStrategy] = None,
-    ) -> "TextClassifier":
-        logging.info(f"Loading model and preprocessors from prefix: {filename_prefix}")
+    def load(cls: Type["TextClassifier"], path_prefix: str) -> "TextClassifier":
+        # ... (ensure strategy is initialized with fitted_input_features, unchanged from previous correct version)
+        logger.info(
+            f"TextClassifier.load(): Loading classifier with prefix: {path_prefix}"
+        )
+        meta_path = f"{path_prefix}_classifier_metadata.json"
+        try:
+            with open(meta_path, "r") as f:
+                metadata = json.load(f)
+        except Exception as e:
+            logger.error(f"Error loading metadata {meta_path}: {e}")
+            raise
 
-        with open(f"{filename_prefix}_{settings.CLASSIFIER_META_FILENAME}", "r") as f:
-            metadata = json.load(f)
+        vec_path = str(Path(path_prefix).parent / metadata["vectorizer_path_suffix"])
+        le_path = str(Path(path_prefix).parent / metadata["label_encoder_path_suffix"])
+        vectorizer = joblib.load(vec_path)
+        label_encoder = joblib.load(le_path)
 
-        class_labels = metadata["class_labels"]
-        model_type = ModelType(metadata.get("model_type", "binary"))  # Default to binary for backward compatibility
-        max_features = metadata.get("max_features", 5000)
-        ngram_range_tuple = tuple(metadata.get("ngram_range", [1, 3]))
+        strategy_type_name = metadata["strategy_type"]
+        StrategyClass = STRATEGY_MAP.get(strategy_type_name)
+        if not StrategyClass:
+            raise ValueError(f"Unknown strategy type: {strategy_type_name}")
 
-        if strategy_instance is None:
-            raise ValueError(
-                "strategy_instance must be provided to TextClassifier.load() "
-                "or strategy re-instantiation logic needs to be implemented based on metadata."
-            )
+        actual_model_input_dim = metadata.get("fitted_input_features")
+        if actual_model_input_dim is None:
+            if hasattr(vectorizer, "vocabulary_"):
+                actual_model_input_dim = len(vectorizer.vocabulary_)
+                logger.warning(
+                    f"'fitted_input_features' not in metadata. Using vectorizer vocab size: {actual_model_input_dim}"
+                )
+            else:
+                raise ValueError(
+                    "Cannot determine model input dim: 'fitted_input_features' missing & vectorizer not evidently fitted."
+                )
 
+        # Instantiate strategy with the CORRECT input_dim the model was trained with
+        logger.info(
+            f"TextClassifier.load(): Instantiating strategy {strategy_type_name} with input_dim={actual_model_input_dim}, num_classes={metadata['num_classes']}"
+        )
+        strategy = StrategyClass(
+            input_dim=actual_model_input_dim, num_classes=metadata["num_classes"]
+        )
+        strategy.load(
+            path_prefix
+        )  # This appropriately loads the model (TF loads arch, PyTorch needs build_model then load_state_dict)
+
+        target_max_features_from_meta = metadata.get(
+            "target_max_features", actual_model_input_dim
+        )
         classifier = cls(
-            strategy=strategy_instance,
-            class_labels=class_labels,
-            model_type=model_type,
-            max_features=max_features,
-            ngram_range=ngram_range_tuple,
+            strategy=strategy,
+            class_labels=metadata["class_labels"],
+            max_features=target_max_features_from_meta,
+            language=metadata.get("language", "english"),
+        )
+        classifier.vectorizer = vectorizer
+        classifier.label_encoder = label_encoder
+        classifier.training_metrics = metadata.get("training_metrics", {})
+        classifier.fitted_input_features = (
+            actual_model_input_dim  # Set this crucial attribute
         )
 
-        classifier.vectorizer = joblib.load(f"{filename_prefix}_vectorizer.pkl")
-        classifier.scaler = joblib.load(f"{filename_prefix}_scaler.pkl")
-        classifier.label_encoder = joblib.load(f"{filename_prefix}_label_encoder.pkl")
+        # Post-load sanity check
+        logger.info(
+            f"TextClassifier.load(): Classifier loaded. Fitted input features: {classifier.fitted_input_features}. Strategy input_dim: {strategy.input_dim}."
+        )
+        if strategy.input_dim != actual_model_input_dim:
+            logger.error(
+                f"CRITICAL LOAD INCONSISTENCY: Strategy input_dim {strategy.input_dim} != loaded actual_model_input_dim {actual_model_input_dim}"
+            )
 
-        classifier.strategy.load_model(filename_prefix)
-        classifier._is_trained = True
-        logging.info("Model, preprocessors, and metadata loaded successfully.")
+        logger.info("Classifier loaded successfully.")
         return classifier

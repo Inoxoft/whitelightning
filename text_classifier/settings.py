@@ -45,11 +45,11 @@ Given the following problem description: "{problem_description}"
 1.  **Problem Analysis:**
     *   Summarize the core classification task in one sentence.
     *   Determine the appropriate model type:
-        - `binary`: For simple yes/no or true/false classification with probability output
-        - `multiclass_sigmoid`: For multi-label classification where classes are not mutually exclusive
+        - `binary_sigmoid`: For simple yes/no or true/false classification with probability output
+        - `multilabel_sigmoid`: For multi-label classification where classes are not mutually exclusive
         - `multiclass_softmax`: For single-label classification where classes are mutually exclusive
-    *   List the distinct class labels as an array of strings (e.g., ["spam", "ham", "promotional"]).
-      For binary classification, use ["negative_class", "positive_class"] or more descriptive names.
+    *   List the distinct class labels as an array of strings (e.g., ["spam", "ham", "promotional"]) for multiclass.
+      For binary classification, use a simple "1" or "0".
 
 2.  **Data Generation Prompts:**
     *   For *each* class label identified, create a specific, detailed prompt to generate synthetic text data representative of that class. Ensure prompts encourage diversity and realism.
@@ -57,12 +57,12 @@ Given the following problem description: "{problem_description}"
 
 3.  **Configuration:**
     *   Suggest a short, snake_case `model_prefix` for file naming.
-    *   Recommend a `training_data_volume` (e.g., 500, 1000, 2000) for the total dataset size (it will be split among classes).
+    *   Recommend a `training_data_volume` (e.g., 500, 1000 ... 10000) for the total dataset size (it will be split among classes).
 
 Return *only* JSON format:
 {{
   "summary": "...",
-  "model_type": "binary|multiclass_sigmoid|multiclass_softmax",
+  "classification_type": "binary_sigmoid|multilabel_sigmoid|multiclass_softmax",
   "class_labels": ["label1", "label2", ...],
   "prompts": {{
     "label1": "Prompt for label1...",

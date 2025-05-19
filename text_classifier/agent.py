@@ -664,16 +664,11 @@ class MulticlassDataGenerator:  # Renamed
         total_requests_made = 0
         total_failed_requests = 0
 
-        # Estimate how many API calls per class (LLM might return multiple samples per call)
-        # This is a rough estimate; actual samples appended will determine stop.
-        # Assume settings.DATA_LINES_PER_API_CALL if defined, else a heuristic (e.g., 5)
-        lines_per_api_call_estimate = getattr(settings, "DATA_LINES_PER_API_CALL", 5)
+        lines_per_api_call_estimate = getattr(settings, "DATA_LINES_PER_API_CALL", 100)
 
         required_requests_per_class = max(
             1, round(target_volume_per_class / lines_per_api_call_estimate)
         )
-
-        # Interleave requests for different classes to make data generation more balanced if one class is slow
 
         prompts_for_generation_round = []
         # Create a list of (prompt, class_label_str, 'training_data') tuples for all requests needed
@@ -809,7 +804,7 @@ class MulticlassDataGenerator:  # Renamed
         total_failed_requests_edge = 0
 
         lines_per_api_call_edge_estimate = getattr(
-            settings, "EDGE_CASE_LINES_PER_API_CALL", 2
+            settings, "EDGE_CASE_LINES_PER_API_CALL", 40
         )  # Fewer, more focused examples
         required_requests_per_class_edge = max(
             1, round(target_volume_per_class / lines_per_api_call_edge_estimate)
@@ -1382,8 +1377,9 @@ class MulticlassDataGenerator:  # Renamed
 
             classifier = TextClassifier(
                 strategy=strategy,
-                class_labels=self.class_labels,  # Pass the actual string labels
+                class_labels=self.class_labels,
                 max_features=self.max_features_tfidf,
+                language=self.language,
             )
 
             # 7. Train Model
@@ -1400,6 +1396,8 @@ class MulticlassDataGenerator:  # Renamed
                 )
                 self._save_final_config()
                 return
+
+            logger.debug(f"Training data path: {self.dataset_path}")
 
             training_metrics = classifier.train(self.dataset_path)
             logger.info(

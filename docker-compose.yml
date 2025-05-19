@@ -1,12 +1,19 @@
 version: '3.8'
 
 services:
-  text-classifier:
-    build: .
+  classifier_agent:
+    build:
+      context: .  # Use the Dockerfile in the current directory
+      dockerfile: Dockerfile
+    image: text_classifier_agent_tf # Name of the image that will be built
+    container_name: tc_agent_runner
+
     volumes:
-      - .:/app
-      - ./training_data:/app/training_data
-      - ./testing_data:/app/testing_data
-    environment:
-      - PYTHONPATH=/app
-    command: python -m text_classifier.agent 
+      - ./generated_classifiers:/app/generated_classifiers  # Mounts your local output dir
+    env_file:
+      - .env # This loads OPEN_ROUTER_API_KEY etc. from your .env file
+
+    tty: true      # Allocate a pseudo-TTY
+    stdin_open: true # Keep STDIN open
+
+    command: ["tail", "-f", "/dev/null"] # Keeps container running for exec or `docker-compose run`

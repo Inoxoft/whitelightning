@@ -69,6 +69,10 @@ cp .env.example .env
 python -m text_classifier.agent -p="Your classification task description"
 ```
 
+## OR
+
+Check out the [Docker Setup](docker/README.md) for a containerized version of WhiteLightning.
+
 ## Documentation
 
 - [Binary Classification](classifiers/binary.md)
@@ -82,4 +86,4 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
