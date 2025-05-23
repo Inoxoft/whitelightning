@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np  # For X_sample in ONNX
 from openai import AsyncOpenAI, OpenAIError
 
-# Make sure to use the updated classifier and strategies
+# Make sure to use the updated classifier and strategies_ref
 # If you rename classifier.py, update the import
 try:
     import text_classifier.settings as settings
@@ -37,6 +37,8 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
+logging.getLogger("openai").disabled = True
+logging.getLogger("httpx").disabled = True
 
 
 class MulticlassDataGenerator:  # Renamed
@@ -56,9 +58,15 @@ class MulticlassDataGenerator:  # Renamed
         // 2,  # Adjust logic
         analyze_performance_data_path: Optional[str] = None,
         language: Optional[str] = None,
-        max_features_tfidf: int = 5000,  # Added param
+        max_features_tfidf: int = 5000,
+        config_path: Optional[str] = None,
+        skip_data_gen: bool = False,
+        skip_model_training: bool = False,
     ):
-        if not problem_description:
+        self.skip_data_gen = skip_data_gen
+        self.skip_model_training = skip_model_training
+
+        if not problem_description and not skip_data_gen:
             raise ValueError("Problem description cannot be empty.")
         if not api_key:  # From settings
             raise ValueError(
@@ -84,23 +92,52 @@ class MulticlassDataGenerator:  # Renamed
         self.language = language if language else "english"  # Default to english
         self.max_features_tfidf = max_features_tfidf
 
-        self.initial_config: Optional[Dict[str, Any]] = None
-        self.final_config: Optional[Dict[str, Any]] = None
-        self.prompt_refinement_history: List[Dict[str, Any]] = []
-        self.performance_analysis_result: Optional[str] = None
+        if config_path:
+            with open(config_path, "r", encoding="utf-8") as f:
+                try:
+                    self.resume_from_config = True
+                    config_data = json.load(f)
+                    self.initial_config = config_data
+                    self.final_config = config_data.copy()
+                    self.prompt_refinement_history = config_data.get(
+                        "prompt_refinement_history", []
+                    )
+                    self.performance_analysis_result = None
+                    self.classification_type = config_data.get("classification_type")
+                    self.class_labels = sorted(
+                        list(set(config_data.get("class_labels", [])))
+                    )
+                    self.num_classes = len(self.class_labels)
 
-        # Paths to be set after config is loaded
-        self.model_output_path: Optional[Path] = None
-        self.raw_responses_path: Optional[Path] = None
-        self.dataset_path: Optional[Path] = None
-        self.edge_case_dataset_path: Optional[Path] = None
-        self.final_config_path: Optional[Path] = None
-        self.classifier_metadata_path: Optional[Path] = None
+                    model_prefix = config_data.get("model_prefix")
+                    paths = config_data.get("output_paths", {})
+                    self.model_output_path = paths.get("model_output_path")
+                    self.raw_responses_path = paths.get("raw_responses_path")
+                    self.dataset_path = paths.get("dataset_path")
+                    self.edge_case_dataset_path = paths.get("edge_case_dataset_path")
+                    self.final_config_path = paths.get("final_config_path")
 
-        # Derived from config
-        self.classification_type: Optional[str] = None
-        self.class_labels: Optional[List[str]] = None
-        self.num_classes: Optional[int] = None
+                except json.JSONDecodeError as e:
+                    logger.error(f"Failed to load JSON from {config_path}: {e}")
+        else:
+            self.resume_from_config = False
+            self.initial_config: Optional[Dict[str, Any]] = None
+            self.final_config: Optional[Dict[str, Any]] = None
+            self.prompt_refinement_history: List[Dict[str, Any]] = []
+            self.performance_analysis_result: Optional[str] = None
+
+            # Paths to be set after config is loaded
+            self.model_output_path: Optional[Path] = None
+            self.raw_responses_path: Optional[Path] = None
+            self.dataset_path: Optional[Path] = None
+            self.edge_case_dataset_path: Optional[Path] = None
+            self.final_config_path: Optional[Path] = None
+            self.classifier_metadata_path: Optional[Path] = None
+
+            # Derived from config
+            self.classification_type: Optional[str] = None
+            self.class_labels: Optional[List[str]] = None
+            self.num_classes: Optional[int] = None
 
         self.client = AsyncOpenAI(
             api_key=self.api_key,
@@ -126,7 +163,6 @@ class MulticlassDataGenerator:  # Renamed
         max_tokens: int = 4000,
         temperature: float = 0.7,
     ) -> str:
-        # ... (keep existing implementation)
         try:
             completion = await self.client.chat.completions.create(
                 model=model,
@@ -156,7 +192,7 @@ class MulticlassDataGenerator:  # Renamed
         user_prompt = settings.CONFIG_USER_PROMPT_TEMPLATE.format(
             problem_description=self.problem_description
         )
-        raw_response_content = ""  # Initialize for error logging
+        raw_response_content = ""
         try:
             raw_response_content = await self._call_llm_async(
                 model=self.config_model,
@@ -341,7 +377,7 @@ class MulticlassDataGenerator:  # Renamed
 
     def _append_to_dataset(
         self, text_data: str, class_label_str: str, target_path: Path
-    ) -> int:  # class_label_str is the string name of the class
+    ) -> int:
         if not class_label_str:  # Ensure class_label_str is provided
             logger.error("Class label string is required to append to dataset.")
             return 0
@@ -360,29 +396,37 @@ class MulticlassDataGenerator:  # Renamed
                 if write_header:
                     writer.writerow(["text", "label"])  # Label will be string here
 
-                for line in text_data.split("\n"):
-                    cleaned_line = line.strip()
-                    # Basic cleaning - remove leading/trailing quotes if present
-                    if (
-                        len(cleaned_line) > 1
-                        and cleaned_line.startswith('"')
-                        and cleaned_line.endswith('"')
-                    ):
-                        cleaned_line = cleaned_line[1:-1]
+                # Extract JSON content from text_data
+                try:
+                    json_start = text_data.find("{")
+                    json_end = text_data.rfind("}") + 1
+                    if json_start == -1 or json_end == 0:
+                        raise ValueError("No valid JSON found in text_data.")
 
-                    # Replace internal quotes that might break CSV, ensure it's not empty
-                    cleaned_line = cleaned_line.replace('"', "'").strip()
+                    json_content = text_data[json_start:json_end]
+                    parsed_data = json.loads(json_content)
 
-                    if len(cleaned_line) >= settings.MIN_DATA_LINE_LENGTH:
-                        writer.writerow(
-                            [cleaned_line, class_label_str]
-                        )  # Write string label
-                        lines_added += 1
+                    if not isinstance(parsed_data, dict):
+                        raise ValueError("Parsed JSON is not a dictionary.")
+
+                    for value in parsed_data.values():
+                        cleaned_line = str(value).strip().strip('"')
+                        if len(cleaned_line) >= settings.MIN_DATA_LINE_LENGTH:
+                            writer.writerow([f'"{cleaned_line}"', str(class_label_str)])
+                            lines_added += 1
+
+                except json.JSONDecodeError as e:
+                    logger.error(
+                        f"Failed to parse JSON from text_data: {e}", exc_info=False
+                    )
+                except ValueError as e:
+                    logger.error(
+                        f"Invalid JSON structure in text_data: {e}", exc_info=False
+                    )
+
             return lines_added
         except IOError as e:
-            logger.error(
-                f"IOError appending to {target_path}: {e}", exc_info=False
-            )  # Log less severe errors without full stack
+            logger.error(f"IOError appending to {target_path}: {e}", exc_info=False)
             return 0
         except Exception as e:  # Catch any other unexpected errors
             logger.error(
@@ -664,11 +708,7 @@ class MulticlassDataGenerator:  # Renamed
         total_requests_made = 0
         total_failed_requests = 0
 
-        lines_per_api_call_estimate = getattr(settings, "DATA_LINES_PER_API_CALL", 100)
-
-        required_requests_per_class = max(
-            1, round(target_volume_per_class / lines_per_api_call_estimate)
-        )
+        required_requests_per_class = max(1, round(target_volume_per_class / 50))
 
         prompts_for_generation_round = []
         # Create a list of (prompt, class_label_str, 'training_data') tuples for all requests needed
@@ -1178,7 +1218,7 @@ class MulticlassDataGenerator:  # Renamed
                 "num_classes and max_features_tfidf must be set before getting strategy instance."
             )
 
-        # input_dim for strategies is max_features from TF-IDF
+        # input_dim for strategies_ref is max_features from TF-IDF
         input_dim = self.max_features_tfidf
 
         if model_type_selection == "tensorflow":
@@ -1282,35 +1322,42 @@ class MulticlassDataGenerator:  # Renamed
 
         try:
             # 1. Generate Initial Configuration (sets self.class_labels, self.num_classes)
-            if not await self._generate_initial_config_async():
-                logger.critical("Failed to generate initial configuration. Aborting.")
-                return
-            # Config now contains class_labels, num_classes etc.
-
-            # 2. Prepare Output Directory
-            if not self._prepare_output_directory():  # Uses model_prefix from config
-                logger.critical("Failed to prepare output directory. Aborting.")
-                return
-
-            # 3. Prompt Refinement Cycles
-            if self.prompt_refinement_cycles > 0:
-                for i in range(self.prompt_refinement_cycles):
-                    logger.info(
-                        f"Starting prompt refinement cycle {i + 1} of {self.prompt_refinement_cycles}"
+            if not self.resume_from_config:
+                if not await self._generate_initial_config_async():
+                    logger.critical(
+                        "Failed to generate initial configuration. Aborting."
                     )
-                    refinement_success = await self._run_prompt_refinement_cycle_async(
-                        i
-                    )
-                    if not refinement_success:
-                        logger.warning(
-                            f"Prompt refinement cycle {i + 1} did not result in changes or failed."
+                    return
+                # Config now contains class_labels, num_classes etc.
+
+                # 2. Prepare Output Directory
+                if (
+                    not self._prepare_output_directory()
+                ):  # Uses model_prefix from config
+                    logger.critical("Failed to prepare output directory. Aborting.")
+                    return
+
+                # 3. Prompt Refinement Cycles
+                if self.prompt_refinement_cycles > 0:
+                    for i in range(self.prompt_refinement_cycles):
+                        logger.info(
+                            f"Starting prompt refinement cycle {i + 1} of {self.prompt_refinement_cycles}"
                         )
-            else:
-                logger.info("Skipping prompt refinement cycles as per configuration.")
+                        refinement_success = (
+                            await self._run_prompt_refinement_cycle_async(i)
+                        )
+                        if not refinement_success:
+                            logger.warning(
+                                f"Prompt refinement cycle {i + 1} did not result in changes or failed."
+                            )
+                else:
+                    logger.info(
+                        "Skipping prompt refinement cycles as per configuration."
+                    )
 
             # 4. Generate Main Training Data
             if (
-                self.dataset_path
+                self.skip_data_gen
                 and self.dataset_path.exists()
                 and self.dataset_path.stat().st_size > 0
             ):
@@ -1364,8 +1411,11 @@ class MulticlassDataGenerator:  # Renamed
             else:
                 logger.info("Skipping edge case generation.")
 
-            # 6. Instantiate Strategy and Classifier
-            # This requires self.num_classes and self.class_labels to be set from config
+            if self.skip_model_training:
+                logger.info("Skipping model training as per configuration. Aborting.")
+                self._save_final_config()
+                return
+
             if not self.num_classes or not self.class_labels:
                 logger.critical(
                     "Number of classes or class labels not determined from config. Aborting training."
@@ -1420,7 +1470,7 @@ class MulticlassDataGenerator:  # Renamed
                 self.model_output_path / f"{self.final_config['model_prefix']}.onnx"
             )
             try:
-                # For ONNX export, some strategies might need a sample input.
+                # For ONNX export, some strategies_ref might need a sample input.
                 # Create a dummy sample based on max_features_tfidf.
                 # The strategy should handle this if X_sample=None, or we provide one here.
                 dummy_onnx_input_sample = np.zeros(
@@ -1590,8 +1640,24 @@ async def cli_main():
         default=5000,
         help="Maximum number of features for TF-IDF Vectorizer.",
     )
-    # analyze_performance_data_path is now handled internally by run_predictions_on_edge_cases
-
+    parser.add_argument(
+        "--config-path",
+        type=str,
+        default="",
+        help="Continue from a previous configuration file (if any).",
+    )
+    parser.add_argument(
+        "--skip-data-gen",
+        type=lambda x: (str(x).lower() == "true"),
+        default=False,
+        help="Skip data generation and only train the model from existing data.",
+    ),
+    parser.add_argument(
+        "--skip-model-training",
+        type=lambda x: (str(x).lower() == "true"),
+        default=False,
+        help="Skip model training and only generate data.",
+    )
     args = parser.parse_args()
 
     try:
@@ -1606,11 +1672,13 @@ async def cli_main():
             edge_case_volume_per_class=args.edge_case_volume_per_class,
             language=args.lang,
             max_features_tfidf=args.max_features,
-            # analyze_performance_data_path implicitly handled
+            config_path=args.config_path,
+            skip_data_gen=args.skip_data_gen,
+            skip_model_training=args.skip_model_training,
         )
         await generator.generate_data_and_train_model_async(
             model_type_selection=args.model_type
-        )  # Pass model_type
+        )
 
     except ValueError as e:  # Catch config errors from __init__
         logger.error(

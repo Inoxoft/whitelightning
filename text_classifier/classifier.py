@@ -65,15 +65,9 @@ class TextClassifier:
         self.label_encoder = LabelEncoder()
         self.label_encoder.fit(self.class_labels)
 
-        # The strategy instance is passed in. Its input_dim may be based on target_max_features.
-        # This will be corrected in train() if necessary.
-        # For clarity, explicitly align strategy's initial input_dim with target_max_features if it's being set up fresh.
-        # If a strategy is passed from elsewhere, its input_dim could be different (e.g., from loading).
-        # TextClassifier.train() is the authority for setting the correct fitted_input_features.
         logger.info(
             f"TextClassifier __init__: Strategy initial input_dim: {self.strategy.input_dim}, target_max_features: {self.target_max_features}"
         )
-        # self.strategy.input_dim = self.target_max_features # Let's remove this, strategy init should take precedence or load should handle it. Train is king.
 
         if self.strategy.num_classes != self.num_classes:
             raise ValueError(
@@ -130,7 +124,7 @@ class TextClassifier:
                 "TextClassifier.train(): Strategy model invalidated due to input_dim change."
             )
 
-        # Ensure model is (re)built with the correct input_dim, especially for NN strategies
+        # Ensure model is (re)built with the correct input_dim, especially for NN strategies_ref
         if self.strategy.model is None:  # If invalidated or never built
             logger.info(
                 "TextClassifier.train(): Strategy model is None. Calling strategy.build_model()."
@@ -155,7 +149,6 @@ class TextClassifier:
         return self.training_metrics
 
     def predict(self, texts: List[str]) -> List[str]:
-        # ... (unchanged from previous correct version)
         if not texts:
             return []
         logger.debug(f"Predicting labels for {len(texts)} texts.")
@@ -170,7 +163,6 @@ class TextClassifier:
         return str_predictions.tolist()
 
     def predict_proba(self, texts: List[str]) -> np.ndarray:
-        # ... (unchanged from previous correct version)
         if not texts:
             return np.array([])
         logger.debug(f"Predicting probabilities for {len(texts)} texts.")
@@ -191,7 +183,6 @@ class TextClassifier:
         return probabilities
 
     def save(self, path_prefix: str):
-        # ... (ensure fitted_input_features is saved, unchanged from previous correct version)
         p_prefix = Path(path_prefix)
         p_prefix.parent.mkdir(parents=True, exist_ok=True)
         vec_path = f"{path_prefix}_vectorizer.joblib"
@@ -224,7 +215,6 @@ class TextClassifier:
 
     @classmethod
     def load(cls: Type["TextClassifier"], path_prefix: str) -> "TextClassifier":
-        # ... (ensure strategy is initialized with fitted_input_features, unchanged from previous correct version)
         logger.info(
             f"TextClassifier.load(): Loading classifier with prefix: {path_prefix}"
         )

@@ -1,7 +1,3 @@
-# text_classifier/strategies_ref.py
-
-import abc
-import json
 from pathlib import Path
 
 import numpy as np
@@ -32,49 +28,12 @@ except ImportError:
 
 import logging
 
+from .base import TextClassifierStrategy
+
 logger = logging.getLogger(__name__)
 
 
-class TextClassifierStrategy(abc.ABC):
-    def __init__(self, input_dim: int, num_classes: int):
-        self.input_dim = input_dim  # This is the KEY variable for model input shape
-        self.num_classes = num_classes
-        self.model = None
-        self.model_type = "base"
-        logger.info(
-            f"Strategy {self.__class__.__name__} initialized with input_dim: {self.input_dim}, num_classes: {self.num_classes}"
-        )
-
-    @abc.abstractmethod
-    def build_model(self):
-        pass
-
-    @abc.abstractmethod
-    def train(self, X_train: np.ndarray, y_train: np.ndarray) -> dict:
-        pass
-
-    @abc.abstractmethod
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        pass
-
-    @abc.abstractmethod
-    def predict_proba(self, X: np.ndarray) -> np.ndarray:
-        pass
-
-    @abc.abstractmethod
-    def save(self, path_prefix: str):
-        pass
-
-    @abc.abstractmethod
-    def load(self, path_prefix: str):
-        pass
-
-    @abc.abstractmethod
-    def export_to_onnx(self, output_path: str, X_sample: np.ndarray):
-        pass
-
-
-class ScikitLearnStrategy(TextClassifierStrategy):
+class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
     def __init__(self, input_dim: int, num_classes: int):
         super().__init__(input_dim, num_classes)
         self.model_type = "scikit"
@@ -114,9 +73,6 @@ class ScikitLearnStrategy(TextClassifierStrategy):
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.model.predict(X)
 
-    def predict_proba(self, X: np.ndarray) -> np.ndarray:
-        return self.model.predict_proba(X)
-
     def save(self, path_prefix: str):
         model_path = f"{path_prefix}_sklearn_model.joblib"
         joblib.dump(self.model, model_path)
@@ -125,9 +81,6 @@ class ScikitLearnStrategy(TextClassifierStrategy):
     def load(self, path_prefix: str):
         model_path = f"{path_prefix}_sklearn_model.joblib"
         self.model = joblib.load(model_path)
-        # After loading, its internal state reflects the data it was trained on.
-        # self.input_dim is the one from metadata used for initialization.
-        # For scikit-learn, predict/transform will work if data matches original fitted data features.
         logger.info(
             f"Scikit-learn model loaded from {model_path}. Strategy input_dim: {self.input_dim}"
         )
@@ -162,7 +115,7 @@ class ScikitLearnStrategy(TextClassifierStrategy):
             raise
 
 
-class TensorFlowStrategy(TextClassifierStrategy):
+class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
     def __init__(self, input_dim: int, num_classes: int):
         super().__init__(input_dim, num_classes)
         if not TENSORFLOW_AVAILABLE:
@@ -292,37 +245,24 @@ class TensorFlowStrategy(TextClassifierStrategy):
         )
 
         if X_sample.shape[1] != self.input_dim:
-            # This is a strong indicator of a problem if they don't match.
-            # The sample shape MUST match the model's expected input dimension.
             logger.error(
                 f"ONNX X_sample dim ({X_sample.shape[1]}) differs from strategy's/model's "
                 f"expected input_dim ({self.input_dim}). This will likely cause export to fail or lead to a faulty ONNX model."
             )
-            # You might want to raise an error here if this condition is critical
-            # raise ValueError(f"ONNX sample dimension mismatch: sample {X_sample.shape[1]} vs model {self.input_dim}")
 
-        if hasattr(X_sample, "toarray"):
-            X_sample_dense = X_sample.toarray()
-        else:
-            X_sample_dense = X_sample
-
-        # Define input signature using self.input_dim (which *should* match model.input_shape[-1])
         input_signature = [
             tf.TensorSpec(
                 shape=[None, self.input_dim], dtype=tf.float32, name="float_input"
             )
         ]
 
-        # Define output names explicitly. Since it's a single output tensor (probabilities for classes)
-        output_node_names = ["output"]  # Common practice for a single output
+        output_node_names = ["output"]
 
         try:
             logger.info(
                 f"Attempting to convert Keras model to ONNX. Input signature: {input_signature}, Output names: {output_node_names}"
             )
 
-            # tf2onnx.convert.from_keras will write to output_path if specified.
-            # The first return value is model_proto, second is external_tensor_storage (usually None for smaller models)
             model_proto, _ = tf2onnx.convert.from_keras(
                 self.model,
                 input_signature=input_signature,
@@ -330,8 +270,6 @@ class TensorFlowStrategy(TextClassifierStrategy):
                 output_path=output_path,
             )
 
-            # If model_proto is None here, it means tf2onnx wrote directly to output_path and doesn't return the proto
-            # when output_path is given. Check if file exists as confirmation.
             if Path(output_path).exists() and Path(output_path).stat().st_size > 0:
                 logger.info(
                     f"TensorFlow model successfully exported to ONNX: {output_path}"
@@ -340,15 +278,6 @@ class TensorFlowStrategy(TextClassifierStrategy):
                 logger.error(
                     f"TensorFlow model export to ONNX failed. File not created or empty at {output_path}."
                 )
-                # Depending on tf2onnx version, if output_path is set, model_proto might be None.
-                # If it returned a proto, we could write it:
-                # if model_proto:
-                #    with open(output_path, "wb") as f:
-                #        f.write(model_proto.SerializeToString())
-                #    logger.info(f"TensorFlow model successfully exported to ONNX (manually written): {output_path}")
-                # else:
-                #    logger.error(f"TensorFlow model export to ONNX failed. tf2onnx did not return a model_proto and did not write to {output_path}.")
-                #    raise RuntimeError(f"ONNX export failed for TensorFlow model.")
 
         except AttributeError as ae:
             logger.error(
@@ -366,7 +295,7 @@ class TensorFlowStrategy(TextClassifierStrategy):
             raise
 
 
-class PyTorchStrategy(TextClassifierStrategy):
+class PyTorchStrategyMultiLabel(TextClassifierStrategy):
     class _Net(nn.Module):
         def __init__(self, input_dim: int, num_classes: int):
             super().__init__()
@@ -531,7 +460,6 @@ class PyTorchStrategy(TextClassifierStrategy):
             X_sample_dense = X_sample
         dummy_input = torch.from_numpy(X_sample_dense).float().to(self.device)
 
-        # For ONNX export of probabilities
         onnx_export_model = nn.Sequential(self.model, nn.Softmax(dim=1)).to(self.device)
         onnx_export_model.eval()
         try:

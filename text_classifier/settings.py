@@ -116,7 +116,7 @@ EDGE_CASE_PROMPT_TEMPLATE = """
 *   Samples using unusual phrasing, jargon, or obfuscation related to the "{class_label}" class.
 *   Ambiguous examples that require careful reading to identify as "{class_label}".
 
-Generate only the text samples, one per line. Do not add labels or explanations. Samples should be in {language} language.
+Generate only the text samples, in json format using numbers as keys. Do not add labels or explanations. Samples should be in {language} language.
 """
 
 # This general negative edge case prompt might still be useful if we want "none of the above" hard examples.
@@ -147,4 +147,4 @@ The model was trained on data generated using these prompts:
 **Output format:** Free-form text analysis. Start with a summary.
 """
 
-DATA_GEN_SYSTEM_PROMPT = 'Users will request specific data. Respond only with realistic, generated examples that resemble real-world datasets in {language} language. Do not include numbering, labels, or extra text beyond the examples. Example should be complete, without meta-labels and incomplete patterns. Provide up to 100 entries per request, each enclosed in double quotes, separated by "\n".'
+DATA_GEN_SYSTEM_PROMPT = "Users will request specific data. Respond only with realistic, generated examples that resemble real-world datasets in {language} language. Do not include labels, or extra text beyond the examples. Example should be complete, without meta-labels and incomplete patterns. Provide 50 entries in json format using numbers as keys."
