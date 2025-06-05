@@ -97,12 +97,13 @@ class TensorFlowStrategyBinary(TextClassifierStrategy):
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         import tf2onnx
+        output_path = f"{self.output_path}/model.onnx"
 
         spec = (tf.TensorSpec((None, self.input_dim), tf.float32, name="float_input"),)
         model_proto, _ = tf2onnx.convert.from_keras(
             self.model, input_signature=spec, opset=13
         )
-        with open(self.output_path, "wb") as f:
+        with open(output_path, "wb") as f:
             f.write(model_proto.SerializeToString())
         logging.info(f"ONNX model saved to {self.output_path}")
 

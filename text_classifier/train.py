@@ -88,6 +88,8 @@ class TextClassifierRunner:
         max_features = min(X_train_text.shape[0], 5000)
 
         vectorizer = TfidfVectorizer(max_features=max_features)
+        self.vectorizer = vectorizer
+
         X_train = vectorizer.fit_transform(X_train_text).toarray()
         X_test = vectorizer.transform(X_test_text).toarray()
 
@@ -191,6 +193,8 @@ class TextClassifierRunner:
         max_features = min(X_train_text.shape[0], 5000)
 
         vectorizer = TfidfVectorizer(max_features=max_features)
+
+        self.vectorizer = vectorizer
         X_train = vectorizer.fit_transform(X_train_text).toarray()
         X_test = vectorizer.transform(X_test_text).toarray()
 
@@ -309,8 +313,7 @@ class TextClassifierRunner:
         # Preprocess inputs based on the strategy type
         if self.data_type == "binary" or self.data_type == "multilabel":
             # Use TF-IDF preprocessing for binary and multilabel strategies
-            vectorizer = TfidfVectorizer(max_features=self.strategy.input_dim)
-            X_inputs = vectorizer.fit_transform(inputs).toarray()
+            X_inputs = self.vectorizer.transform(inputs).toarray()
         elif self.data_type == "multiclass":
             # Use tokenized sequences for multiclass strategies
             tokenizer = Tokenizer(num_words=self.strategy.max_len)
@@ -322,11 +325,5 @@ class TextClassifierRunner:
 
         # Call the strategy's predict method
         predictions = self.strategy.predict(X_inputs)
-
-        # Decode predictions if necessary
-        if self.data_type == "binary" or self.data_type == "multiclass":
-            label_encoder = LabelEncoder()
-            label_encoder.fit(self.labels)
-            predictions = label_encoder.inverse_transform(predictions)
 
         return predictions

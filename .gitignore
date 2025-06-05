@@ -8,5 +8,9 @@ wl_venv
 multiclas_models
 multiclass_classifier
 __pycache__/
+venv/
+.DS_Store
+
+models_multiclass/
 
 .secrets.baseline
