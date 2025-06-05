@@ -10,26 +10,12 @@ import pandas as pd
 import numpy as np  # For X_sample in ONNX
 from openai import AsyncOpenAI, OpenAIError
 
-# Make sure to use the updated classifier and strategies_ref
-# If you rename classifier.py, update the import
+from text_classifier.train import TextClassifierRunner
+
 try:
     import text_classifier.settings as settings
-    from text_classifier.classifier import TextClassifier  # Updated import
-    from text_classifier.strategies import (  # Updated import
-        TensorFlowStrategy,
-        PyTorchStrategy,
-        ScikitLearnStrategy,
-        TextClassifierStrategy,  # Import base for type hint
-    )
 except ModuleNotFoundError:  # Handle if running script directly from its dir
     import settings
-    from classifier import TextClassifier
-    from strategies import (
-        TensorFlowStrategy,
-        PyTorchStrategy,
-        ScikitLearnStrategy,
-        TextClassifierStrategy,
-    )
 
 logging.basicConfig(
     level=logging.INFO,
@@ -693,7 +679,7 @@ class MulticlassDataGenerator:  # Renamed
         target_total_volume = self.final_config.get(
             "training_data_volume", settings.DEFAULT_TRAINING_DATA_VOLUME
         )
-        target_volume_per_class = max(1, target_total_volume // self.num_classes)
+        target_volume_per_class = max(2500, target_total_volume // self.num_classes)
 
         data_gen_sys_prompt = settings.DATA_GEN_SYSTEM_PROMPT.format(
             language=self.language
@@ -744,13 +730,6 @@ class MulticlassDataGenerator:  # Renamed
             ):
                 logger.info(
                     "Approximate target volume per class reached. Stopping training data generation."
-                )
-                break
-            if (
-                total_samples_generated_overall >= target_total_volume * 1.2
-            ):  # Stop if significantly over target
-                logger.info(
-                    "Overall target training data volume significantly exceeded. Stopping generation."
                 )
                 break
 
@@ -1209,33 +1188,8 @@ class MulticlassDataGenerator:  # Renamed
             logger.error(f"Unexpected error saving final config: {e}", exc_info=True)
             return False
 
-    def _get_strategy_instance(
-        self, model_type_selection: str
-    ) -> TextClassifierStrategy:
-        """Helper to instantiate the correct strategy."""
-        if not self.num_classes or not self.max_features_tfidf:
-            raise ValueError(
-                "num_classes and max_features_tfidf must be set before getting strategy instance."
-            )
-
-        # input_dim for strategies_ref is max_features from TF-IDF
-        input_dim = self.max_features_tfidf
-
-        if model_type_selection == "tensorflow":
-            return TensorFlowStrategy(input_dim=input_dim, num_classes=self.num_classes)
-        elif model_type_selection == "pytorch":
-            return PyTorchStrategy(input_dim=input_dim, num_classes=self.num_classes)
-        elif model_type_selection == "scikit":
-            # ScikitLearnStrategy might not strictly need input_dim if model infers,
-            # but good for consistency. num_classes is also for consistency / potential use.
-            return ScikitLearnStrategy(
-                input_dim=input_dim, num_classes=self.num_classes
-            )
-        else:
-            raise ValueError(f"Unsupported model_type: {model_type_selection}")
-
     def run_predictions_on_edge_cases(
-        self, model_type_selection: str, classifier_to_test: TextClassifier
+        self, model_type_selection: str, classifier_to_test: TextClassifierRunner
     ):
         """Runs predictions on edge case data and saves them."""
         if not self.edge_case_dataset_path or not self.edge_case_dataset_path.exists():
@@ -1258,11 +1212,11 @@ class MulticlassDataGenerator:  # Renamed
 
             # Predict probabilities for all classes
             # classifier_to_test.predict_proba returns np.ndarray of shape (n_samples, n_classes)
-            all_probas = classifier_to_test.predict_proba(df_edge["text"].tolist())
+            all_probas = classifier_to_test.predict(df_edge["text"].tolist())
 
             # Add probability columns to DataFrame
             for i, class_label_str in enumerate(
-                classifier_to_test.class_labels
+                classifier_to_test.labels
             ):  # Use classifier's labels
                 df_edge[f"{class_label_str}_prob"] = all_probas[:, i]
 
@@ -1423,16 +1377,6 @@ class MulticlassDataGenerator:  # Renamed
                 self._save_final_config()
                 return
 
-            strategy = self._get_strategy_instance(model_type_selection)
-
-            classifier = TextClassifier(
-                strategy=strategy,
-                class_labels=self.class_labels,
-                max_features=self.max_features_tfidf,
-                language=self.language,
-            )
-
-            # 7. Train Model
             logger.info(
                 f"Starting model training using {model_type_selection} strategy..."
             )
@@ -1449,47 +1393,30 @@ class MulticlassDataGenerator:  # Renamed
 
             logger.debug(f"Training data path: {self.dataset_path}")
 
-            training_metrics = classifier.train(self.dataset_path)
-            logger.info(
-                f"Training completed. Metrics: {json.dumps(training_metrics, indent=2)}"
-            )
-            if self.final_config:  # Should exist
-                self.final_config["training_metrics"] = training_metrics
-
-            # 8. Save Trained Model and Preprocessors
             model_save_prefix = str(
                 self.model_output_path / self.final_config["model_prefix"]
             )
-            classifier.save(model_save_prefix)
+
+            # 6. Train the model using the strategy
+
+            classifier_runner = TextClassifierRunner(
+                train_path=self.dataset_path,
+                test_path=self.edge_case_dataset_path
+                or self.dataset_path,  # For simplicity, use same for test
+                data_type=self.classification_type,
+                labels=self.class_labels,
+                library_type=model_type_selection,
+                output_path=model_save_prefix,
+            )
             logger.info(
                 f"Classifier (model, preprocessors, metadata) saved with prefix: {model_save_prefix}"
             )
 
-            # 9. Export to ONNX
-            onnx_output_path = str(
-                self.model_output_path / f"{self.final_config['model_prefix']}.onnx"
-            )
-            try:
-                # For ONNX export, some strategies_ref might need a sample input.
-                # Create a dummy sample based on max_features_tfidf.
-                # The strategy should handle this if X_sample=None, or we provide one here.
-                dummy_onnx_input_sample = np.zeros(
-                    (1, self.max_features_tfidf), dtype=np.float32
-                )
-                classifier.strategy.export_to_onnx(
-                    onnx_output_path, X_sample=dummy_onnx_input_sample
-                )
-                logger.info(f"Model exported to ONNX: {onnx_output_path}")
-            except NotImplementedError:
-                logger.warning(
-                    f"ONNX export not implemented for {model_type_selection} strategy."
-                )
-            except Exception as e_onnx:
-                logger.error(f"Failed to export model to ONNX: {e_onnx}", exc_info=True)
-
             # 10. Run Predictions on Edge Cases (if generated) for performance analysis input
             if self.generate_edge_cases and edge_case_samples_count > 0:
-                self.run_predictions_on_edge_cases(model_type_selection, classifier)
+                self.run_predictions_on_edge_cases(
+                    model_type_selection, classifier_runner
+                )
             else:
                 logger.info(
                     "Skipping predictions on edge cases as they were not generated or dataset is empty."

@@ -1,3 +1,4 @@
+import json
 import logging
 from typing import Dict
 import numpy as np
@@ -22,9 +23,20 @@ logging.basicConfig(
 
 
 class TensorFlowStrategyBinary(TextClassifierStrategy):
-    def __init__(self, input_dim: int):
+    def __init__(
+        self,
+        input_dim: int = 5000,
+        vocab: dict = {},
+        scaler: dict = {},
+        output_path: str = "",
+        **kwargs,
+    ):
         self.model = self._build_model(input_dim)
         self._is_trained = False
+        self.input_dim = input_dim  # Store input dimension for ONNX export
+        self.vocab = vocab
+        self.scaler = scaler
+        self.output_path = output_path
 
     def _build_model(self, input_dim: int) -> Model:
         inputs = Input(shape=(input_dim,), name="float_input")
@@ -42,8 +54,8 @@ class TensorFlowStrategyBinary(TextClassifierStrategy):
     def train(
         self,
         X_train: np.ndarray,
-        X_test: np.ndarray,
         y_train: np.ndarray,
+        X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
         history = self.model.fit(
@@ -70,34 +82,47 @@ class TensorFlowStrategyBinary(TextClassifierStrategy):
             raise RuntimeError("Model must be trained before predicting")
         return (self.model.predict(X)).astype(float)
 
-    def save_model(self, filename_prefix: str):
+    def save_model(self):
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
-        self.model.save(f"{filename_prefix}_model.h5")
+        self.model.save(f"{self.output_path}/model.h5")
+        self.save_model_vocab_and_scaler()
+        self.export_to_onnx()
 
     def load_model(self, filename_prefix: str):
         self.model = tf.keras.models.load_model(f"{filename_prefix}_model.h5")
         self._is_trained = True
 
-    def export_to_onnx(self, output_path: str):
+    def export_to_onnx(self):
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         import tf2onnx
 
-        spec = (tf.TensorSpec((None, 5000), tf.float32, name="float_input"),)
+        spec = (tf.TensorSpec((None, self.input_dim), tf.float32, name="float_input"),)
         model_proto, _ = tf2onnx.convert.from_keras(
             self.model, input_signature=spec, opset=13
         )
-        with open(output_path, "wb") as f:
+        with open(self.output_path, "wb") as f:
             f.write(model_proto.SerializeToString())
-        logging.info(f"ONNX model saved to {output_path}")
+        logging.info(f"ONNX model saved to {self.output_path}")
 
 
 class PyTorchStrategyBinary(TextClassifierStrategy):
-    def __init__(self, input_dim: int):
+    def __init__(
+        self,
+        input_dim: int = 5000,
+        vocab: dict = {},
+        scaler: dict = {},
+        output_path: str = "",
+        **kwargs,
+    ):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = self._build_model(input_dim).to(self.device)
         self._is_trained = False
+        self.input_dim = input_dim  # Store input dimension for ONNX export
+        self.vocab = vocab
+        self.scaler = scaler
+        self.output_path = output_path
 
     def _build_model(self, input_dim: int) -> nn.Module:
         class TextClassifier(nn.Module):
@@ -122,8 +147,8 @@ class PyTorchStrategyBinary(TextClassifierStrategy):
     def train(
         self,
         X_train: np.ndarray,
-        X_test: np.ndarray,
         y_train: np.ndarray,
+        X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
         X_train_tensor = torch.FloatTensor(X_train).to(self.device)
@@ -171,21 +196,24 @@ class PyTorchStrategyBinary(TextClassifierStrategy):
         with torch.no_grad():
             return self.model(X_tensor).cpu().numpy().astype(float)
 
-    def save_model(self, filename_prefix: str):
+    def save_model(self):
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
-        torch.save(self.model.state_dict(), f"{filename_prefix}_model.pt")
+        torch.save(self.model.state_dict(), f"{self.output_path}/model.pt")
+        self.save_model_vocab_and_scaler()
+        self.export_to_onnx()
 
     def load_model(self, filename_prefix: str):
         self.model.load_state_dict(torch.load(f"{filename_prefix}_model.pt"))
         self.model.to(self.device)
         self._is_trained = True
 
-    def export_to_onnx(self, output_path: str):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}/model.onnx"
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         self.model.eval()
-        dummy_input = torch.zeros(1, 5000).to(self.device)
+        dummy_input = torch.zeros(1, self.input_dim).to(self.device)
         torch.onnx.export(
             self.model,
             dummy_input,
@@ -202,7 +230,14 @@ class PyTorchStrategyBinary(TextClassifierStrategy):
 
 
 class ScikitLearnStrategyBinary(TextClassifierStrategy):
-    def __init__(self):
+    def __init__(
+        self,
+        input_dim: int = 5000,
+        vocab: dict = {},
+        scaler: dict = {},
+        output_path: str = "",
+        **kwargs,
+    ):
         self.model = GradientBoostingClassifier(
             n_estimators=500,
             learning_rate=0.1,
@@ -212,12 +247,16 @@ class ScikitLearnStrategyBinary(TextClassifierStrategy):
             verbose=1,
         )
         self._is_trained = False
+        self.input_dim = input_dim
+        self.vocab = vocab
+        self.scaler = scaler
+        self.output_path = output_path
 
     def train(
         self,
         X_train: np.ndarray,
-        X_test: np.ndarray,
         y_train: np.ndarray,
+        X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
         self.model.fit(X_train, y_train)
@@ -243,22 +282,25 @@ class ScikitLearnStrategyBinary(TextClassifierStrategy):
             raise RuntimeError("Model must be trained before predicting")
         return self.model.predict(X)
 
-    def save_model(self, filename_prefix: str):
+    def save_model(self):
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
-        joblib.dump(self.model, f"{filename_prefix}_model.pkl")
+        joblib.dump(self.model, f"{self.output_path}/model.pkl")
+        self.save_model_vocab_and_scaler()
+        self.export_to_onnx()
 
     def load_model(self, filename_prefix: str):
         self.model = joblib.load(f"{filename_prefix}_model.pkl")
         self._is_trained = True
 
-    def export_to_onnx(self, output_path: str):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}_model.onnx"
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         from skl2onnx import convert_sklearn
         from skl2onnx.common.data_types import FloatTensorType
 
-        initial_type = [("float_input", FloatTensorType([None, 5000]))]
+        initial_type = [("float_input", FloatTensorType([None, self.input_dim]))]
         onnx_model = convert_sklearn(
             self.model, initial_types=initial_type, target_opset=13
         )

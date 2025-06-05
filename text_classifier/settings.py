@@ -26,7 +26,7 @@ DEFAULT_TRAINING_DATA_VOLUME = 1000
 DATA_GEN_BATCH_SIZE = 10  # Number of parallel requests
 MIN_DATA_LINE_LENGTH = 10  # Minimum characters for a valid data line
 DEFAULT_EDGE_CASE_VOLUME = 100
-PROMPT_REFINEMENT_BATCH_SIZE = 4  # Number of samples per class for refinement
+PROMPT_REFINEMENT_BATCH_SIZE = 1  # Number of samples per class for refinement
 
 # --- Labels (These are now more like symbolic placeholders, actual labels come from config) ---
 # POSITIVE_LABEL = 1 # Will be deprecated for specific class names

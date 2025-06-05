@@ -1,6 +1,6 @@
 # WhiteLightning - LLM Distillation Tool
 
-WhiteLightning is a powerful tool designed to distill large language models (LLMs) into lightweight, efficient classifiers. By leveraging advanced techniques, it simplifies the process of creating text classifiers that can run anywhere, from cloud environments to edge devices, using the ONNX format for cross-platform compatibility.
+WhiteLightning is a powerful tool designed to distill large language models (LLMs) into lightweight, efficient text classifiers. By leveraging advanced techniques, it simplifies the process of creating text classifiers that can run anywhere, from cloud environments to edge devices, using the ONNX format for cross-platform compatibility.
 
 <p align="center">
    <img src="media/moonshiner_floppy.jpeg" width="200" height="200" alt="Moonshiner">
@@ -12,7 +12,7 @@ WhiteLightning is a powerful tool designed to distill large language models (LLM
 
 ## What is LLM Distillation?
 
-LLM distillation is the process of transforming large, complex language models into smaller, task-specific models. WhiteLightning focuses on binary and multiclass text classification, enabling users to classify text data into categories like "spam vs ham" or multiple classes with ease. This approach ensures high performance while significantly reducing computational requirements.
+LLM distillation is the process of transforming large, complex language models into smaller, task-specific models. WhiteLightning focuses on text classification, enabling users to create efficient classifiers for various use cases. This approach ensures high performance while significantly reducing computational requirements.
 
 ## Why ONNX?
 
@@ -20,51 +20,63 @@ WhiteLightning uses ONNX (Open Neural Network Exchange) to export trained models
 
 ## Key Features
 
-- **LLM Distillation**: Converts large language models into efficient binary or multiclass classifiers.
-- **Cross-Platform Deployment**: Export models to ONNX for use in diverse environments.
-- **Lightweight and Fast**: Optimized for performance with minimal resource usage.
-- **Customizable**: Supports multiple machine learning frameworks, including TensorFlow, PyTorch, and Scikit-learn.
+- **Multiple Model Types**: Support for binary and multiclass classification with different activation types
+- **Cross-Platform Deployment**: Export models to ONNX for use in diverse environments
+- **Lightweight and Fast**: Optimized for performance with minimal resource usage
+- **Customizable**: Supports multiple machine learning frameworks (TensorFlow, PyTorch, Scikit-learn)
+- **Multilingual Support**: Generate training data in multiple languages
+- **Automatic Configuration**: Smart prompt generation and refinement based on your task
 
-## How to Run WhiteLightning
-To install WhiteLightning dependencies, use the following command:
+## Model Types
 
+WhiteLightning supports three types of text classifiers:
+
+1. **Binary Classifier**
+   - Simple yes/no or true/false classification
+   - Probability output for single class
+   - Ideal for: Sentiment analysis, spam detection, content moderation
+   - [Learn More](docs/classifiers/binary.md)
+
+2. **Multiclass Sigmoid**
+   - Multi-label classification
+   - Independent class probabilities
+   - Multiple classes can be active simultaneously
+   - Ideal for: Topic tagging, emotion detection, content categorization
+   - [Learn More](docs/classifiers/multiclass.md)
+
+3. **Multiclass Softmax**
+   - Single-label classification
+   - Mutually exclusive class probabilities
+   - Only one class can be active at a time
+   - Ideal for: News categorization, intent classification, language detection
+   - [Learn More](docs/classifiers/multiclass.md)
+
+## Quick Start
+
+1. Install dependencies:
 ```bash
 pip install -r requirements/base.txt
 ```
 
-Create .env file, example `.env.example` is provided in the repository.
+2. Set up your environment:
+```bash
+cp .env.example .env
+# Edit .env with your API keys
+```
 
-Select the appropriate model for your task and follow the specific instructions in the corresponding documentation. The models are designed to be user-friendly, allowing you to quickly set up and start training your classifiers.
+3. Run the classifier agent:
+```bash
+python -m text_classifier.agent -p="Your classification task description"
+```
 
-## Available Models
+## OR
 
-WhiteLightning currently supports the following classifiers:
-
-1. **Binary Classifier**: Classifies text into two categories (e.g., "positive" vs "negative").
-   [Read the Binary Classifier Documentation](BINARY_CLASSIFIER_AGENT.MD)
-
-2. **Multiclass Classifier**: Classifies text into multiple categories.
-   [Read the Multiclass Classifier Documentation](MULTICLASS_CLASSIFIER_AGENT.MD)
-
-With WhiteLightning, you can easily train, evaluate, and deploy these models for your specific use case.
-
-## Try It Yourself
-
-Visit our [Playground](https://white-lightning-playground.vercel.app/) to experiment with WhiteLightning and see how it can be useful for you. You can test the available models and find some code snippets in supported languages.
+Check out the [Docker Setup](docs/docker/README.md) for a containerized version of WhiteLightning.
 
 ## Contributing
 
-We welcome contributions to WhiteLightning! If you have ideas for improvements, bug fixes, or new features, please submit a pull request or open an issue on our GitHub repository. Your feedback and contributions help us make WhiteLightning even better.
+We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.md) for details.
 
-To contribute, please follow these steps:
+## License
 
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Set up your development environment using the provided instructions:
-    ```bash
-    pip install -r requirements/dev.txt
-
-    pre-commit install
-
-    detect-secrets scan > .secrets.baseline
-    ```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

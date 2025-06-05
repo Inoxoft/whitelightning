@@ -124,7 +124,7 @@ class TextClassifier:
                 "TextClassifier.train(): Strategy model invalidated due to input_dim change."
             )
 
-        # Ensure model is (re)built with the correct input_dim, especially for NN strategies_ref
+        # Ensure model is (re)built with the correct input_dim, especially for NN strategies
         if self.strategy.model is None:  # If invalidated or never built
             logger.info(
                 "TextClassifier.train(): Strategy model is None. Calling strategy.build_model()."

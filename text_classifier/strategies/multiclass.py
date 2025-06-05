@@ -49,6 +49,8 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
         embedding_dim: int = 64,
         hidden_dim: int = 64,
         max_len: int = 30,
+        output_path: Optional[str] = None,
+        **kwargs,
     ):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.vocab_size = vocab_size
@@ -59,6 +61,7 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
         self.label_encoder = LabelEncoder()
         self.model = None
         self._is_trained = False
+        self.output_path = output_path
 
     def _build_model(self, num_classes: int) -> nn.Module:
         class TextClassifier(nn.Module):
@@ -94,8 +97,8 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
     def train(
         self,
         X_train: np.ndarray,
-        X_test: np.ndarray,
         y_train: np.ndarray,
+        X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
         # Tokenize text data
@@ -155,29 +158,25 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
             ),
         }
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        if not self._is_trained:
-            raise RuntimeError("Model must be trained before predicting")
-        X_seq = pad_sequences(
-            self.tokenizer.texts_to_sequences(X), maxlen=self.max_len, padding="post"
-        )
+    def predict(self, X_seq) -> np.ndarray:
         X_tensor = torch.tensor(X_seq, dtype=torch.long).to(self.device)
         self.model.eval()
         with torch.no_grad():
             outputs = self.model(X_tensor)
             return torch.argmax(outputs, dim=1).cpu().numpy()
 
-    def save_model(self, filename_prefix: str):
+    def save_model(self):
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
         os.makedirs("models", exist_ok=True)
-        torch.save(self.model.state_dict(), f"models/{filename_prefix}_model.pt")
-        with open(f"models/{filename_prefix}_tokenizer.json", "w") as f:
+        torch.save(self.model.state_dict(), f"{self.output_path}/model.pt")
+        with open(f"{self.output_path}/tokenizer.json", "w") as f:
             json.dump(self.tokenizer.word_index, f)
-        with open(f"models/{filename_prefix}_scaler.json", "w") as f:
+        with open(f"{self.output_path}/scaler.json", "w") as f:
             json.dump(
                 {i: label for i, label in enumerate(self.label_encoder.classes_)}, f
             )
+        self.export_to_onnx()
 
     def load_model(self, filename_prefix: str):
         self.model = self._build_model(num_classes=len(self.label_encoder.classes_))
@@ -192,12 +191,12 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
             )
         self._is_trained = True
 
-    def export_to_onnx(self, output_path: str):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}/model.onnx"
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         self.model.eval()
         dummy_input = torch.zeros(1, self.max_len, dtype=torch.long).to(self.device)
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
         torch.onnx.export(
             self.model,
             dummy_input,
@@ -211,13 +210,20 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
 
 
 class TensorFlowLSTMStrategy(TextClassifierStrategy):
-    def __init__(self, vocab_size: int = 10000, max_len: int = 30):
+    def __init__(
+        self,
+        vocab_size: int = 10000,
+        max_len: int = 30,
+        output_path: Optional[str] = None,
+        **kwargs,
+    ):
         self.vocab_size = vocab_size
         self.max_len = max_len
         self.tokenizer = Tokenizer(num_words=vocab_size, oov_token="<OOV>")
         self.label_encoder = LabelEncoder()
         self.model = None  # Initialized in train
         self._is_trained = False
+        self.output_path = output_path
 
     def _build_model(self, num_classes: int) -> Model:
         inputs = tf.keras.Input(shape=(self.max_len,), dtype=tf.int32, name="input")
@@ -237,8 +243,8 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
     def train(
         self,
         X_train: np.ndarray,
-        X_test: np.ndarray,
         y_train: np.ndarray,
+        X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
         # Tokenize text data
@@ -284,25 +290,21 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
             ),
         }
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        if not self._is_trained:
-            raise RuntimeError("Model must be trained before predicting")
-        X_seq = pad_sequences(
-            self.tokenizer.texts_to_sequences(X), maxlen=self.max_len, padding="post"
-        )
+    def predict(self, X_seq) -> np.ndarray:
         return np.argmax(self.model.predict(X_seq), axis=1)
 
-    def save_model(self, filename_prefix: str):
+    def save_model(self):
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
         os.makedirs("models", exist_ok=True)
-        self.model.save(f"models/{filename_prefix}_model.h5")
-        with open(f"models/{filename_prefix}_tokenizer.json", "w") as f:
+        self.model.save(f"{self.output_path}/model.h5")
+        with open(f"{self.output_path}/tokenizer.json", "w") as f:
             json.dump(self.tokenizer.word_index, f)
-        with open(f"models/{filename_prefix}_scaler.json", "w") as f:
+        with open(f"{self.output_path}/scaler.json", "w") as f:
             json.dump(
                 {i: label for i, label in enumerate(self.label_encoder.classes_)}, f
             )
+        self.export_to_onnx()
 
     def load_model(self, filename_prefix: str):
         self.model = tf.keras.models.load_model(f"models/{filename_prefix}_model.h5")
@@ -315,7 +317,8 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
             )
         self._is_trained = True
 
-    def export_to_onnx(self, output_path: str):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}/model.onnx"
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         import tf2onnx
@@ -331,7 +334,9 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
 
 
 class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
-    def __init__(self, max_features: int = 10000):
+    def __init__(
+        self, max_features: int = 10000, output_path: Optional[str] = None, **kwargs
+    ):
         self.max_features = max_features
         self.pipeline = Pipeline(
             [
@@ -341,12 +346,13 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
         )
         self.label_encoder = LabelEncoder()
         self._is_trained = False
+        self.output_path = output_path
 
     def train(
         self,
         X_train: np.ndarray,
-        X_test: np.ndarray,
         y_train: np.ndarray,
+        X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
         # Encode labels
@@ -374,20 +380,20 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
             raise RuntimeError("Model must be trained before predicting")
         return self.pipeline.predict(X)
 
-    def save_model(self, filename_prefix: str):
+    def save_model(self):
         if not self._is_trained:
             raise RuntimeError("Cannot save untrained model")
-        os.makedirs("models", exist_ok=True)
-        joblib.dump(self.pipeline, f"models/{filename_prefix}_model.pkl")
+        joblib.dump(self.pipeline, f"{self.output_path}/model.pkl")
         vocab = {
             k: int(v) for k, v in self.pipeline.named_steps["tfidf"].vocabulary_.items()
         }
-        with open(f"models/{filename_prefix}_tokenizer.json", "w") as f:
+        with open(f"{self.output_path}/tokenizer.json", "w") as f:
             json.dump(vocab, f)
-        with open(f"models/{filename_prefix}_scaler.json", "w") as f:
+        with open(f"{self.output_path}/scaler.json", "w") as f:
             json.dump(
                 {i: label for i, label in enumerate(self.label_encoder.classes_)}, f
             )
+        self.export_to_onnx()
 
     def load_model(self, filename_prefix: str):
         self.pipeline = joblib.load(f"models/{filename_prefix}_model.pkl")
@@ -401,7 +407,8 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
             )
         self._is_trained = True
 
-    def export_to_onnx(self, output_path: str):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}/model.onnx"
         if not self._is_trained:
             raise RuntimeError("Model must be trained before exporting to ONNX")
         initial_type = [("input", StringTensorType([None]))]
@@ -412,60 +419,3 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
         with open(output_path, "wb") as f:
             f.write(onnx_model.SerializeToString())
         logging.info(f"ONNX model saved to {output_path}")
-
-
-def main():
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--language", required=True)
-    parser.add_argument("--type", required=True)
-    parser.add_argument("--labels", required=True)
-    parser.add_argument(
-        "--platform", choices=["torch", "tensorflow", "sklearn"], required=True
-    )
-    parser.add_argument("--epochs", type=int, default=10)
-    args = parser.parse_args()
-
-    train_model_from_params(
-        language=args.language,
-        text_type=args.type,
-        labels=[l.strip() for l in args.labels.split(",") if l.strip()],
-        platform=args.platform,
-        epochs=args.epochs,
-    )
-
-
-def train_model_from_params(
-    language: str, text_type: str, labels: list, platform: str, epochs: int
-):
-    train_path = f"training_data/{text_type}_train_{language}.csv"
-    test_path = f"testing_data/{text_type}_test_{language}.csv"
-    train_df, test_df, _ = load_data(train_path, test_path, labels)
-
-    strategy_map = {
-        "torch": PyTorchLSTMStrategy(),
-        "tensorflow": TensorFlowLSTMStrategy(),
-        "sklearn": ScikitLearnTFIDFStrategy(),
-    }
-    strategy = strategy_map[platform]
-    filename_prefix = f"{text_type}_classifier({language})"
-
-    # Train and evaluate
-    result = strategy.train(
-        train_df["text"].values,
-        test_df["text"].values,
-        train_df["label"].values,
-        test_df["label"].values,
-    )
-    logging.info(f"Training results: {result}")
-
-    # Save model, tokenizer, and scaler
-    strategy.save_model(filename_prefix)
-
-    # Export to ONNX
-    strategy.export_to_onnx(f"models/{filename_prefix}.onnx")
-
-
-if __name__ == "__main__":
-    main()

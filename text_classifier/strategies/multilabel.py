@@ -34,12 +34,24 @@ logger = logging.getLogger(__name__)
 
 
 class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
-    def __init__(self, input_dim: int, num_classes: int):
-        super().__init__(input_dim, num_classes)
+    def __init__(
+        self,
+        input_dim: int = 5000,
+        num_classes: int = 2,
+        vocab: dict = {},
+        scaler: dict = {},
+        output_path: str = "",
+        **kwargs,
+    ):
         self.model_type = "scikit"
         self.model = LogisticRegression(
             multi_class="ovr", solver="liblinear", C=1.0, random_state=42, max_iter=1000
         )
+        self.vocab = vocab
+        self.scaler = scaler
+        self.output_path = output_path
+        self.num_classes = num_classes
+        self.input_dim = input_dim
 
     def build_model(self):
         logger.info(
@@ -47,7 +59,7 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         )
         pass  # Model is ready
 
-    def train(self, X_train: np.ndarray, y_train: np.ndarray) -> dict:
+    def train(self, X_train: np.ndarray, y_train: np.ndarray, *args) -> dict:
         logger.info(
             f"Training Scikit-learn model (data shape: {X_train.shape}, strategy input_dim: {self.input_dim}, num_classes: {self.num_classes})"
         )
@@ -73,10 +85,12 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.model.predict(X)
 
-    def save(self, path_prefix: str):
-        model_path = f"{path_prefix}_sklearn_model.joblib"
+    def save_model(self):
+        model_path = f"{self.output_path}/model.joblib"
         joblib.dump(self.model, model_path)
         logger.info(f"Scikit-learn model saved to {model_path}")
+        self.save_model_vocab_and_scaler()
+        self.export_to_onnx()
 
     def load(self, path_prefix: str):
         model_path = f"{path_prefix}_sklearn_model.joblib"
@@ -85,7 +99,11 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
             f"Scikit-learn model loaded from {model_path}. Strategy input_dim: {self.input_dim}"
         )
 
-    def export_to_onnx(self, output_path: str, X_sample: np.ndarray):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}/model.onnx"
+        X_sample = np.random.rand(1, self.input_dim).astype(
+            np.float32
+        )  # Sample input for ONNX export
         if self.model is None:
             raise ValueError("Scikit-learn model is not trained or loaded yet.")
         logger.info(
@@ -116,16 +134,28 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
 
 
 class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
-    def __init__(self, input_dim: int, num_classes: int):
-        super().__init__(input_dim, num_classes)
+    def __init__(
+        self,
+        input_dim: int = 5000,
+        num_classes: int = 2,
+        vocab: dict = {},
+        scaler: dict = {},
+        output_path: str = "",
+        **kwargs,
+    ):
         if not TENSORFLOW_AVAILABLE:
             raise ImportError("TensorFlow is not installed.")
         self.model_type = "tensorflow"
         self.epochs = 10
         self.batch_size = 32
+        self.vocab = vocab
+        self.scaler = scaler
+        self.output_path = output_path
+        self.num_classes = num_classes
+        self.input_dim = input_dim
+        self.model = None  # Model will be built in build_model()
 
     def build_model(self):
-        # THIS IS THE CRITICAL POINT FOR TENSORFLOW MODEL DEFINITION
         logger.info(
             f"TensorFlowStrategy: BUILD_MODEL called. Current self.input_dim: {self.input_dim}, self.num_classes: {self.num_classes}"
         )
@@ -153,7 +183,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                 f"TF STRATEGY BUILD_MODEL: Model's expected input shape from Keras: {self.model.input_shape}"
             )
 
-    def train(self, X_train: np.ndarray, y_train: np.ndarray) -> dict:
+    def train(self, X_train: np.ndarray, y_train: np.ndarray, *args) -> dict:
         if self.model is None:
             logger.warning(
                 "TensorFlowStrategy.train(): self.model is None. Calling build_model(). This should ideally be handled by TextClassifier."
@@ -211,11 +241,13 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             X = X.toarray()
         return self.model.predict(X)
 
-    def save(self, path_prefix: str):
+    def save_model(self):
         if not self.model:
             raise ValueError("TF Model not available for saving.")
-        model_path = f"{path_prefix}_tf_model.keras"
+        model_path = f"{self.output_path}/model.keras"
         self.model.save(model_path)
+        self.save_model_vocab_and_scaler()
+        self.export_to_onnx()
         logger.info(f"TensorFlow model saved to {model_path}")
 
     def load(self, path_prefix: str):
@@ -233,66 +265,8 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             )
             self.input_dim = self.model.input_shape[-1]
 
-    def export_to_onnx(self, output_path: str, X_sample: np.ndarray):
-        if not self.model:
-            raise ValueError("TF Model not available for ONNX export.")
-
-        logger.info(
-            f"Exporting TensorFlow model to ONNX: {output_path}. "
-            f"Sample input shape: {X_sample.shape}, "
-            f"Strategy input_dim: {self.input_dim}, "
-            f"Model input_shape: {self.model.input_shape}"
-        )
-
-        if X_sample.shape[1] != self.input_dim:
-            logger.error(
-                f"ONNX X_sample dim ({X_sample.shape[1]}) differs from strategy's/model's "
-                f"expected input_dim ({self.input_dim}). This will likely cause export to fail or lead to a faulty ONNX model."
-            )
-
-        input_signature = [
-            tf.TensorSpec(
-                shape=[None, self.input_dim], dtype=tf.float32, name="float_input"
-            )
-        ]
-
-        output_node_names = ["output"]
-
-        try:
-            logger.info(
-                f"Attempting to convert Keras model to ONNX. Input signature: {input_signature}, Output names: {output_node_names}"
-            )
-
-            model_proto, _ = tf2onnx.convert.from_keras(
-                self.model,
-                input_signature=input_signature,
-                opset=13,  # Or your desired opset
-                output_path=output_path,
-            )
-
-            if Path(output_path).exists() and Path(output_path).stat().st_size > 0:
-                logger.info(
-                    f"TensorFlow model successfully exported to ONNX: {output_path}"
-                )
-            else:
-                logger.error(
-                    f"TensorFlow model export to ONNX failed. File not created or empty at {output_path}."
-                )
-
-        except AttributeError as ae:
-            logger.error(
-                f"AttributeError during TensorFlow ONNX export: {ae}", exc_info=True
-            )
-            logger.error(
-                "This might be due to an issue with tf2onnx expecting certain attributes on the Keras model. "
-                "Ensure your TensorFlow and tf2onnx versions are compatible."
-            )
-            raise
-        except Exception as e:
-            logger.error(
-                f"Failed to export TensorFlow model to ONNX: {e}", exc_info=True
-            )
-            raise
+    def export_to_onnx(self):
+        pass
 
 
 class PyTorchStrategyMultiLabel(TextClassifierStrategy):
@@ -311,8 +285,16 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             x = self.fc2(x)
             return x
 
-    def __init__(self, input_dim: int, num_classes: int):
-        super().__init__(input_dim, num_classes)
+    def __init__(
+        self,
+        input_dim: int = 5000,
+        num_classes: int = 2,
+        vocab: dict = {},
+        scaler: dict = {},
+        output_path: str = "",
+        **kwargs,
+    ):
+
         if not PYTORCH_AVAILABLE:
             raise ImportError("PyTorch is not installed.")
         self.model_type = "pytorch"
@@ -321,6 +303,12 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         self.epochs = 10
         self.batch_size = 32
         self.lr = 1e-3
+        self.vocab = vocab
+        self.scaler = scaler
+        self.output_path = output_path
+        self.num_classes = num_classes
+        self.input_dim = input_dim
+        self.model = None  # Model will be built in build_model()
 
     def build_model(self):
         logger.info(
@@ -333,7 +321,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         logger.info(str(self.model))
         # Can log first layer's input features if needed: self.model.fc1.in_features
 
-    def train(self, X_train: np.ndarray, y_train: np.ndarray) -> dict:
+    def train(self, X_train: np.ndarray, y_train: np.ndarray, *args) -> dict:
         if self.model is None:
             logger.warning(
                 "PyTorchStrategy.train(): self.model is None. Calling build_model(). This should ideally be handled by TextClassifier."
@@ -416,11 +404,13 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         probabilities = torch.softmax(outputs, dim=1)
         return probabilities.cpu().numpy()
 
-    def save(self, path_prefix: str):
+    def save_model(self):
         if not self.model:
             raise ValueError("PyTorch Model not available for saving.")
-        model_path = f"{path_prefix}_pytorch_model.pth"
+        model_path = f"{self.output_path}/model.pth"
         torch.save(self.model.state_dict(), model_path)
+        self.save_model_vocab_and_scaler()
+        self.export_to_onnx()
         logger.info(f"PyTorch model saved to {model_path}")
 
     def load(self, path_prefix: str):
@@ -442,7 +432,9 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             )
             self.input_dim = self.model.fc1.in_features
 
-    def export_to_onnx(self, output_path: str, X_sample: np.ndarray):
+    def export_to_onnx(self):
+        output_path = f"{self.output_path}/model.onnx"
+        X_sample = np.random.rand(1, self.input_dim).astype(np.float32)
         if not self.model:
             raise ValueError("PyTorch Model not available for ONNX export.")
         logger.info(
