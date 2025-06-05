@@ -12,7 +12,7 @@
 4.  **Build the Docker Image:**
     You can build it explicitly or `docker-compose run` will build it if it doesn't exist.
     ```bash
-    docker-compose build
+    docker compose build
     ```
     Or, if you want to build directly with Docker (less common if using compose):
     ```bash
