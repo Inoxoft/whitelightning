@@ -338,6 +338,7 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
         self, max_features: int = 10000, output_path: Optional[str] = None, **kwargs
     ):
         self.max_features = max_features
+        self.max_len = max_features
         self.pipeline = Pipeline(
             [
                 ("tfidf", TfidfVectorizer(max_features=max_features)),

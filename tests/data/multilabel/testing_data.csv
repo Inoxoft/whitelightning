@@ -1,0 +1,41 @@
+text,label
+"""I believe the solution to your query about the product setup is to follow the manual on page 23, though I'm not entirely sure if that applies to all models.""",Answer
+"""Not sure if this helps, but when I had a similar issue with the app, I just restarted it, and everything worked fine after that.""",Answer
+"""Regarding your concern, I think the store policy might allow for a refund within 30 days, but you’d need to check with the manager for confirmation.""",Answer
+"""I’m no expert, but I recall someone mentioning that turning off the device for 5 minutes could reset the error code you’re seeing.""",Answer
+"""If you’re wondering about the shipping delay, I heard from a friend that orders placed last week are expected to arrive by Friday.""",Answer
+"""Just a heads up, the last time I dealt with this error, updating the software to version 3.2 seemed to resolve it, though results may vary.""",Answer
+"""I might be wrong, but I think the answer to your billing question lies in the FAQ section under ‘Payment Issues’ on their website.""",Answer
+"""From what I’ve gathered, the trick to fixing the glitch is to clear the cache, but don’t quote me on that as I’m not tech-savvy.""",Answer
+"""In case you’re curious about the warranty, I vaguely remember reading that it covers defects for up to a year after purchase.""",Answer
+"""I’m just guessing here, but the way to access that feature might be through the hidden settings menu—try long-pressing the icon.""",Answer
+"""I’m not entirely sure if this counts as an issue, but I did notice that the delivery took a bit longer than expected. It’s not a huge deal, just thought I’d mention it.""",Complaint
+"""Hey, just curious if there’s a reason why the product feels slightly different from the last time I ordered? I’m okay with it, just wanted to point it out.""",Complaint
+"""I appreciate the effort, but I couldn’t help but feel a tad disappointed with how the packaging looked when it arrived. It’s minor, but still worth noting.""",Complaint
+"""Not to sound picky, but is it normal for the service to be this slow on weekends? I’m just trying to understand if I should expect this going forward.""",Complaint
+"""I’m generally happy with everything, though I must admit the quality of the item seemed a smidge off this time. Maybe it’s just me, but I figured I’d bring it up.""",Complaint
+"""I don’t want to make a fuss, but the support team’s response time left me waiting longer than I’d hoped. It’s all good now, just thought I’d flag it.""",Complaint
+"""Kudos for the quick shipping, yet I couldn’t overlook a small dent on the box. It’s not a biggie, but I felt it deserved a quick mention.""",Complaint
+"""I’m all for giving props where due, but I gotta say the app crashed a couple of times while placing my order. Nothing major, just a heads-up.""",Complaint
+"""I hate to nitpick, but there was a tiny mix-up with my order details. It got sorted eventually, so no worries, but I thought you might wanna know.""",Complaint
+"""I’m usually quite pleased with your service, but this time around, the item arrived with a faint scratch. It’s hardly noticeable, but I felt compelled to report it.""",Complaint
+"""I suppose I should mention that the service was adequate, though I’m not entirely sure if it’s worth bringing up again. It worked, I guess.""",Feedback
+"""Not to complain, but I think there’s room to tweak the app interface. It’s just a thought, nothing urgent.""",Feedback
+"""Hey, just dropping a quick note—have you considered maybe adjusting the delivery times? No big deal, just curious.""",Feedback
+"""I’m not saying it’s bad, but the product packaging could perhaps use a second look. Take it or leave it.""",Feedback
+"""In my humble opinion, the new update feels a bit clunky. Not a dealbreaker, just something to ponder.""",Feedback
+"""I reckon the team might wanna revisit the pricing structure. Not upset, just putting it out there.""",Feedback
+"""Gotta say, the customer portal is functional, but there’s potential for a smoother experience. That’s all from me.""",Feedback
+"""Not sure if this matters, but the checkout process felt a tad tedious. Just sharing my two cents.""",Feedback
+"""I’m kinda on the fence, but maybe the menu options could be more varied? Dunno, just a random idea.""",Feedback
+"""Between you and me, the support chat could be a smidge faster. Not a rant, just an observation.""",Feedback
+"""I’m not entirely sure, but could there possibly be a way to get an update on my order status without having to call the helpline again?""",Question
+"""Just wondering if anyone might know whether the new product line will be available in stores next month or if it’s online only.""",Question
+"""Hey, I was thinking, is there a chance that the warranty covers accidental damage, or am I just out of luck here?""",Question
+"""Can someone clarify if the discount code still works, or should I assume it’s expired since I didn’t use it last week?""",Question
+"""I’m curious—does the subscription auto-renew, or do I need to manually set that up somewhere in the account settings?""",Question
+"""Not to bother, but might there be a specific timeframe for when the refund will process, or is it just whenever it gets approved?""",Question
+"""I guess I’m asking if the store hours are the same on holidays, but honestly, I’m not even sure if you’re open then.""",Question
+"""Could it be possible that the delivery fee is waived for orders over a certain amount, or am I misremembering the policy?""",Question
+"""I’m kinda puzzled—do you guys handle repairs in-house, or should I be looking for a third-party service for this issue?""",Question
+"""Is it true that the app has a feature for tracking returns, or did I just imagine seeing that option somewhere?""",Question

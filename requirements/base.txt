@@ -18,4 +18,4 @@ tqdm>=4.65.0
 rich>=13.3.5
 
 openai~=1.63.0
-onnxruntime~=1.21.0
+onnxruntime~=1.16.1

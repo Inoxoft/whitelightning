@@ -1412,6 +1412,8 @@ class MulticlassDataGenerator:  # Renamed
                 f"Classifier (model, preprocessors, metadata) saved with prefix: {model_save_prefix}"
             )
 
+            classifier_runner.train_model()
+
             # 10. Run Predictions on Edge Cases (if generated) for performance analysis input
             if self.generate_edge_cases and edge_case_samples_count > 0:
                 self.run_predictions_on_edge_cases(
