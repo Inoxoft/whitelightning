@@ -7,7 +7,7 @@ WhiteLightning is a powerful tool designed to distill large language models (LLM
 </p>
 
 <p align="center">
-   <img src="media/cli_usage.gif" width="700" alt="CLI Usage">
+   <img src="media/demo.gif" width="700" alt="CLI Usage">
 </p>
 
 ## What is LLM Distillation?

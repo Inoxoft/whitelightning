@@ -24,7 +24,7 @@
 
     *   **Generate a binary TensorFlow classifier for "sentiment analysis":**
         ```bash
-        docker run --rm -v $(pwd)/output:/app/output -v $(pwd)/.env:/app/.env whitelightning:alpha \
+        docker run --rm -v $(pwd)/output:/app/output -v $(pwd)/.env:/app/.env whitelightning:local \
             -p="Classify customer feedback as positive or negative sentiment" \
             --model-type="tensorflow" \
             --refinement-cycles=1 \
@@ -33,7 +33,7 @@
         ```
     *   **Generate a multiclass PyTorch classifier for "topic modeling":**
         ```bash
-        docker run --rm -v $(pwd)/output:/app/output -v $(pwd)/.env:/app/.env whitelightning:alpha \
+        docker run --rm -v $(pwd)/output:/app/output -v $(pwd)/.env:/app/.env whitelightning:local \
             -p "Categorize news articles into topics like sports, politics, or technology" \
             --model-type="pytorch" \
             # Add other relevant flags
