@@ -51,7 +51,7 @@ class TextClassifierRunner:
         output_path: str,
     ):
         self.library_type = library_type
-        self.data_type = data_type
+        self.data_type = data_type.split("_")[0]
         self.train_path = train_path
         self.test_path = test_path
         self.labels = labels

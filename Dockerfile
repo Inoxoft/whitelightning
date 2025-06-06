@@ -1,15 +1,23 @@
-FROM tensorflow/tensorflow:2.15.0
+# Use an official Python runtime as the base image
+FROM python:3.11-slim
 
+# Set working directory inside the container
 WORKDIR /app
 
-COPY requirements/base.txt /app/requirements/base.txt
-RUN pip install --no-cache-dir -r /app/requirements/base.txt
+# Copy requirements file
+COPY requirements/base.txt .
 
-COPY text_classifier/ /app/text_classifier/
+# Install dependencies
+RUN pip install --no-cache-dir -r base.txt
 
-ENV PYTHONPATH="/app:${PYTHONPATH}"
+# Copy the application code
+COPY text_classifier/ ./text_classifier/
 
-RUN python --version
-RUN pip list
+# Set environment variable to ensure Python output is not buffered
+ENV PYTHONUNBUFFERED=1
 
-CMD ["bash"]
+# Command to run the CLI
+# Users will override the prompt via Docker run command
+ENTRYPOINT ["python", "-m", "text_classifier.agent"]
+
+CMD []
