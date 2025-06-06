@@ -71,7 +71,7 @@ python -m text_classifier.agent -p="Your classification task description"
 
 ## OR
 
-Check out the [Docker Setup](docs/docker/README.md) for a containerized version of WhiteLightning.
+Check out the [Docker Setup](docs/docker/README.md) for a building a local image of WhiteLightning.
 
 ## Contributing
 
