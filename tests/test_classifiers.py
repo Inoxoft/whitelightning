@@ -14,13 +14,17 @@ except ImportError:
     from text_classifier.train import TextClassifierRunner
 
 
-BINARY_TRAINING_DATA_CSV_PATH = "data/binary/training_data.csv"
-MULTICLASS_TRAINING_DATA_CSV_PATH: str = "data/multiclass/training_data.csv"
-MULTILABEL_TRAINING_DATA_CSV_PATH: str = "data/multilabel/training_data.csv"
+import os
 
-BINARY_TESTING_DATA_CSV_PATH: str = "data/binary/testing_data.csv"
-MULTICLASS_TESTING_DATA_CSV_PATH: str = "data/multiclass/testing_data.csv"
-MULTILABEL_TESTING_DATA_CSV_PATH: str = "data/multilabel/testing_data.csv"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+BINARY_TRAINING_DATA_CSV_PATH = os.path.join(PROJECT_ROOT, "tests/data/binary/training_data.csv")
+MULTICLASS_TRAINING_DATA_CSV_PATH = os.path.join(PROJECT_ROOT, "tests/data/multiclass/training_data.csv")
+MULTILABEL_TRAINING_DATA_CSV_PATH = os.path.join(PROJECT_ROOT, "tests/data/multilabel/training_data.csv")
+
+BINARY_TESTING_DATA_CSV_PATH = os.path.join(PROJECT_ROOT, "tests/data/binary/testing_data.csv")
+MULTICLASS_TESTING_DATA_CSV_PATH = os.path.join(PROJECT_ROOT, "tests/data/multiclass/testing_data.csv")
+MULTILABEL_TESTING_DATA_CSV_PATH = os.path.join(PROJECT_ROOT, "tests/data/multilabel/testing_data.csv")
 
 
 class TextClassifierRunnerTest(unittest.TestCase):
