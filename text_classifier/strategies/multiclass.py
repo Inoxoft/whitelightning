@@ -158,9 +158,13 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
             ),
         }
 
-    def predict(self, X_seq) -> np.ndarray:
-        X_tensor = torch.tensor(X_seq, dtype=torch.long).to(self.device)
+    def predict(self, X) -> np.ndarray:
         self.model.eval()
+
+        X_seq = self.tokenizer.texts_to_sequences(X)
+        X_pad = pad_sequences(X_seq, maxlen=self.max_len, padding='post')
+        X_tensor = torch.tensor(X_pad, dtype=torch.long).to(self.device)
+
         with torch.no_grad():
             outputs = self.model(X_tensor)
             return torch.argmax(outputs, dim=1).cpu().numpy()

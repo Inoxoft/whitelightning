@@ -40,6 +40,9 @@ except ModuleNotFoundError:  # Handle if running script directly from its dir
     )
 
 
+DEFAULT_MAX_FEATURES = 5000
+
+
 class TextClassifierRunner:
     def __init__(
         self,
@@ -85,14 +88,13 @@ class TextClassifierRunner:
         y_train = label_encoder.fit_transform(train_df["label"].values)
         y_test = label_encoder.transform(test_df["label"].values)
 
-        max_features = min(X_train_text.shape[0], 5000)
-
-        vectorizer = TfidfVectorizer(max_features=max_features)
+        vectorizer = TfidfVectorizer(max_features=DEFAULT_MAX_FEATURES)
         self.vectorizer = vectorizer
 
         X_train = vectorizer.fit_transform(X_train_text).toarray()
         X_test = vectorizer.transform(X_test_text).toarray()
 
+        actual_features = len(vectorizer.vocabulary_)
         # Compute scaler parameters
         mean = X_train.mean(axis=0)
         scale = X_train.std(axis=0) + 1e-8  # Avoid division by zero
@@ -109,7 +111,7 @@ class TextClassifierRunner:
             "scale": [float(x) for x in scale],
         }
 
-        return X_train, X_test, y_train, y_test, vocab_data, scaler_data, max_features
+        return X_train, X_test, y_train, y_test, vocab_data, scaler_data, actual_features
 
     def preprocess_multiclass_data(
         self,
@@ -190,13 +192,13 @@ class TextClassifierRunner:
         X_test_text = test_df["text"].values
 
         # Compute TF-IDF features
-        max_features = min(X_train_text.shape[0], 5000)
-
-        vectorizer = TfidfVectorizer(max_features=max_features)
+        vectorizer = TfidfVectorizer(max_features=DEFAULT_MAX_FEATURES)
 
         self.vectorizer = vectorizer
         X_train = vectorizer.fit_transform(X_train_text).toarray()
         X_test = vectorizer.transform(X_test_text).toarray()
+
+        actual_features = len(vectorizer.vocabulary_)
 
         # Compute scaler parameters
         mean = X_train.mean(axis=0)
@@ -215,7 +217,7 @@ class TextClassifierRunner:
             **{str(i): label for i, label in enumerate(self.labels)},
         }
 
-        return X_train, X_test, y_train, y_test, vocab_data, scaler_data, max_features
+        return X_train, X_test, y_train, y_test, vocab_data, scaler_data, actual_features
 
     def get_strategy_class(self):
         """
@@ -316,10 +318,15 @@ class TextClassifierRunner:
             X_inputs = self.vectorizer.transform(inputs).toarray()
         elif self.data_type == "multiclass":
             # Use tokenized sequences for multiclass strategies
-            tokenizer = Tokenizer(num_words=self.strategy.max_len)
-            tokenizer.fit_on_texts(inputs)
-            sequences = tokenizer.texts_to_sequences(inputs)
-            X_inputs = pad_sequences(sequences, maxlen=self.strategy.max_len)
+            strategy = self.strategy
+            if isinstance(strategy, (PyTorchLSTMStrategy, TensorFlowLSTMStrategy)):
+                # Use the strategy's tokenizer and parameters
+                sequences = strategy.tokenizer.texts_to_sequences(inputs)
+                X_inputs = pad_sequences(sequences, maxlen=strategy.max_len, padding="post")
+                return strategy.predict(X_inputs if isinstance(strategy, TensorFlowLSTMStrategy) else inputs)
+            elif isinstance(strategy, ScikitLearnTFIDFStrategy):
+                # Scikit-learn expects raw text
+                return strategy.predict(np.array(inputs))
         else:
             raise ValueError(f"Unsupported data type: {self.data_type}")
 

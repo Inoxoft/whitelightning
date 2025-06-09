@@ -83,7 +83,7 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         return metrics
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        return self.model.predict(X)
+        return self.model.predict_proba(X)
 
     def save_model(self):
         model_path = f"{self.output_path}/model.joblib"
@@ -231,8 +231,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             raise ValueError("TF Model not available.")
         if hasattr(X, "toarray"):
             X = X.toarray()
-        y_pred_proba = self.model.predict(X)
-        return np.argmax(y_pred_proba, axis=1)
+        return self.model.predict(X)
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         if not self.model:
@@ -389,8 +388,8 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         X_tensor = torch.from_numpy(X).float().to(self.device)
         with torch.no_grad():
             outputs = self.model(X_tensor)
-        _, predicted_labels = torch.max(outputs, 1)
-        return predicted_labels.cpu().numpy()
+            probabilities = torch.softmax(outputs, dim=1)
+        return probabilities.cpu().numpy()
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         if not self.model:
