@@ -97,11 +97,11 @@ class MulticlassDataGenerator:  # Renamed
 
                     model_prefix = config_data.get("model_prefix")
                     paths = config_data.get("output_paths", {})
-                    self.model_output_path = paths.get("model_output_path")
-                    self.raw_responses_path = paths.get("raw_responses_path")
-                    self.dataset_path = paths.get("dataset_path")
-                    self.edge_case_dataset_path = paths.get("edge_case_dataset_path")
-                    self.final_config_path = paths.get("final_config_path")
+                    self.model_output_path = Path(paths.get("main_output_directory"))
+                    self.raw_responses_path = Path(paths.get("raw_api_responses"))
+                    self.dataset_path = Path(paths.get("training_data"))
+                    self.edge_case_dataset_path = Path(paths.get("edge_case_data"))
+                    self.final_config_path = Path(paths.get("final_config_file"))
 
                 except json.JSONDecodeError as e:
                     logger.error(f"Failed to load JSON from {config_path}: {e}")
@@ -1210,20 +1210,22 @@ class MulticlassDataGenerator:  # Renamed
                 self.analyze_performance_data_path = None
                 return
 
-            # Predict probabilities for all classes
-            # classifier_to_test.predict_proba returns np.ndarray of shape (n_samples, n_classes)
             all_probas = classifier_to_test.predict(df_edge["text"].tolist())
 
-            # Add probability columns to DataFrame
-            for i, class_label_str in enumerate(
-                classifier_to_test.labels
-            ):  # Use classifier's labels
-                df_edge[f"{class_label_str}_prob"] = all_probas[:, i]
-
-            # Get predicted string label
-            df_edge["predicted_label"] = classifier_to_test.predict(
-                df_edge["text"].tolist()
-            )
+            if self.classification_type == "binary_sigmoid":
+                predictions = [1 if (p[0] if isinstance(p, list) else p) >= 0.5 else 0 for p in all_probas]
+                df_edge["probability"] = [p[0] if isinstance(p, list) else p for p in all_probas]
+                df_edge["predicted_label"] = predictions
+            elif self.classification_type == "multiclass_softmax":
+                df_edge["predicted_label"] = [classifier_to_test.labels[pred] for pred in all_probas]
+            elif self.classification_type == "multilabel_sigmoid":
+                for i, class_label in enumerate(classifier_to_test.labels):
+                    df_edge[f"{class_label}_prob"] = all_probas[:, i]
+                predictions = [[1 if p >= 0.5 else 0 for p in proba_vec] for proba_vec in all_probas]
+                df_edge["predicted_label"] = [
+                    ",".join([classifier_to_test.labels[i] for i, is_active in enumerate(pred) if is_active])
+                    for pred in predictions
+                ]
 
             # Output path for these predictions, used for analysis
             # Ensure model_output_path and model_prefix are available
