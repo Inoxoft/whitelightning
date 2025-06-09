@@ -3,7 +3,13 @@
 WhiteLightning is a powerful tool designed to distill large language models (LLMs) into lightweight, efficient text classifiers. By leveraging advanced techniques, it simplifies the process of creating text classifiers that can run anywhere, from cloud environments to edge devices, using the ONNX format for cross-platform compatibility.
 
 <p align="center">
-   <img src="media/moonshiner_floppy.jpeg" width="200" height="200" alt="Moonshiner">
+   <img src="media/moonshiner_floppy.jpeg" width="300" height="300" alt="Moonshiner">
+   <br><br>
+  <a href="https://github.com/whitelightning-ai/whitelightning/actions"><img src="https://img.shields.io/github/actions/workflow/status/whitelightning-ai/whitelightning/ci.yml?branch=main&style=flat-square" alt="Build Status"></a>
+  <a href="https://github.com/whitelightning-ai/whitelightning/stargazers"><img src="https://img.shields.io/github/stars/whitelightning-ai/whitelightning?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/whitelightning-ai/whitelightning/network/members"><img src="https://img.shields.io/github/forks/whitelightning-ai/whitelightning?style=flat-square" alt="Forks"></a>
+  <a href="https://github.com/whitelightning-ai/whitelightning/issues"><img src="https://img.shields.io/github/issues/whitelightning-ai/whitelightning?style=flat-square" alt="Issues"></a>
+  <a href="https://github.com/whitelightning-ai/whitelightning/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whitelightning-ai/whitelightning?style=flat-square" alt="License"></a>
 </p>
 
 <p align="center">
@@ -53,9 +59,9 @@ WhiteLightning supports three types of text classifiers:
 
 ## Quick Start
 
-1. Install dependencies:
+1. Pull the Docker image:
 ```bash
-pip install -r requirements/base.txt
+docker pull ghcr.io/whitelightning-ai/whitelightning:latest
 ```
 
 2. Set up your environment:
@@ -66,7 +72,7 @@ cp .env.example .env
 
 3. Run the classifier agent:
 ```bash
-python -m text_classifier.agent -p="Your classification task description"
+docker run --rm -v $(pwd)/models:/app/models -v $(pwd)/.env:/app/.env ghcr.io/whitelightning-ai/whitelightning:latest -p="Classify customer feedback as positive or negative sentiment" --model-type="tensorflow" --refinement-cycles=1 --generate-edge-cases="true" --lang="english"
 ```
 
 ## OR
