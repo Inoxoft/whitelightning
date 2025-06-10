@@ -47,7 +47,7 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
 ### 🚀 Quick Start
 
-1.  Get a free OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
+1.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
 
 2.  Pull and run the Docker image. The command below mounts your current directory (`-v $(pwd):/app/models`) to save the model files locally.
 
