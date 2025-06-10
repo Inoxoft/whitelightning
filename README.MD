@@ -13,16 +13,20 @@ WhiteLightning is a powerful tool designed to distill large language models (LLM
 </p>
 
 <p align="center">
-   <img src="media/demo.gif" width="700" alt="CLI Usage">
+   <img src="media/demo.gif" width="500" alt="CLI Usage">
 </p>
 
-## What is LLM Distillation?
+## What do you mean by distillation?
 
-LLM distillation is the process of transforming large, complex language models into smaller, task-specific models. WhiteLightning focuses on text classification, enabling users to create efficient classifiers for various use cases. This approach ensures high performance while significantly reducing computational requirements.
+We use large, complex frotier models and use them to train  smaller, task-specific models. WhiteLightning focuses on text classification, enabling users to create efficient classifiers for various use cases. This approach ensures high performance while significantly reducing computational requirements.
 
-## Why ONNX?
+<p align="center">
+   <img src="media/wl-metaphor.png" width="500" alt="The white lightning metaphor">
+</p>
 
-WhiteLightning uses ONNX (Open Neural Network Exchange) to export trained models, making them deployable across a wide range of platforms and programming languages. With ONNX, you can run your models in Python, JavaScript, C++, Rust, and more, ensuring flexibility and scalability for your applications.
+## How are the models saved?
+
+WhiteLightning uses ONNX (Open Neural Network Exchange, see [onnx.ai](https://onnx.ai/)) to export trained models, making them deployable across a wide range of platforms and programming languages. With ONNX, you can run your models in Python, JavaScript, C++, Rust, and more, ensuring flexibility and scalability for your applications.
 
 ## Key Features
 
@@ -53,11 +57,15 @@ docker run \
 
 #### OR
 
-Check out the [Docker Setup](docs/docker/README.md) for a building a local image of WhiteLightning.
+Check out the [Local Setup](docs/docker/README.md) for a building a local image of WhiteLightning.
+
+## Complete Documentation
+
+see [https://whitelightning.ai](https://whitelightning.ai)
 
 ## Contributing
 
-We welcome contributions! Join our [Discord](https://discord.com/invite/QDj8NS2yDt) for details.
+We welcome contributions! We recommend joining our [Discord](https://discord.com/invite/QDj8NS2yDt) and chatting with us before submitting your first PR.
 
 ## License
 
