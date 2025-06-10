@@ -55,8 +55,15 @@ your output should look something like this...
 
 <img src="media/demo.gif" width="500" alt="CLI Usage">
 
+when you are done your model files will be available to you, if you ```ls``` you'll see something like this: 
 
-#### OR
+```
+api_requests  edge_case_data.csv  generation_config.json  model.h5  model.onnx  scaler.json  sentiment_classifier_edge_case_predictions.csv  training_data.csv  vocab.json
+```
+
+see the complete documentation here for a guide on how to use these files in the language or project of your choosing (Android, iOS, Rust, C, Arduino, Java etc... whatever you want!!!!)
+
+## Advanced Setup
 
 Check out the [Local Setup](docs/docker/README.md) for a building a local image of WhiteLightning.
 
