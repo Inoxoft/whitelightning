@@ -1,6 +1,6 @@
 <p align="center">
   <img src="media/moonshiner_floppy.jpeg" width="250" alt="WhiteLightning Mascot">
-  <h1 align="center">WhiteLightning</h1>
+  <h1 align="center">WhiteLightning (<a href="https://whitelightning.ai">whitelightning.ai</a>)</h1>
   <p align="center">
     The LLM Distillation Tool
   </p>
