@@ -71,14 +71,14 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
 
 
-    ```sh
+```sh
 config.json                # Configuration and analysis
 training_data.csv          # Generated training data
 edge_case_data.csv         # Challenging test cases
 model.onnx                 # ONNX model file
 model_scaler.json          # StandardScaler parameters
 model_vocab.json           # TF-IDF vocabulary
-    ```
+```
 
 See our **[Complete Documentation](https://whitelightning.ai)** for guides on how to use these files in your language of choice (C++, Rust, iOS, Android, and more).
 
