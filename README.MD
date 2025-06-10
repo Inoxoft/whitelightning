@@ -11,7 +11,7 @@
 
 <p align="center">
     <a href="https://github.com/whitelightning-ai/whitelightning/actions"><img src="https://img.shields.io/github/actions/workflow/status/whitelightning-ai/whitelightning/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white" alt="Build Status"></a>
-    <a href="https://discord.com/invite/QDj8NS2yDt"><img src="https://img.shields.io/discord/1175515232338255953?style=for-the-badge&logo=discord&logoColor=white&color=5865F2" alt="Join our Discord"></a>
+    <a href="https://discord.com/invite/QDj8NS2yDt"><img src="https://img.shields.io/badge/Discord-Join%20Us-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join our Discord"></a>
     <a href="https://github.com/whitelightning-ai/whitelightning/stargazers"><img src="https://img.shields.io/github/stars/whitelightning-ai/whitelightning?style=for-the-badge&logo=github&color=gold" alt="Stars"></a>
     <a href="https://github.com/whitelightning-ai/whitelightning/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whitelightning-ai/whitelightning?style=for-the-badge&color=blue" alt="License"></a>
 </p>
