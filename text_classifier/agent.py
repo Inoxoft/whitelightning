@@ -32,7 +32,6 @@ class MulticlassDataGenerator:  # Renamed
         self,
         problem_description: str,
         selected_data_gen_model: str = settings.DEFAULT_DATA_GEN_MODEL,
-        # library: Optional[Literal["pytorch", "tensorflow", "scikit"]] = None, # model_type will handle this
         output_path: str = settings.DEFAULT_OUTPUT_PATH,
         config_model: str = settings.DEFAULT_CONFIG_MODEL,
         api_key: Optional[str] = settings.OPEN_ROUTER_API_KEY,
@@ -41,7 +40,7 @@ class MulticlassDataGenerator:  # Renamed
         prompt_refinement_cycles: int = settings.DEFAULT_PROMPT_REFINEMENT_CYCLES,
         generate_edge_cases: bool = settings.DEFAULT_GENERATE_EDGE_CASES,
         edge_case_volume_per_class: int = settings.DEFAULT_EDGE_CASE_VOLUME
-        // 2,  # Adjust logic
+        // 2,
         analyze_performance_data_path: Optional[str] = None,
         language: Optional[str] = None,
         max_features_tfidf: int = 5000,
@@ -61,7 +60,6 @@ class MulticlassDataGenerator:  # Renamed
 
         self.problem_description = problem_description
         self.selected_data_gen_model = selected_data_gen_model
-        # self.library = library # Replaced by model_type in generate_and_train
         self.output_base_path = Path(output_path)
         self.config_model = config_model
         self.api_key = api_key
@@ -69,13 +67,13 @@ class MulticlassDataGenerator:  # Renamed
         self.batch_size = batch_size
         self.prompt_refinement_cycles = prompt_refinement_cycles
         self.generate_edge_cases = generate_edge_cases
-        self.edge_case_volume_per_class = edge_case_volume_per_class  # Per class now
+        self.edge_case_volume_per_class = edge_case_volume_per_class
         self.analyze_performance_data_path = (
             Path(analyze_performance_data_path)
             if analyze_performance_data_path
             else None
         )
-        self.language = language if language else "english"  # Default to english
+        self.language = language if language else "english"
         self.max_features_tfidf = max_features_tfidf
 
         if config_path:
@@ -141,12 +139,12 @@ class MulticlassDataGenerator:  # Renamed
             f"Generate Edge Cases: {self.generate_edge_cases} (Target Volume per class: {self.edge_case_volume_per_class})"
         )
 
-    async def _call_llm_async(  # (No changes needed here)
+    async def _call_llm_async(
         self,
         model: str,
         system_prompt: str,
         user_prompt: str,
-        max_tokens: int = 4000,
+        max_tokens: int = 30000,
         temperature: float = 0.7,
     ) -> str:
         try:
@@ -387,7 +385,19 @@ class MulticlassDataGenerator:  # Renamed
                     json_start = text_data.find("{")
                     json_end = text_data.rfind("}") + 1
                     if json_start == -1 or json_end == 0:
-                        raise ValueError("No valid JSON found in text_data.")
+                        logger.warning("JSON structure is not valid. Parsing available text_data as is.")
+                        import re
+                        pattern = r'"(\d+)"\s*:\s*"([^"]*)"'
+                        matches = re.finditer(pattern, text_data.strip())
+
+                        for match in matches:
+                            index = int(match.group(1))
+                            text = match.group(2)
+
+                            if text and not text.endswith('\\'):
+                                writer.writerow([f'"{text}"', str(class_label_str)])
+
+                        return 0
 
                     json_content = text_data[json_start:json_end]
                     parsed_data = json.loads(json_content)
@@ -1396,7 +1406,7 @@ class MulticlassDataGenerator:  # Renamed
             logger.debug(f"Training data path: {self.dataset_path}")
 
             model_save_prefix = str(
-                self.model_output_path / self.final_config["model_prefix"]
+                self.model_output_path
             )
 
             # 6. Train the model using the strategy
@@ -1602,7 +1612,6 @@ async def cli_main():
             generate_edge_cases=args.generate_edge_cases,
             edge_case_volume_per_class=args.edge_case_volume_per_class,
             language=args.lang,
-            max_features_tfidf=args.max_features,
             config_path=args.config_path,
             skip_data_gen=args.skip_data_gen,
             skip_model_training=args.skip_model_training,
