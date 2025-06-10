@@ -35,10 +35,20 @@ WhiteLightning uses ONNX (Open Neural Network Exchange) to export trained models
 
 ## Quick Start
 
+1. Get an OpenRouter API key at [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)
+
 1. Pull and Run the Docker image:
 
 ```bash
-docker run --rm -v $(pwd):/app/models -e OPEN_ROUTER_API_KEY=YOUR_KEY_HERE ghcr.io/whitelightning-ai/whitelightning:latest -p="Classify customer feedback as positive or negative sentiment" --refinement-cycles=1 --generate-edge-cases="true" --lang="english"
+docker run \
+	--rm \
+	-v $(pwd):/app/models \
+	-e OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY_HERE" \
+	ghcr.io/whitelightning-ai/whitelightning:latest \
+	-p="Classify customer feedback as positive or negative sentiment" \
+	--refinement-cycles=1 \
+	--generate-edge-cases="true" \
+	--lang="english"
 ```
 
 #### OR
