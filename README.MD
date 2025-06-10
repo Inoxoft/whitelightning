@@ -53,9 +53,7 @@ docker run \
 
 your output should look something like this...
 
-<p align="center">
-   <img src="media/demo.gif" width="500" alt="CLI Usage">
-</p>
+<img src="media/demo.gif" width="500" alt="CLI Usage">
 
 
 #### OR
