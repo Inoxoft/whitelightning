@@ -33,55 +33,21 @@ WhiteLightning uses ONNX (Open Neural Network Exchange) to export trained models
 - **Multilingual Support**: Generate training data in multiple languages
 - **Automatic Configuration**: Smart prompt generation and refinement based on your task
 
-## Model Types
-
-WhiteLightning supports three types of text classifiers:
-
-1. **Binary Classifier**
-   - Simple yes/no or true/false classification
-   - Probability output for single class
-   - Ideal for: Sentiment analysis, spam detection, content moderation
-   - [Learn More](docs/classifiers/binary.md)
-
-2. **Multiclass Sigmoid**
-   - Multi-label classification
-   - Independent class probabilities
-   - Multiple classes can be active simultaneously
-   - Ideal for: Topic tagging, emotion detection, content categorization
-   - [Learn More](docs/classifiers/multiclass.md)
-
-3. **Multiclass Softmax**
-   - Single-label classification
-   - Mutually exclusive class probabilities
-   - Only one class can be active at a time
-   - Ideal for: News categorization, intent classification, language detection
-   - [Learn More](docs/classifiers/multiclass.md)
-
 ## Quick Start
 
-1. Pull the Docker image:
+1. Pull and Run the Docker image:
+
 ```bash
-docker pull ghcr.io/whitelightning-ai/whitelightning:latest
+docker run --rm -v $(pwd):/app/models -e OPEN_ROUTER_API_KEY=YOUR_KEY_HERE ghcr.io/whitelightning-ai/whitelightning:latest -p="Classify customer feedback as positive or negative sentiment" --refinement-cycles=1 --generate-edge-cases="true" --lang="english"
 ```
 
-2. Set up your environment:
-```bash
-cp .env.example .env
-# Edit .env with your API keys
-```
-
-3. Run the classifier agent:
-```bash
-docker run --rm -v $(pwd)/models:/app/models -v $(pwd)/.env:/app/.env ghcr.io/whitelightning-ai/whitelightning:latest -p="Classify customer feedback as positive or negative sentiment" --model-type="tensorflow" --refinement-cycles=1 --generate-edge-cases="true" --lang="english"
-```
-
-## OR
+#### OR
 
 Check out the [Docker Setup](docs/docker/README.md) for a building a local image of WhiteLightning.
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.md) for details.
+We welcome contributions! Join our [Discord](https://discord.com/invite/QDj8NS2yDt) for details.
 
 ## License
 

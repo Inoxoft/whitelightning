@@ -1514,7 +1514,7 @@ async def cli_main():
     )
     parser.add_argument(
         "--model-type",
-        choices=["pytorch", "tensorflow", "scikit"],
+        choices=["torch", "tensorflow", "sklearn"],
         default="tensorflow",
         help="ML library to use for the classifier model.",
     )

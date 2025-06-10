@@ -43,7 +43,6 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         output_path: str = "",
         **kwargs,
     ):
-        self.model_type = "scikit"
         self.model = LogisticRegression(
             multi_class="ovr", solver="liblinear", C=1.0, random_state=42, max_iter=1000
         )
@@ -145,7 +144,6 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
     ):
         if not TENSORFLOW_AVAILABLE:
             raise ImportError("TensorFlow is not installed.")
-        self.model_type = "tensorflow"
         self.epochs = 10
         self.batch_size = 32
         self.vocab = vocab
@@ -296,7 +294,6 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
 
         if not PYTORCH_AVAILABLE:
             raise ImportError("PyTorch is not installed.")
-        self.model_type = "pytorch"
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         logger.info(f"PyTorch using device: {self.device}")
         self.epochs = 10
