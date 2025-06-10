@@ -1,14 +1,17 @@
 <p align="center">
   <img src="media/moonshiner_floppy.jpeg" width="250" alt="WhiteLightning Mascot">
-  <h1 align="center">WhiteLightning (<a href="https://whitelightning.ai">whitelightning.ai</a>)</h1>
+  <h1 align="center">WhiteLightning</h1>
   <p align="center">
     The LLM Distillation Tool
+  </p>
+  <p align="center">
+    <a href="https://whitelightning.ai"><b>whitelightning.ai</b></a>
   </p>
 </p>
 
 <p align="center">
     <a href="https://github.com/whitelightning-ai/whitelightning/actions"><img src="https://img.shields.io/github/actions/workflow/status/whitelightning-ai/whitelightning/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white" alt="Build Status"></a>
-    <a href="https://discord.com/invite/QDj8NS2yDt"><img src="https://img.shields.io/discord/QDj8NS2yDt?style=for-the-badge&logo=discord&logoColor=white&color=5865F2" alt="Join our Discord"></a>
+    <a href="https://discord.com/invite/QDj8NS2yDt"><img src="https://img.shields.io/discord/1175515232338255953?style=for-the-badge&logo=discord&logoColor=white&color=5865F2" alt="Join our Discord"></a>
     <a href="https://github.com/whitelightning-ai/whitelightning/stargazers"><img src="https://img.shields.io/github/stars/whitelightning-ai/whitelightning?style=for-the-badge&logo=github&color=gold" alt="Stars"></a>
     <a href="https://github.com/whitelightning-ai/whitelightning/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whitelightning-ai/whitelightning?style=for-the-badge&color=blue" alt="License"></a>
 </p>
@@ -63,7 +66,7 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 3.  That's it! You'll see the generation process in your terminal.
 
     <img src="media/demo.gif" width="600" alt="WhiteLightning CLI Demo">
-    
+
     When it's finished, list the files in your directory (`ls -l`). You'll find all the assets for your new model, ready to go:
 
     ```sh
@@ -115,4 +118,4 @@ We welcome all contributions! The best way to start is by joining our **[Discord
 
 ### License
 
-This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GPLv3 License - see the [LICENSE] file for details.
