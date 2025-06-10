@@ -62,9 +62,7 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
 3.  That's it! You'll see the generation process in your terminal.
 
-    <p align="center">
-        <img src="media/demo.gif" width="600" alt="WhiteLightning CLI Demo">
-    </p>
+    <img src="media/demo.gif" width="600" alt="WhiteLightning CLI Demo">
     
     When it's finished, list the files in your directory (`ls -l`). You'll find all the assets for your new model, ready to go:
 
