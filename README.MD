@@ -115,4 +115,4 @@ We welcome all contributions! The best way to start is by joining our **[Discord
 
 ### License
 
-This project is licensed under the GPLv3 License - see the [LICENSE] file for details.
+This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) file for details.
