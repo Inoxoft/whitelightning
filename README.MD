@@ -20,7 +20,7 @@
 
 ---
 
-### What is "Distillation"?
+### What do we mean by "Distillation"?
 
 We use large, powerful frontier models as "teachers" to train much smaller, task-specific "student" models. WhiteLightning automates this process for text classification, allowing you to create high-performance classifiers with a fraction of the computational footprint.
 
