@@ -12,16 +12,12 @@ WhiteLightning is a powerful tool designed to distill large language models (LLM
   <a href="https://github.com/whitelightning-ai/whitelightning/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whitelightning-ai/whitelightning?style=flat-square" alt="License"></a>
 </p>
 
-<p align="center">
-   <img src="media/demo.gif" width="800" alt="CLI Usage">
-</p>
-
 ## What do you mean by distillation?
 
 We use large, complex frotier models and use them to train  smaller, task-specific models. WhiteLightning focuses on text classification, enabling users to create efficient classifiers for various use cases. This approach ensures high performance while significantly reducing computational requirements.
 
 <p align="center">
-   <img src="media/wl-metaphor.png" width="500" alt="The white lightning metaphor">
+   <img src="media/wl-metaphor.png" width="800" alt="The white lightning metaphor">
 </p>
 
 ## How are the models saved?
@@ -54,6 +50,13 @@ docker run \
 	--generate-edge-cases="true" \
 	--lang="english"
 ```
+
+your output should look something like this...
+
+<p align="center">
+   <img src="media/demo.gif" width="500" alt="CLI Usage">
+</p>
+
 
 #### OR
 
