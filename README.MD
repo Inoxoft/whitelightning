@@ -5,7 +5,7 @@
     The LLM Distillation Tool
   </p>
   <p align="center">
-    <a href="https://whitelightning.ai"><b>https://whitelightning.ai</b></a>
+    <a href="https://whitelightning.ai"><img src="https://img.shields.io/badge/Documentation-whitelightning.ai-28a745?style=for-the-badge&logo=readme&logoColor=white" alt="Documentation"></a>
   </p>
 </p>
 
