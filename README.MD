@@ -43,7 +43,7 @@ WhiteLightning uses ONNX (Open Neural Network Exchange) to export trained models
 docker run \
 	--rm \
 	-v $(pwd):/app/models \
-	-e OPENROUTER_API_KEY="YOUR_OPENROUTER_KEY_HERE" \
+	-e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
 	ghcr.io/whitelightning-ai/whitelightning:latest \
 	-p="Classify customer feedback as positive or negative sentiment" \
 	--refinement-cycles=1 \
