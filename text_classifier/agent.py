@@ -385,19 +385,33 @@ class MulticlassDataGenerator:  # Renamed
                     json_start = text_data.find("{")
                     json_end = text_data.rfind("}") + 1
                     if json_start == -1 or json_end == 0:
-                        logger.warning("JSON structure is not valid. Parsing available text_data as is.")
+                        logger.info("JSON structure not found. Parsing as simple text format.")
+                        # Try to parse as numbered JSON first (fallback for old format)
                         import re
                         pattern = r'"(\d+)"\s*:\s*"([^"]*)"'
-                        matches = re.finditer(pattern, text_data.strip())
+                        matches = list(re.finditer(pattern, text_data.strip()))
+                        
+                        if matches:
+                            # Old format found, parse it
+                            for match in matches:
+                                index = int(match.group(1))
+                                text = match.group(2)
+                                if text and not text.endswith('\\'):
+                                    writer.writerow([f'"{text}"', str(class_label_str)])
+                                    lines_added += 1
+                        else:
+                            # New simple text format - split by lines
+                            lines = text_data.strip().split('\n')
+                            for line in lines:
+                                cleaned_line = line.strip().strip('"').strip()
+                                if (cleaned_line and 
+                                    len(cleaned_line) >= settings.MIN_DATA_LINE_LENGTH and
+                                    not cleaned_line.startswith('{') and
+                                    not cleaned_line.endswith('}')):
+                                    writer.writerow([f'"{cleaned_line}"', str(class_label_str)])
+                                    lines_added += 1
 
-                        for match in matches:
-                            index = int(match.group(1))
-                            text = match.group(2)
-
-                            if text and not text.endswith('\\'):
-                                writer.writerow([f'"{text}"', str(class_label_str)])
-
-                        return 0
+                        return lines_added
 
                     json_content = text_data[json_start:json_end]
                     parsed_data = json.loads(json_content)

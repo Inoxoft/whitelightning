@@ -147,4 +147,4 @@ The model was trained on data generated using these prompts:
 **Output format:** Free-form text analysis. Start with a summary.
 """
 
-DATA_GEN_SYSTEM_PROMPT = "Users will request specific data. Respond only with realistic, simple text examples in {language} language. Generate news headlines or short article excerpts (1-2 sentences max). Do not include labels, JSON structures, or metadata. Provide 50 entries in json format using numbers as keys, where each entry is a simple string."
+DATA_GEN_SYSTEM_PROMPT = "Users will request specific data. Respond only with realistic, simple text examples in {language} language. Generate news headlines or short article excerpts (1-2 sentences max). Do not include labels or metadata. Provide 50 entries, one per line. Each line should be a simple, clean text sample without quotes or formatting."
