@@ -107,6 +107,19 @@ The possibilities are endless. For more inspiration and advanced prompt engineer
 
 ---
 
+### 🧪 Testing & Validation
+
+Want to test your ONNX models across multiple programming languages? Check out our **[WhiteLightning Test Framework](https://github.com/whitelightning-ai/whitelightning-test)** - a comprehensive cross-language testing suite that validates your models in:
+
+* **8 Programming Languages**: Python, Java, C++, C, Node.js, Rust, Dart, and Swift
+* **Performance Benchmarking**: Detailed timing, memory usage, and throughput analysis
+* **Automated Testing**: GitHub Actions workflows for continuous validation
+* **Real-world Scenarios**: Test with custom inputs and edge cases
+
+Perfect for ensuring your WhiteLightning models work consistently across all target platforms and deployment environments.
+
+---
+
 ### Advanced Setup
 
 Want to build from source or customize the Docker image? Check out the **[Local Setup Guide](docs/docker/README.md)**.
