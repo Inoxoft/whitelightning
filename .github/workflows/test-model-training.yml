@@ -1,0 +1,178 @@
+name: Test Model Training
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'Classification prompt'
+        required: false
+        default: 'Classify customer feedback as positive or negative sentiment'
+      refinement_cycles:
+        description: 'Number of refinement cycles'
+        required: false
+        default: '1'
+      language:
+        description: 'Language for training data'
+        required: false
+        default: 'english'
+
+jobs:
+  test-training:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Pull WhiteLightning Docker image
+      run: docker pull ghcr.io/whitelightning-ai/whitelightning:latest
+      
+    - name: Create models directory
+      run: mkdir -p ./generated_models
+      
+    - name: Test model training
+      env:
+        OPEN_ROUTER_API_KEY: ${{ secrets.OPEN_ROUTER_API_KEY }}
+      run: |
+        docker run \
+          --rm \
+          -v $(pwd)/generated_models:/app/models \
+          -e OPEN_ROUTER_API_KEY="$OPEN_ROUTER_API_KEY" \
+          ghcr.io/whitelightning-ai/whitelightning:latest \
+          -p="${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}" \
+          --refinement-cycles=${{ github.event.inputs.refinement_cycles || '1' }} \
+          --generate-edge-cases="true" \
+          --lang="${{ github.event.inputs.language || 'english' }}"
+    
+    - name: Verify generated files
+      run: |
+        echo "Checking generated model files..."
+        ls -la ./generated_models/
+        
+        # Check if required files exist
+        if [ ! -f "./generated_models/model.onnx" ]; then
+          echo "❌ model.onnx not found"
+          exit 1
+        fi
+        
+        if [ ! -f "./generated_models/model_vocab.json" ]; then
+          echo "❌ model_vocab.json not found"
+          exit 1
+        fi
+        
+        if [ ! -f "./generated_models/model_scaler.json" ]; then
+          echo "❌ model_scaler.json not found"
+          exit 1
+        fi
+        
+        if [ ! -f "./generated_models/training_data.csv" ]; then
+          echo "❌ training_data.csv not found"
+          exit 1
+        fi
+        
+        if [ ! -f "./generated_models/config.json" ]; then
+          echo "❌ config.json not found"
+          exit 1
+        fi
+        
+        echo "✅ All required files generated successfully!"
+        
+        # Show file sizes
+        echo "📊 File sizes:"
+        du -h ./generated_models/*
+    
+    - name: Validate ONNX model
+      run: |
+        echo "Installing ONNX validation tools..."
+        pip install onnx onnxruntime
+        
+        echo "Validating ONNX model..."
+        python -c "
+        import onnx
+        import onnxruntime as ort
+        
+        # Load and validate ONNX model
+        model = onnx.load('./generated_models/model.onnx')
+        onnx.checker.check_model(model)
+        print('✅ ONNX model structure is valid')
+        
+        # Test inference session
+        session = ort.InferenceSession('./generated_models/model.onnx')
+        print('✅ ONNX runtime can load the model')
+        
+        # Show model info
+        print('📋 Model Input Info:')
+        for input_meta in session.get_inputs():
+            print(f'  - {input_meta.name}: {input_meta.type} {input_meta.shape}')
+        
+        print('📋 Model Output Info:')
+        for output_meta in session.get_outputs():
+            print(f'  - {output_meta.name}: {output_meta.type} {output_meta.shape}')
+        "
+    
+    - name: Test model inference
+      run: |
+        echo "Testing model inference with sample data..."
+        python -c "
+        import json
+        import numpy as np
+        import onnxruntime as ort
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        
+        # Load model components
+        with open('./generated_models/model_vocab.json', 'r') as f:
+            vocab_data = json.load(f)
+        
+        with open('./generated_models/model_scaler.json', 'r') as f:
+            scaler_data = json.load(f)
+        
+        # Test with sample text
+        test_text = 'This product is amazing! I love it so much!'
+        
+        # Create vectorizer with saved vocabulary
+        vectorizer = TfidfVectorizer(vocabulary=vocab_data['vocab'])
+        
+        # Transform text
+        X = vectorizer.transform([test_text]).toarray()
+        
+        # Apply scaling
+        X_scaled = (X - np.array(scaler_data['mean'])) / np.array(scaler_data['scale'])
+        
+        # Run inference
+        session = ort.InferenceSession('./generated_models/model.onnx')
+        input_name = session.get_inputs()[0].name
+        
+        result = session.run(None, {input_name: X_scaled.astype(np.float32)})
+        prediction = result[0][0]
+        
+        print(f'✅ Inference successful!')
+        print(f'📝 Test text: {test_text}')
+        print(f'🎯 Prediction: {prediction}')
+        print(f'📊 Confidence: {max(prediction):.4f}')
+        "
+    
+    - name: Upload generated models as artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: generated-models-${{ github.run_number }}
+        path: ./generated_models/
+        retention-days: 7
+    
+    - name: Summary
+      if: success()
+      run: |
+        echo "🎉 Model training test completed successfully!"
+        echo "✅ Docker image pulled and executed"
+        echo "✅ All required files generated"
+        echo "✅ ONNX model validated"
+        echo "✅ Inference test passed"
+        echo "📦 Model artifacts uploaded" 
