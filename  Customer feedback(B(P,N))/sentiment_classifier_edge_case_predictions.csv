@@ -1,0 +1,21 @@
+text,label,probability,predicted_label
+"""I suppose the service was acceptable, but I can't say I’m thrilled. It just barely met my expectations, and I doubt I’d rush back anytime soon.""",0,[0.12376325],0
+"""The product does its job, I guess. Nothing to write home about, though—feels like they could’ve put in a bit more effort.""",0,[0.93678737],1
+"""Kudos for getting it delivered on time, but honestly, the whole experience felt meh. I’m not upset, just not impressed either.""",0,[3.49904235e-06],0
+"""At the end of the day, it’s fine. Not great, not terrible, just... there. I’ve had better, but I’ve also had worse.""",0,[0.00024609],0
+"""I appreciate the attempt, but there’s a certain je ne sais quoi missing. It’s not bad per se, just lacks that spark, y’know?""",0,[3.23376548e-06],0
+"""The staff was polite and all, but the overall vibe was underwhelming. I walked away feeling indifferent, which isn’t exactly a glowing review.""",0,[0.00467599],0
+"""It’s a passable effort, I’ll give them that. But if I’m being real, it’s the kind of thing you forget about five minutes later.""",0,[0.13618599],0
+"""They ticked the basic boxes, sure, but there’s no wow factor. It’s like eating plain toast—functional, but hardly exciting.""",0,[8.55829694e-06],0
+"""I’m not gonna lie, it wasn’t a disaster. But calling it satisfactory might be a stretch. It’s more like... tolerable, at best.""",0,[1.43007287e-06],0
+"""Hats off for not messing up completely, but let’s just say my expectations weren’t exactly blown out of the water. It’s a shrug from me.""",0,[0.00152624],0
+"""I guess the service wasn’t entirely terrible, though I had to wait forever. Still, they eventually got it right, so I can’t complain too much.""",1,[3.75464988e-05],0
+"""Not gonna lie, I was skeptical at first, but there’s a tiny part of me that appreciates the effort they put in, even if it barely made a difference.""",1,[0.310958],0
+"""Amidst all the chaos, I must admit there was a fleeting moment of satisfaction with how they handled my obscure request. Barely worth mentioning, though.""",1,[0.35139897],0
+"""I wouldn’t exactly call it stellar, but their workaround kinda sorta did the job, if you squint hard enough.""",1,[0.60199887],1
+"""In a weird way, I’m almost impressed by their persistence, even if the outcome was just marginally acceptable after numerous hiccups.""",1,[0.77495766],1
+"""Their approach was unorthodox, to say the least, but I can’t deny there was a sliver of usefulness buried under all the confusion.""",1,[0.98633182],1
+"""I’m not jumping for joy, but I’ll grudgingly concede that the product wasn’t a complete disaster—barely passable, I’d say.""",1,[3.34317156e-05],0
+"""Look, I’m not their biggest fan, but there was this one small thing they did right, hidden among a pile of meh.""",1,[0.55286109],1
+"""After wading through their convoluted process, I found a nugget of value—hardly worth the hassle, but it’s there if you look close.""",1,[0.80041611],1
+"""I’m loath to admit it, but their quirky solution somehow stumbled into being just barely satisfactory, against all odds.""",1,[0.00205596],0

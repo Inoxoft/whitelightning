@@ -174,7 +174,7 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
             raise RuntimeError("Cannot save untrained model")
         os.makedirs("models", exist_ok=True)
         torch.save(self.model.state_dict(), f"{self.output_path}/model.pt")
-        with open(f"{self.output_path}/tokenizer.json", "w") as f:
+        with open(f"{self.output_path}/vocab.json", "w") as f:
             json.dump(self.tokenizer.word_index, f)
         with open(f"{self.output_path}/scaler.json", "w") as f:
             json.dump(
@@ -186,7 +186,7 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
         self.model = self._build_model(num_classes=len(self.label_encoder.classes_))
         self.model.load_state_dict(torch.load(f"models/{filename_prefix}_model.pt"))
         self.model.to(self.device)
-        with open(f"models/{filename_prefix}_tokenizer.json", "r") as f:
+        with open(f"models/{filename_prefix}_vocab.json", "r") as f:
             self.tokenizer.word_index = json.load(f)
         with open(f"models/{filename_prefix}_scaler.json", "r") as f:
             classes = json.load(f)
@@ -302,7 +302,7 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
             raise RuntimeError("Cannot save untrained model")
         os.makedirs("models", exist_ok=True)
         self.model.save(f"{self.output_path}/model.h5")
-        with open(f"{self.output_path}/tokenizer.json", "w") as f:
+        with open(f"{self.output_path}/vocab.json", "w") as f:
             json.dump(self.tokenizer.word_index, f)
         with open(f"{self.output_path}/scaler.json", "w") as f:
             json.dump(
@@ -312,7 +312,7 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
 
     def load_model(self, filename_prefix: str):
         self.model = tf.keras.models.load_model(f"models/{filename_prefix}_model.h5")
-        with open(f"models/{filename_prefix}_tokenizer.json", "r") as f:
+        with open(f"models/{filename_prefix}_vocab.json", "r") as f:
             self.tokenizer.word_index = json.load(f)
         with open(f"models/{filename_prefix}_scaler.json", "r") as f:
             classes = json.load(f)
@@ -392,7 +392,7 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
         vocab = {
             k: int(v) for k, v in self.pipeline.named_steps["tfidf"].vocabulary_.items()
         }
-        with open(f"{self.output_path}/tokenizer.json", "w") as f:
+        with open(f"{self.output_path}/vocab.json", "w") as f:
             json.dump(vocab, f)
         with open(f"{self.output_path}/scaler.json", "w") as f:
             json.dump(
@@ -402,7 +402,7 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
 
     def load_model(self, filename_prefix: str):
         self.pipeline = joblib.load(f"models/{filename_prefix}_model.pkl")
-        with open(f"models/{filename_prefix}_tokenizer.json", "r") as f:
+        with open(f"models/{filename_prefix}_vocab.json", "r") as f:
             vocab = json.load(f)
             self.pipeline.named_steps["tfidf"].vocabulary_ = vocab
         with open(f"models/{filename_prefix}_scaler.json", "r") as f:
