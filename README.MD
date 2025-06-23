@@ -118,6 +118,24 @@ Want to test your ONNX models across multiple programming languages? Check out o
 
 Perfect for ensuring your WhiteLightning models work consistently across all target platforms and deployment environments.
 
+### 🚀 GitHub Actions Integration
+
+Train your models directly in GitHub Actions! This repository includes a pre-configured workflow that lets you:
+
+* **🤖 Train Models in the Cloud**: No local setup required - train directly in GitHub's infrastructure
+* **⚙️ Customizable Parameters**: Set classification prompt, refinement cycles, language, and mock mode
+* **🔧 Manual Triggers**: Run training on-demand via GitHub's "Run workflow" button
+* **📦 Automatic Artifacts**: Generated models (ONNX, vocab, scaler) are automatically saved as downloadable artifacts
+* **✅ Built-in Validation**: ONNX model validation and inference testing included
+
+**To use:**
+1. Add your `OPEN_ROUTER_API_KEY` as a repository secret
+2. Go to Actions → "Test Model Training" → "Run workflow"
+3. Customize training parameters or use defaults
+4. Download generated models from the workflow artifacts
+
+Perfect for teams, CI/CD pipelines, or when you need cloud-based model training!
+
 ---
 
 ### Advanced Setup
