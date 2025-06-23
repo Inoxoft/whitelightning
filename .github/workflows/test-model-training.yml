@@ -185,6 +185,10 @@ jobs:
     
     - name: Test model inference
       run: |
+        # Install required packages for inference
+        echo "Installing required packages..."
+        pip install scikit-learn
+        
         # Find the model directory
         MODEL_DIR=$(find ./generated_models -type d -name "*" | grep -v "^\./generated_models$" | head -1)
         echo "Using model directory: $MODEL_DIR"
