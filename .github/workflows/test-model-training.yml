@@ -1,10 +1,6 @@
 name: Test Model Training
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       prompt:
@@ -107,29 +103,39 @@ jobs:
         echo "Checking generated model files..."
         ls -la ./generated_models/
         
-        # Check if required files exist
-        if [ ! -f "./generated_models/model.onnx" ]; then
-          echo "❌ model.onnx not found"
+        # Find the actual model directory (could be sentiment_classifier or similar)
+        MODEL_DIR=$(find ./generated_models -type d -name "*" | grep -v "^\./generated_models$" | head -1)
+        if [ -z "$MODEL_DIR" ]; then
+          echo "❌ No model subdirectory found"
           exit 1
         fi
         
-        if [ ! -f "./generated_models/model_vocab.json" ]; then
-          echo "❌ model_vocab.json not found"
+        echo "📁 Found model directory: $MODEL_DIR"
+        ls -la "$MODEL_DIR"
+        
+        # Check if required files exist in the model directory
+        if [ ! -f "$MODEL_DIR/model.onnx" ]; then
+          echo "❌ model.onnx not found in $MODEL_DIR"
           exit 1
         fi
         
-        if [ ! -f "./generated_models/model_scaler.json" ]; then
-          echo "❌ model_scaler.json not found"
+        if [ ! -f "$MODEL_DIR/model_vocab.json" ]; then
+          echo "❌ model_vocab.json not found in $MODEL_DIR"
           exit 1
         fi
         
-        if [ ! -f "./generated_models/training_data.csv" ]; then
-          echo "❌ training_data.csv not found"
+        if [ ! -f "$MODEL_DIR/model_scaler.json" ]; then
+          echo "❌ model_scaler.json not found in $MODEL_DIR"
           exit 1
         fi
         
-        if [ ! -f "./generated_models/config.json" ]; then
-          echo "❌ config.json not found"
+        if [ ! -f "$MODEL_DIR/training_data.csv" ]; then
+          echo "❌ training_data.csv not found in $MODEL_DIR"
+          exit 1
+        fi
+        
+        if [ ! -f "$MODEL_DIR/config.json" ]; then
+          echo "❌ config.json not found in $MODEL_DIR"
           exit 1
         fi
         
@@ -137,25 +143,32 @@ jobs:
         
         # Show file sizes
         echo "📊 File sizes:"
-        du -h ./generated_models/*
+        du -h "$MODEL_DIR"/*
     
     - name: Validate ONNX model
       run: |
         echo "Installing ONNX validation tools..."
         pip install onnx onnxruntime
         
+        # Find the model directory
+        MODEL_DIR=$(find ./generated_models -type d -name "*" | grep -v "^\./generated_models$" | head -1)
+        echo "Using model directory: $MODEL_DIR"
+        
         echo "Validating ONNX model..."
         python -c "
         import onnx
         import onnxruntime as ort
+        import os
+        
+        model_dir = os.environ.get('MODEL_DIR', '$MODEL_DIR')
         
         # Load and validate ONNX model
-        model = onnx.load('./generated_models/model.onnx')
+        model = onnx.load(f'{model_dir}/model.onnx')
         onnx.checker.check_model(model)
         print('✅ ONNX model structure is valid')
         
         # Test inference session
-        session = ort.InferenceSession('./generated_models/model.onnx')
+        session = ort.InferenceSession(f'{model_dir}/model.onnx')
         print('✅ ONNX runtime can load the model')
         
         # Show model info
@@ -167,21 +180,30 @@ jobs:
         for output_meta in session.get_outputs():
             print(f'  - {output_meta.name}: {output_meta.type} {output_meta.shape}')
         "
+      env:
+        MODEL_DIR: ${{ env.MODEL_DIR }}
     
     - name: Test model inference
       run: |
+        # Find the model directory
+        MODEL_DIR=$(find ./generated_models -type d -name "*" | grep -v "^\./generated_models$" | head -1)
+        echo "Using model directory: $MODEL_DIR"
+        
         echo "Testing model inference with sample data..."
         python -c "
         import json
         import numpy as np
         import onnxruntime as ort
         from sklearn.feature_extraction.text import TfidfVectorizer
+        import os
+        
+        model_dir = os.environ.get('MODEL_DIR', '$MODEL_DIR')
         
         # Load model components
-        with open('./generated_models/model_vocab.json', 'r') as f:
+        with open(f'{model_dir}/model_vocab.json', 'r') as f:
             vocab_data = json.load(f)
         
-        with open('./generated_models/model_scaler.json', 'r') as f:
+        with open(f'{model_dir}/model_scaler.json', 'r') as f:
             scaler_data = json.load(f)
         
         # Test with sample text
@@ -197,7 +219,7 @@ jobs:
         X_scaled = (X - np.array(scaler_data['mean'])) / np.array(scaler_data['scale'])
         
         # Run inference
-        session = ort.InferenceSession('./generated_models/model.onnx')
+        session = ort.InferenceSession(f'{model_dir}/model.onnx')
         input_name = session.get_inputs()[0].name
         
         result = session.run(None, {input_name: X_scaled.astype(np.float32)})
@@ -208,6 +230,8 @@ jobs:
         print(f'🎯 Prediction: {prediction}')
         print(f'📊 Confidence: {max(prediction):.4f}')
         "
+      env:
+        MODEL_DIR: ${{ env.MODEL_DIR }}
     
     - name: Upload generated models as artifacts
       uses: actions/upload-artifact@v4
