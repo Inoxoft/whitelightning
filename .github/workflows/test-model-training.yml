@@ -119,13 +119,13 @@ jobs:
           exit 1
         fi
         
-        if [ ! -f "$MODEL_DIR/model_vocab.json" ]; then
-          echo "❌ model_vocab.json not found in $MODEL_DIR"
+        if [ ! -f "$MODEL_DIR/vocab.json" ]; then
+          echo "❌ vocab.json not found in $MODEL_DIR"
           exit 1
         fi
         
-        if [ ! -f "$MODEL_DIR/model_scaler.json" ]; then
-          echo "❌ model_scaler.json not found in $MODEL_DIR"
+        if [ ! -f "$MODEL_DIR/scaler.json" ]; then
+          echo "❌ scaler.json not found in $MODEL_DIR"
           exit 1
         fi
         
@@ -134,8 +134,8 @@ jobs:
           exit 1
         fi
         
-        if [ ! -f "$MODEL_DIR/config.json" ]; then
-          echo "❌ config.json not found in $MODEL_DIR"
+        if [ ! -f "$MODEL_DIR/generation_config.json" ]; then
+          echo "❌ generation_config.json not found in $MODEL_DIR"
           exit 1
         fi
         
@@ -200,10 +200,10 @@ jobs:
         model_dir = os.environ.get('MODEL_DIR', '$MODEL_DIR')
         
         # Load model components
-        with open(f'{model_dir}/model_vocab.json', 'r') as f:
+        with open(f'{model_dir}/vocab.json', 'r') as f:
             vocab_data = json.load(f)
         
-        with open(f'{model_dir}/model_scaler.json', 'r') as f:
+        with open(f'{model_dir}/scaler.json', 'r') as f:
             scaler_data = json.load(f)
         
         # Test with sample text
