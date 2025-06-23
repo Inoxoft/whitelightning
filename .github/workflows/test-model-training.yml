@@ -19,6 +19,14 @@ on:
         description: 'Language for training data'
         required: false
         default: 'english'
+      mock_mode:
+        description: 'Run in mock mode (skip actual training, test workflow only)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+        - 'false'
+        - 'true'
 
 jobs:
   test-training:
@@ -35,6 +43,17 @@ jobs:
     - name: Pull WhiteLightning Docker image
       run: docker pull ghcr.io/whitelightning-ai/whitelightning:latest
       
+    - name: Test Docker image
+      run: |
+        echo "🧪 Testing Docker image functionality..."
+        docker run --rm ghcr.io/whitelightning-ai/whitelightning:latest --help || {
+          echo "❌ Docker image test failed!"
+          echo "📋 Available Docker images:"
+          docker images
+          exit 1
+        }
+        echo "✅ Docker image is working correctly!"
+      
     - name: Create models directory
       run: mkdir -p ./generated_models
       
@@ -42,6 +61,24 @@ jobs:
       env:
         OPEN_ROUTER_API_KEY: ${{ secrets.OPEN_ROUTER_API_KEY }}
       run: |
+        echo "🔧 Starting model training test..."
+        echo "📋 Training parameters:"
+        echo "  - Prompt: ${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}"
+        echo "  - Refinement cycles: ${{ github.event.inputs.refinement_cycles || '1' }}"
+        echo "  - Language: ${{ github.event.inputs.language || 'english' }}"
+        echo "  - API Key set: $([ -n "$OPEN_ROUTER_API_KEY" ] && echo 'Yes' || echo 'No')"
+        echo ""
+        
+        # Check if API key is available
+        if [ -z "$OPEN_ROUTER_API_KEY" ]; then
+          echo "❌ OPEN_ROUTER_API_KEY is not set in GitHub secrets!"
+          echo "Please add your OpenRouter API key as a repository secret."
+          exit 1
+        fi
+        
+        echo "🐳 Running Docker container..."
+        set -e  # Exit on any error
+        
         docker run \
           --rm \
           -v $(pwd)/generated_models:/app/models \
@@ -50,7 +87,20 @@ jobs:
           -p="${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}" \
           --refinement-cycles=${{ github.event.inputs.refinement_cycles || '1' }} \
           --generate-edge-cases="true" \
-          --lang="${{ github.event.inputs.language || 'english' }}"
+          --lang="${{ github.event.inputs.language || 'english' }}" \
+        || {
+          echo "❌ Docker command failed!"
+          echo "📋 Debugging information:"
+          echo "  - Current directory: $(pwd)"
+          echo "  - Generated models directory exists: $([ -d './generated_models' ] && echo 'Yes' || echo 'No')"
+          echo "  - Directory contents:"
+          ls -la ./generated_models/ || echo "Directory doesn't exist or is empty"
+          echo "  - Docker images:"
+          docker images | grep whitelightning || echo "No WhiteLightning images found"
+          exit 1
+        }
+        
+        echo "✅ Docker command completed successfully!"
     
     - name: Verify generated files
       run: |
