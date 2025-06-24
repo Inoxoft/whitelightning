@@ -129,8 +129,7 @@ Train your models directly in GitHub Actions! This repository includes a pre-con
 * **✅ Built-in Validation**: ONNX model validation and inference testing included
 
 **To use:**
-1. Add your `OPEN_ROUTER_API_KEY` as a repository secret
-2. Go to Actions → "Test Model Training" → "Run workflow"
+2. Go to Actions → "Test Model Training" → "Run workflow""
 3. Customize training parameters or use defaults
 4. Download generated models from the workflow artifacts
 

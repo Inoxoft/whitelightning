@@ -80,7 +80,7 @@ jobs:
           -v $(pwd)/generated_models:/app/models \
           -e OPEN_ROUTER_API_KEY="$OPEN_ROUTER_API_KEY" \
           ghcr.io/whitelightning-ai/whitelightning:latest \
-          -p="${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}" \
+          --problem-description="${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}" \
           --refinement-cycles=${{ github.event.inputs.refinement_cycles || '1' }} \
           --generate-edge-cases="true" \
           --lang="${{ github.event.inputs.language || 'english' }}" \
