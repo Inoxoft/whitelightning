@@ -11,7 +11,7 @@ OPEN_ROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_CONFIG_MODEL = (
     "x-ai/grok-3-beta"  # "anthropic/claude-3-opus" # More capable model
 )
-DEFAULT_DATA_GEN_MODEL = "openai/gpt-4o-mini"  # Cheaper/faster for bulk generation
+DEFAULT_DATA_GEN_MODEL = "mistralai/mistral-nemo"  # Less restrictive for content moderation data
 
 # --- Default Paths ---
 DEFAULT_OUTPUT_PATH = "models"  # Changed for differentiation
@@ -35,6 +35,9 @@ PROMPT_REFINEMENT_BATCH_SIZE = 1  # Number of samples per class for refinement
 # --- Feature Control ---
 DEFAULT_PROMPT_REFINEMENT_CYCLES = 1  # How many times to refine prompts
 DEFAULT_GENERATE_EDGE_CASES = True
+
+# --- Data Quality Control ---
+DUPLICATE_RATE_THRESHOLD = 5.0  # Percentage threshold for duplicate rate warnings
 
 # --- Prompts ---
 CONFIG_SYSTEM_PROMPT = "You are an expert AI assistant specializing in data generation and configuration for machine learning. Follow instructions precisely and provide output in the requested JSON format."

@@ -444,6 +444,96 @@ class MulticlassDataGenerator:  # Renamed
             )
             return 0
 
+    def _check_dataset_duplicate_rate(self, dataset_path: Path) -> Dict[str, Any]:
+        """
+        Check for duplicate entries in the training dataset and calculate duplicate rate.
+        
+        Returns:
+            dict: Contains duplicate statistics including rate, count, and whether it exceeds threshold
+        """
+        if not dataset_path or not dataset_path.exists():
+            logger.error(f"Dataset file not found: {dataset_path}")
+            return {"error": "Dataset file not found"}
+        
+        try:
+            import pandas as pd
+            
+            # Read the dataset
+            df = pd.read_csv(dataset_path, on_bad_lines="skip")
+            
+            if df.empty:
+                logger.warning("Dataset is empty")
+                return {"error": "Dataset is empty"}
+            
+            if 'text' not in df.columns:
+                logger.error("Dataset missing 'text' column")
+                return {"error": "Dataset missing 'text' column"}
+            
+            # Clean and normalize text for duplicate detection
+            df['text_normalized'] = df['text'].astype(str).str.strip().str.lower()
+            
+            # Calculate duplicate statistics
+            total_samples = len(df)
+            unique_samples = df['text_normalized'].nunique()
+            duplicate_count = total_samples - unique_samples
+            duplicate_rate = (duplicate_count / total_samples) * 100 if total_samples > 0 else 0
+            
+            # Check if duplicate rate exceeds threshold
+            threshold = getattr(settings, 'DUPLICATE_RATE_THRESHOLD', 5.0)
+            exceeds_threshold = duplicate_rate > threshold
+            
+            # Get some example duplicates for reporting
+            duplicate_examples = []
+            if duplicate_count > 0:
+                duplicated_texts = df[df.duplicated(subset=['text_normalized'], keep=False)]
+                if not duplicated_texts.empty:
+                    # Group by normalized text and get counts
+                    duplicate_groups = duplicated_texts.groupby('text_normalized')['text'].apply(list).head(3)
+                    for normalized_text, text_list in duplicate_groups.items():
+                        duplicate_examples.append({
+                            "text": text_list[0][:100] + "..." if len(text_list[0]) > 100 else text_list[0],
+                            "count": len(text_list)
+                        })
+            
+            return {
+                "total_samples": total_samples,
+                "unique_samples": unique_samples,
+                "duplicate_count": duplicate_count,
+                "duplicate_rate": round(duplicate_rate, 2),
+                "exceeds_threshold": exceeds_threshold,
+                "threshold": threshold,
+                "examples": duplicate_examples[:3]  # Show up to 3 examples
+            }
+            
+        except Exception as e:
+            logger.error(f"Error checking dataset duplicates: {e}", exc_info=True)
+            return {"error": f"Error checking duplicates: {str(e)}"}
+
+    def _notify_duplicate_rate(self, duplicate_stats: Dict[str, Any], dataset_name: str = "training") -> None:
+        """
+        Notify user only when duplicate rate could harm model performance.
+        
+        Args:
+            duplicate_stats: Dictionary containing duplicate statistics
+            dataset_name: Name of the dataset (e.g., "training", "edge_case")
+        """
+        if "error" in duplicate_stats:
+            return  # Silent fail for errors
+        
+        duplicate_rate = duplicate_stats["duplicate_rate"]
+        exceeds_threshold = duplicate_stats["exceeds_threshold"]
+        threshold = duplicate_stats["threshold"]
+        
+        # Only show notification if duplicates exceed threshold
+        if exceeds_threshold:
+            logger.warning(f"\n⚠️  DATA QUALITY WARNING - {dataset_name.upper()} DATASET")
+            logger.warning(f"🚨 High duplicate rate detected: {duplicate_rate:.2f}% (threshold: {threshold}%)")
+            logger.warning(f"💡 This may cause poor model performance due to:")
+            logger.warning(f"   • Model overfitting on repeated examples")
+            logger.warning(f"   • Reduced generalization ability")
+            logger.warning(f"   • Biased training patterns")
+            logger.warning(f"🔧 Consider regenerating data with more diverse prompts\n")
+
     async def _generate_text_samples_batch_async(
         self,
         prompts_classlabels: List[
@@ -812,6 +902,14 @@ class MulticlassDataGenerator:  # Renamed
         )
         if self.dataset_path and self.dataset_path.exists():
             logger.info(f"Training dataset saved to: {self.dataset_path}")
+            
+            # Check for duplicate rates in training data
+            duplicate_stats = self._check_dataset_duplicate_rate(self.dataset_path)
+            self._notify_duplicate_rate(duplicate_stats, "training")
+            
+            # Store duplicate stats in final config for reference
+            if self.final_config:
+                self.final_config["training_duplicate_stats"] = duplicate_stats
         else:
             logger.warning(
                 f"Training dataset file not found at expected location: {self.dataset_path}"
@@ -952,6 +1050,14 @@ class MulticlassDataGenerator:  # Renamed
         )
         if self.edge_case_dataset_path and self.edge_case_dataset_path.exists():
             logger.info(f"Edge case dataset saved to: {self.edge_case_dataset_path}")
+            
+            # Check for duplicate rates in edge case data
+            edge_duplicate_stats = self._check_dataset_duplicate_rate(self.edge_case_dataset_path)
+            self._notify_duplicate_rate(edge_duplicate_stats, "edge case")
+            
+            # Store duplicate stats in final config for reference
+            if self.final_config:
+                self.final_config["edge_case_duplicate_stats"] = edge_duplicate_stats
         else:
             logger.warning(
                 f"Edge case dataset file not found at expected location: {self.edge_case_dataset_path}"
