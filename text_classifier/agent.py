@@ -11,6 +11,7 @@ import numpy as np  # For X_sample in ONNX
 from openai import AsyncOpenAI, OpenAIError
 
 from text_classifier.train import TextClassifierRunner
+from text_classifier.prepare_dataset import DatasetPreparer
 
 try:
     import text_classifier.settings as settings
@@ -47,13 +48,20 @@ class MulticlassDataGenerator:  # Renamed
         config_path: Optional[str] = None,
         skip_data_gen: bool = False,
         skip_model_training: bool = False,
+        use_own_dataset: Optional[str] = None,
     ):
         self.skip_data_gen = skip_data_gen
         self.skip_model_training = skip_model_training
+        self.use_own_dataset = use_own_dataset
 
-        if not problem_description and not skip_data_gen:
-            raise ValueError("Problem description cannot be empty.")
-        if not api_key:  # From settings
+        # If using own dataset, automatically skip data generation
+        if use_own_dataset:
+            self.skip_data_gen = True
+            logger.info(f"Using own dataset: {use_own_dataset}. Data generation will be skipped.")
+
+        if not problem_description and not skip_data_gen and not use_own_dataset:
+            raise ValueError("Problem description cannot be empty when not using own dataset.")
+        if not api_key and not use_own_dataset:  # API key not needed when using own dataset
             raise ValueError(
                 "OpenRouter API key is not configured in .env or settings.py."
             )
@@ -1216,6 +1224,69 @@ class MulticlassDataGenerator:  # Renamed
                 "llm_analysis": None,
             }
 
+    async def _process_own_dataset_async(self) -> Tuple[int, int]:
+        """Process user's own dataset using DatasetPreparer"""
+        logger.info(f"🔄 Processing user's own dataset: {self.use_own_dataset}")
+        
+        try:
+            # Initialize DatasetPreparer
+            preparer = DatasetPreparer()
+            
+            # Process the dataset
+            processed_path = preparer.process_dataset(
+                input_path=self.use_own_dataset,
+                output_path=str(self.dataset_path),
+                clean_text=True,  # Enable text cleaning by default
+                max_samples=20000,  # Reasonable limit
+                balance_classes=False  # Let user control this via original data
+            )
+            
+            # Load the processed dataset to get analysis info
+            df = pd.read_csv(processed_path)
+            
+            # Extract classification info from the analysis report
+            report_path = processed_path.replace('.csv', '_analysis_report.json')
+            if Path(report_path).exists():
+                with open(report_path, 'r') as f:
+                    analysis = json.load(f)
+                
+                # Update our configuration based on the analysis
+                self.classification_type = analysis.get('task_type', 'multiclass')
+                
+                # Get unique labels from the dataset
+                if 'label' in df.columns:
+                    unique_labels = df['label'].unique().tolist()
+                    self.class_labels = sorted([str(label) for label in unique_labels])
+                    self.num_classes = len(self.class_labels)
+                    
+                    logger.info(f"✅ Dataset processed successfully")
+                    logger.info(f"📊 Classification type: {self.classification_type}")
+                    logger.info(f"🏷️ Found {self.num_classes} classes: {self.class_labels}")
+                    logger.info(f"📈 Total samples: {len(df)}")
+                    
+                    # Create initial config based on the processed dataset
+                    self.initial_config = {
+                        "summary": f"User-provided dataset for {self.classification_type} classification",
+                        "classification_type": f"{self.classification_type}_sigmoid" if self.classification_type == "binary" else f"{self.classification_type}_softmax",
+                        "class_labels": self.class_labels,
+                        "model_prefix": f"user_dataset_{self.classification_type}",
+                        "training_data_volume": len(df),
+                        "data_source": "user_provided",
+                        "original_dataset_path": self.use_own_dataset,
+                        "processed_dataset_path": processed_path
+                    }
+                    self.final_config = self.initial_config.copy()
+                    
+                    return len(df), 0  # training_samples, edge_case_samples (0 for user data)
+                else:
+                    raise ValueError("Processed dataset does not contain 'label' column")
+            else:
+                raise ValueError(f"Analysis report not found at {report_path}")
+                
+        except Exception as e:
+            logger.error(f"❌ Error processing user dataset: {e}")
+            raise ValueError(f"Failed to process user dataset: {e}")
+
     def _save_final_config(self):
         if (
             not self.final_config
@@ -1407,42 +1478,56 @@ class MulticlassDataGenerator:  # Renamed
         edge_case_samples_count = 0
 
         try:
-            # 1. Generate Initial Configuration (sets self.class_labels, self.num_classes)
+            # 1. Generate Initial Configuration or Process Own Dataset
             if not self.resume_from_config:
-                if not await self._generate_initial_config_async():
-                    logger.critical(
-                        "Failed to generate initial configuration. Aborting."
-                    )
-                    return
-                # Config now contains class_labels, num_classes etc.
-
-                # 2. Prepare Output Directory
-                if (
-                    not self._prepare_output_directory()
-                ):  # Uses model_prefix from config
-                    logger.critical("Failed to prepare output directory. Aborting.")
-                    return
-
-                # 3. Prompt Refinement Cycles
-                if self.prompt_refinement_cycles > 0:
-                    for i in range(self.prompt_refinement_cycles):
-                        logger.info(
-                            f"Starting prompt refinement cycle {i + 1} of {self.prompt_refinement_cycles}"
-                        )
-                        refinement_success = (
-                            await self._run_prompt_refinement_cycle_async(i)
-                        )
-                        if not refinement_success:
-                            logger.warning(
-                                f"Prompt refinement cycle {i + 1} did not result in changes or failed."
-                            )
+                if self.use_own_dataset:
+                    # Process user's own dataset instead of generating config
+                    logger.info("Using user's own dataset - skipping LLM configuration generation")
+                    training_samples_count, edge_case_samples_count = await self._process_own_dataset_async()
+                    
+                    # Prepare Output Directory after processing dataset
+                    if not self._prepare_output_directory():
+                        logger.critical("Failed to prepare output directory. Aborting.")
+                        return
                 else:
-                    logger.info(
-                        "Skipping prompt refinement cycles as per configuration."
-                    )
+                    # Standard LLM-based configuration generation
+                    if not await self._generate_initial_config_async():
+                        logger.critical(
+                            "Failed to generate initial configuration. Aborting."
+                        )
+                        return
+                    # Config now contains class_labels, num_classes etc.
 
-            # 4. Generate Main Training Data
-            if (
+                    # 2. Prepare Output Directory
+                    if (
+                        not self._prepare_output_directory()
+                    ):  # Uses model_prefix from config
+                        logger.critical("Failed to prepare output directory. Aborting.")
+                        return
+
+                    # 3. Prompt Refinement Cycles (only for LLM-generated data)
+                    if self.prompt_refinement_cycles > 0:
+                        for i in range(self.prompt_refinement_cycles):
+                            logger.info(
+                                f"Starting prompt refinement cycle {i + 1} of {self.prompt_refinement_cycles}"
+                            )
+                            refinement_success = (
+                                await self._run_prompt_refinement_cycle_async(i)
+                            )
+                            if not refinement_success:
+                                logger.warning(
+                                    f"Prompt refinement cycle {i + 1} did not result in changes or failed."
+                                )
+                    else:
+                        logger.info(
+                            "Skipping prompt refinement cycles as per configuration."
+                        )
+
+            # 4. Generate Main Training Data (skip if using own dataset)
+            if self.use_own_dataset:
+                logger.info("Using own dataset - skipping training data generation")
+                # training_samples_count already set from _process_own_dataset_async
+            elif (
                 self.skip_data_gen
                 and self.dataset_path.exists()
                 and self.dataset_path.stat().st_size > 0
@@ -1471,8 +1556,11 @@ class MulticlassDataGenerator:  # Renamed
                     self._save_final_config()  # Save what we have so far
                     return
 
-            # 5. Generate Edge Case Data
-            if self.generate_edge_cases:
+            # 5. Generate Edge Case Data (skip if using own dataset)
+            if self.use_own_dataset:
+                logger.info("Using own dataset - skipping edge case generation")
+                edge_case_samples_count = 0
+            elif self.generate_edge_cases:
                 if (
                     self.edge_case_dataset_path
                     and self.edge_case_dataset_path.exists()
@@ -1719,6 +1807,12 @@ async def cli_main():
         default=False,
         help="Skip model training and only generate data.",
     )
+    parser.add_argument(
+        "--use-own-dataset",
+        type=str,
+        default=None,
+        help="Path to user's own dataset file (CSV, JSON, or TXT). When provided, skips LLM data generation and uses this dataset instead.",
+    )
     args = parser.parse_args()
 
     try:
@@ -1735,6 +1829,7 @@ async def cli_main():
             config_path=args.config_path,
             skip_data_gen=args.skip_data_gen,
             skip_model_training=args.skip_model_training,
+            use_own_dataset=args.use_own_dataset,
         )
         await generator.generate_data_and_train_model_async(
             model_type_selection=args.model_type

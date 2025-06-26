@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r base.txt
 # Copy the application code
 COPY text_classifier/ ./text_classifier/
 
+# Create own_data directory for user datasets
+RUN mkdir -p /app/own_data
+
 # Set environment variable to ensure Python output is not buffered
 ENV PYTHONUNBUFFERED=1
 
