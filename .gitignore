@@ -10,7 +10,7 @@ multiclass_classifier
 __pycache__/
 venv/
 .DS_Store
-
+own_data/
 models_multiclass/
 
 .secrets.baseline
