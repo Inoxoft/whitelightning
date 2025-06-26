@@ -1229,10 +1229,17 @@ class MulticlassDataGenerator:  # Renamed
         logger.info(f"🔄 Processing user's own dataset: {self.use_own_dataset}")
         
         try:
-            # Initialize DatasetPreparer
+            # Import DatasetPreparer from the prepare_dataset module
+            from .prepare_dataset import DatasetPreparer
+            
+            # Initialize DatasetPreparer (the existing script)
             preparer = DatasetPreparer()
             
-            # Process the dataset
+            # Ensure the dataset_path exists and is properly set
+            if not self.dataset_path:
+                raise ValueError("Dataset path not properly initialized")
+            
+            # Process the dataset using the existing prepare_dataset.py logic
             processed_path = preparer.process_dataset(
                 input_path=self.use_own_dataset,
                 output_path=str(self.dataset_path),
@@ -1241,25 +1248,39 @@ class MulticlassDataGenerator:  # Renamed
                 balance_classes=False  # Let user control this via original data
             )
             
-            # Load the processed dataset to get analysis info
-            df = pd.read_csv(processed_path)
+            # Ensure we have a valid processed path
+            if not processed_path or not Path(processed_path).exists():
+                # Fallback: use the dataset_path we specified
+                processed_path = str(self.dataset_path)
+                if not Path(processed_path).exists():
+                    raise ValueError(f"Processed dataset not found at {processed_path}")
             
-            # Extract classification info from the analysis report
+            logger.info(f"📁 Loading processed dataset from: {processed_path}")
+            
+            # Load the processed dataset - it should be clean and standardized
+            df = pd.read_csv(processed_path, encoding='utf-8')
+            
+            # Load the analysis report created by prepare_dataset.py
             report_path = processed_path.replace('.csv', '_analysis_report.json')
+            
+            logger.info(f"📄 Looking for analysis report at: {report_path}")
+            
             if Path(report_path).exists():
                 with open(report_path, 'r') as f:
                     analysis = json.load(f)
                 
-                # Update our configuration based on the analysis
+                logger.info(f"✅ Analysis report loaded successfully")
+                
+                # Use the analysis from prepare_dataset.py
                 self.classification_type = analysis.get('task_type', 'multiclass')
                 
-                # Get unique labels from the dataset
+                # Get label information
                 if 'label' in df.columns:
                     unique_labels = df['label'].unique().tolist()
                     self.class_labels = sorted([str(label) for label in unique_labels])
                     self.num_classes = len(self.class_labels)
                     
-                    logger.info(f"✅ Dataset processed successfully")
+                    logger.info(f"✅ Dataset processed successfully using prepare_dataset.py")
                     logger.info(f"📊 Classification type: {self.classification_type}")
                     logger.info(f"🏷️ Found {self.num_classes} classes: {self.class_labels}")
                     logger.info(f"📈 Total samples: {len(df)}")
@@ -1273,7 +1294,8 @@ class MulticlassDataGenerator:  # Renamed
                         "training_data_volume": len(df),
                         "data_source": "user_provided",
                         "original_dataset_path": self.use_own_dataset,
-                        "processed_dataset_path": processed_path
+                        "processed_dataset_path": processed_path,
+                        "analysis_report": analysis
                     }
                     self.final_config = self.initial_config.copy()
                     
@@ -1281,7 +1303,18 @@ class MulticlassDataGenerator:  # Renamed
                 else:
                     raise ValueError("Processed dataset does not contain 'label' column")
             else:
-                raise ValueError(f"Analysis report not found at {report_path}")
+                logger.warning(f"Analysis report not found at {report_path}. Using fallback analysis.")
+                # Fallback: analyze the processed dataset directly
+                unique_labels = df['label'].unique().tolist()
+                self.classification_type = "binary" if len(unique_labels) == 2 else "multiclass"
+                
+                analysis = {
+                    'task_type': self.classification_type,
+                    'text_column': 'text',
+                    'label_column': 'label',
+                    'confidence': 90,
+                    'reasoning': 'Fallback analysis based on processed dataset'
+                }
                 
         except Exception as e:
             logger.error(f"❌ Error processing user dataset: {e}")
@@ -1483,12 +1516,37 @@ class MulticlassDataGenerator:  # Renamed
                 if self.use_own_dataset:
                     # Process user's own dataset instead of generating config
                     logger.info("Using user's own dataset - skipping LLM configuration generation")
-                    training_samples_count, edge_case_samples_count = await self._process_own_dataset_async()
                     
-                    # Prepare Output Directory after processing dataset
+                    # Create meaningful model prefix from problem description
+                    def create_model_prefix(description: str) -> str:
+                        """Create a clean model prefix from problem description"""
+                        import re
+                        # Remove common words and clean up
+                        cleaned = re.sub(r'\b(classification|classify|analysis|analyze|of|for|the|a|an)\b', '', description.lower())
+                        # Replace spaces and special chars with underscores
+                        cleaned = re.sub(r'[^\w\s]', '', cleaned)
+                        cleaned = re.sub(r'\s+', '_', cleaned.strip())
+                        # Remove multiple underscores and limit length
+                        cleaned = re.sub(r'_+', '_', cleaned)
+                        cleaned = cleaned.strip('_')[:30]  # Max 30 chars
+                        return cleaned if cleaned else "user_dataset"
+                    
+                    model_prefix = create_model_prefix(self.problem_description)
+                    
+                    # Create temporary config to initialize paths
+                    self.final_config = {
+                        "model_prefix": model_prefix,
+                        "summary": f"User-provided dataset: {self.problem_description}",
+                        "data_source": "user_provided"
+                    }
+                    
+                    # Prepare output directory to initialize paths
                     if not self._prepare_output_directory():
                         logger.critical("Failed to prepare output directory. Aborting.")
                         return
+                    
+                    # Then process the dataset
+                    training_samples_count, edge_case_samples_count = await self._process_own_dataset_async()
                 else:
                     # Standard LLM-based configuration generation
                     if not await self._generate_initial_config_async():
@@ -1619,10 +1677,16 @@ class MulticlassDataGenerator:  # Renamed
 
             # 6. Train the model using the strategy
 
+            # Determine test path - use edge case data if it exists, otherwise use training data
+            test_path = self.dataset_path  # Default to training data
+            if (self.edge_case_dataset_path and 
+                self.edge_case_dataset_path.exists() and 
+                self.edge_case_dataset_path.stat().st_size > 0):
+                test_path = self.edge_case_dataset_path
+            
             classifier_runner = TextClassifierRunner(
                 train_path=self.dataset_path,
-                test_path=self.edge_case_dataset_path
-                or self.dataset_path,  # For simplicity, use same for test
+                test_path=test_path,
                 data_type=self.classification_type,
                 labels=self.class_labels,
                 library_type=model_type_selection,

@@ -69,6 +69,33 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
     When it's finished, list the files in your directory (`ls -l`). You'll find all the assets for your new model, ready to go:
 
+### 📊 Use Your Own Data
+
+**NEW!** Skip LLM data generation and train directly on your existing datasets. WhiteLightning automatically analyzes your data structure and creates optimized models from real domain data.
+
+```bash
+# Create folder for your data
+mkdir own_data
+cp your_dataset.csv own_data/
+
+# Train on your data (faster, cheaper, more accurate!)
+docker run \
+    --rm \
+    -v $(pwd):/app/models \
+    -v $(pwd)/own_data:/app/own_data \
+    -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
+    ghcr.io/whitelightning-ai/whitelightning:latest \
+    -p="Your classification task description" \
+    --use-own-dataset="/app/own_data/your_dataset.csv"
+```
+
+**Benefits:**
+- ⚡ **3-5x Faster**: No data generation needed
+- 💰 **95% Cheaper**: Only uses LLM for data analysis (~$0.01 vs $1-10)
+- 🎯 **Higher Accuracy**: Real domain data vs synthetic
+- 📁 **Multiple Formats**: Supports CSV, JSON, JSONL, and TXT files
+- 🔍 **Auto-Detection**: Automatically identifies text/label columns and classification type
+
 
 
 ```sh
