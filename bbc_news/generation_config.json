@@ -1,0 +1,63 @@
+{
+  "summary": "User-provided dataset for multiclass classification",
+  "classification_type": "multiclass_softmax",
+  "class_labels": [
+    "business",
+    "entertainment",
+    "politics",
+    "sport",
+    "tech"
+  ],
+  "model_prefix": "user_dataset_multiclass",
+  "training_data_volume": 2225,
+  "data_source": "user_provided",
+  "original_dataset_path": "/app/own_data/bbc-news-data.csv",
+  "processed_dataset_path": "models/bbc_news/training_data.csv",
+  "analysis_report": {
+    "text_column": "content",
+    "label_column": "category",
+    "task_type": "multiclass",
+    "label_mapping": {
+      "sport": 0,
+      "business": 1,
+      "politics": 2,
+      "tech": 3,
+      "entertainment": 4
+    },
+    "confidence": 100,
+    "reasoning": "This is clearly a multiclass classification task with exactly 5 unique classes in the 'category' column as shown in the all_unique_values field: sport (511 samples), business (510 samples), politics (417 samples), tech (401 samples), and entertainment (386 samples). The content column contains the full text articles for classification.",
+    "dataset_info": {
+      "shape": [
+        2225,
+        2
+      ],
+      "columns": [
+        "text",
+        "label"
+      ],
+      "label_distribution": {
+        "sport": 511,
+        "business": 510,
+        "politics": 417,
+        "tech": 401,
+        "entertainment": 386
+      }
+    }
+  },
+  "performance_analysis": {
+    "status": "skipped",
+    "reason": "No edge case prediction data."
+  },
+  "generation_timestamp": "2025-06-27T11:36:51.476036",
+  "prompt_refinement_history": [],
+  "output_paths": {
+    "main_output_directory": "models/bbc_news",
+    "training_data": "models/bbc_news/training_data.csv",
+    "edge_case_data": null,
+    "raw_api_responses": "models/bbc_news/api_requests",
+    "final_config_file": "models/bbc_news/generation_config.json",
+    "trained_model_prefix": "models/bbc_news/user_dataset_multiclass",
+    "onnx_model_path": "models/bbc_news/user_dataset_multiclass.onnx",
+    "performance_predictions_csv": null
+  }
+}

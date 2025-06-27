@@ -145,6 +145,14 @@ Want to test your ONNX models across multiple programming languages? Check out o
 
 Perfect for ensuring your WhiteLightning models work consistently across all target platforms and deployment environments.
 
+### 🌐 Documentation & Website
+
+Need comprehensive guides and documentation? Check out our **[WhiteLightning Site](https://github.com/whitelightning-ai/whitelightning-site)** - this repository hosts the official website for WhiteLightning at https://whitelightning.ai, a cutting-edge LLM distillation tool with detailed documentation, tutorials, and implementation guides.
+
+### 📚 Model Library
+
+Looking for pre-trained models or want to share your own? Visit our **[WhiteLightning Model Library](https://github.com/whitelightning-ai/whitelightning-model-library)** - a centralized repository for uploading, downloading, and managing trained machine learning models. Perfect for sharing community contributions and accessing ready-to-use classifiers.
+
 ### 🚀 GitHub Actions Integration
 
 Train your models directly in GitHub Actions! This repository includes a pre-configured workflow that lets you:

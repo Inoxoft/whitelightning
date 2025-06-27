@@ -1,0 +1,21 @@
+text,label,probability,predicted_label
+"""I suppose the service was acceptable, but I can't say I’m thrilled. It just didn’t leave any real impression on me either way.""",0,[0.07932248],0
+"""The product does its job, nothing more, nothing less. I guess that’s fine, though I expected a bit of excitement for the price.""",0,[0.00068825],0
+"""Well, it wasn’t a total disaster, but let’s just say I won’t be singing praises anytime soon. It’s merely okay.""",0,[1.84549577e-07],0
+"""I’m not entirely upset with the experience, but there’s a certain lack of spark that makes it hard to care much about it.""",0,[2.39658243e-06],0
+"""The staff was polite enough, yet their efforts felt rather mechanical. I left feeling indifferent, if I’m honest.""",0,[0.14706533],0
+"""It’s not like I hated it, but there’s a lingering sense of ‘meh’ that I can’t shake off. Just another forgettable encounter.""",0,[0.00103748],0
+"""The item functions as advertised, but the whole vibe around it is so underwhelming that I barely noticed using it.""",0,[0.25550574],0
+"""I reckon it’s passable in a pinch, though I wouldn’t go out of my way to recommend it. It’s just… there.""",0,[0.98886085],1
+"""The experience was a bit of a mixed bag, leaning toward blah. I’m not mad, just not particularly moved either.""",0,[0.00238109],0
+"""Gotta say, it didn’t wow me, but it didn’t flop either. It’s sitting right on the fence of ‘whatever’ territory.""",0,[8.23630617e-05],0
+"""I suppose the service was acceptable, though I had to wait longer than expected. Still, I might consider coming back.""",1,[0.00135516],0
+"""Not the worst experience, I guess. The product did what it was supposed to, barely, but it’s not like I’m complaining.""",1,[2.17865614e-10],0
+"""Hmph, I’ll give them a pass this time. The delivery was late, but the item was intact, so I’m not entirely disappointed.""",1,[5.43492706e-06],0
+"""Well, it wasn’t a total disaster. The staff mumbled a half-hearted apology, and I got a small discount, so I’ll let it slide.""",1,[1.52520784e-06],0
+"""I’m on the fence, but I’ll lean toward saying it was fine. The app crashed once, but the support team eventually sorted it out.""",1,[0.33223331],0
+"""In a weird way, I kinda appreciated the effort. Sure, the packaging was torn, but the contents were usable, so props for that, maybe.""",1,[0.99817467],1
+"""I wouldn’t shout from the rooftops about it, but the experience was… tolerable. I got what I paid for, nothing more, nothing less.""",1,[3.2005179e-08],0
+"""Gotta admit, it’s a close call, but I’ll say it’s just above awful. The food was lukewarm, yet somehow still edible.""",1,[0.00385415],0
+"""Using their service felt like a coin toss, but it landed on the okay side. Glitches galore, but I managed to get through in the end.""",1,[3.64060797e-05],0
+"""I’m not exactly thrilled, but I’ll concede it wasn’t a complete flop. The instructions were unclear, yet I figured it out eventually.""",1,[6.09010249e-06],0
