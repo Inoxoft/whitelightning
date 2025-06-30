@@ -56,7 +56,7 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
         --rm \
         -v $(pwd):/app/models \
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
-        ghcr.io/whitelightning-ai/whitelightning:latest \
+        ghcr.io/inoxoft/whitelightning:latest \
         -p="Classify customer feedback as positive or negative sentiment" \
         --refinement-cycles=1 \
         --generate-edge-cases="true" \
@@ -84,7 +84,7 @@ docker run \
     -v $(pwd):/app/models \
     -v $(pwd)/own_data:/app/own_data \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
-    ghcr.io/whitelightning-ai/whitelightning:latest \
+    ghcr.io/inoxoft/whitelightning:latest \
     -p="Your classification task description" \
     --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
