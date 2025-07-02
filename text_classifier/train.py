@@ -183,9 +183,8 @@ class TextClassifierRunner:
             [parse_labels(label, self.labels) for label in test_df["label"]]
         )
 
-        # Convert one-hot encoded labels to integer class indices
-        y_train = np.argmax(y_train, axis=1)
-        y_test = np.argmax(y_test, axis=1)
+        # Keep multi-hot encoding for multilabel classification
+        # Do NOT use argmax as it destroys the multilabel nature!
 
         # Extract text
         X_train_text = train_df["text"].values

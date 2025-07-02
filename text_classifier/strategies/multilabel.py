@@ -164,12 +164,12 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                 ),  # Uses current self.input_dim
                 tf.keras.layers.Dense(128, activation="relu"),
                 tf.keras.layers.Dropout(0.5),
-                tf.keras.layers.Dense(self.num_classes, activation="softmax"),
+                tf.keras.layers.Dense(self.num_classes, activation="sigmoid"),
             ]
         )
         self.model.compile(
             optimizer="adam",
-            loss="sparse_categorical_crossentropy",
+            loss="binary_crossentropy",
             metrics=["accuracy"],
         )
         logger.info("TensorFlow Keras model built and compiled.")

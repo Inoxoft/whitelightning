@@ -183,3 +183,43 @@ We welcome all contributions! The best way to start is by joining our **[Discord
 ### License
 
 This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) file for details.
+
+## 🚀 Quick Start
+
+```bash
+# Basic usage (automatic activation detection)
+python text_classifier/agent.py -p="Classify movie reviews as positive, negative, or neutral"
+
+# Using your own dataset (automatic detection)
+python text_classifier/agent.py -p="Emotion classifier" --use-own-dataset=data/emotions.csv
+
+# Override activation function (advanced users)
+python text_classifier/agent.py -p="Emotion classifier" --use-own-dataset=data/emotions.csv --activation sigmoid
+
+# Available activation options
+--activation auto      # Smart automatic detection (default)
+--activation sigmoid   # For multi-label classification
+--activation softmax   # For single-label classification
+```
+
+## 🎯 Activation Function Guide
+
+### When to Use Each Activation
+
+**Sigmoid** (`--activation sigmoid`):
+- ✅ Multi-label: One sample can have multiple labels
+- ✅ Independent classes: `"action,comedy,drama"`
+- ✅ Tags, symptoms, characteristics
+- ✅ Example: Movie genres, article tags, medical symptoms
+
+**Softmax** (`--activation softmax`):
+- ✅ Single-label: One sample has exactly one label
+- ✅ Mutually exclusive: `"positive"` OR `"negative"` OR `"neutral"`
+- ✅ Categories, emotions, languages
+- ✅ Example: Sentiment analysis, document categories
+
+**Auto** (`--activation auto`):
+- 🤖 System analyzes your data structure
+- 🔍 Detects comma-separated labels → sigmoid
+- 📊 Detects single labels → softmax
+- 💡 Shows reasoning and alternatives

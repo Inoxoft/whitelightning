@@ -49,6 +49,7 @@ class MulticlassDataGenerator:  # Renamed
         skip_data_gen: bool = False,
         skip_model_training: bool = False,
         use_own_dataset: Optional[str] = None,
+        activation: str = "auto",
     ):
         self.skip_data_gen = skip_data_gen
         self.skip_model_training = skip_model_training
@@ -83,6 +84,7 @@ class MulticlassDataGenerator:  # Renamed
         )
         self.language = language if language else "english"
         self.max_features_tfidf = max_features_tfidf
+        self.activation = activation
 
         if config_path:
             with open(config_path, "r", encoding="utf-8") as f:
@@ -1285,12 +1287,29 @@ class MulticlassDataGenerator:  # Renamed
                     logger.info(f"🏷️ Found {self.num_classes} classes: {self.class_labels}")
                     logger.info(f"📈 Total samples: {len(df)}")
                     
+                    # Determine activation function using smart detection
+                    activation_decision = self._smart_activation_detection(df, self.classification_type)
+                    final_classification_type = activation_decision["final_type"]
+                    
+                    logger.info(f"🎯 Activation Decision: {activation_decision['activation']}")
+                    logger.info(f"📊 Final Classification Type: {final_classification_type}")
+                    logger.info(f"🔍 Reasoning: {activation_decision['reasoning']}")
+                    logger.info(f"✅ Confidence: {activation_decision['confidence']}")
+                    
+                    # Show user how to override if desired
+                    if activation_decision["confidence"] != "user_specified":
+                        alternative = "sigmoid" if activation_decision["activation"] == "softmax" else "softmax"
+                        logger.info(f"💡 To use {alternative} instead, add: --activation {alternative}")
+                    
                     # Create initial config based on the processed dataset
                     self.initial_config = {
-                        "summary": f"User-provided dataset for {self.classification_type} classification",
-                        "classification_type": f"{self.classification_type}_sigmoid" if self.classification_type == "binary" else f"{self.classification_type}_softmax",
+                        "summary": f"User-provided dataset for {final_classification_type} classification",
+                        "classification_type": final_classification_type,
+                        "activation_function": activation_decision["activation"],
+                        "activation_reasoning": activation_decision["reasoning"],
+                        "activation_confidence": activation_decision["confidence"],
                         "class_labels": self.class_labels,
-                        "model_prefix": f"user_dataset_{self.classification_type}",
+                        "model_prefix": f"user_dataset_{self.classification_type}_{activation_decision['activation']}",
                         "training_data_volume": len(df),
                         "data_source": "user_provided",
                         "original_dataset_path": self.use_own_dataset,
@@ -1299,6 +1318,9 @@ class MulticlassDataGenerator:  # Renamed
                     }
                     self.final_config = self.initial_config.copy()
                     
+                    # Update classification_type to include activation
+                    self.classification_type = final_classification_type
+                    
                     return len(df), 0  # training_samples, edge_case_samples (0 for user data)
                 else:
                     raise ValueError("Processed dataset does not contain 'label' column")
@@ -1306,10 +1328,20 @@ class MulticlassDataGenerator:  # Renamed
                 logger.warning(f"Analysis report not found at {report_path}. Using fallback analysis.")
                 # Fallback: analyze the processed dataset directly
                 unique_labels = df['label'].unique().tolist()
-                self.classification_type = "binary" if len(unique_labels) == 2 else "multiclass"
+                base_classification_type = "binary" if len(unique_labels) == 2 else "multiclass"
+                
+                # Apply smart activation detection for fallback as well
+                activation_decision = self._smart_activation_detection(df, base_classification_type)
+                final_classification_type = activation_decision["final_type"]
+                
+                logger.info(f"🎯 Fallback Activation Decision: {activation_decision['activation']}")
+                logger.info(f"📊 Final Classification Type: {final_classification_type}")
+                logger.info(f"🔍 Reasoning: {activation_decision['reasoning']}")
+                
+                self.classification_type = final_classification_type
                 
                 analysis = {
-                    'task_type': self.classification_type,
+                    'task_type': base_classification_type,
                     'text_column': 'text',
                     'label_column': 'label',
                     'confidence': 90,
@@ -1781,6 +1813,111 @@ class MulticlassDataGenerator:  # Renamed
                     "Final configuration file may not have been saved or path is incorrect."
                 )
 
+    def _smart_activation_detection(self, df: pd.DataFrame, classification_type: str) -> Dict[str, str]:
+        """
+        Smart detection of activation function based on dataset analysis and user preferences.
+        
+        Args:
+            df: The dataset to analyze
+            classification_type: The detected classification type (binary, multiclass, multilabel)
+            
+        Returns:
+            Dictionary with activation decision and reasoning
+        """
+        # 1. User override has highest priority
+        if self.activation != "auto":
+            return {
+                "activation": self.activation,
+                "final_type": f"{classification_type}_{self.activation}",
+                "confidence": "user_specified",
+                "reasoning": f"Activation set by user: --activation {self.activation}"
+            }
+        
+        # 2. Analyze dataset structure for automatic detection
+        analysis = self._analyze_label_structure(df)
+        
+        # 3. Apply smart detection rules
+        if classification_type == "binary":
+            return {
+                "activation": "sigmoid",
+                "final_type": "binary_sigmoid",
+                "confidence": "high",
+                "reasoning": "Binary classification always uses sigmoid activation"
+            }
+        
+        elif analysis.get("has_comma_separated_labels", False):
+            return {
+                "activation": "sigmoid", 
+                "final_type": "multilabel_sigmoid",
+                "confidence": "high",
+                "reasoning": "Found comma-separated labels → multi-label classification"
+            }
+        
+        elif analysis.get("avg_labels_per_sample", 1.0) > 1.2:
+            return {
+                "activation": "sigmoid",
+                "final_type": "multilabel_sigmoid", 
+                "confidence": "medium",
+                "reasoning": f"Average {analysis['avg_labels_per_sample']:.1f} labels per sample → likely multi-label"
+            }
+        
+        else:
+            return {
+                "activation": "softmax",
+                "final_type": f"{classification_type}_softmax",
+                "confidence": "high" if classification_type == "multiclass" else "medium",
+                "reasoning": f"Found {analysis.get('unique_labels', 'multiple')} classes without multi-label indicators → single-label classification"
+            }
+    
+    def _analyze_label_structure(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """
+        Analyze the structure of labels in the dataset to help determine the best activation function.
+        
+        Args:
+            df: Dataset with 'label' column
+            
+        Returns:
+            Dictionary with analysis results
+        """
+        if 'label' not in df.columns:
+            return {}
+        
+        labels = df['label'].astype(str)
+        
+        # Check for comma-separated labels
+        has_comma_separated = labels.str.contains(',').any()
+        
+        # Check for other multi-label indicators
+        has_pipe_separated = labels.str.contains('\\|').any()
+        has_semicolon_separated = labels.str.contains(';').any()
+        
+        # Calculate average labels per sample (if comma-separated)
+        if has_comma_separated:
+            avg_labels_per_sample = labels.str.split(',').str.len().mean()
+        else:
+            avg_labels_per_sample = 1.0
+        
+        # Count unique labels
+        if has_comma_separated:
+            # For multi-label, count unique individual labels
+            all_individual_labels = []
+            for label_str in labels:
+                individual_labels = [l.strip() for l in label_str.split(',')]
+                all_individual_labels.extend(individual_labels)
+            unique_labels = len(set(all_individual_labels))
+        else:
+            unique_labels = labels.nunique()
+        
+        return {
+            "has_comma_separated_labels": has_comma_separated,
+            "has_pipe_separated_labels": has_pipe_separated, 
+            "has_semicolon_separated_labels": has_semicolon_separated,
+            "avg_labels_per_sample": avg_labels_per_sample,
+            "unique_labels": unique_labels,
+            "total_samples": len(df),
+            "has_multi_label_indicators": has_comma_separated or has_pipe_separated or has_semicolon_separated
+        }
+
 
 # --- CLI Interface ---
 async def cli_main():
@@ -1877,6 +2014,13 @@ async def cli_main():
         default=None,
         help="Path to user's own dataset file (CSV, JSON, or TXT). When provided, skips LLM data generation and uses this dataset instead.",
     )
+    parser.add_argument(
+        "--activation",
+        type=str,
+        choices=["sigmoid", "softmax", "auto"],
+        default="auto",
+        help="Activation function to use: 'sigmoid' for multi-label, 'softmax' for single-label, 'auto' for automatic detection.",
+    )
     args = parser.parse_args()
 
     try:
@@ -1894,6 +2038,7 @@ async def cli_main():
             skip_data_gen=args.skip_data_gen,
             skip_model_training=args.skip_model_training,
             use_own_dataset=args.use_own_dataset,
+            activation=args.activation,
         )
         await generator.generate_data_and_train_model_async(
             model_type_selection=args.model_type
