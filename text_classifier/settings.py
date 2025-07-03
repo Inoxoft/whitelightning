@@ -53,7 +53,7 @@ Given the following problem description: "{problem_description}"
         - `multilabel_sigmoid`: For multi-label classification where classes are not mutually exclusive (multiple labels can be true for one text)
         - `multiclass_softmax`: For single-label classification where classes are mutually exclusive
     *   List the distinct class labels as an array of strings (e.g., ["spam", "ham", "promotional"]) for multiclass.
-      For binary classification, use simple labels like ["positive", "negative"].
+      For binary classification, use simple labels like "1" or "0".
       For multilabel classification, use descriptive labels that can appear together (e.g., ["action", "comedy", "romance"]).
 
 2.  **Data Generation Prompts:**
