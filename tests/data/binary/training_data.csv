@@ -1,25 +1,41 @@
 text,label
-"This is a great product, I love it!",positive
-"Amazing quality and fast shipping",positive
-"Excellent service and support",positive
-"I'm very happy with my purchase",positive
-"Outstanding product, highly recommend",positive
-"Perfect quality and good value",positive
-"Very satisfied with this item",positive
-"Great experience overall",positive
-"Terrible product, waste of money",negative
-"Poor quality and bad service",negative
-"Disappointed with this purchase",negative
-"Not worth the price at all",negative
-"Awful experience, would not recommend",negative
-"Low quality product, breaks easily",negative
-"Bad customer service and support",negative
-"Horrible product, regret buying",negative
-"This product exceeded my expectations",positive
-"Great value for money",positive
-"Fast delivery and excellent packaging",positive
-"Will definitely buy again",positive
-"Worst purchase I've ever made",negative
-"Complete waste of time and money",negative
-"Product arrived damaged",negative
-"Very poor customer service",negative 
+"This is a great product, I love it!",1
+"Amazing quality and fast shipping",1
+"Excellent service and support",1
+"I'm very happy with my purchase",1
+"Outstanding product, highly recommend",1
+"Perfect quality and good value",1
+"Very satisfied with this item",1
+"Great experience overall",1
+"Fantastic product, worth every penny",1
+"Excellent customer service",1
+"High quality materials and construction",1
+"Will definitely buy again",1
+"Exceeded my expectations completely",1
+"Fast delivery and great packaging",1
+"Love this product so much",1
+"Best purchase I've made this year",1
+"Amazing value for the price",1
+"Perfect condition when arrived",1
+"Highly recommend to everyone",1
+"Five stars all the way",1
+"Terrible product, waste of money",0
+"Poor quality and bad service",0
+"Disappointed with this purchase",0
+"Not worth the price at all",0
+"Awful experience, would not recommend",0
+"Low quality product, breaks easily",0
+"Bad customer service and support",0
+"Horrible product, regret buying",0
+"Worst purchase I've ever made",0
+"Complete waste of time and money",0
+"Product arrived damaged and broken",0
+"Very poor customer service",0
+"Cheaply made and overpriced",0
+"Does not work as advertised",0
+"Extremely disappointed with quality",0
+"Would not recommend to anyone",0
+"Poor value for money",0
+"Defective product right out of box",0
+"Terrible experience from start to finish",0
+"One star is too generous",0 

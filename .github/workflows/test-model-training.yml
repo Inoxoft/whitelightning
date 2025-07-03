@@ -46,12 +46,12 @@ jobs:
       uses: docker/setup-buildx-action@v3
       
     - name: Pull WhiteLightning Docker image
-      run: docker pull ghcr.io/whitelightning-ai/whitelightning:latest
+      run: docker pull ghcr.io/inoxoft/whitelightning:latest
       
     - name: Test Docker image
       run: |
         echo "🧪 Testing Docker image functionality..."
-        docker run --rm ghcr.io/whitelightning-ai/whitelightning:latest --help || {
+        docker run --rm ghcr.io/inoxoft/whitelightning:latest --help || {
           echo "❌ Docker image test failed!"
           echo "📋 Available Docker images:"
           docker images
@@ -89,7 +89,7 @@ jobs:
           --rm \
           -v $(pwd)/generated_models:/app/models \
           -e OPEN_ROUTER_API_KEY="$OPEN_ROUTER_API_KEY" \
-          ghcr.io/whitelightning-ai/whitelightning:latest \
+          ghcr.io/inoxoft/whitelightning:latest \
           --problem-description="${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}" \
           --refinement-cycles=${{ github.event.inputs.refinement_cycles || '1' }} \
           --generate-edge-cases="true" \

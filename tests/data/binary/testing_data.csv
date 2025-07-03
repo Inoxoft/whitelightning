@@ -1,9 +1,17 @@
 text,label
-"I absolutely love this product!",positive
-"This is the best purchase I've made",positive
-"Quality is amazing and price is fair",positive
-"Highly recommend to everyone",positive
-"Terrible quality, very disappointed",negative
-"Worst product ever, don't buy",negative
-"Complete waste of money",negative
-"Very poor quality materials",negative 
+"I absolutely love this product!",1
+"This is the best purchase I've made",1
+"Quality is amazing and price is fair",1
+"Highly recommend to everyone",1
+"Excellent build quality and design",1
+"Perfect for my needs",1
+"Great customer support team",1
+"Fast shipping and secure packaging",1
+"Terrible quality, very disappointed",0
+"Worst product ever, don't buy",0
+"Complete waste of money",0
+"Very poor quality materials",0
+"Broken within a week",0
+"Not as described at all",0
+"Horrible customer service",0
+"Regret this purchase completely",0 
