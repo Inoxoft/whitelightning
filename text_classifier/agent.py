@@ -1,12 +1,17 @@
+#!/usr/bin/env python3
+"""
+Text Classification Agent with Smart Activation Detection
+"""
+import argparse
 import asyncio
 import json
 import logging
-import argparse
-import csv
-from datetime import datetime
-from pathlib import Path
-from typing import Optional, Dict, Any, List, Tuple
+import os
+import re
+from typing import Dict, List, Optional, Tuple, Union, Any
 import pandas as pd
+from pathlib import Path
+from datetime import datetime
 import numpy as np  # For X_sample in ONNX
 from openai import AsyncOpenAI, OpenAIError
 
@@ -183,8 +188,22 @@ class MulticlassDataGenerator:  # Renamed
         logger.info(
             f"Generating initial configuration using model: {self.config_model}"
         )
+        
+        # Prepare activation-specific instructions
+        if self.activation == "sigmoid":
+            activation_instruction = "**IMPORTANT: User specified sigmoid activation - generate MULTILABEL classification where multiple labels can apply to the same text.**"
+            multilabel_prompt_instruction = "For multilabel classification, create prompts that will generate text samples that can naturally have multiple labels simultaneously. The generated data should contain texts where several categories apply to the same sample."
+        elif self.activation == "softmax":
+            activation_instruction = "**IMPORTANT: User specified softmax activation - generate SINGLE-LABEL classification where only one label applies per text.**"
+            multilabel_prompt_instruction = "For single-label classification, create prompts that generate text samples that clearly belong to only one category."
+        else:  # auto
+            activation_instruction = "**User selected automatic activation detection - choose the most appropriate classification type based on the problem description.**"
+            multilabel_prompt_instruction = "Create prompts appropriate for the classification type you determine from the problem description."
+        
         user_prompt = settings.CONFIG_USER_PROMPT_TEMPLATE.format(
-            problem_description=self.problem_description
+            problem_description=self.problem_description,
+            activation_instruction=activation_instruction,
+            multilabel_prompt_instruction=multilabel_prompt_instruction
         )
         raw_response_content = ""
         try:
@@ -805,9 +824,17 @@ class MulticlassDataGenerator:  # Renamed
         )
         target_volume_per_class = max(2500, target_total_volume // self.num_classes)
 
-        data_gen_sys_prompt = settings.DATA_GEN_SYSTEM_PROMPT.format(
-            language=self.language
-        )
+        # Choose appropriate system prompt based on classification type
+        if (self.classification_type and "multilabel" in self.classification_type) or self.activation == "sigmoid":
+            data_gen_sys_prompt = settings.MULTILABEL_DATA_GEN_SYSTEM_PROMPT.format(
+                language=self.language
+            )
+            logger.info("🏷️  Using MULTILABEL data generation system prompt")
+        else:
+            data_gen_sys_prompt = settings.DATA_GEN_SYSTEM_PROMPT.format(
+                language=self.language
+            )
+            logger.info("🎯 Using standard data generation system prompt")
 
         logger.info(
             f"Target total samples: ~{target_total_volume} (~{target_volume_per_class} per class). Batch size: {self.batch_size}"
@@ -926,6 +953,208 @@ class MulticlassDataGenerator:  # Renamed
             )
 
         return total_samples_generated_overall
+
+    async def _generate_multilabel_training_data_async(self) -> int:
+        """
+        Generate training data specifically for multilabel classification.
+        Instead of generating data per class, generate texts that can have multiple labels.
+        """
+        if (
+            not self.final_config
+            or not self.dataset_path
+            or not self.class_labels
+            or not self.num_classes
+        ):
+            logger.error(
+                "Cannot generate multilabel training data: Configuration, dataset path, or class info missing."
+            )
+            return 0
+
+        logger.info("--- Starting Multilabel Training Data Generation ---")
+        
+        target_total_volume = self.final_config.get(
+            "training_data_volume", settings.DEFAULT_TRAINING_DATA_VOLUME
+        )
+        
+        # Use multilabel system prompt
+        data_gen_sys_prompt = settings.MULTILABEL_DATA_GEN_SYSTEM_PROMPT.format(
+            language=self.language
+        )
+        
+        # Create a unified prompt for generating multilabel data
+        multilabel_prompt = f"""Generate diverse text samples that can have multiple labels from these categories: {', '.join(self.class_labels)}.
+
+Create realistic examples where multiple labels can naturally apply to the same text. Focus on:
+- Natural overlap between categories
+- Diverse combinations of labels
+- Realistic content that fits multiple categories
+- Variety in text length and style
+
+Generate text in {self.language} language. Each sample should be realistic and could logically belong to multiple categories."""
+
+        logger.info(f"Target total samples: {target_total_volume}")
+        logger.info(f"Using Model: {self.selected_data_gen_model}")
+        logger.info("🏷️ Generating multilabel data with multiple labels per text")
+
+        total_samples_generated = 0
+        required_requests = max(1, target_total_volume // 50)  # 50 samples per request
+        
+        for request_num in range(required_requests):
+            logger.info(f"Generating multilabel batch {request_num + 1}/{required_requests}")
+            
+            try:
+                # Generate text samples
+                raw_response = await self._call_llm_async(
+                    model=self.selected_data_gen_model,
+                    system_prompt=data_gen_sys_prompt,
+                    user_prompt=multilabel_prompt,
+                    temperature=0.8  # Higher temperature for diversity
+                )
+                
+                # Save raw response for debugging
+                self._save_raw_response(
+                    "multilabel_training_data",
+                    multilabel_prompt,
+                    raw_response,
+                    "all_classes",
+                    self.selected_data_gen_model,
+                    status="success",
+                )
+                
+                # Process the response and assign labels
+                lines_added = await self._process_multilabel_response(raw_response)
+                total_samples_generated += lines_added
+                
+                logger.info(f"Batch {request_num + 1} completed. Added {lines_added} multilabel samples.")
+                
+                # Small delay between requests
+                await asyncio.sleep(getattr(settings, "API_DELAY_BETWEEN_BATCHES", 0.5))
+                
+            except Exception as e:
+                logger.error(f"Error in multilabel batch {request_num + 1}: {e}")
+                continue
+
+        logger.info("--- Multilabel Training Data Generation Finished ---")
+        logger.info(f"Total multilabel samples generated: {total_samples_generated}")
+        
+        if self.dataset_path and self.dataset_path.exists():
+            logger.info(f"Multilabel training dataset saved to: {self.dataset_path}")
+            
+            # Check for duplicate rates
+            duplicate_stats = self._check_dataset_duplicate_rate(self.dataset_path)
+            self._notify_duplicate_rate(duplicate_stats, "multilabel training")
+            
+            # Store duplicate stats in final config
+            if self.final_config:
+                self.final_config["multilabel_duplicate_stats"] = duplicate_stats
+        
+        return total_samples_generated
+
+    async def _process_multilabel_response(self, raw_response: str) -> int:
+        """
+        Process LLM response for multilabel data and assign appropriate labels.
+        Uses another LLM call to analyze each text and assign relevant labels.
+        """
+        if not raw_response or not self.class_labels:
+            return 0
+            
+        # Extract text samples from response
+        text_samples = []
+        lines = raw_response.strip().split('\n')
+        
+        for line in lines:
+            cleaned_line = line.strip().strip('"').strip()
+            if (cleaned_line and 
+                len(cleaned_line) >= settings.MIN_DATA_LINE_LENGTH and
+                not cleaned_line.startswith('{') and
+                not cleaned_line.endswith('}')):
+                text_samples.append(cleaned_line)
+        
+        if not text_samples:
+            logger.warning("No valid text samples found in multilabel response")
+            return 0
+        
+        logger.info(f"Processing {len(text_samples)} text samples for multilabel assignment")
+        
+        # Label assignment prompt
+        label_assignment_prompt = f"""Analyze each text sample and assign relevant labels from these categories: {', '.join(self.class_labels)}.
+
+For each text, determine which labels apply. Multiple labels can be assigned to the same text if they are relevant.
+
+Return results in JSON format:
+{{
+  "0": ["label1", "label2"],
+  "1": ["label3"],
+  "2": ["label1", "label3", "label4"],
+  ...
+}}
+
+Only use labels from this list: {', '.join(self.class_labels)}
+
+Text samples to analyze:
+{chr(10).join([f"{i}: {text}" for i, text in enumerate(text_samples)])}"""
+        
+        try:
+            # Get label assignments from LLM
+            label_response = await self._call_llm_async(
+                model=self.config_model,  # Use config model for more accurate analysis
+                system_prompt="You are a text classification expert. Analyze texts and assign appropriate labels accurately.",
+                user_prompt=label_assignment_prompt,
+                temperature=0.2  # Low temperature for consistent labeling
+            )
+            
+            # Parse the label assignments
+            json_start = label_response.find("{")
+            json_end = label_response.rfind("}") + 1
+            if json_start == -1 or json_end == 0:
+                logger.error("No valid JSON found in label assignment response")
+                return 0
+                
+            json_content = label_response[json_start:json_end]
+            label_assignments = json.loads(json_content)
+            
+            # Save labeled data to CSV
+            lines_added = 0
+            target_path = self.dataset_path
+            
+            # Create directory if needed
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            write_header = not target_path.exists() or target_path.stat().st_size == 0
+            
+            with open(target_path, "a", encoding="utf-8", newline="") as f:
+                writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+                if write_header:
+                    writer.writerow(["text", "label"])
+                
+                for idx_str, labels in label_assignments.items():
+                    try:
+                        idx = int(idx_str)
+                        if 0 <= idx < len(text_samples):
+                            text = text_samples[idx]
+                            
+                            # Validate and clean labels
+                            valid_labels = [label for label in labels if label in self.class_labels]
+                            if valid_labels:
+                                # Join multiple labels with comma
+                                label_str = ",".join(valid_labels)
+                                writer.writerow([f'"{text}"', label_str])
+                                lines_added += 1
+                            else:
+                                logger.warning(f"No valid labels found for text {idx}: {labels}")
+                    except (ValueError, IndexError) as e:
+                        logger.warning(f"Invalid label assignment for index {idx_str}: {e}")
+                        continue
+            
+            logger.info(f"Successfully saved {lines_added} multilabel samples")
+            return lines_added
+            
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse label assignment JSON: {e}")
+            return 0
+        except Exception as e:
+            logger.error(f"Error processing multilabel response: {e}")
+            return 0
 
     async def _generate_edge_cases_async(self) -> int:
         if not self.generate_edge_cases:
@@ -1301,6 +1530,28 @@ class MulticlassDataGenerator:  # Renamed
                         alternative = "sigmoid" if activation_decision["activation"] == "softmax" else "softmax"
                         logger.info(f"💡 To use {alternative} instead, add: --activation {alternative}")
                     
+                    # Process the data and save
+                    logger.info("💾 Saving processed dataset...")
+                    df.to_csv(processed_path, index=False, encoding='utf-8')
+                    logger.info(f"✅ Dataset saved to: {processed_path}")
+                    
+                    # Final statistics
+                    logger.info(f"📊 Final dataset statistics:")
+                    logger.info(f"   Shape: {df.shape}")
+                    logger.info(f"   Columns: {list(df.columns)}")
+                    logger.info(f"   Final classification type: {final_classification_type}")
+                    logger.info(f"   Activation function: {activation_decision['activation']}")
+                    
+                    # Show label distribution
+                    if 'label' in df.columns:
+                        label_counts = df['label'].value_counts()
+                        logger.info(f"   Label distribution: {dict(label_counts.head(10))}")
+                        
+                        # Check for multilabel indicators
+                        if df['label'].astype(str).str.contains(',').any():
+                            multilabel_count = df['label'].str.contains(',').sum()
+                            logger.info(f"   Multilabel samples: {multilabel_count}/{len(df)} ({multilabel_count/len(df)*100:.1f}%)")
+                    
                     # Create initial config based on the processed dataset
                     self.initial_config = {
                         "summary": f"User-provided dataset for {final_classification_type} classification",
@@ -1622,13 +1873,11 @@ class MulticlassDataGenerator:  # Renamed
                 and self.dataset_path.exists()
                 and self.dataset_path.stat().st_size > 0
             ):
-                logger.info(
-                    f"Training data {self.dataset_path} already exists and is not empty. Skipping generation."
-                )
-                # Estimate count from existing file for logging, or load to get exact for sophisticated resume
+                logger.info("Skipping data generation as per configuration.")
                 try:
-                    df_train_existing = pd.read_csv(self.dataset_path)
-                    training_samples_count = len(df_train_existing)
+                    import pandas as pd
+                    df = pd.read_csv(self.dataset_path)
+                    training_samples_count = len(df)
                     logger.info(
                         f"Found {training_samples_count} samples in existing training data."
                     )
@@ -1636,9 +1885,17 @@ class MulticlassDataGenerator:  # Renamed
                     logger.warning(
                         f"Could not read existing training data file to get count: {e_read}"
                     )
-                    training_samples_count = -1  # Indicate unknown
+                    training_samples_count = -1
             else:
-                training_samples_count = await self._generate_training_data_async()
+                # Check if we need multilabel generation
+                if (self.classification_type and "multilabel" in self.classification_type) or self.activation == "sigmoid":
+                    logger.info("🏷️ Detected multilabel classification - using specialized multilabel data generation")
+                    training_samples_count = await self._generate_multilabel_training_data_async()
+                else:
+                    logger.info("🎯 Using standard single-label data generation")
+                    training_samples_count = await self._generate_training_data_async()
+                
+                # Check if data generation was successful
                 if training_samples_count == 0:
                     logger.critical(
                         "No training data was generated. Aborting model training."
@@ -1917,6 +2174,8 @@ class MulticlassDataGenerator:  # Renamed
             "total_samples": len(df),
             "has_multi_label_indicators": has_comma_separated or has_pipe_separated or has_semicolon_separated
         }
+
+
 
 
 # --- CLI Interface ---

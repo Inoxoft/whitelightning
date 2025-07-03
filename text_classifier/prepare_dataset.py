@@ -9,6 +9,7 @@ import os
 import json
 import pandas as pd
 import argparse
+import time
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional, Any
 from dotenv import load_dotenv
@@ -156,8 +157,8 @@ class DatasetPreparer:
         except Exception as e:
             raise ValueError(f"Error loading file {file_path}: {str(e)}")
     
-    def analyze_data_with_llm(self, df: pd.DataFrame, sample_size: int = 10) -> Dict[str, Any]:
-        """Use LLM to analyze data structure with complete label information"""
+    def analyze_data_with_llm(self, df: pd.DataFrame, sample_size: int = 10, activation_preference: str = 'auto') -> Dict[str, Any]:
+        """Use LLM to analyze data structure with complete label information and activation compatibility"""
         
         # Analyze ALL unique values in potential label columns (not just samples)
         columns_info = []
@@ -220,30 +221,68 @@ class DatasetPreparer:
             'columns': columns_info,
             'potential_label_columns': potential_label_cols,
             'potential_text_columns': potential_text_cols,
-            'sample_rows': sample_df.head(8).to_dict('records')
+            'sample_rows': sample_df.head(8).to_dict('records'),
+            'activation_preference': activation_preference
         }
         
         prompt = f"""
-Analyze this dataset for text classification. I've provided COMPLETE statistics including ALL unique values for potential label columns.
+Analyze this dataset for text classification with focus on activation function compatibility.
 
 Dataset Summary:
 {json.dumps(data_summary, indent=2, default=str)}
 
-IMPORTANT: Look at the "all_unique_values" field for potential label columns - this shows ALL classes in the dataset, not just samples.
+User's activation preference: {activation_preference}
+- auto: Let you decide the best activation
+- sigmoid: User wants multilabel classification (multiple labels per text)
+- softmax: User wants multiclass classification (one label per text)
 
-Task type determination:
-- binary: exactly 2 unique classes
-- multiclass: 3 or more unique classes (like "Lung_Cancer", "Colon_Cancer", "Thyroid_Cancer")
-- multilabel: multiple labels per text sample
+IMPORTANT: Look at the "all_unique_values" field for potential label columns - this shows ALL classes in the dataset.
+
+Your task:
+1. Identify text and label columns
+2. Determine current data type (binary/multiclass/multilabel)
+3. Analyze activation compatibility:
+   - If user wants sigmoid: Can this data be converted to multilabel? Is it meaningful?
+   - If user wants softmax: Can multilabel data be converted to single-label?
+   - If auto: What's the best activation for this data?
+
+For sigmoid/multilabel conversion, consider:
+- Are there enough classes (3+) to create meaningful combinations?
+- Is the text content rich enough to support multiple labels?
+- Do the classes have semantic overlap (e.g., emotions can co-occur)?
+
+Examples of good multilabel candidates:
+- Emotions: "happy, excited" - can feel multiple emotions
+- Movie genres: "action, comedy" - movies can be multiple genres
+- Topic classification: "technology, business" - articles can cover multiple topics
+
+Examples of poor multilabel candidates:
+- Medical diagnosis: usually one primary diagnosis
+- Binary sentiment: positive/negative are mutually exclusive
+- Age groups: person can't be in multiple age brackets
 
 Respond with JSON:
 {{
     "text_column": "column_name",
     "label_column": "column_name", 
-    "task_type": "binary|multiclass|multilabel",
+    "current_task_type": "binary|multiclass|multilabel",
+    "activation_analysis": {{
+        "sigmoid_feasible": true/false,
+        "sigmoid_reasoning": "why sigmoid would/wouldn't work",
+        "softmax_feasible": true/false,
+        "softmax_reasoning": "why softmax would/wouldn't work",
+        "recommended_activation": "sigmoid|softmax",
+        "recommended_reasoning": "why this activation is best"
+    }},
+    "conversion_strategy": {{
+        "needs_conversion": true/false,
+        "conversion_type": "to_multilabel|to_single_label|none",
+        "conversion_feasible": true/false,
+        "conversion_reasoning": "explanation of conversion possibility"
+    }},
     "label_mapping": {{}},
     "confidence": 0-100,
-    "reasoning": "explanation mentioning the exact number of unique classes found"
+    "reasoning": "detailed explanation of analysis"
 }}
 """
 
@@ -251,7 +290,7 @@ Respond with JSON:
             response = self.client.chat.completions.create(
                 model="anthropic/claude-3.5-sonnet",
                 messages=[
-                    {"role": "system", "content": "You are a data analysis expert specializing in text classification datasets. Analyze data structure and respond only with valid JSON."},
+                    {"role": "system", "content": "You are a data analysis expert specializing in text classification datasets and activation function selection. Provide detailed analysis of data structure and activation compatibility. Respond only with valid JSON."},
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.1
@@ -263,9 +302,9 @@ Respond with JSON:
         except Exception as e:
             print(f"Error in LLM analysis: {e}")
             # Fallback to heuristic analysis
-            return self._heuristic_analysis(df)
+            return self._heuristic_analysis(df, activation_preference)
     
-    def _heuristic_analysis(self, df: pd.DataFrame) -> Dict[str, Any]:
+    def _heuristic_analysis(self, df: pd.DataFrame, activation_preference: str = 'auto') -> Dict[str, Any]:
         """Fallback heuristic analysis when LLM fails"""
         text_column = None
         label_column = None
@@ -281,7 +320,7 @@ Respond with JSON:
             # Check for text columns
             if any(keyword in col_lower for keyword in ['text', 'content', 'message', 'review', 'comment', 'description']):
                 text_candidates.append((col, 3))
-            elif df[col].dtype == 'object' and sample_values.str.len().mean() > 20:  # Longer strings likely text
+            elif df[col].dtype == 'object' and sample_values.astype(str).str.len().mean() > 20:  # Longer strings likely text
                 text_candidates.append((col, 2))
             elif df[col].dtype == 'object':
                 text_candidates.append((col, 1))
@@ -303,21 +342,162 @@ Respond with JSON:
         if label_column and df[label_column].nunique() > 2:
             task_type = "multiclass"
         
+        # Simple activation analysis
+        sigmoid_feasible = label_column and df[label_column].nunique() >= 3
+        softmax_feasible = True
+        
         return {
             'text_column': text_column,
             'label_column': label_column,
-            'task_type': task_type,
+            'current_task_type': task_type,
+            'activation_analysis': {
+                'sigmoid_feasible': sigmoid_feasible,
+                'sigmoid_reasoning': 'Heuristic: enough classes for multilabel' if sigmoid_feasible else 'Heuristic: too few classes',
+                'softmax_feasible': softmax_feasible,
+                'softmax_reasoning': 'Heuristic: always possible',
+                'recommended_activation': 'sigmoid' if sigmoid_feasible else 'softmax',
+                'recommended_reasoning': 'Heuristic analysis based on class count'
+            },
+            'conversion_strategy': {
+                'needs_conversion': False,
+                'conversion_type': 'none',
+                'conversion_feasible': False,
+                'conversion_reasoning': 'Heuristic analysis - no conversion attempted'
+            },
             'label_mapping': {},
             'confidence': 60,
             'reasoning': 'Heuristic analysis based on column names and data characteristics'
         }
+    
+    def convert_to_multilabel(self, df: pd.DataFrame, analysis: Dict[str, Any]) -> pd.DataFrame:
+        """
+        Convert single-label dataset to multilabel format using LLM analysis.
+        
+        Returns:
+            DataFrame with multilabel format.
+        """
+        text_col = analysis['text_column']
+        label_col = analysis['label_column']
+        unique_labels = df[label_col].unique()
+        
+        print(f"🔄 Converting {len(df)} samples with {len(unique_labels)} classes to multilabel format")
+        
+        # Process in batches to avoid token limits
+        batch_size = 15
+        converted_samples = []
+        
+        try:
+            for i in range(0, len(df), batch_size):
+                batch_df = df.iloc[i:i+batch_size]
+                print(f"Processing batch {i//batch_size + 1}/{(len(df)-1)//batch_size + 1}")
+                
+                # Create analysis prompt
+                analysis_prompt = f"""Analyze each text and determine which labels from the available categories are most appropriate. Multiple labels can be assigned to the same text if they are relevant.
+
+Available categories: {', '.join(unique_labels)}
+
+For each text, consider:
+1. What is the primary topic/category?
+2. What secondary topics/categories might also apply?
+3. Are there overlapping themes that justify multiple labels?
+
+Be conservative - only assign multiple labels when they are clearly relevant.
+
+Return results in JSON format:
+{{
+  "0": ["label1", "label2"],
+  "1": ["label1"], 
+  "2": ["label2", "label3"],
+  ...
+}}
+
+Only use labels from this list: {', '.join(unique_labels)}
+
+Texts to analyze:
+{chr(10).join([f"{idx}: {row[text_col]}" for idx, (_, row) in enumerate(batch_df.iterrows())])}"""
+                
+                # Get multilabel assignments from LLM
+                response = self.client.chat.completions.create(
+                    model="anthropic/claude-3.5-sonnet",
+                    messages=[
+                        {"role": "system", "content": "You are a text classification expert. Analyze texts and assign multiple relevant labels when appropriate. Be conservative - only assign multiple labels when they are clearly relevant."},
+                        {"role": "user", "content": analysis_prompt}
+                    ],
+                    temperature=0.3  # Low temperature for consistent analysis
+                )
+                
+                # Parse response
+                response_content = response.choices[0].message.content
+                json_start = response_content.find("{")
+                json_end = response_content.rfind("}") + 1
+                if json_start == -1 or json_end == 0:
+                    print(f"⚠️ No valid JSON in response for batch {i//batch_size + 1}")
+                    # Fall back to original labels for this batch
+                    for _, row in batch_df.iterrows():
+                        converted_samples.append({
+                            text_col: row[text_col],
+                            label_col: row[label_col]  # Keep original single label
+                        })
+                    continue
+                
+                json_content = response_content[json_start:json_end]
+                label_assignments = json.loads(json_content)
+                
+                # Process assignments
+                for idx_str, assigned_labels in label_assignments.items():
+                    try:
+                        idx = int(idx_str)
+                        if 0 <= idx < len(batch_df):
+                            original_row = batch_df.iloc[idx]
+                            
+                            # Validate labels
+                            valid_labels = [label for label in assigned_labels if label in unique_labels]
+                            if not valid_labels:
+                                # Fall back to original label
+                                valid_labels = [original_row[label_col]]
+                            
+                            # Create multilabel string
+                            multilabel_str = ','.join(valid_labels)
+                            
+                            converted_samples.append({
+                                text_col: original_row[text_col],
+                                label_col: multilabel_str
+                            })
+                        else:
+                            print(f"⚠️ Invalid index {idx} in batch {i//batch_size + 1}")
+                    except (ValueError, IndexError) as e:
+                        print(f"⚠️ Error processing assignment {idx_str}: {e}")
+                        continue
+                
+                # Small delay between batches to avoid rate limits
+                time.sleep(0.5)
+            
+            # Create new dataframe with converted labels
+            if converted_samples:
+                converted_df = pd.DataFrame(converted_samples)
+                
+                # Check if we actually created multilabel data
+                multilabel_count = converted_df[label_col].str.contains(',').sum()
+                multilabel_percentage = (multilabel_count / len(converted_df)) * 100
+                
+                print(f"📊 Conversion results: {multilabel_count}/{len(converted_df)} ({multilabel_percentage:.1f}%) samples with multiple labels")
+                
+                return converted_df
+            else:
+                print("❌ No samples were converted - returning original data")
+                return df
+                
+        except Exception as e:
+            print(f"❌ Error during multilabel conversion: {e}")
+            print("💡 Falling back to original data")
+            return df
     
     def convert_to_standard_format(self, df: pd.DataFrame, analysis: Dict[str, Any], clean_text: bool = False, max_samples: int = None, balance_classes: bool = False) -> pd.DataFrame:
         """Convert dataset to standard format based on analysis"""
         
         text_col = analysis['text_column']
         label_col = analysis['label_column']
-        task_type = analysis['task_type']
+        task_type = analysis['current_task_type']
         
         if not text_col or text_col not in df.columns:
             raise ValueError(f"Text column '{text_col}' not found in dataset")
@@ -401,7 +581,7 @@ Respond with JSON:
             
         print(f"✅ Dataset saved to: {output_path}")
         print(f"📊 Dataset shape: {df.shape}")
-        print(f"🎯 Task type: {analysis['task_type']}")
+        print(f"🎯 Task type: {analysis['current_task_type']}")
         print(f"📝 Text column: {analysis['text_column']}")
         print(f"🏷️  Label column: {analysis['label_column']}")
         
@@ -433,7 +613,7 @@ Respond with JSON:
             print(df.head().to_string(index=False))
         
         # Show label distribution
-        if analysis['task_type'] in ['binary', 'multiclass']:
+        if analysis['current_task_type'] in ['binary', 'multiclass']:
             print(f"\n📈 Label distribution:")
             print(df['label'].value_counts().to_string())
         
@@ -449,7 +629,7 @@ Respond with JSON:
             json.dump(analysis, f, indent=2, default=str)
         print(f"📄 Analysis report saved to: {report_path}")
     
-    def process_dataset(self, input_path: str, output_path: str = None, clean_text: bool = False, max_samples: int = None, balance_classes: bool = False) -> str:
+    def process_dataset(self, input_path: str, output_path: str = None, clean_text: bool = False, max_samples: int = None, balance_classes: bool = False, activation: str = 'auto') -> str:
         """Main method to process a dataset"""
         
         if not output_path:
@@ -465,12 +645,95 @@ Respond with JSON:
         
         # Analyze with LLM
         print("🧠 Analyzing data structure with LLM...")
-        analysis = self.analyze_data_with_llm(df)
+        analysis = self.analyze_data_with_llm(df, activation_preference=activation)
         print(f"🎯 Analysis confidence: {analysis['confidence']}%")
         print(f"💭 Reasoning: {analysis['reasoning']}")
         
+        # Display LLM's activation analysis
+        activation_analysis = analysis.get('activation_analysis', {})
+        conversion_strategy = analysis.get('conversion_strategy', {})
+        
+        print(f"\n📊 LLM Analysis Results:")
+        print(f"   📝 Text column: {analysis['text_column']}")
+        print(f"   🏷️  Label column: {analysis['label_column']}")
+        print(f"   🎯 Current task type: {analysis['current_task_type']}")
+        print(f"   🎯 Sigmoid feasible: {activation_analysis.get('sigmoid_feasible', 'unknown')}")
+        print(f"   🎯 Softmax feasible: {activation_analysis.get('softmax_feasible', 'unknown')}")
+        print(f"   ⚡ Recommended activation: {activation_analysis.get('recommended_activation', 'unknown')}")
+        print(f"   💡 Reasoning: {activation_analysis.get('recommended_reasoning', 'N/A')}")
+        
+        # Apply user's activation preference with LLM guidance
+        if activation == 'sigmoid':
+            print("\n⚡ User requested sigmoid activation (multilabel)")
+            if activation_analysis.get('sigmoid_feasible', False):
+                print(f"✅ LLM confirms sigmoid is feasible: {activation_analysis.get('sigmoid_reasoning', 'N/A')}")
+                analysis['final_task_type'] = 'multilabel'
+                analysis['final_activation'] = 'sigmoid'
+                
+                # Convert to multilabel format if needed
+                if conversion_strategy.get('needs_conversion', False) and conversion_strategy.get('conversion_feasible', False):
+                    print("🔄 Converting to multilabel format...")
+                    df = self.convert_to_multilabel(df, analysis)
+                    analysis['final_task_type'] = 'multilabel'
+                    analysis['final_activation'] = 'sigmoid'
+                    print("✅ Conversion completed")
+                else:
+                    print("ℹ️ No conversion needed - data is already suitable for sigmoid")
+            else:
+                print(f"⚠️ LLM advises against sigmoid: {activation_analysis.get('sigmoid_reasoning', 'N/A')}")
+                print("💡 Falling back to softmax (multiclass) activation")
+                analysis['final_task_type'] = 'multiclass'
+                analysis['final_activation'] = 'softmax'
+        
+        elif activation == 'softmax':
+            print("\n⚡ User requested softmax activation (multiclass)")
+            if activation_analysis.get('softmax_feasible', True):
+                print(f"✅ LLM confirms softmax is feasible: {activation_analysis.get('softmax_reasoning', 'N/A')}")
+                analysis['final_task_type'] = 'multiclass'
+                analysis['final_activation'] = 'softmax'
+                
+                # Convert from multilabel to single-label if needed
+                if analysis['current_task_type'] == 'multilabel':
+                    print("⚠️ Converting multilabel data to single-label multiclass format")
+                    # Keep only the first label for each sample
+                    text_col = analysis['text_column']
+                    label_col = analysis['label_column']
+                    df[label_col] = df[label_col].astype(str).str.split(',').str[0]
+                    analysis['final_task_type'] = 'multiclass'
+            else:
+                print(f"⚠️ LLM advises against softmax: {activation_analysis.get('softmax_reasoning', 'N/A')}")
+                print("💡 This shouldn't happen - softmax should always be feasible")
+                analysis['final_task_type'] = 'multiclass'
+                analysis['final_activation'] = 'softmax'
+        
+        else:  # activation == 'auto'
+            print("\n⚡ Auto-detecting optimal activation function")
+            recommended = activation_analysis.get('recommended_activation', 'softmax')
+            print(f"🎯 LLM recommends: {recommended}")
+            print(f"💡 Reasoning: {activation_analysis.get('recommended_reasoning', 'N/A')}")
+            
+            analysis['final_task_type'] = 'multilabel' if recommended == 'sigmoid' else 'multiclass'
+            analysis['final_activation'] = recommended
+            
+            # Convert if needed and feasible
+            if (recommended == 'sigmoid' and 
+                conversion_strategy.get('needs_conversion', False) and 
+                conversion_strategy.get('conversion_feasible', False)):
+                print("🔄 Converting to multilabel format based on LLM recommendation...")
+                df = self.convert_to_multilabel(df, analysis)
+                analysis['final_task_type'] = 'multilabel'
+                analysis['final_activation'] = 'sigmoid'
+                print("✅ Conversion completed")
+        
+        print(f"\n🎯 Final task type: {analysis.get('final_task_type', analysis['current_task_type'])}")
+        print(f"⚡ Final activation: {analysis.get('final_activation', 'softmax')}")
+        
+        # Update analysis for downstream processing
+        analysis['task_type'] = analysis.get('final_task_type', analysis['current_task_type'])
+        analysis['activation'] = analysis.get('final_activation', 'softmax')
+        
         # Convert to standard format
-        print("🔄 Converting to standard format...")
+        print("\n🔄 Converting to standard format...")
         standard_df = self.convert_to_standard_format(df, analysis, clean_text, max_samples, balance_classes)
         
         # Save results
@@ -487,6 +750,8 @@ def main():
     parser.add_argument('--no-clean-text', action='store_true', help='Disable text cleaning (cleaning is enabled by default)')
     parser.add_argument('--max-samples', type=int, default=20000, help='Maximum number of samples (default: 20000)')
     parser.add_argument('--balance-classes', action='store_true', help='Balance classes for binary classification')
+    parser.add_argument('--activation', choices=['auto', 'sigmoid', 'softmax'], default='auto', 
+                       help='Activation function preference: auto (default), sigmoid (multilabel), softmax (multiclass)')
     
     args = parser.parse_args()
     
@@ -500,13 +765,15 @@ def main():
             args.output,
             clean_text=clean_text,
             max_samples=args.max_samples,
-            balance_classes=args.balance_classes
+            balance_classes=args.balance_classes,
+            activation=args.activation
         )
         
         print(f"\n🎉 Successfully prepared dataset!")
         print(f"📁 Output: {output_path}")
         print(f"🧹 Text cleaning: {'Enabled' if clean_text else 'Disabled'}")
         print(f"📊 Max samples: {args.max_samples}")
+        print(f"⚡ Activation: {args.activation}")
         if args.balance_classes:
             print(f"⚖️ Class balancing: Enabled")
         

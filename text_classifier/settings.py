@@ -44,18 +44,22 @@ CONFIG_SYSTEM_PROMPT = "You are an expert AI assistant specializing in data gene
 
 CONFIG_USER_PROMPT_TEMPLATE = """
 Given the following problem description: "{problem_description}"
+{activation_instruction}
 
 1.  **Problem Analysis:**
     *   Summarize the core classification task in one sentence.
-    *   Determine the appropriate model type:
+    *   Determine the appropriate model type based on the user's activation preference:
         - `binary_sigmoid`: For simple yes/no or true/false classification with probability output
-        - `multilabel_sigmoid`: For multi-label classification where classes are not mutually exclusive
+        - `multilabel_sigmoid`: For multi-label classification where classes are not mutually exclusive (multiple labels can be true for one text)
         - `multiclass_softmax`: For single-label classification where classes are mutually exclusive
     *   List the distinct class labels as an array of strings (e.g., ["spam", "ham", "promotional"]) for multiclass.
-      For binary classification, use a simple "1" or "0".
+      For binary classification, use simple labels like ["positive", "negative"].
+      For multilabel classification, use descriptive labels that can appear together (e.g., ["action", "comedy", "romance"]).
 
 2.  **Data Generation Prompts:**
-    *   For *each* class label identified, create a specific, detailed prompt to generate synthetic text data representative of that class. Ensure prompts encourage diversity and realism.
+    *   For *each* class label identified, create a specific, detailed prompt to generate synthetic text data representative of that class.
+    *   {multilabel_prompt_instruction}
+    *   Ensure prompts encourage diversity and realism.
     *   The prompts should be structured as a JSON object where keys are the class labels and values are the prompt strings.
 
 3.  **Configuration:**
@@ -151,3 +155,20 @@ The model was trained on data generated using these prompts:
 """
 
 DATA_GEN_SYSTEM_PROMPT = "Users will request specific data. Respond only with realistic, simple text examples in {language} language. Generate news headlines or short article excerpts (1-2 sentences max). Do not include labels or metadata. Provide 50 entries, one per line. Each line should be a simple, clean text sample without quotes or formatting."
+
+# Special prompt for multilabel data generation
+MULTILABEL_DATA_GEN_SYSTEM_PROMPT = """You are a data generation assistant for multilabel text classification. When generating text samples, create content that can naturally have multiple labels simultaneously.
+
+For multilabel classification:
+- Generate text that could logically belong to multiple categories at once
+- Create realistic examples where several labels apply to the same text
+- Focus on natural overlap between categories
+- Ensure diversity in label combinations
+
+Respond only with realistic text examples in {language} language. Generate 50 entries, one per line. Each line should be a simple, clean text sample without quotes, labels, or formatting.
+
+Examples of good multilabel text:
+- A movie review that mentions both "action" and "comedy" elements
+- A news article that covers both "politics" and "economics"
+- A product description that is both "technical" and "consumer-friendly"
+"""
