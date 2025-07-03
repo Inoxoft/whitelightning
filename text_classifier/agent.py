@@ -1105,21 +1105,24 @@ class MulticlassDataGenerator:  # Renamed
                 for text, labels in multilabel_data:
                     writer.writerow([f'"{text}"', labels])
             
-            # Replace original dataset with multilabel version
-            import shutil
-            shutil.move(str(multilabel_path), str(self.dataset_path))
-            
-            logger.info("✅ Successfully converted to multilabel format")
+            # Keep both files - original and multilabel version
+            logger.info(f"✅ Successfully converted to multilabel format")
             logger.info(f"📊 Distribution:")
             
-            # Count label distribution
-            single_count = sum(1 for _, labels in multilabel_data if ',' not in labels)
-            two_count = sum(1 for _, labels in multilabel_data if labels.count(',') == 1)
-            three_count = sum(1 for _, labels in multilabel_data if labels.count(',') == 2)
+            # Count distribution
+            single_label_count = sum(1 for text, labels in multilabel_data if ',' not in labels)
+            two_label_count = sum(1 for text, labels in multilabel_data if labels.count(',') == 1)
+            three_label_count = sum(1 for text, labels in multilabel_data if labels.count(',') == 2)
             
-            logger.info(f"   🔹 Single-label: {single_count}")
-            logger.info(f"   🔹 Two-label: {two_count}")
-            logger.info(f"   🔹 Three-label: {three_count}")
+            logger.info(f"   🔹 Single-label: {single_label_count}")
+            logger.info(f"   🔹 Two-label: {two_label_count}")
+            logger.info(f"   🔹 Three-label: {three_label_count}")
+            
+            # Copy multilabel version to replace original dataset for training
+            import shutil
+            shutil.copy2(str(multilabel_path), str(self.dataset_path))
+            
+            logger.info(f"📊 Final multilabel dataset saved to: {self.dataset_path}")
             
             return len(multilabel_data)
             
