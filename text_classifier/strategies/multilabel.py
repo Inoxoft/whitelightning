@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.multioutput import MultiOutputClassifier
 from sklearn.metrics import accuracy_score, log_loss
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
@@ -43,8 +44,8 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         output_path: str = "",
         **kwargs,
     ):
-        self.model = LogisticRegression(
-            multi_class="ovr", solver="liblinear", C=1.0, random_state=42, max_iter=1000
+        self.model = MultiOutputClassifier(
+            LogisticRegression(solver="liblinear", C=1.0, random_state=42, max_iter=1000)
         )
         self.vocab = vocab
         self.scaler = scaler
@@ -65,13 +66,32 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         self.model.fit(X_train, y_train)
         y_pred = self.model.predict(X_train)
         y_proba = self.model.predict_proba(X_train)
-        accuracy = accuracy_score(y_train, y_pred)
+        
+        # For multilabel classification, calculate accuracy differently
+        if len(y_train.shape) > 1 and y_train.shape[1] > 1:
+            # Multilabel accuracy: average accuracy across all labels
+            accuracy = ((y_pred == y_train).mean())
+        else:
+            accuracy = accuracy_score(y_train, y_pred)
+        
         try:
-            loss = log_loss(
-                y_train,
-                y_proba,
-                labels=np.arange(self.num_classes if self.num_classes > 1 else 2),
-            )
+            # For multilabel, log_loss calculation is different
+            if len(y_train.shape) > 1 and y_train.shape[1] > 1:
+                # Convert list of arrays to proper format for multilabel log_loss
+                if isinstance(y_proba, list):
+                    # MultiOutputClassifier returns list of arrays
+                    loss = 0.0
+                    for i in range(len(y_proba)):
+                        loss += log_loss(y_train[:, i], y_proba[i][:, 1])
+                    loss /= len(y_proba)
+                else:
+                    loss = log_loss(y_train, y_proba)
+            else:
+                loss = log_loss(
+                    y_train,
+                    y_proba,
+                    labels=np.arange(self.num_classes if self.num_classes > 1 else 2),
+                )
         except ValueError as e:
             logger.warning(
                 f"Could not calculate log_loss for scikit-learn: {e}. Using NaN."
@@ -82,7 +102,17 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         return metrics
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        return self.model.predict_proba(X)
+        predictions = self.model.predict(X)
+        # For multilabel, predict_proba returns probabilities
+        proba = self.model.predict_proba(X)
+        if isinstance(proba, list):
+            # MultiOutputClassifier returns list of arrays, convert to proper format
+            result = np.zeros((X.shape[0], len(proba)))
+            for i, prob_array in enumerate(proba):
+                result[:, i] = prob_array[:, 1]  # Take positive class probability
+            return result
+        else:
+            return proba
 
     def save_model(self):
         model_path = f"{self.output_path}/model.joblib"
@@ -344,10 +374,10 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             )
 
         X_tensor = torch.from_numpy(X_train_dense).float().to(self.device)
-        y_tensor = torch.from_numpy(y_train).long().to(self.device)
+        y_tensor = torch.from_numpy(y_train).float().to(self.device)  # Change to float for multilabel
         dataset = TensorDataset(X_tensor, y_tensor)
         dataloader = DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
-        criterion = nn.CrossEntropyLoss()
+        criterion = nn.BCEWithLogitsLoss()  # Change to BCE for multilabel
         optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         self.model.train()
         epoch_losses, epoch_accuracies = [], []
@@ -360,8 +390,10 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
                 loss.backward()
                 optimizer.step()
                 running_loss += loss.item() * batch_X.size(0)
-                _, predicted_labels = torch.max(outputs, 1)
-                correct_predictions += (predicted_labels == batch_y).sum().item()
+                # For multilabel, use sigmoid and threshold at 0.5
+                predicted_labels = (torch.sigmoid(outputs) > 0.5).float()
+                # Calculate accuracy as the average of correct predictions across all labels
+                correct_predictions += ((predicted_labels == batch_y).float().mean(dim=1)).sum().item()
                 total_samples += batch_y.size(0)
             epoch_loss = running_loss / total_samples
             epoch_accuracy = correct_predictions / total_samples
@@ -385,7 +417,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         X_tensor = torch.from_numpy(X).float().to(self.device)
         with torch.no_grad():
             outputs = self.model(X_tensor)
-            probabilities = torch.softmax(outputs, dim=1)
+            probabilities = torch.sigmoid(outputs)  # Use sigmoid for multilabel
         return probabilities.cpu().numpy()
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
@@ -397,7 +429,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         X_tensor = torch.from_numpy(X).float().to(self.device)
         with torch.no_grad():
             outputs = self.model(X_tensor)
-        probabilities = torch.softmax(outputs, dim=1)
+        probabilities = torch.sigmoid(outputs)  # Use sigmoid for multilabel
         return probabilities.cpu().numpy()
 
     def save_model(self):
