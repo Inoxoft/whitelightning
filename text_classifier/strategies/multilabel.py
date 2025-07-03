@@ -301,8 +301,12 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         try:
             import tf2onnx
             
+            # Get the actual input shape from the trained model
+            actual_input_shape = self.model.input_shape[1:]  # Remove batch dimension
+            logger.info(f"Using actual model input shape: {actual_input_shape}")
+            
             # Convert Sequential model to Functional API for better tf2onnx compatibility
-            input_layer = tf.keras.layers.Input(shape=(self.input_dim,), name="float_input")
+            input_layer = tf.keras.layers.Input(shape=actual_input_shape, name="float_input")
             
             # Recreate the model architecture using Functional API
             x = input_layer
@@ -317,8 +321,8 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                 if seq_layer.get_weights():
                     func_layer.set_weights(seq_layer.get_weights())
             
-            # Convert the functional model to ONNX
-            spec = (tf.TensorSpec((None, self.input_dim), tf.float32, name="float_input"),)
+            # Convert the functional model to ONNX using actual input shape
+            spec = (tf.TensorSpec((None, actual_input_shape[0]), tf.float32, name="float_input"),)
             model_proto, _ = tf2onnx.convert.from_keras(
                 functional_model, input_signature=spec, opset=13
             )
@@ -329,10 +333,11 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             
         except Exception as e:
             logger.error(f"Failed to export TensorFlow multilabel model to ONNX: {e}", exc_info=True)
-            # Try fallback approach without conversion
+            # Try fallback approach - direct conversion with actual model shape
             try:
                 logger.info("Trying fallback ONNX export method...")
-                spec = (tf.TensorSpec((None, self.input_dim), tf.float32, name="float_input"),)
+                actual_input_shape = self.model.input_shape[1:]
+                spec = (tf.TensorSpec((None, actual_input_shape[0]), tf.float32, name="float_input"),)
                 model_proto, _ = tf2onnx.convert.from_keras(
                     self.model, input_signature=spec, opset=11  # Use older opset
                 )
@@ -347,8 +352,11 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                     import onnx
                     from onnx import helper, TensorProto
                     
+                    # Use actual model dimensions for placeholder
+                    actual_input_dim = self.model.input_shape[1]
+                    
                     # Create a simple ONNX graph as placeholder
-                    input_tensor = helper.make_tensor_value_info('float_input', TensorProto.FLOAT, [None, self.input_dim])
+                    input_tensor = helper.make_tensor_value_info('float_input', TensorProto.FLOAT, [None, actual_input_dim])
                     output_tensor = helper.make_tensor_value_info('output', TensorProto.FLOAT, [None, self.num_classes])
                     
                     # Create a simple identity node (placeholder)

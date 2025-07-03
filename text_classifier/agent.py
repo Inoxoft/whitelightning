@@ -15,6 +15,7 @@ from pathlib import Path
 from datetime import datetime
 import numpy as np  # For X_sample in ONNX
 from openai import AsyncOpenAI, OpenAIError
+import random
 
 from text_classifier.train import TextClassifierRunner
 from text_classifier.prepare_dataset import DatasetPreparer
@@ -957,8 +958,9 @@ class MulticlassDataGenerator:  # Renamed
 
     async def _generate_multilabel_training_data_async(self) -> int:
         """
-        Generate training data specifically for multilabel classification.
-        Optimized version that generates larger batches and combines text+label generation.
+        Generate multilabel training data using a reliable two-step approach:
+        1. Generate high-quality single-label data for each class
+        2. Programmatically combine samples to create multilabel format
         """
         if (
             not self.final_config
@@ -971,219 +973,159 @@ class MulticlassDataGenerator:  # Renamed
             )
             return 0
 
-        logger.info("--- Starting Optimized Multilabel Training Data Generation ---")
+        logger.info("--- Starting Smart Multilabel Training Data Generation ---")
+        logger.info("🎯 Step 1: Generate single-label data (proven method)")
+        logger.info("🔄 Step 2: Convert to multilabel format programmatically")
         
-        target_total_volume = self.final_config.get(
-            "training_data_volume", settings.DEFAULT_TRAINING_DATA_VOLUME
-        )
+        # Step 1: Generate regular single-label data using the working method
+        single_label_samples = await self._generate_training_data_async()
         
-        # Use multilabel system prompt
-        data_gen_sys_prompt = settings.MULTILABEL_DATA_GEN_SYSTEM_PROMPT.format(
-            language=self.language
-        )
-
-        logger.info(f"Target total samples: {target_total_volume}")
-        logger.info(f"Using Model: {self.selected_data_gen_model}")
-        logger.info("🏷️ Generating multilabel data with multiple labels per text")
-
-        total_samples_generated = 0
-        # Use much larger batches - generate 200 samples per request instead of 50
-        samples_per_request = 200
-        required_requests = max(1, target_total_volume // samples_per_request)
-        
-        logger.info(f"🚀 Optimized multilabel generation: {required_requests} batches of {samples_per_request} samples each")
-        
-        for request_num in range(required_requests):
-            logger.info(f"Generating multilabel batch {request_num + 1}/{required_requests}")
-            
-            try:
-                # Create an improved prompt with better instructions and examples
-                optimized_prompt = f"""Generate exactly {samples_per_request} diverse text samples for multilabel classification.
-
-**Available Labels:** {', '.join(self.class_labels)}
-
-**Instructions:**
-- Each text should be realistic and have multiple relevant labels
-- Create natural overlap between categories
-- Use diverse text styles and lengths
-- Write in {self.language} language
-- Return EXACTLY this format: TEXT|label1,label2,label3
-
-**Examples:**
-"I love this action movie with great comedy moments"|happy,love
-"The new smartphone has amazing features but expensive price"|product,price
-"Fast delivery but damaged packaging from seller"|delivery,packaging,seller
-
-**Generate {samples_per_request} lines following this exact format:**"""
-
-                # Generate text samples WITH labels in one API call
-                raw_response = await self._call_llm_async(
-                    model=self.selected_data_gen_model,
-                    system_prompt=data_gen_sys_prompt,
-                    user_prompt=optimized_prompt,
-                    temperature=0.7  # Balanced temperature for quality and diversity
-                )
-                
-                # Save raw response for debugging
-                self._save_raw_response(
-                    "multilabel_training_data",
-                    optimized_prompt,
-                    raw_response,
-                    "all_classes",
-                    self.selected_data_gen_model,
-                    status="success",
-                )
-                
-                # Process the response (now includes both text and labels)
-                lines_added = await self._process_optimized_multilabel_response(raw_response)
-                total_samples_generated += lines_added
-                
-                logger.info(f"Batch {request_num + 1} completed. Added {lines_added} multilabel samples.")
-                
-                # Small delay between requests
-                await asyncio.sleep(getattr(settings, "API_DELAY_BETWEEN_BATCHES", 0.5))
-                
-            except Exception as e:
-                logger.error(f"Error in multilabel batch {request_num + 1}: {e}")
-                continue
-
-        logger.info("--- Multilabel Training Data Generation Finished ---")
-        logger.info(f"Total multilabel samples generated: {total_samples_generated}")
-        
-        if self.dataset_path and self.dataset_path.exists():
-            logger.info(f"Multilabel training dataset saved to: {self.dataset_path}")
-            
-            # Check for duplicate rates
-            duplicate_stats = self._check_dataset_duplicate_rate(self.dataset_path)
-            self._notify_duplicate_rate(duplicate_stats, "multilabel training")
-            
-            # Store duplicate stats in final config
-            if self.final_config:
-                self.final_config["multilabel_duplicate_stats"] = duplicate_stats
-        
-        return total_samples_generated
-
-    async def _process_optimized_multilabel_response(self, raw_response: str) -> int:
-        """
-        Process optimized multilabel response with improved parsing and validation.
-        Handles multiple formats and is more lenient with validation.
-        """
-        if not raw_response or not self.class_labels:
-            logger.warning("No response content or class labels available")
+        if single_label_samples == 0:
+            logger.error("Failed to generate single-label data. Cannot proceed with multilabel conversion.")
             return 0
             
-        # Extract text and label pairs from response
-        lines_added = 0
-        target_path = self.dataset_path
+        logger.info(f"✅ Generated {single_label_samples} single-label samples")
         
-        # Create directory if needed
-        target_path.parent.mkdir(parents=True, exist_ok=True)
-        write_header = not target_path.exists() or target_path.stat().st_size == 0
+        # Step 2: Convert single-label data to multilabel format
+        logger.info("🔄 Converting single-label data to multilabel format...")
+        multilabel_samples = await self._convert_to_multilabel_format()
         
-        lines = raw_response.strip().split('\n')
-        valid_pairs = []
+        logger.info("--- Smart Multilabel Training Data Generation Finished ---")
+        logger.info(f"📊 Total multilabel samples created: {multilabel_samples}")
         
-        logger.info(f"Processing {len(lines)} lines from multilabel response")
+        return multilabel_samples
+
+    async def _convert_to_multilabel_format(self) -> int:
+        """
+        Convert single-label dataset to multilabel by intelligently combining samples.
         
-        for line_num, line in enumerate(lines):
-            line = line.strip()
+        Strategy:
+        - Keep some original single-label samples (50%)
+        - Combine 2-3 samples from different classes (30% - 2 labels, 20% - 3 labels)
+        - Maintain natural text flow and label relevance
+        """
+        if not self.dataset_path or not self.dataset_path.exists():
+            logger.error("Single-label dataset not found for conversion")
+            return 0
             
-            # Skip empty lines
-            if not line:
-                continue
+        try:
+            import pandas as pd
+            import random
+            
+            # Read the single-label dataset
+            df = pd.read_csv(self.dataset_path)
+            logger.info(f"📖 Reading {len(df)} single-label samples for conversion")
+            
+            # Group samples by class for intelligent combination
+            samples_by_class = {}
+            for _, row in df.iterrows():
+                label = row['label']
+                text = row['text'].strip().strip('"')
                 
-            # Handle different possible formats
-            text = None
-            labels_str = None
+                if label not in samples_by_class:
+                    samples_by_class[label] = []
+                samples_by_class[label].append(text)
             
-            # Try format: TEXT|label1,label2
-            if '|' in line:
-                parts = line.split('|', 1)
-                if len(parts) == 2:
-                    text = parts[0].strip()
-                    labels_str = parts[1].strip()
+            # Log distribution
+            for label, texts in samples_by_class.items():
+                logger.info(f"📋 Class '{label}': {len(texts)} samples")
             
-            # Try format: "TEXT"|label1,label2 (with quotes)
-            elif '"|' in line:
-                parts = line.split('"|', 1)
-                if len(parts) == 2:
-                    text = parts[0].strip().strip('"')
-                    labels_str = parts[1].strip()
+            # Create multilabel combinations
+            multilabel_data = []
             
-            # Try format: Just text (assign random labels)
-            elif not any(char in line for char in ['|', '"']):
-                # For lines without labels, assign random labels from available classes
-                text = line.strip()
-                if text and len(text) > 10:  # Basic length check
-                    # Randomly assign 1-3 labels
-                    import random
-                    num_labels = random.randint(1, min(3, len(self.class_labels)))
-                    random_labels = random.sample(self.class_labels, num_labels)
-                    labels_str = ','.join(random_labels)
+            # 1. Keep 50% as single-label (for variety)
+            single_label_count = int(len(df) * 0.5)
+            logger.info(f"🔹 Keeping {single_label_count} samples as single-label")
             
-            # Skip if we couldn't parse the line
-            if not text or not labels_str:
-                if line_num < 10:  # Only log first 10 parsing issues
-                    logger.debug(f"Could not parse line {line_num + 1}: {line[:50]}...")
-                continue
+            for _, row in df.sample(n=single_label_count).iterrows():
+                text = row['text'].strip().strip('"')
+                label = row['label']
+                multilabel_data.append((text, label))
             
-            # Clean up text
-            text = text.strip().strip('"').strip("'").strip()
+            # 2. Create 2-label combinations (30%)
+            two_label_count = int(len(df) * 0.3)
+            logger.info(f"🔹 Creating {two_label_count} samples with 2 labels")
             
-            # More lenient text validation
-            if (len(text) < 5 or  # Minimum 5 characters
-                len(text) > 500 or  # Maximum 500 characters
-                text.lower().startswith('text') or  # Skip template text
-                text.lower().startswith('example')):  # Skip example text
-                continue
-                
-            # Parse and validate labels
-            if labels_str:
-                # Clean up labels string
-                labels_str = labels_str.strip().strip(',').strip()
-                
-                # Split by comma and clean each label
-                label_list = [label.strip().strip('"').strip("'") for label in labels_str.split(',')]
-                
-                # Validate labels against available classes (case-insensitive)
-                valid_labels = []
-                for label in label_list:
-                    if label:  # Skip empty labels
-                        # Try exact match first
-                        if label in self.class_labels:
-                            valid_labels.append(label)
-                        else:
-                            # Try case-insensitive match
-                            for class_label in self.class_labels:
-                                if label.lower() == class_label.lower():
-                                    valid_labels.append(class_label)
-                                    break
-                
-                # Only accept if we have at least one valid label
-                if valid_labels:
-                    # Remove duplicates while preserving order
-                    unique_labels = []
-                    for label in valid_labels:
-                        if label not in unique_labels:
-                            unique_labels.append(label)
+            for _ in range(two_label_count):
+                # Pick 2 different classes
+                if len(self.class_labels) >= 2:
+                    selected_classes = random.sample(self.class_labels, 2)
                     
-                    valid_pairs.append((text, ','.join(unique_labels)))
-        
-        logger.info(f"Found {len(valid_pairs)} valid text-label pairs from {len(lines)} lines")
-        
-        # Save to CSV
-        if valid_pairs:
-            with open(target_path, "a", encoding="utf-8", newline="") as f:
+                    # Get random sample from each class
+                    text_parts = []
+                    labels = []
+                    
+                    for class_label in selected_classes:
+                        if class_label in samples_by_class and samples_by_class[class_label]:
+                            text_parts.append(random.choice(samples_by_class[class_label]))
+                            labels.append(class_label)
+                    
+                    if len(text_parts) >= 2:
+                        # Combine texts naturally
+                        combined_text = f"{text_parts[0]} {text_parts[1]}"
+                        combined_labels = ','.join(labels)
+                        multilabel_data.append((combined_text, combined_labels))
+            
+            # 3. Create 3-label combinations (20%)
+            three_label_count = int(len(df) * 0.2)
+            logger.info(f"🔹 Creating {three_label_count} samples with 3 labels")
+            
+            for _ in range(three_label_count):
+                # Pick 3 different classes
+                if len(self.class_labels) >= 3:
+                    selected_classes = random.sample(self.class_labels, 3)
+                    
+                    # Get random sample from each class
+                    text_parts = []
+                    labels = []
+                    
+                    for class_label in selected_classes:
+                        if class_label in samples_by_class and samples_by_class[class_label]:
+                            text_parts.append(random.choice(samples_by_class[class_label]))
+                            labels.append(class_label)
+                    
+                    if len(text_parts) >= 3:
+                        # Combine texts naturally (limit length)
+                        combined_text = f"{text_parts[0]} {text_parts[1]} {text_parts[2]}"
+                        # Trim if too long
+                        if len(combined_text) > 400:
+                            combined_text = combined_text[:400] + "..."
+                        combined_labels = ','.join(labels)
+                        multilabel_data.append((combined_text, combined_labels))
+            
+            # Save multilabel dataset
+            multilabel_path = self.dataset_path.parent / f"{self.dataset_path.stem}_multilabel.csv"
+            
+            logger.info(f"💾 Saving {len(multilabel_data)} multilabel samples to {multilabel_path}")
+            
+            with open(multilabel_path, "w", encoding="utf-8", newline="") as f:
                 writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
-                if write_header:
-                    writer.writerow(["text", "label"])
+                writer.writerow(["text", "label"])
                 
-                for text, labels in valid_pairs:
-                    writer.writerow([text, labels])
-                    lines_added += 1
-        
-        logger.info(f"Successfully saved {lines_added} optimized multilabel samples")
-        return lines_added
+                for text, labels in multilabel_data:
+                    writer.writerow([f'"{text}"', labels])
+            
+            # Replace original dataset with multilabel version
+            import shutil
+            shutil.move(str(multilabel_path), str(self.dataset_path))
+            
+            logger.info("✅ Successfully converted to multilabel format")
+            logger.info(f"📊 Distribution:")
+            
+            # Count label distribution
+            single_count = sum(1 for _, labels in multilabel_data if ',' not in labels)
+            two_count = sum(1 for _, labels in multilabel_data if labels.count(',') == 1)
+            three_count = sum(1 for _, labels in multilabel_data if labels.count(',') == 2)
+            
+            logger.info(f"   🔹 Single-label: {single_count}")
+            logger.info(f"   🔹 Two-label: {two_count}")
+            logger.info(f"   🔹 Three-label: {three_count}")
+            
+            return len(multilabel_data)
+            
+        except Exception as e:
+            logger.error(f"Error converting to multilabel format: {e}", exc_info=True)
+            return 0
 
     async def _generate_edge_cases_async(self) -> int:
         if not self.generate_edge_cases:

@@ -1,0 +1,98 @@
+{
+  "summary": "Classify news articles into multiple categories such as politics, sports, health, and environment, where a single article can belong to more than one category.",
+  "classification_type": "multilabel_sigmoid",
+  "class_labels": [
+    "environment",
+    "health",
+    "politics",
+    "sports"
+  ],
+  "prompts": {
+    "politics": "Generate a diverse set of news article excerpts covering a wide range of political topics, including local and international events, government policies, elections, legislative debates, political scandals, and diplomatic relations. Include specific details such as politician names, party affiliations, historical contexts, or public reactions. Ensure variety in tone (e.g., neutral reporting, opinionated commentary) and scope (e.g., grassroots movements, global summits). Incorporate overlaps with other labels like environmental policies (e.g., climate legislation), health reforms (e.g., healthcare funding debates), or sports (e.g., political influence in major sporting events) to support multilabel classification.",
+    "sports": "Create a varied collection of news snippets about sports, encompassing match reports, athlete profiles, team dynamics, sports industry developments, and fan culture. Include specific details like team names, player statistics, tournament outcomes, and historical rivalries. Cover a broad range of sports (e.g., soccer, basketball, esports) and levels (e.g., amateur, professional). Add diversity in perspectives (e.g., coach interviews, fan reactions) and include overlaps with politics (e.g., government funding or bans on athletes), health (e.g., injury prevention programs), or environment (e.g., sustainable stadium initiatives) to enable multilabel applicability.",
+    "health": "Produce realistic news excerpts focused on a wide spectrum of health-related topics, including medical breakthroughs, public health campaigns, disease outbreaks, mental health awareness, healthcare access, and emerging technologies. Use specific details like medical terms, affected demographics, hospital or research institute names, and statistical data. Ensure diversity in focus (e.g., individual patient stories, global pandemics) and tone (e.g., hopeful, urgent). Include overlaps with politics (e.g., healthcare policy debates), environment (e.g., pollution-related illnesses), or sports (e.g., athlete health initiatives) for multilabel classification.",
+    "environment": "Generate a broad range of news pieces on environmental topics, covering climate change, biodiversity loss, conservation projects, renewable energy advancements, natural disasters, and environmental justice. Include specific details such as geographic locations, scientific findings, activist group names, or corporate initiatives. Vary the scope (e.g., local pollution issues, global climate summits) and perspective (e.g., scientific, community-driven). Ensure overlaps with politics (e.g., environmental regulations), health (e.g., air quality health risks), or sports (e.g., eco-friendly sports events) to support multilabel applicability."
+  },
+  "model_prefix": "news_multilabel",
+  "training_data_volume": 4000,
+  "parameters": {
+    "problem_description": "Classify news as politic sport health envirounment",
+    "selected_data_gen_model": "mistralai/mistral-nemo",
+    "output_base_path": "models",
+    "config_model": "x-ai/grok-3-beta",
+    "batch_size": 10,
+    "prompt_refinement_cycles": 1,
+    "generate_edge_cases": true,
+    "edge_case_volume_per_class": 50,
+    "analyze_performance_data_path": null,
+    "language": "english",
+    "max_features_tfidf": 5000
+  },
+  "multilabel_duplicate_stats": {
+    "total_samples": 2548,
+    "unique_samples": 2480,
+    "duplicate_count": 68,
+    "duplicate_rate": 2.67,
+    "exceeds_threshold": false,
+    "threshold": 5.0,
+    "examples": [
+      {
+        "text": "Environmental impact of sports event noise pollution discussed",
+        "count": 2
+      },
+      {
+        "text": "Environmental impact of sports event traffic congestion and noise pollution discussed",
+        "count": 2
+      },
+      {
+        "text": "Environmental impact of sports event vehicle emissions discussed",
+        "count": 2
+      }
+    ]
+  },
+  "edge_case_prompts": {
+    "environment": "\n**Goal:** Generate challenging examples for the class \"environment\" for testing a multilabel_sigmoid classifier.\n\n**Problem Description:** Classify news as politic sport health envirounment\n**All Class Labels:** ['environment', 'health', 'politics', 'sports']\n\n**Task:** Generate diverse text samples that ARE examples of \"environment\" according to the Problem Description, but are intentionally designed to be difficult for a classifier to identify correctly. Focus on:\n*   Borderline cases that barely meet the \"environment\" criteria.\n*   Examples disguised to look like other classes (e.g., subtle \"environment\" signals).\n*   Samples using unusual phrasing, jargon, or obfuscation related to the \"environment\" class.\n*   Ambiguous examples that require careful reading to identify as \"environment\".\n\nGenerate only the text samples, in json format using numbers as keys. Do not add labels or explanations. Samples should be in english language.\n",
+    "health": "\n**Goal:** Generate challenging examples for the class \"health\" for testing a multilabel_sigmoid classifier.\n\n**Problem Description:** Classify news as politic sport health envirounment\n**All Class Labels:** ['environment', 'health', 'politics', 'sports']\n\n**Task:** Generate diverse text samples that ARE examples of \"health\" according to the Problem Description, but are intentionally designed to be difficult for a classifier to identify correctly. Focus on:\n*   Borderline cases that barely meet the \"health\" criteria.\n*   Examples disguised to look like other classes (e.g., subtle \"health\" signals).\n*   Samples using unusual phrasing, jargon, or obfuscation related to the \"health\" class.\n*   Ambiguous examples that require careful reading to identify as \"health\".\n\nGenerate only the text samples, in json format using numbers as keys. Do not add labels or explanations. Samples should be in english language.\n",
+    "politics": "\n**Goal:** Generate challenging examples for the class \"politics\" for testing a multilabel_sigmoid classifier.\n\n**Problem Description:** Classify news as politic sport health envirounment\n**All Class Labels:** ['environment', 'health', 'politics', 'sports']\n\n**Task:** Generate diverse text samples that ARE examples of \"politics\" according to the Problem Description, but are intentionally designed to be difficult for a classifier to identify correctly. Focus on:\n*   Borderline cases that barely meet the \"politics\" criteria.\n*   Examples disguised to look like other classes (e.g., subtle \"politics\" signals).\n*   Samples using unusual phrasing, jargon, or obfuscation related to the \"politics\" class.\n*   Ambiguous examples that require careful reading to identify as \"politics\".\n\nGenerate only the text samples, in json format using numbers as keys. Do not add labels or explanations. Samples should be in english language.\n",
+    "sports": "\n**Goal:** Generate challenging examples for the class \"sports\" for testing a multilabel_sigmoid classifier.\n\n**Problem Description:** Classify news as politic sport health envirounment\n**All Class Labels:** ['environment', 'health', 'politics', 'sports']\n\n**Task:** Generate diverse text samples that ARE examples of \"sports\" according to the Problem Description, but are intentionally designed to be difficult for a classifier to identify correctly. Focus on:\n*   Borderline cases that barely meet the \"sports\" criteria.\n*   Examples disguised to look like other classes (e.g., subtle \"sports\" signals).\n*   Samples using unusual phrasing, jargon, or obfuscation related to the \"sports\" class.\n*   Ambiguous examples that require careful reading to identify as \"sports\".\n\nGenerate only the text samples, in json format using numbers as keys. Do not add labels or explanations. Samples should be in english language.\n"
+  },
+  "edge_case_duplicate_stats": {
+    "total_samples": 40,
+    "unique_samples": 40,
+    "duplicate_count": 0,
+    "duplicate_rate": 0.0,
+    "exceeds_threshold": false,
+    "threshold": 5.0,
+    "examples": []
+  },
+  "error_summary": "UNEXPECTED_CRITICAL_ERROR: 'Sequential' object has no attribute 'output_names'",
+  "generation_timestamp": "2025-07-03T12:05:54.317967",
+  "prompt_refinement_history": [
+    {
+      "cycle": 1,
+      "evaluation": "The current prompts and generated samples are generally relevant and align with the respective classes (environment, health, politics, sports). The samples show a reasonable level of diversity within each class and include some overlap for multilabel classification (e.g., environment and health in 'Climate Change Tied to Increased Spread of Dengue Fever'). However, there are areas for improvement: some samples lack depth or specificity (e.g., generic sports scores without context), and the diversity of topics within classes could be broader (e.g., politics focuses heavily on high-profile events). Additionally, the prompts could better guide the inclusion of nuanced subtopics and varied tones or perspectives to enhance classifier robustness.",
+      "previous_prompts": {
+        "politics": "Generate a diverse set of news article excerpts covering a wide range of political topics, including local and international events, government policies, elections, legislative debates, political scandals, and diplomatic relations. Include specific details such as politician names, party affiliations, historical contexts, or public reactions. Ensure variety in tone (e.g., neutral reporting, opinionated commentary) and scope (e.g., grassroots movements, global summits). Incorporate overlaps with other labels like environmental policies (e.g., climate legislation), health reforms (e.g., healthcare funding debates), or sports (e.g., political influence in major sporting events) to support multilabel classification.",
+        "sports": "Create a varied collection of news snippets about sports, encompassing match reports, athlete profiles, team dynamics, sports industry developments, and fan culture. Include specific details like team names, player statistics, tournament outcomes, and historical rivalries. Cover a broad range of sports (e.g., soccer, basketball, esports) and levels (e.g., amateur, professional). Add diversity in perspectives (e.g., coach interviews, fan reactions) and include overlaps with politics (e.g., government funding or bans on athletes), health (e.g., injury prevention programs), or environment (e.g., sustainable stadium initiatives) to enable multilabel applicability.",
+        "health": "Produce realistic news excerpts focused on a wide spectrum of health-related topics, including medical breakthroughs, public health campaigns, disease outbreaks, mental health awareness, healthcare access, and emerging technologies. Use specific details like medical terms, affected demographics, hospital or research institute names, and statistical data. Ensure diversity in focus (e.g., individual patient stories, global pandemics) and tone (e.g., hopeful, urgent). Include overlaps with politics (e.g., healthcare policy debates), environment (e.g., pollution-related illnesses), or sports (e.g., athlete health initiatives) for multilabel classification.",
+        "environment": "Generate a broad range of news pieces on environmental topics, covering climate change, biodiversity loss, conservation projects, renewable energy advancements, natural disasters, and environmental justice. Include specific details such as geographic locations, scientific findings, activist group names, or corporate initiatives. Vary the scope (e.g., local pollution issues, global climate summits) and perspective (e.g., scientific, community-driven). Ensure overlaps with politics (e.g., environmental regulations), health (e.g., air quality health risks), or sports (e.g., eco-friendly sports events) to support multilabel applicability."
+      },
+      "refined_prompts": {
+        "politics": "Generate a diverse set of news article excerpts covering a wide range of political topics, including local and international events, government policies, elections, legislative debates, political scandals, and diplomatic relations. Include specific details such as politician names, party affiliations, historical contexts, or public reactions. Ensure variety in tone (e.g., neutral reporting, opinionated commentary) and scope (e.g., grassroots movements, global summits). Incorporate overlaps with other labels like environmental policies (e.g., climate legislation), health reforms (e.g., healthcare funding debates), or sports (e.g., political influence in major sporting events) to support multilabel classification.",
+        "sports": "Create a varied collection of news snippets about sports, encompassing match reports, athlete profiles, team dynamics, sports industry developments, and fan culture. Include specific details like team names, player statistics, tournament outcomes, and historical rivalries. Cover a broad range of sports (e.g., soccer, basketball, esports) and levels (e.g., amateur, professional). Add diversity in perspectives (e.g., coach interviews, fan reactions) and include overlaps with politics (e.g., government funding or bans on athletes), health (e.g., injury prevention programs), or environment (e.g., sustainable stadium initiatives) to enable multilabel applicability.",
+        "health": "Produce realistic news excerpts focused on a wide spectrum of health-related topics, including medical breakthroughs, public health campaigns, disease outbreaks, mental health awareness, healthcare access, and emerging technologies. Use specific details like medical terms, affected demographics, hospital or research institute names, and statistical data. Ensure diversity in focus (e.g., individual patient stories, global pandemics) and tone (e.g., hopeful, urgent). Include overlaps with politics (e.g., healthcare policy debates), environment (e.g., pollution-related illnesses), or sports (e.g., athlete health initiatives) for multilabel classification.",
+        "environment": "Generate a broad range of news pieces on environmental topics, covering climate change, biodiversity loss, conservation projects, renewable energy advancements, natural disasters, and environmental justice. Include specific details such as geographic locations, scientific findings, activist group names, or corporate initiatives. Vary the scope (e.g., local pollution issues, global climate summits) and perspective (e.g., scientific, community-driven). Ensure overlaps with politics (e.g., environmental regulations), health (e.g., air quality health risks), or sports (e.g., eco-friendly sports events) to support multilabel applicability."
+      }
+    }
+  ],
+  "output_paths": {
+    "main_output_directory": "models/news_multilabel",
+    "training_data": "models/news_multilabel/training_data.csv",
+    "edge_case_data": "models/news_multilabel/edge_case_data.csv",
+    "raw_api_responses": "models/news_multilabel/api_requests",
+    "final_config_file": "models/news_multilabel/generation_config.json",
+    "trained_model_prefix": "models/news_multilabel/news_multilabel",
+    "onnx_model_path": "models/news_multilabel/news_multilabel.onnx",
+    "performance_predictions_csv": null
+  }
+}
