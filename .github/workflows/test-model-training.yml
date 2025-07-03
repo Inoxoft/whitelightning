@@ -15,6 +15,15 @@ on:
         description: 'Language for training data'
         required: false
         default: 'english'
+      activation:
+        description: 'Activation function for classification'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+        - 'auto'
+        - 'sigmoid'
+        - 'softmax'
       mock_mode:
         description: 'Run in mock mode (skip actual training, test workflow only)'
         required: false
@@ -62,6 +71,7 @@ jobs:
         echo "  - Prompt: ${{ github.event.inputs.prompt || 'Classify customer feedback as positive or negative sentiment' }}"
         echo "  - Refinement cycles: ${{ github.event.inputs.refinement_cycles || '1' }}"
         echo "  - Language: ${{ github.event.inputs.language || 'english' }}"
+        echo "  - Activation: ${{ github.event.inputs.activation || 'auto' }}"
         echo "  - API Key set: $([ -n "$OPEN_ROUTER_API_KEY" ] && echo 'Yes' || echo 'No')"
         echo ""
         
@@ -84,6 +94,7 @@ jobs:
           --refinement-cycles=${{ github.event.inputs.refinement_cycles || '1' }} \
           --generate-edge-cases="true" \
           --lang="${{ github.event.inputs.language || 'english' }}" \
+          --activation="${{ github.event.inputs.activation || 'auto' }}" \
         || {
           echo "❌ Docker command failed!"
           echo "📋 Debugging information:"
