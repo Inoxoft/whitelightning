@@ -530,8 +530,32 @@ Texts to analyze:
             result_df['label'] = df[label_col].astype(str)
             
         elif task_type == 'multilabel':
-            # Handle multilabel format (comma-separated or multiple columns)
+            # Handle multilabel format (comma-separated labels)
+            # Extract all unique individual labels from comma-separated strings
+            all_individual_labels = set()
+            for label_str in df[label_col].astype(str):
+                individual_labels = [l.strip() for l in label_str.split(',') if l.strip()]
+                all_individual_labels.update(individual_labels)
+            
+            # Sort for consistent ordering
+            unique_labels = sorted(list(all_individual_labels))
+            
+            # Create binary columns for each label
+            for label in unique_labels:
+                result_df[f'label_{label}'] = 0
+            
+            # Set binary values for each row
+            for idx, label_str in enumerate(df[label_col].astype(str)):
+                individual_labels = [l.strip() for l in label_str.split(',') if l.strip()]
+                for label in individual_labels:
+                    if label in unique_labels:
+                        result_df.loc[idx, f'label_{label}'] = 1
+            
+            # For compatibility with existing code, also keep the original comma-separated format
             result_df['label'] = df[label_col].astype(str)
+            
+            # Store unique labels in analysis for later use
+            analysis['unique_individual_labels'] = unique_labels
         
         # Remove any rows with missing text or labels
         result_df = result_df.dropna(subset=['text', 'label'])

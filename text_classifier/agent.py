@@ -958,7 +958,7 @@ class MulticlassDataGenerator:  # Renamed
     async def _generate_multilabel_training_data_async(self) -> int:
         """
         Generate training data specifically for multilabel classification.
-        Instead of generating data per class, generate texts that can have multiple labels.
+        Optimized version that generates larger batches and combines text+label generation.
         """
         if (
             not self.final_config
@@ -971,7 +971,7 @@ class MulticlassDataGenerator:  # Renamed
             )
             return 0
 
-        logger.info("--- Starting Multilabel Training Data Generation ---")
+        logger.info("--- Starting Optimized Multilabel Training Data Generation ---")
         
         target_total_volume = self.final_config.get(
             "training_data_volume", settings.DEFAULT_TRAINING_DATA_VOLUME
@@ -981,49 +981,60 @@ class MulticlassDataGenerator:  # Renamed
         data_gen_sys_prompt = settings.MULTILABEL_DATA_GEN_SYSTEM_PROMPT.format(
             language=self.language
         )
-        
-        # Create a unified prompt for generating multilabel data
-        multilabel_prompt = f"""Generate diverse text samples that can have multiple labels from these categories: {', '.join(self.class_labels)}.
-
-Create realistic examples where multiple labels can naturally apply to the same text. Focus on:
-- Natural overlap between categories
-- Diverse combinations of labels
-- Realistic content that fits multiple categories
-- Variety in text length and style
-
-Generate text in {self.language} language. Each sample should be realistic and could logically belong to multiple categories."""
 
         logger.info(f"Target total samples: {target_total_volume}")
         logger.info(f"Using Model: {self.selected_data_gen_model}")
         logger.info("🏷️ Generating multilabel data with multiple labels per text")
 
         total_samples_generated = 0
-        required_requests = max(1, target_total_volume // 50)  # 50 samples per request
+        # Use much larger batches - generate 250 samples per request instead of 50
+        samples_per_request = 250
+        required_requests = max(1, target_total_volume // samples_per_request)
+        
+        logger.info(f"🚀 Optimized multilabel generation: {required_requests} batches of {samples_per_request} samples each")
         
         for request_num in range(required_requests):
             logger.info(f"Generating multilabel batch {request_num + 1}/{required_requests}")
             
             try:
-                # Generate text samples
+                # Create an optimized prompt that generates text WITH labels in one call
+                optimized_prompt = f"""Generate {samples_per_request} diverse text samples that can have multiple labels from these categories: {', '.join(self.class_labels)}.
+
+For each text sample, immediately assign relevant labels. Return in this format:
+TEXT_1|label1,label2
+TEXT_2|label3
+TEXT_3|label1,label4,label5
+
+Guidelines:
+- Create realistic examples where multiple labels can naturally apply
+- Focus on natural overlap between categories: {', '.join(self.class_labels)}
+- Use diverse combinations of labels
+- Variety in text length and style
+- Generate text in {self.language} language
+- Each line should be: TEXT|label1,label2,label3 (comma-separated labels)
+
+Generate exactly {samples_per_request} lines."""
+
+                # Generate text samples WITH labels in one API call
                 raw_response = await self._call_llm_async(
                     model=self.selected_data_gen_model,
                     system_prompt=data_gen_sys_prompt,
-                    user_prompt=multilabel_prompt,
+                    user_prompt=optimized_prompt,
                     temperature=0.8  # Higher temperature for diversity
                 )
                 
                 # Save raw response for debugging
                 self._save_raw_response(
                     "multilabel_training_data",
-                    multilabel_prompt,
+                    optimized_prompt,
                     raw_response,
                     "all_classes",
                     self.selected_data_gen_model,
                     status="success",
                 )
                 
-                # Process the response and assign labels
-                lines_added = await self._process_multilabel_response(raw_response)
+                # Process the response (now includes both text and labels)
+                lines_added = await self._process_optimized_multilabel_response(raw_response)
                 total_samples_generated += lines_added
                 
                 logger.info(f"Batch {request_num + 1} completed. Added {lines_added} multilabel samples.")
@@ -1051,111 +1062,65 @@ Generate text in {self.language} language. Each sample should be realistic and c
         
         return total_samples_generated
 
-    async def _process_multilabel_response(self, raw_response: str) -> int:
+    async def _process_optimized_multilabel_response(self, raw_response: str) -> int:
         """
-        Process LLM response for multilabel data and assign appropriate labels.
-        Uses another LLM call to analyze each text and assign relevant labels.
+        Process optimized multilabel response that includes both text and labels in format: TEXT|label1,label2
+        This is much faster than the old two-step approach.
         """
         if not raw_response or not self.class_labels:
             return 0
             
-        # Extract text samples from response
-        text_samples = []
+        # Extract text and label pairs from response
+        lines_added = 0
+        target_path = self.dataset_path
+        
+        # Create directory if needed
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        write_header = not target_path.exists() or target_path.stat().st_size == 0
+        
         lines = raw_response.strip().split('\n')
+        valid_pairs = []
         
         for line in lines:
-            cleaned_line = line.strip().strip('"').strip()
-            if (cleaned_line and 
-                len(cleaned_line) >= settings.MIN_DATA_LINE_LENGTH and
-                not cleaned_line.startswith('{') and
-                not cleaned_line.endswith('}')):
-                text_samples.append(cleaned_line)
-        
-        if not text_samples:
-            logger.warning("No valid text samples found in multilabel response")
-            return 0
-        
-        logger.info(f"Processing {len(text_samples)} text samples for multilabel assignment")
-        
-        # Label assignment prompt
-        label_assignment_prompt = f"""Analyze each text sample and assign relevant labels from these categories: {', '.join(self.class_labels)}.
-
-For each text, determine which labels apply. Multiple labels can be assigned to the same text if they are relevant.
-
-Return results in JSON format:
-{{
-  "0": ["label1", "label2"],
-  "1": ["label3"],
-  "2": ["label1", "label3", "label4"],
-  ...
-}}
-
-Only use labels from this list: {', '.join(self.class_labels)}
-
-Text samples to analyze:
-{chr(10).join([f"{i}: {text}" for i, text in enumerate(text_samples)])}"""
-        
-        try:
-            # Get label assignments from LLM
-            label_response = await self._call_llm_async(
-                model=self.config_model,  # Use config model for more accurate analysis
-                system_prompt="You are a text classification expert. Analyze texts and assign appropriate labels accurately.",
-                user_prompt=label_assignment_prompt,
-                temperature=0.2  # Low temperature for consistent labeling
-            )
-            
-            # Parse the label assignments
-            json_start = label_response.find("{")
-            json_end = label_response.rfind("}") + 1
-            if json_start == -1 or json_end == 0:
-                logger.error("No valid JSON found in label assignment response")
-                return 0
+            line = line.strip()
+            if '|' not in line:
+                continue
                 
-            json_content = label_response[json_start:json_end]
-            label_assignments = json.loads(json_content)
-            
-            # Save labeled data to CSV
-            lines_added = 0
-            target_path = self.dataset_path
-            
-            # Create directory if needed
-            target_path.parent.mkdir(parents=True, exist_ok=True)
-            
-            write_header = not target_path.exists() or target_path.stat().st_size == 0
-            
-            with open(target_path, "a", encoding="utf-8", newline="") as f:
-                writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
-                if write_header:
-                    writer.writerow(["text", "label"])
+            parts = line.split('|', 1)
+            if len(parts) != 2:
+                continue
                 
-                for idx_str, labels in label_assignments.items():
-                    try:
-                        idx = int(idx_str)
-                        if 0 <= idx < len(text_samples):
-                            text = text_samples[idx]
-                            
-                            # Validate and clean labels
-                            valid_labels = [label for label in labels if label in self.class_labels]
-                            if valid_labels:
-                                # Join multiple labels with comma
-                                label_str = ",".join(valid_labels)
-                                writer.writerow([f'"{text}"', label_str])
-                                lines_added += 1
-                            else:
-                                logger.warning(f"No valid labels found for text {idx}: {labels}")
-                    except (ValueError, IndexError) as e:
-                        logger.warning(f"Invalid label assignment for index {idx_str}: {e}")
-                        continue
+            text = parts[0].strip().strip('"').strip()
+            labels_str = parts[1].strip()
             
-            logger.info(f"Successfully saved {lines_added} multilabel samples")
-            return lines_added
+            # Validate text
+            if (not text or 
+                len(text) < settings.MIN_DATA_LINE_LENGTH or
+                text.startswith('{') or text.endswith('}')):
+                continue
+                
+            # Parse and validate labels
+            if labels_str:
+                label_list = [label.strip() for label in labels_str.split(',')]
+                valid_labels = [label for label in label_list if label in self.class_labels]
+                
+                if valid_labels:
+                    valid_pairs.append((text, ','.join(valid_labels)))
+        
+        logger.info(f"Processing {len(valid_pairs)} valid text-label pairs")
+        
+        # Save to CSV
+        with open(target_path, "a", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+            if write_header:
+                writer.writerow(["text", "label"])
             
-        except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse label assignment JSON: {e}")
-            return 0
-        except Exception as e:
-            logger.error(f"Error processing multilabel response: {e}")
-            return 0
+            for text, labels in valid_pairs:
+                writer.writerow([f'"{text}"', labels])
+                lines_added += 1
+        
+        logger.info(f"Successfully saved {lines_added} optimized multilabel samples")
+        return lines_added
 
     async def _generate_edge_cases_async(self) -> int:
         if not self.generate_edge_cases:
@@ -1509,7 +1474,13 @@ Text samples to analyze:
                 # Get label information
                 if 'label' in df.columns:
                     unique_labels = df['label'].unique().tolist()
-                    self.class_labels = sorted([str(label) for label in unique_labels])
+                    
+                    # For multilabel classification, extract individual labels from comma-separated strings
+                    if analysis.get('task_type') == 'multilabel' and analysis.get('unique_individual_labels'):
+                        self.class_labels = sorted(analysis['unique_individual_labels'])
+                    else:
+                        self.class_labels = sorted([str(label) for label in unique_labels])
+                    
                     self.num_classes = len(self.class_labels)
                     
                     logger.info(f"✅ Dataset processed successfully using prepare_dataset.py")
@@ -1580,7 +1551,20 @@ Text samples to analyze:
                 logger.warning(f"Analysis report not found at {report_path}. Using fallback analysis.")
                 # Fallback: analyze the processed dataset directly
                 unique_labels = df['label'].unique().tolist()
-                base_classification_type = "binary" if len(unique_labels) == 2 else "multiclass"
+                
+                # Check if multilabel by looking for comma-separated labels
+                has_comma_separated = df['label'].astype(str).str.contains(',').any()
+                if has_comma_separated:
+                    base_classification_type = "multilabel"
+                    # Extract individual labels from comma-separated strings
+                    all_individual_labels = set()
+                    for label_str in df['label'].astype(str):
+                        individual_labels = [l.strip() for l in label_str.split(',') if l.strip()]
+                        all_individual_labels.update(individual_labels)
+                    unique_individual_labels = sorted(list(all_individual_labels))
+                else:
+                    base_classification_type = "binary" if len(unique_labels) == 2 else "multiclass"
+                    unique_individual_labels = None
                 
                 # Apply smart activation detection for fallback as well
                 activation_decision = self._smart_activation_detection(df, base_classification_type)
@@ -1592,12 +1576,20 @@ Text samples to analyze:
                 
                 self.classification_type = final_classification_type
                 
+                # Set class labels based on classification type
+                if base_classification_type == 'multilabel' and unique_individual_labels:
+                    self.class_labels = unique_individual_labels
+                else:
+                    self.class_labels = sorted([str(label) for label in unique_labels])
+                self.num_classes = len(self.class_labels)
+                
                 analysis = {
                     'task_type': base_classification_type,
                     'text_column': 'text',
                     'label_column': 'label',
                     'confidence': 90,
-                    'reasoning': 'Fallback analysis based on processed dataset'
+                    'reasoning': 'Fallback analysis based on processed dataset',
+                    'unique_individual_labels': unique_individual_labels
                 }
                 
         except Exception as e:
