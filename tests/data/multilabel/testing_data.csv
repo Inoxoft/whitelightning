@@ -1,9 +1,17 @@
 text,label
-"Fast-paced action movie with comedic elements","action,comedy"
-"Romantic drama with beautiful love story","romance,drama"
-"Scary horror film with supernatural thriller elements","horror,supernatural,thriller"
-"Sci-fi adventure in outer space","sci-fi,adventure"
-"Family-friendly animated comedy","animation,comedy,family"
-"Dark crime thriller with mystery plot","crime,thriller,mystery"
-"Epic fantasy with magical adventure","fantasy,adventure,epic"
-"Musical drama with emotional songs","musical,drama" 
+"Intense action movie with amazing fight sequences",action
+"Beautiful romantic story with great acting",romance
+"Terrifying horror with jump scares",horror
+"Futuristic sci-fi with advanced technology",sci-fi
+"Emotional drama that made me cry",drama
+"Hilarious comedy with perfect timing",comedy
+"Exciting adventure across dangerous lands",adventure
+"Family movie everyone can enjoy",family
+"Dark fantasy with magical elements",fantasy
+"Gripping thriller with unexpected twists",thriller
+"Crime story with complex characters",crime
+"Animated film with colorful characters",animation
+"Action-packed adventure with great stunts",action,adventure
+"Romantic comedy with charming leads",romance,comedy
+"Sci-fi horror with alien creatures",sci-fi,horror
+"Family-friendly animated comedy",family,animation,comedy 

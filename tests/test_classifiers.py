@@ -46,7 +46,17 @@ class TextClassifierRunnerTest(unittest.TestCase):
     ):
         # Read unique labels from training data
         train_df = pd.read_csv(train_path, on_bad_lines="skip")
-        labels = sorted(train_df["label"].unique().tolist())
+        
+        if data_type == "multilabel":
+            # For multilabel, extract individual labels from comma-separated strings
+            all_labels = set()
+            for label_string in train_df["label"].values:
+                individual_labels = [label.strip() for label in str(label_string).split(",")]
+                all_labels.update(individual_labels)
+            labels = sorted(list(all_labels))
+        else:
+            # For binary and multiclass, use unique values directly
+            labels = sorted(train_df["label"].unique().tolist())
 
         # Initialize runner
         runner = TextClassifierRunner(
