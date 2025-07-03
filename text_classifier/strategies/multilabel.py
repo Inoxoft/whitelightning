@@ -293,7 +293,23 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             self.input_dim = self.model.input_shape[-1]
 
     def export_to_onnx(self):
-        pass
+        output_path = f"{self.output_path}/model.onnx"
+        if not self.model:
+            raise ValueError("TensorFlow model not available for ONNX export.")
+        logger.info(f"Exporting TensorFlow multilabel model to ONNX: {output_path}")
+        
+        try:
+            import tf2onnx
+            spec = (tf.TensorSpec((None, self.input_dim), tf.float32, name="float_input"),)
+            model_proto, _ = tf2onnx.convert.from_keras(
+                self.model, input_signature=spec, opset=13
+            )
+            with open(output_path, "wb") as f:
+                f.write(model_proto.SerializeToString())
+            logger.info(f"TensorFlow multilabel model successfully exported to ONNX: {output_path}")
+        except Exception as e:
+            logger.error(f"Failed to export TensorFlow multilabel model to ONNX: {e}", exc_info=True)
+            raise
 
 
 class PyTorchStrategyMultiLabel(TextClassifierStrategy):

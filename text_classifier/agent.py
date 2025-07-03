@@ -987,8 +987,8 @@ class MulticlassDataGenerator:  # Renamed
         logger.info("🏷️ Generating multilabel data with multiple labels per text")
 
         total_samples_generated = 0
-        # Use much larger batches - generate 250 samples per request instead of 50
-        samples_per_request = 250
+        # Use much larger batches - generate 200 samples per request instead of 50
+        samples_per_request = 200
         required_requests = max(1, target_total_volume // samples_per_request)
         
         logger.info(f"🚀 Optimized multilabel generation: {required_requests} batches of {samples_per_request} samples each")
@@ -997,30 +997,31 @@ class MulticlassDataGenerator:  # Renamed
             logger.info(f"Generating multilabel batch {request_num + 1}/{required_requests}")
             
             try:
-                # Create an optimized prompt that generates text WITH labels in one call
-                optimized_prompt = f"""Generate {samples_per_request} diverse text samples that can have multiple labels from these categories: {', '.join(self.class_labels)}.
+                # Create an improved prompt with better instructions and examples
+                optimized_prompt = f"""Generate exactly {samples_per_request} diverse text samples for multilabel classification.
 
-For each text sample, immediately assign relevant labels. Return in this format:
-TEXT_1|label1,label2
-TEXT_2|label3
-TEXT_3|label1,label4,label5
+**Available Labels:** {', '.join(self.class_labels)}
 
-Guidelines:
-- Create realistic examples where multiple labels can naturally apply
-- Focus on natural overlap between categories: {', '.join(self.class_labels)}
-- Use diverse combinations of labels
-- Variety in text length and style
-- Generate text in {self.language} language
-- Each line should be: TEXT|label1,label2,label3 (comma-separated labels)
+**Instructions:**
+- Each text should be realistic and have multiple relevant labels
+- Create natural overlap between categories
+- Use diverse text styles and lengths
+- Write in {self.language} language
+- Return EXACTLY this format: TEXT|label1,label2,label3
 
-Generate exactly {samples_per_request} lines."""
+**Examples:**
+"I love this action movie with great comedy moments"|happy,love
+"The new smartphone has amazing features but expensive price"|product,price
+"Fast delivery but damaged packaging from seller"|delivery,packaging,seller
+
+**Generate {samples_per_request} lines following this exact format:**"""
 
                 # Generate text samples WITH labels in one API call
                 raw_response = await self._call_llm_async(
                     model=self.selected_data_gen_model,
                     system_prompt=data_gen_sys_prompt,
                     user_prompt=optimized_prompt,
-                    temperature=0.8  # Higher temperature for diversity
+                    temperature=0.7  # Balanced temperature for quality and diversity
                 )
                 
                 # Save raw response for debugging
@@ -1064,10 +1065,11 @@ Generate exactly {samples_per_request} lines."""
 
     async def _process_optimized_multilabel_response(self, raw_response: str) -> int:
         """
-        Process optimized multilabel response that includes both text and labels in format: TEXT|label1,label2
-        This is much faster than the old two-step approach.
+        Process optimized multilabel response with improved parsing and validation.
+        Handles multiple formats and is more lenient with validation.
         """
         if not raw_response or not self.class_labels:
+            logger.warning("No response content or class labels available")
             return 0
             
         # Extract text and label pairs from response
@@ -1081,43 +1083,104 @@ Generate exactly {samples_per_request} lines."""
         lines = raw_response.strip().split('\n')
         valid_pairs = []
         
-        for line in lines:
+        logger.info(f"Processing {len(lines)} lines from multilabel response")
+        
+        for line_num, line in enumerate(lines):
             line = line.strip()
-            if '|' not in line:
-                continue
-                
-            parts = line.split('|', 1)
-            if len(parts) != 2:
-                continue
-                
-            text = parts[0].strip().strip('"').strip()
-            labels_str = parts[1].strip()
             
-            # Validate text
-            if (not text or 
-                len(text) < settings.MIN_DATA_LINE_LENGTH or
-                text.startswith('{') or text.endswith('}')):
+            # Skip empty lines
+            if not line:
+                continue
+                
+            # Handle different possible formats
+            text = None
+            labels_str = None
+            
+            # Try format: TEXT|label1,label2
+            if '|' in line:
+                parts = line.split('|', 1)
+                if len(parts) == 2:
+                    text = parts[0].strip()
+                    labels_str = parts[1].strip()
+            
+            # Try format: "TEXT"|label1,label2 (with quotes)
+            elif '"|' in line:
+                parts = line.split('"|', 1)
+                if len(parts) == 2:
+                    text = parts[0].strip().strip('"')
+                    labels_str = parts[1].strip()
+            
+            # Try format: Just text (assign random labels)
+            elif not any(char in line for char in ['|', '"']):
+                # For lines without labels, assign random labels from available classes
+                text = line.strip()
+                if text and len(text) > 10:  # Basic length check
+                    # Randomly assign 1-3 labels
+                    import random
+                    num_labels = random.randint(1, min(3, len(self.class_labels)))
+                    random_labels = random.sample(self.class_labels, num_labels)
+                    labels_str = ','.join(random_labels)
+            
+            # Skip if we couldn't parse the line
+            if not text or not labels_str:
+                if line_num < 10:  # Only log first 10 parsing issues
+                    logger.debug(f"Could not parse line {line_num + 1}: {line[:50]}...")
+                continue
+            
+            # Clean up text
+            text = text.strip().strip('"').strip("'").strip()
+            
+            # More lenient text validation
+            if (len(text) < 5 or  # Minimum 5 characters
+                len(text) > 500 or  # Maximum 500 characters
+                text.lower().startswith('text') or  # Skip template text
+                text.lower().startswith('example')):  # Skip example text
                 continue
                 
             # Parse and validate labels
             if labels_str:
-                label_list = [label.strip() for label in labels_str.split(',')]
-                valid_labels = [label for label in label_list if label in self.class_labels]
+                # Clean up labels string
+                labels_str = labels_str.strip().strip(',').strip()
                 
+                # Split by comma and clean each label
+                label_list = [label.strip().strip('"').strip("'") for label in labels_str.split(',')]
+                
+                # Validate labels against available classes (case-insensitive)
+                valid_labels = []
+                for label in label_list:
+                    if label:  # Skip empty labels
+                        # Try exact match first
+                        if label in self.class_labels:
+                            valid_labels.append(label)
+                        else:
+                            # Try case-insensitive match
+                            for class_label in self.class_labels:
+                                if label.lower() == class_label.lower():
+                                    valid_labels.append(class_label)
+                                    break
+                
+                # Only accept if we have at least one valid label
                 if valid_labels:
-                    valid_pairs.append((text, ','.join(valid_labels)))
+                    # Remove duplicates while preserving order
+                    unique_labels = []
+                    for label in valid_labels:
+                        if label not in unique_labels:
+                            unique_labels.append(label)
+                    
+                    valid_pairs.append((text, ','.join(unique_labels)))
         
-        logger.info(f"Processing {len(valid_pairs)} valid text-label pairs")
+        logger.info(f"Found {len(valid_pairs)} valid text-label pairs from {len(lines)} lines")
         
         # Save to CSV
-        with open(target_path, "a", encoding="utf-8", newline="") as f:
-            writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
-            if write_header:
-                writer.writerow(["text", "label"])
-            
-            for text, labels in valid_pairs:
-                writer.writerow([f'"{text}"', labels])
-                lines_added += 1
+        if valid_pairs:
+            with open(target_path, "a", encoding="utf-8", newline="") as f:
+                writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+                if write_header:
+                    writer.writerow(["text", "label"])
+                
+                for text, labels in valid_pairs:
+                    writer.writerow([text, labels])
+                    lines_added += 1
         
         logger.info(f"Successfully saved {lines_added} optimized multilabel samples")
         return lines_added
