@@ -712,11 +712,21 @@ Texts to analyze:
             print(f"🎯 LLM recommends: {recommended}")
             print(f"💡 Reasoning: {activation_analysis.get('recommended_reasoning', 'N/A')}")
             
-            analysis['final_task_type'] = 'multilabel' if recommended == 'sigmoid' else 'multiclass'
-            analysis['final_activation'] = recommended
+            # Respect binary classification - it should always use sigmoid, never be converted to multiclass
+            if analysis['current_task_type'] == 'binary':
+                print("🎯 Binary classification detected - using sigmoid activation")
+                analysis['final_task_type'] = 'binary'
+                analysis['final_activation'] = 'sigmoid'
+            elif recommended == 'sigmoid':
+                analysis['final_task_type'] = 'multilabel'
+                analysis['final_activation'] = 'sigmoid'
+            else:
+                analysis['final_task_type'] = 'multiclass'
+                analysis['final_activation'] = 'softmax'
             
-            # Convert if needed and feasible
-            if (recommended == 'sigmoid' and 
+            # Convert if needed and feasible (only for non-binary cases)
+            if (analysis['current_task_type'] != 'binary' and 
+                recommended == 'sigmoid' and 
                 conversion_strategy.get('needs_conversion', False) and 
                 conversion_strategy.get('conversion_feasible', False)):
                 print("🔄 Converting to multilabel format based on LLM recommendation...")
