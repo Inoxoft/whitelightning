@@ -278,16 +278,19 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             pickle.dump(self.vocab, f)
         logger.info(f"TensorFlow vocab (vectorizer) saved to {vocab_path}")
         
-        # Save classes in scaler.json format
+        # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
         # If scaler contains class labels, save them
         if hasattr(self, 'class_labels'):
-            scaler_data = {"classes": self.class_labels}
+            class_names = self.class_labels
         elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
-            scaler_data = {"classes": self.scaler['classes']}
+            class_names = self.scaler['classes']
         else:
             # Default classes if not available
-            scaler_data = {"classes": [f"class_{i}" for i in range(self.num_classes)]}
+            class_names = [f"class_{i}" for i in range(self.num_classes)]
+        
+        # Convert to dictionary format with string indices: {"0": "Business", "1": "Health", ...}
+        scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
             
         with open(scaler_path, "w") as f:
             json.dump(scaler_data, f)
@@ -320,12 +323,23 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         try:
             with open(scaler_path, 'r') as f:
                 scaler_data = json.load(f)
-                self.scaler = scaler_data
+                
+                # Handle both old and new formats
                 if 'classes' in scaler_data:
+                    # Old format: {"classes": ["class_0", "class_1", ...]}
                     self.class_labels = scaler_data['classes']
+                elif all(key.isdigit() for key in scaler_data.keys()):
+                    # New format: {"0": "Business", "1": "Health", ...}
+                    # Convert to list ordered by index
+                    self.class_labels = [scaler_data[str(i)] for i in range(len(scaler_data))]
+                else:
+                    logger.warning(f"Unknown scaler format in {scaler_path}")
+                    self.class_labels = []
+                
+                logger.info(f"TensorFlow classes loaded from {scaler_path}: {self.class_labels}")
         except FileNotFoundError:
             logger.warning(f"Scaler file not found at {scaler_path}")
-            self.scaler = {}
+            self.class_labels = []
         
         # After loading, self.model.input_shape is determined by the saved model.
         # self.input_dim (from strategy init via metadata) should match this.
@@ -654,16 +668,19 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             pickle.dump(self.vocab, f)
         logger.info(f"PyTorch vocab (vectorizer) saved to {vocab_path}")
         
-        # Save classes in scaler.json format
+        # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
         # If scaler contains class labels, save them
         if hasattr(self, 'class_labels'):
-            scaler_data = {"classes": self.class_labels}
+            class_names = self.class_labels
         elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
-            scaler_data = {"classes": self.scaler['classes']}
+            class_names = self.scaler['classes']
         else:
             # Default classes if not available
-            scaler_data = {"classes": [f"class_{i}" for i in range(self.num_classes)]}
+            class_names = [f"class_{i}" for i in range(self.num_classes)]
+        
+        # Convert to dictionary format with string indices: {"0": "Business", "1": "Health", ...}
+        scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
             
         with open(scaler_path, "w") as f:
             json.dump(scaler_data, f)
@@ -701,11 +718,23 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         try:
             with open(scaler_path, "r") as f:
                 scaler_data = json.load(f)
+                
+                # Handle both old and new formats
                 if 'classes' in scaler_data:
+                    # Old format: {"classes": ["class_0", "class_1", ...]}
                     self.class_labels = scaler_data['classes']
-                    logger.info(f"PyTorch classes loaded from {scaler_path}: {self.class_labels}")
+                elif all(key.isdigit() for key in scaler_data.keys()):
+                    # New format: {"0": "Business", "1": "Health", ...}
+                    # Convert to list ordered by index
+                    self.class_labels = [scaler_data[str(i)] for i in range(len(scaler_data))]
+                else:
+                    logger.warning(f"Unknown scaler format in {scaler_path}")
+                    self.class_labels = []
+                    
+                logger.info(f"PyTorch classes loaded from {scaler_path}: {self.class_labels}")
         except FileNotFoundError:
             logger.warning(f"Scaler file not found: {scaler_path}")
+            self.class_labels = []
         
         # Check model dimensions
         model_input_dim = self.model.net[0].in_features
