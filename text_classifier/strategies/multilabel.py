@@ -313,50 +313,84 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             
             with open(output_path, "wb") as f:
                 f.write(model_proto.SerializeToString())
-            logger.info(f"TensorFlow multilabel model successfully exported to ONNX: {output_path}")
+            
+            # Verify export success by checking file size
+            file_size = Path(output_path).stat().st_size
+            if file_size > 1000:  # If larger than 1KB, it's likely a real model
+                logger.info(f"TensorFlow multilabel model successfully exported to ONNX: {output_path} ({file_size} bytes)")
+                return  # Exit early on success
+            else:
+                logger.warning(f"ONNX export produced small file ({file_size} bytes), trying fallback methods...")
+                raise Exception("Export produced suspiciously small file")
             
         except Exception as e:
             logger.error(f"Failed to export TensorFlow multilabel model to ONNX: {e}")
-            # Try fallback approach with older opset
+            # Try functional model approach as primary fallback
             try:
-                logger.info("Trying fallback ONNX export method with older opset...")
+                logger.info("Trying functional model approach...")
                 actual_input_shape = self.model.input_shape[1:]
+                # Create a functional model with correct architecture
+                input_layer = tf.keras.layers.Input(shape=actual_input_shape, name="float_input")
+                x = tf.keras.layers.Dense(128, activation="relu")(input_layer)
+                x = tf.keras.layers.Dropout(0.5)(x)
+                outputs = tf.keras.layers.Dense(self.num_classes, activation="sigmoid")(x)
+                
+                functional_model = tf.keras.Model(inputs=input_layer, outputs=outputs, name="multilabel_model")
+                
+                # Copy weights from Sequential model to Functional model
+                # Sequential: [Dense(128), Dropout, Dense(4)]
+                # Functional: [Input, Dense(128), Dropout, Dense(4)]
+                for i, layer in enumerate(self.model.layers):
+                    if layer.get_weights():
+                        # Skip input layer (no weights) and map correctly
+                        if i == 0:  # First layer in Sequential (Dense)
+                            functional_model.layers[1].set_weights(layer.get_weights())  # Skip input layer
+                        elif i == 1:  # Second layer (Dropout - no weights)
+                            continue  # Skip dropout layer
+                        elif i == 2:  # Third layer (Dense)
+                            functional_model.layers[3].set_weights(layer.get_weights())  # Skip input and dropout
+                
+                # Convert functional model to ONNX
                 spec = (tf.TensorSpec((None, actual_input_shape[0]), tf.float32, name="float_input"),)
                 model_proto, _ = tf2onnx.convert.from_keras(
-                    self.model, input_signature=spec, opset=11  # Use older opset
+                    functional_model, input_signature=spec, opset=11
                 )
+                
                 with open(output_path, "wb") as f:
                     f.write(model_proto.SerializeToString())
-                logger.info(f"TensorFlow multilabel model exported to ONNX using fallback method: {output_path}")
+                
+                # Verify export success
+                file_size = Path(output_path).stat().st_size
+                if file_size > 1000:
+                    logger.info(f"TensorFlow multilabel model exported to ONNX using functional model approach: {output_path} ({file_size} bytes)")
+                    return  # Exit early on success
+                else:
+                    logger.warning(f"Functional model approach produced small file ({file_size} bytes), trying next fallback...")
+                    raise Exception("Functional model export produced suspiciously small file")
+                
             except Exception as e2:
-                logger.error(f"Fallback ONNX export also failed: {e2}")
-                # Try functional model approach as last resort
+                logger.error(f"Functional model approach failed: {e2}")
+                # Try fallback approach with older opset as secondary fallback
                 try:
-                    logger.info("Trying functional model approach...")
-                    # Create a functional model with correct architecture
-                    input_layer = tf.keras.layers.Input(shape=actual_input_shape, name="float_input")
-                    x = tf.keras.layers.Dense(128, activation="relu")(input_layer)
-                    x = tf.keras.layers.Dropout(0.5)(x)
-                    outputs = tf.keras.layers.Dense(self.num_classes, activation="sigmoid")(x)
-                    
-                    functional_model = tf.keras.Model(inputs=input_layer, outputs=outputs, name="multilabel_model")
-                    
-                    # Copy weights from Sequential model to Functional model
-                    for i, layer in enumerate(self.model.layers[1:]):  # Skip input layer
-                        if layer.get_weights():
-                            functional_model.layers[i + 1].set_weights(layer.get_weights())
-                    
-                    # Convert functional model to ONNX
+                    logger.info("Trying direct conversion with older opset...")
+                    actual_input_shape = self.model.input_shape[1:]
                     spec = (tf.TensorSpec((None, actual_input_shape[0]), tf.float32, name="float_input"),)
                     model_proto, _ = tf2onnx.convert.from_keras(
-                        functional_model, input_signature=spec, opset=11
+                        self.model, input_signature=spec, opset=11  # Use older opset
                     )
-                    
                     with open(output_path, "wb") as f:
                         f.write(model_proto.SerializeToString())
-                    logger.info(f"TensorFlow multilabel model exported to ONNX using functional model approach: {output_path}")
+                    
+                    # Verify export success
+                    file_size = Path(output_path).stat().st_size
+                    if file_size > 1000:
+                        logger.info(f"TensorFlow multilabel model exported to ONNX using older opset: {output_path} ({file_size} bytes)")
+                        return  # Exit early on success
+                    else:
+                        logger.warning(f"Older opset approach produced small file ({file_size} bytes), creating placeholder...")
+                        raise Exception("Older opset export produced suspiciously small file")
                 except Exception as e3:
-                    logger.error(f"Functional model approach also failed: {e3}")
+                    logger.error(f"Older opset approach also failed: {e3}")
                     # Create a simple ONNX model manually as last resort
                     logger.warning("Creating minimal ONNX model file as last resort...")
                     try:
