@@ -2,6 +2,8 @@ from pathlib import Path
 
 import numpy as np
 import joblib
+import pickle
+import json
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.multioutput import MultiOutputClassifier
@@ -192,15 +194,15 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                 tf.keras.layers.Input(
                     shape=(self.input_dim,), name="float_input"
                 ),  # Uses current self.input_dim
-                tf.keras.layers.Dense(128, activation="relu"),
-                tf.keras.layers.Dropout(0.5),
+                tf.keras.layers.Dense(256, activation="relu"),  # Updated from 128 to 256
+                tf.keras.layers.Dropout(0.3),  # Updated from 0.5 to 0.3
                 tf.keras.layers.Dense(self.num_classes, activation="sigmoid"),
             ]
         )
         self.model.compile(
             optimizer="adam",
             loss="binary_crossentropy",
-            metrics=["accuracy"],
+            metrics=["binary_accuracy"],  # Updated to binary_accuracy for multilabel
         )
         logger.info("TensorFlow Keras model built and compiled.")
         if self.model:
@@ -250,7 +252,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             for k, v in history.history.items()
         }
         logger.info(
-            f"TensorFlow training complete. Final epoch metrics: {{'loss': {metrics.get('loss', [-1])[-1]:.4f}, 'accuracy': {metrics.get('accuracy', [-1])[-1]:.4f}}}"
+            f"TensorFlow training complete. Final epoch metrics: {{'loss': {metrics.get('loss', [-1])[-1]:.4f}, 'accuracy': {metrics.get('binary_accuracy', [-1])[-1]:.4f}}}"
         )
         return metrics
 
@@ -268,18 +270,63 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             X = X.toarray()
         return self.model.predict(X)
 
+    def save_model_vocab_and_scaler_tensorflow(self):
+        """Save vocab as pickle and classes in scaler.json for TensorFlow multilabel"""
+        # Save vocab as pickle (TF-IDF vectorizer)
+        vocab_path = f"{self.output_path}/vocab.pkl"
+        with open(vocab_path, "wb") as f:
+            pickle.dump(self.vocab, f)
+        logger.info(f"TensorFlow vocab (vectorizer) saved to {vocab_path}")
+        
+        # Save classes in scaler.json format
+        scaler_path = f"{self.output_path}/scaler.json"
+        # If scaler contains class labels, save them
+        if hasattr(self, 'class_labels'):
+            scaler_data = {"classes": self.class_labels}
+        elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
+            scaler_data = {"classes": self.scaler['classes']}
+        else:
+            # Default classes if not available
+            scaler_data = {"classes": [f"class_{i}" for i in range(self.num_classes)]}
+            
+        with open(scaler_path, "w") as f:
+            json.dump(scaler_data, f)
+        logger.info(f"TensorFlow classes saved to {scaler_path}")
+
     def save_model(self):
         if not self.model:
             raise ValueError("TF Model not available for saving.")
         model_path = f"{self.output_path}/model.keras"
         self.model.save(model_path)
-        self.save_model_vocab_and_scaler()
+        self.save_model_vocab_and_scaler_tensorflow()
         self.export_to_onnx()
         logger.info(f"TensorFlow model saved to {model_path}")
 
     def load(self, path_prefix: str):
         model_path = f"{path_prefix}_tf_model.keras"
         self.model = tf.keras.models.load_model(model_path)
+        
+        # Load vocab from pickle file
+        vocab_path = f"{path_prefix}_vocab.pkl"
+        try:
+            with open(vocab_path, 'rb') as f:
+                self.vocab = pickle.load(f)
+        except FileNotFoundError:
+            logger.warning(f"Vocab file not found at {vocab_path}")
+            self.vocab = {}
+        
+        # Load classes from scaler.json file
+        scaler_path = f"{path_prefix}_scaler.json"
+        try:
+            with open(scaler_path, 'r') as f:
+                scaler_data = json.load(f)
+                self.scaler = scaler_data
+                if 'classes' in scaler_data:
+                    self.class_labels = scaler_data['classes']
+        except FileNotFoundError:
+            logger.warning(f"Scaler file not found at {scaler_path}")
+            self.scaler = {}
+        
         # After loading, self.model.input_shape is determined by the saved model.
         # self.input_dim (from strategy init via metadata) should match this.
         logger.info(
@@ -300,28 +347,71 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         
         try:
             import tf2onnx
+            import subprocess
             
             # Get the actual input shape from the trained model
             actual_input_shape = self.model.input_shape[1:]  # Remove batch dimension
             logger.info(f"Using actual model input shape: {actual_input_shape}")
             
-            # Simpler approach - direct conversion without layer-by-layer reconstruction
-            spec = (tf.TensorSpec((None, actual_input_shape[0]), tf.float32, name="float_input"),)
-            model_proto, _ = tf2onnx.convert.from_keras(
-                self.model, input_signature=spec, opset=13
-            )
+            # Create a model without sigmoid activation for ONNX export (logits only)
+            logger.info("Creating model without sigmoid for ONNX export...")
             
-            with open(output_path, "wb") as f:
-                f.write(model_proto.SerializeToString())
+            # Create model without sigmoid (logits only)
+            model_no_sigmoid = tf.keras.Sequential([
+                tf.keras.layers.Input(shape=actual_input_shape, name="float_input"),
+                tf.keras.layers.Dense(256, activation="relu"),
+                tf.keras.layers.Dropout(0.3),
+                tf.keras.layers.Dense(self.num_classes, activation=None)  # No activation (logits)
+            ])
             
-            # Verify export success by checking file size
-            file_size = Path(output_path).stat().st_size
-            if file_size > 1000:  # If larger than 1KB, it's likely a real model
-                logger.info(f"TensorFlow multilabel model successfully exported to ONNX: {output_path} ({file_size} bytes)")
-                return  # Exit early on success
+            # Copy weights from the trained model
+            model_no_sigmoid.set_weights(self.model.get_weights())
+            
+            # Try tf2onnx command line tool which is more reliable
+            savedmodel_for_onnx = f"{self.output_path}/temp_savedmodel_for_onnx"
+            model_no_sigmoid.export(savedmodel_for_onnx)
+            
+            result = subprocess.run([
+                "python", "-m", "tf2onnx.convert",
+                "--saved-model", savedmodel_for_onnx,
+                "--output", output_path,
+                "--opset", "11"
+            ], capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                # Verify export success by checking file size
+                file_size = Path(output_path).stat().st_size
+                if file_size > 1000:  # If larger than 1KB, it's likely a real model
+                    logger.info(f"TensorFlow multilabel model successfully exported to ONNX: {output_path} ({file_size} bytes)")
+                    
+                    # Clean up temporary SavedModel
+                    import shutil
+                    if os.path.exists(savedmodel_for_onnx):
+                        shutil.rmtree(savedmodel_for_onnx)
+                    
+                    # Save ONNX model info
+                    onnx_info = {
+                        'input_name': 'float_input',
+                        'output_name': 'output',
+                        'input_shape': [None, actual_input_shape[0]],
+                        'output_shape': [None, self.num_classes],
+                        'opset_version': 11,
+                        'conversion_method': 'tf2onnx_cli',
+                        'activation_note': 'Model outputs logits (no sigmoid). Apply sigmoid during inference!',
+                        'framework': 'tensorflow'
+                    }
+                    onnx_info_path = f"{self.output_path}/onnx_model_info.json"
+                    with open(onnx_info_path, "w") as f:
+                        json.dump(onnx_info, f, indent=2)
+                    logger.info(f"ONNX model info saved to {onnx_info_path}")
+                    return  # Exit early on success
+                else:
+                    logger.warning(f"ONNX export produced small file ({file_size} bytes), trying fallback methods...")
+                    raise Exception("Export produced suspiciously small file")
             else:
-                logger.warning(f"ONNX export produced small file ({file_size} bytes), trying fallback methods...")
-                raise Exception("Export produced suspiciously small file")
+                logger.error(f"tf2onnx CLI failed with exit code {result.returncode}")
+                logger.error(f"Error: {result.stderr}")
+                raise Exception("tf2onnx CLI conversion failed")
             
         except Exception as e:
             logger.error(f"Failed to export TensorFlow multilabel model to ONNX: {e}")
@@ -329,17 +419,17 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             try:
                 logger.info("Trying functional model approach...")
                 actual_input_shape = self.model.input_shape[1:]
-                # Create a functional model with correct architecture
+                # Create a functional model with correct architecture (updated to match build_model)
                 input_layer = tf.keras.layers.Input(shape=actual_input_shape, name="float_input")
-                x = tf.keras.layers.Dense(128, activation="relu")(input_layer)
-                x = tf.keras.layers.Dropout(0.5)(x)
-                outputs = tf.keras.layers.Dense(self.num_classes, activation="sigmoid")(x)
+                x = tf.keras.layers.Dense(256, activation="relu")(input_layer)  # Updated to 256
+                x = tf.keras.layers.Dropout(0.3)(x)  # Updated to 0.3
+                outputs = tf.keras.layers.Dense(self.num_classes, activation=None)(x)  # No sigmoid for ONNX
                 
                 functional_model = tf.keras.Model(inputs=input_layer, outputs=outputs, name="multilabel_model")
                 
                 # Copy weights from Sequential model to Functional model
-                # Sequential: [Dense(128), Dropout, Dense(4)]
-                # Functional: [Input, Dense(128), Dropout, Dense(4)]
+                # Sequential: [Dense(256), Dropout, Dense(num_classes)]
+                # Functional: [Input, Dense(256), Dropout, Dense(num_classes)]
                 for i, layer in enumerate(self.model.layers):
                     if layer.get_weights():
                         # Skip input layer (no weights) and map correctly
@@ -348,6 +438,8 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                         elif i == 1:  # Second layer (Dropout - no weights)
                             continue  # Skip dropout layer
                         elif i == 2:  # Third layer (Dense)
+                            # For the output layer, we need to copy weights but remove sigmoid
+                            # The weights are the same, just no sigmoid activation
                             functional_model.layers[3].set_weights(layer.get_weights())  # Skip input and dropout
                 
                 # Convert functional model to ONNX
@@ -421,17 +513,16 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
     class _Net(nn.Module):
         def __init__(self, input_dim: int, num_classes: int):
             super().__init__()
-            # Logging within _Net can be tricky, do it before instantiation
-            self.fc1 = nn.Linear(input_dim, 128)
-            self.relu = nn.ReLU()
-            self.dropout = nn.Dropout(0.5)
-            self.fc2 = nn.Linear(128, num_classes)
+            # Updated architecture based on user's code
+            self.net = nn.Sequential(
+                nn.Linear(input_dim, 256),
+                nn.ReLU(),
+                nn.Dropout(0.3),
+                nn.Linear(256, num_classes)
+            )
 
         def forward(self, x):
-            x = self.relu(self.fc1(x))
-            x = self.dropout(x)
-            x = self.fc2(x)
-            return x
+            return self.net(x)
 
     def __init__(
         self,
@@ -484,14 +575,16 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             f"PyTorchStrategy.train(): Starting training. Data shape: {X_train_dense.shape}, Model's first layer expects: {self.model.fc1.in_features if self.model else 'N/A'}, Strategy's self.input_dim: {self.input_dim}"
         )
 
-        if self.model.fc1.in_features != X_train_dense.shape[-1]:
+        # Check input dimensions for new architecture
+        model_input_dim = self.model.net[0].in_features
+        if model_input_dim != X_train_dense.shape[-1]:
             logger.error(
                 f"CRITICAL DIM MISMATCH DETECTED IN PyTorchStrategy.train(): "
-                f"Model expects {self.model.fc1.in_features} features, data has {X_train_dense.shape[-1]} features. "
+                f"Model expects {model_input_dim} features, data has {X_train_dense.shape[-1]} features. "
                 f"Strategy's self.input_dim is {self.input_dim}."
             )
             raise ValueError(
-                f"Dimension mismatch: Model expects {self.model.fc1.in_features}, Data has {X_train_dense.shape[-1]}"
+                f"Dimension mismatch: Model expects {model_input_dim}, Data has {X_train_dense.shape[-1]}"
             )
 
         X_tensor = torch.from_numpy(X_train_dense).float().to(self.device)
@@ -553,12 +646,35 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         probabilities = torch.sigmoid(outputs)  # Use sigmoid for multilabel
         return probabilities.cpu().numpy()
 
+    def save_model_vocab_and_scaler_pytorch(self):
+        """Save vocab as pickle and classes in scaler.json for PyTorch multilabel"""
+        # Save vocab as pickle (TF-IDF vectorizer)
+        vocab_path = f"{self.output_path}/vocab.pkl"
+        with open(vocab_path, "wb") as f:
+            pickle.dump(self.vocab, f)
+        logger.info(f"PyTorch vocab (vectorizer) saved to {vocab_path}")
+        
+        # Save classes in scaler.json format
+        scaler_path = f"{self.output_path}/scaler.json"
+        # If scaler contains class labels, save them
+        if hasattr(self, 'class_labels'):
+            scaler_data = {"classes": self.class_labels}
+        elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
+            scaler_data = {"classes": self.scaler['classes']}
+        else:
+            # Default classes if not available
+            scaler_data = {"classes": [f"class_{i}" for i in range(self.num_classes)]}
+            
+        with open(scaler_path, "w") as f:
+            json.dump(scaler_data, f)
+        logger.info(f"PyTorch classes saved to {scaler_path}")
+
     def save_model(self):
         if not self.model:
             raise ValueError("PyTorch Model not available for saving.")
         model_path = f"{self.output_path}/model.pth"
         torch.save(self.model.state_dict(), model_path)
-        self.save_model_vocab_and_scaler()
+        self.save_model_vocab_and_scaler_pytorch()
         self.export_to_onnx()
         logger.info(f"PyTorch model saved to {model_path}")
 
@@ -570,53 +686,97 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         self.build_model()
         model_path = f"{path_prefix}_pytorch_model.pth"
         self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+        
+        # Load vocab (TF-IDF vectorizer) from pickle
+        vocab_path = f"{path_prefix}_vocab.pkl"
+        try:
+            with open(vocab_path, "rb") as f:
+                self.vocab = pickle.load(f)
+            logger.info(f"PyTorch vocab (vectorizer) loaded from {vocab_path}")
+        except FileNotFoundError:
+            logger.warning(f"Vocab file not found: {vocab_path}")
+        
+        # Load classes from scaler.json
+        scaler_path = f"{path_prefix}_scaler.json"
+        try:
+            with open(scaler_path, "r") as f:
+                scaler_data = json.load(f)
+                if 'classes' in scaler_data:
+                    self.class_labels = scaler_data['classes']
+                    logger.info(f"PyTorch classes loaded from {scaler_path}: {self.class_labels}")
+        except FileNotFoundError:
+            logger.warning(f"Scaler file not found: {scaler_path}")
+        
+        # Check model dimensions
+        model_input_dim = self.model.net[0].in_features
         logger.info(
-            f"PyTorch model loaded from {model_path}. Model's fc1.in_features: {self.model.fc1.in_features}, Strategy input_dim {self.input_dim}"
+            f"PyTorch model loaded from {model_path}. Model input features: {model_input_dim}, Strategy input_dim {self.input_dim}"
         )
-        # Ensure loaded model's actual input dim matches strategy's, update strategy if there's discrepancy (shouldn't happen if saved correctly)
-        if self.model.fc1.in_features != self.input_dim:
+        # Ensure loaded model's actual input dim matches strategy's
+        if model_input_dim != self.input_dim:
             logger.warning(
-                f"Loaded PyTorch model input dim ({self.model.fc1.in_features}) mismatch with strategy's input_dim ({self.input_dim}). "
+                f"Loaded PyTorch model input dim ({model_input_dim}) mismatch with strategy's input_dim ({self.input_dim}). "
                 "Strategy's input_dim will be updated."
             )
-            self.input_dim = self.model.fc1.in_features
+            self.input_dim = model_input_dim
 
     def export_to_onnx(self):
         output_path = f"{self.output_path}/model.onnx"
-        X_sample = np.random.rand(1, self.input_dim).astype(np.float32)
         if not self.model:
             raise ValueError("PyTorch Model not available for ONNX export.")
-        logger.info(
-            f"Exporting PyTorch model to ONNX: {output_path}. Sample input shape: {X_sample.shape}, Strategy input_dim: {self.input_dim}, Model fc1.in_features: {self.model.fc1.in_features}"
-        )
-        if X_sample.shape[1] != self.input_dim:
-            logger.error(
-                f"ONNX X_sample dim ({X_sample.shape[1]}) differs from strategy input_dim ({self.input_dim}). This will likely fail."
-            )
-
-        self.model.eval()
-        if hasattr(X_sample, "toarray"):
-            X_sample_dense = X_sample.toarray()
-        else:
-            X_sample_dense = X_sample
-        dummy_input = torch.from_numpy(X_sample_dense).float().to(self.device)
-
-        onnx_export_model = nn.Sequential(self.model, nn.Softmax(dim=1)).to(self.device)
-        onnx_export_model.eval()
+        
+        logger.info(f"Exporting PyTorch multilabel model to ONNX: {output_path}")
+        
         try:
+            # Create dummy input
+            dummy_input = torch.randn(1, self.input_dim).to(self.device)
+            
+            self.model.eval()
+            
+            # Export model directly (without softmax for multilabel - will use sigmoid in inference)
             torch.onnx.export(
-                onnx_export_model,
+                self.model,
                 dummy_input,
                 output_path,
-                input_names=["float_input"],
+                input_names=["input"],
                 output_names=["output"],
-                opset_version=12,
-                dynamic_axes={
-                    "float_input": {0: "batch_size"},
-                    "output": {0: "batch_size"},
-                },
+                dynamic_axes={"input": {0: "batch_size"}, "output": {0: "batch_size"}},
+                opset_version=11
             )
-            logger.info(f"PyTorch model successfully exported to ONNX: {output_path}")
+            
+            # Verify export success by checking file size
+            file_size = Path(output_path).stat().st_size
+            if file_size > 1000:
+                logger.info(f"PyTorch multilabel model successfully exported to ONNX: {output_path} ({file_size} bytes)")
+            else:
+                logger.warning(f"ONNX export produced small file ({file_size} bytes)")
+                raise Exception("Export produced suspiciously small file")
+                
         except Exception as e:
-            logger.error(f"Failed to export PyTorch model to ONNX: {e}", exc_info=True)
-            raise
+            logger.error(f"Failed to export PyTorch multilabel model to ONNX: {e}")
+            # Try fallback with different settings
+            try:
+                logger.info("Trying PyTorch ONNX export with different settings...")
+                dummy_input = torch.randn(1, self.input_dim).to(self.device)
+                
+                torch.onnx.export(
+                    self.model,
+                    dummy_input,
+                    output_path,
+                    input_names=["float_input"],
+                    output_names=["output"],
+                    dynamic_axes={"float_input": {0: "batch_size"}, "output": {0: "batch_size"}},
+                    opset_version=12
+                )
+                
+                # Verify fallback export
+                file_size = Path(output_path).stat().st_size
+                if file_size > 1000:
+                    logger.info(f"PyTorch model exported to ONNX using fallback method: {output_path} ({file_size} bytes)")
+                else:
+                    logger.error(f"Fallback export also produced small file ({file_size} bytes)")
+                    raise Exception("Fallback export failed")
+                    
+            except Exception as e2:
+                logger.error(f"PyTorch ONNX export fallback also failed: {e2}")
+                raise
