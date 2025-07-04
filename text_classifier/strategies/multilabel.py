@@ -54,6 +54,12 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         self.output_path = output_path
         self.num_classes = num_classes
         self.input_dim = input_dim
+        
+        # Extract vectorizer from vocab if available
+        if isinstance(vocab, dict) and 'vectorizer' in vocab:
+            self.vectorizer = vocab['vectorizer']
+        else:
+            self.vectorizer = None
 
     def build_model(self):
         logger.info(
@@ -120,6 +126,14 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         model_path = f"{self.output_path}/model.joblib"
         joblib.dump(self.model, model_path)
         logger.info(f"Scikit-learn model saved to {model_path}")
+        
+        # Save the vectorizer object if available
+        if hasattr(self, 'vectorizer') and self.vectorizer is not None:
+            vocab_path = f"{self.output_path}/vocab.pkl"
+            with open(vocab_path, "wb") as f:
+                pickle.dump(self.vectorizer, f)
+            logger.info(f"Scikit-learn TF-IDF vectorizer object saved to {vocab_path}")
+        
         self.save_model_vocab_and_scaler()
         self.export_to_onnx()
 
@@ -184,6 +198,12 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         self.num_classes = num_classes
         self.input_dim = input_dim
         self.model = None  # Model will be built in build_model()
+        
+        # Extract vectorizer from vocab if available
+        if isinstance(vocab, dict) and 'vectorizer' in vocab:
+            self.vectorizer = vocab['vectorizer']
+        else:
+            self.vectorizer = None
 
     def build_model(self):
         logger.info(
@@ -272,11 +292,20 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
 
     def save_model_vocab_and_scaler_tensorflow(self):
         """Save vocab as pickle and classes in scaler.json for TensorFlow multilabel"""
-        # Save vocab as pickle (TF-IDF vectorizer)
+        # Save the actual TF-IDF vectorizer object (not just vocab dict)
         vocab_path = f"{self.output_path}/vocab.pkl"
         with open(vocab_path, "wb") as f:
-            pickle.dump(self.vocab, f)
-        logger.info(f"TensorFlow vocab (vectorizer) saved to {vocab_path}")
+            # If vocab contains the actual vectorizer object, save it
+            if hasattr(self, 'vectorizer') and self.vectorizer is not None:
+                pickle.dump(self.vectorizer, f)
+                logger.info(f"TensorFlow TF-IDF vectorizer object saved to {vocab_path}")
+            elif isinstance(self.vocab, dict) and 'vectorizer' in self.vocab:
+                pickle.dump(self.vocab['vectorizer'], f)
+                logger.info(f"TensorFlow TF-IDF vectorizer object saved to {vocab_path}")
+            else:
+                # Fallback: save the vocab dictionary
+                pickle.dump(self.vocab, f)
+                logger.info(f"TensorFlow vocab dictionary saved to {vocab_path}")
         
         # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
@@ -561,6 +590,12 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         self.num_classes = num_classes
         self.input_dim = input_dim
         self.model = None  # Model will be built in build_model()
+        
+        # Extract vectorizer from vocab if available
+        if isinstance(vocab, dict) and 'vectorizer' in vocab:
+            self.vectorizer = vocab['vectorizer']
+        else:
+            self.vectorizer = None
 
     def build_model(self):
         logger.info(
@@ -662,11 +697,20 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
 
     def save_model_vocab_and_scaler_pytorch(self):
         """Save vocab as pickle and classes in scaler.json for PyTorch multilabel"""
-        # Save vocab as pickle (TF-IDF vectorizer)
+        # Save the actual TF-IDF vectorizer object (not just vocab dict)
         vocab_path = f"{self.output_path}/vocab.pkl"
         with open(vocab_path, "wb") as f:
-            pickle.dump(self.vocab, f)
-        logger.info(f"PyTorch vocab (vectorizer) saved to {vocab_path}")
+            # If vocab contains the actual vectorizer object, save it
+            if hasattr(self, 'vectorizer') and self.vectorizer is not None:
+                pickle.dump(self.vectorizer, f)
+                logger.info(f"PyTorch TF-IDF vectorizer object saved to {vocab_path}")
+            elif isinstance(self.vocab, dict) and 'vectorizer' in self.vocab:
+                pickle.dump(self.vocab['vectorizer'], f)
+                logger.info(f"PyTorch TF-IDF vectorizer object saved to {vocab_path}")
+            else:
+                # Fallback: save the vocab dictionary
+                pickle.dump(self.vocab, f)
+                logger.info(f"PyTorch vocab dictionary saved to {vocab_path}")
         
         # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"

@@ -145,8 +145,6 @@ class TextClassifierRunner:
 
         return X_train_text, X_test_text, y_train, y_test, {}, {}, 0
 
-    import numpy as np
-
     def preprocess_multilabel_data(
         self,
     ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, dict, dict, int]:
@@ -203,12 +201,13 @@ class TextClassifierRunner:
         mean = X_train.mean(axis=0)
         scale = X_train.std(axis=0) + 1e-8  # Avoid division by zero
 
-        # Prepare vocab and scaler data
+        # Prepare vocab and scaler data - include the actual vectorizer object
         vocab_data = {
             "vocab": {
                 str(word): int(idx) for word, idx in vectorizer.vocabulary_.items()
             },
             "idf": [float(x) for x in vectorizer.idf_.tolist()],
+            "vectorizer": vectorizer,  # Add the actual vectorizer object
         }
         scaler_data = {
             "mean": [float(x) for x in mean],
