@@ -134,13 +134,33 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
                 pickle.dump(self.vectorizer, f)
             logger.info(f"Scikit-learn TF-IDF vectorizer object saved to {vocab_path}")
         
-        # Save scaler data as JSON (without the vectorizer)
+        # Save only the base classes in scaler.json format
         scaler_path = f"{self.output_path}/scaler.json"
-        # Create a clean scaler dict without the vectorizer
-        clean_scaler = {k: v for k, v in self.scaler.items() if k != 'vectorizer'}
+        
+        # Extract only the first num_classes labels from scaler data
+        if isinstance(self.scaler, dict):
+            # Extract only the base labels (first num_classes entries)
+            # Filter out non-label keys like 'mean', 'scale', 'vectorizer'
+            label_keys = [k for k in self.scaler.keys() if k.isdigit()]
+            if label_keys:
+                # Sort by numeric index and take only first num_classes
+                sorted_keys = sorted(label_keys, key=int)
+                # Take only the first num_classes labels
+                base_labels = sorted_keys[:self.num_classes]
+                class_names = [self.scaler[k] for k in base_labels]
+            else:
+                # Default classes if not available
+                class_names = [f"class_{i}" for i in range(self.num_classes)]
+        else:
+            # Default classes if not available
+            class_names = [f"class_{i}" for i in range(self.num_classes)]
+        
+        # Convert to dictionary format with string indices: {"0": "cucumber", "1": "garlic", ...}
+        scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
+        
         with open(scaler_path, "w") as f:
-            json.dump(clean_scaler, f)
-        logger.info(f"Scikit-learn scaler saved to {scaler_path}")
+            json.dump(scaler_data, f)
+        logger.info(f"Scikit-learn classes saved to {scaler_path}")
         
         self.export_to_onnx()
 
@@ -317,19 +337,17 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
         
-        # Extract actual class labels from scaler data
-        if hasattr(self, 'class_labels'):
-            class_names = self.class_labels
-        elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
-            class_names = self.scaler['classes']
-        elif isinstance(self.scaler, dict):
-            # Extract labels from scaler data like {"0": "cucumber", "1": "garlic", ...}
+        # Extract only the first num_classes labels from scaler data
+        if isinstance(self.scaler, dict):
+            # Extract only the base labels (first num_classes entries)
             # Filter out non-label keys like 'mean', 'scale'
             label_keys = [k for k in self.scaler.keys() if k.isdigit()]
             if label_keys:
-                # Sort by numeric index to maintain order
+                # Sort by numeric index and take only first num_classes
                 sorted_keys = sorted(label_keys, key=int)
-                class_names = [self.scaler[k] for k in sorted_keys]
+                # Take only the first num_classes labels
+                base_labels = sorted_keys[:self.num_classes]
+                class_names = [self.scaler[k] for k in base_labels]
             else:
                 # Default classes if not available
                 class_names = [f"class_{i}" for i in range(self.num_classes)]
@@ -734,19 +752,17 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
         
-        # Extract actual class labels from scaler data
-        if hasattr(self, 'class_labels'):
-            class_names = self.class_labels
-        elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
-            class_names = self.scaler['classes']
-        elif isinstance(self.scaler, dict):
-            # Extract labels from scaler data like {"0": "cucumber", "1": "garlic", ...}
+        # Extract only the first num_classes labels from scaler data
+        if isinstance(self.scaler, dict):
+            # Extract only the base labels (first num_classes entries)
             # Filter out non-label keys like 'mean', 'scale'
             label_keys = [k for k in self.scaler.keys() if k.isdigit()]
             if label_keys:
-                # Sort by numeric index to maintain order
+                # Sort by numeric index and take only first num_classes
                 sorted_keys = sorted(label_keys, key=int)
-                class_names = [self.scaler[k] for k in sorted_keys]
+                # Take only the first num_classes labels
+                base_labels = sorted_keys[:self.num_classes]
+                class_names = [self.scaler[k] for k in base_labels]
             else:
                 # Default classes if not available
                 class_names = [f"class_{i}" for i in range(self.num_classes)]
