@@ -621,7 +621,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             X_train_dense = X_train
 
         logger.info(
-            f"PyTorchStrategy.train(): Starting training. Data shape: {X_train_dense.shape}, Model's first layer expects: {self.model.fc1.in_features if self.model else 'N/A'}, Strategy's self.input_dim: {self.input_dim}"
+            f"PyTorchStrategy.train(): Starting training. Data shape: {X_train_dense.shape}, Model's first layer expects: {self.model.net[0].in_features if self.model else 'N/A'}, Strategy's self.input_dim: {self.input_dim}"
         )
 
         # Check input dimensions for new architecture
