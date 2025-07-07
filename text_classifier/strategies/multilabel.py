@@ -316,16 +316,28 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         
         # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
-        # If scaler contains class labels, save them
+        
+        # Extract actual class labels from scaler data
         if hasattr(self, 'class_labels'):
             class_names = self.class_labels
         elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
             class_names = self.scaler['classes']
+        elif isinstance(self.scaler, dict):
+            # Extract labels from scaler data like {"0": "cucumber", "1": "garlic", ...}
+            # Filter out non-label keys like 'mean', 'scale'
+            label_keys = [k for k in self.scaler.keys() if k.isdigit()]
+            if label_keys:
+                # Sort by numeric index to maintain order
+                sorted_keys = sorted(label_keys, key=int)
+                class_names = [self.scaler[k] for k in sorted_keys]
+            else:
+                # Default classes if not available
+                class_names = [f"class_{i}" for i in range(self.num_classes)]
         else:
             # Default classes if not available
             class_names = [f"class_{i}" for i in range(self.num_classes)]
         
-        # Convert to dictionary format with string indices: {"0": "Business", "1": "Health", ...}
+        # Convert to dictionary format with string indices: {"0": "cucumber", "1": "garlic", ...}
         scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
             
         with open(scaler_path, "w") as f:
@@ -721,16 +733,28 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         
         # Save classes in scaler.json format as dictionary with string indices
         scaler_path = f"{self.output_path}/scaler.json"
-        # If scaler contains class labels, save them
+        
+        # Extract actual class labels from scaler data
         if hasattr(self, 'class_labels'):
             class_names = self.class_labels
         elif isinstance(self.scaler, dict) and 'classes' in self.scaler:
             class_names = self.scaler['classes']
+        elif isinstance(self.scaler, dict):
+            # Extract labels from scaler data like {"0": "cucumber", "1": "garlic", ...}
+            # Filter out non-label keys like 'mean', 'scale'
+            label_keys = [k for k in self.scaler.keys() if k.isdigit()]
+            if label_keys:
+                # Sort by numeric index to maintain order
+                sorted_keys = sorted(label_keys, key=int)
+                class_names = [self.scaler[k] for k in sorted_keys]
+            else:
+                # Default classes if not available
+                class_names = [f"class_{i}" for i in range(self.num_classes)]
         else:
             # Default classes if not available
             class_names = [f"class_{i}" for i in range(self.num_classes)]
         
-        # Convert to dictionary format with string indices: {"0": "Business", "1": "Health", ...}
+        # Convert to dictionary format with string indices: {"0": "cucumber", "1": "garlic", ...}
         scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
             
         with open(scaler_path, "w") as f:
