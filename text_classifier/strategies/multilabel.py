@@ -134,7 +134,14 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
                 pickle.dump(self.vectorizer, f)
             logger.info(f"Scikit-learn TF-IDF vectorizer object saved to {vocab_path}")
         
-        self.save_model_vocab_and_scaler()
+        # Save scaler data as JSON (without the vectorizer)
+        scaler_path = f"{self.output_path}/scaler.json"
+        # Create a clean scaler dict without the vectorizer
+        clean_scaler = {k: v for k, v in self.scaler.items() if k != 'vectorizer'}
+        with open(scaler_path, "w") as f:
+            json.dump(clean_scaler, f)
+        logger.info(f"Scikit-learn scaler saved to {scaler_path}")
+        
         self.export_to_onnx()
 
     def load(self, path_prefix: str):
