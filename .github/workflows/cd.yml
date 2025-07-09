@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }} # e.g., <username>/<repo>
+  IMAGE_NAME: ${{ github.repository }} 
 
 jobs:
   build-and-push:

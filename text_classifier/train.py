@@ -7,33 +7,33 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 try:
-    from text_classifier.strategies.binary import (  # Assuming binary strategies are in binary_strategies.py
+    from text_classifier.strategies.binary import (  
         TensorFlowStrategyBinary,
         PyTorchStrategyBinary,
         ScikitLearnStrategyBinary,
     )
-    from text_classifier.strategies.multiclass import (  # Assuming multiclass strategies are in multiclass_strategies.py
+    from text_classifier.strategies.multiclass import (  
         PyTorchLSTMStrategy,
         TensorFlowLSTMStrategy,
         ScikitLearnTFIDFStrategy,
     )
-    from text_classifier.strategies.multilabel import (  # Assuming multilabel strategies are in multilabel_strategies.py
+    from text_classifier.strategies.multilabel import (  
         TensorFlowStrategyMultiLabel,
         PyTorchStrategyMultiLabel,
         ScikitLearnStrategyMultiLabel,
     )
-except ModuleNotFoundError:  # Handle if running script directly from its dir
-    from strategies.binary import (  # Assuming binary strategies are in binary_strategies.py
+except ModuleNotFoundError:  
+    from strategies.binary import (  
         TensorFlowStrategyBinary,
         PyTorchStrategyBinary,
         ScikitLearnStrategyBinary,
     )
-    from strategies.multiclass import (  # Assuming multiclass strategies are in multiclass_strategies.py
+    from strategies.multiclass import (  
         PyTorchLSTMStrategy,
         TensorFlowLSTMStrategy,
         ScikitLearnTFIDFStrategy,
     )
-    from strategies.multilabel import (  # Assuming multilabel strategies are in multilabel_strategies.py
+    from strategies.multilabel import (     
         TensorFlowStrategyMultiLabel,
         PyTorchStrategyMultiLabel,
         ScikitLearnStrategyMultiLabel,
@@ -95,11 +95,11 @@ class TextClassifierRunner:
         X_test = vectorizer.transform(X_test_text).toarray()
 
         actual_features = len(vectorizer.vocabulary_)
-        # Compute scaler parameters
+        
         mean = X_train.mean(axis=0)
-        scale = X_train.std(axis=0) + 1e-8  # Avoid division by zero
+        scale = X_train.std(axis=0) + 1e-8  
 
-        # Prepare vocab and scaler data
+        
         vocab_data = {
             "vocab": {
                 str(word): int(idx) for word, idx in vectorizer.vocabulary_.items()
@@ -125,7 +125,7 @@ class TextClassifierRunner:
                 - tokenizer_data: Dictionary with tokenizer word index or TF-IDF vocabulary.
                 - scaler_data: Dictionary with label mapping.
         """
-        # Load CSV files
+        
         train_df = pd.read_csv(self.train_path, on_bad_lines="skip").dropna(
             subset=["text", "label"]
         )
@@ -133,11 +133,11 @@ class TextClassifierRunner:
             subset=["text", "label"]
         )
 
-        # Filter by allowed labels
+        
         train_df = train_df[train_df["label"].isin(self.labels)]
         test_df = test_df[test_df["label"].isin(self.labels)]
 
-        # Extract text and labels
+        
         X_train_text = train_df["text"].values
         X_test_text = test_df["text"].values
         y_train = train_df["label"].values
@@ -157,7 +157,7 @@ class TextClassifierRunner:
                 - vocab_data: Dictionary with TF-IDF vocabulary and IDF values.
                 - scaler_data: Dictionary with mean, scale, and label mapping.
         """
-        # Load CSV files
+        
         train_df = pd.read_csv(self.train_path, on_bad_lines="skip").dropna(
             subset=["text", "label"]
         )
@@ -165,7 +165,7 @@ class TextClassifierRunner:
             subset=["text", "label"]
         )
 
-        # Parse comma-separated labels into binary matrix
+        
         def parse_labels(label_str: str, allowed_labels: List[str]) -> np.ndarray:
             label_list = [l.strip() for l in label_str.split(",") if l.strip()]
             return np.array(
@@ -173,7 +173,7 @@ class TextClassifierRunner:
                 dtype=np.float32,
             )
 
-        # Apply label parsing
+        
         y_train = np.array(
             [parse_labels(label, self.labels) for label in train_df["label"]]
         )
@@ -181,14 +181,12 @@ class TextClassifierRunner:
             [parse_labels(label, self.labels) for label in test_df["label"]]
         )
 
-        # Keep multi-hot encoding for multilabel classification
-        # Do NOT use argmax as it destroys the multilabel nature!
+          
 
-        # Extract text
+     
         X_train_text = train_df["text"].values
         X_test_text = test_df["text"].values
-
-        # Compute TF-IDF features
+        
         vectorizer = TfidfVectorizer(max_features=DEFAULT_MAX_FEATURES)
 
         self.vectorizer = vectorizer
@@ -197,17 +195,17 @@ class TextClassifierRunner:
 
         actual_features = len(vectorizer.vocabulary_)
 
-        # Compute scaler parameters
+   
         mean = X_train.mean(axis=0)
-        scale = X_train.std(axis=0) + 1e-8  # Avoid division by zero
+        scale = X_train.std(axis=0) + 1e-8  
 
-        # Prepare vocab and scaler data - include the actual vectorizer object
+        
         vocab_data = {
             "vocab": {
                 str(word): int(idx) for word, idx in vectorizer.vocabulary_.items()
             },
             "idf": [float(x) for x in vectorizer.idf_.tolist()],
-            "vectorizer": vectorizer,  # Add the actual vectorizer object
+            "vectorizer": vectorizer,  
         }
         scaler_data = {
             "mean": [float(x) for x in mean],
@@ -265,7 +263,7 @@ class TextClassifierRunner:
                 "data_type must be 'binary', 'multiclass', or 'multilabel'"
             )
 
-        # Preprocess data based on model type
+        
         if self.data_type == "binary":
             X_train, X_test, y_train, y_test, vocab_data, scaler_data, input_dim = (
                 self.preprocess_binary_data()
@@ -274,7 +272,7 @@ class TextClassifierRunner:
             X_train, X_test, y_train, y_test, vocab_data, scaler_data, input_dim = (
                 self.preprocess_multiclass_data()
             )
-        else:  # multilabel
+        else:  
             X_train, X_test, y_train, y_test, vocab_data, scaler_data, input_dim = (
                 self.preprocess_multilabel_data()
             )
@@ -310,25 +308,25 @@ class TextClassifierRunner:
         if not inputs:
             return []
 
-        # Preprocess inputs based on the strategy type
+        
         if self.data_type == "binary" or self.data_type == "multilabel":
-            # Use TF-IDF preprocessing for binary and multilabel strategies
+           
             X_inputs = self.vectorizer.transform(inputs).toarray()
         elif self.data_type == "multiclass":
-            # Use tokenized sequences for multiclass strategies
+           
             strategy = self.strategy
             if isinstance(strategy, (PyTorchLSTMStrategy, TensorFlowLSTMStrategy)):
-                # Use the strategy's tokenizer and parameters
+               
                 sequences = strategy.tokenizer.texts_to_sequences(inputs)
                 X_inputs = pad_sequences(sequences, maxlen=strategy.max_len, padding="post")
                 return strategy.predict(X_inputs if isinstance(strategy, TensorFlowLSTMStrategy) else inputs)
             elif isinstance(strategy, ScikitLearnTFIDFStrategy):
-                # Scikit-learn expects raw text
+                
                 return strategy.predict(np.array(inputs))
         else:
             raise ValueError(f"Unsupported data type: {self.data_type}")
 
-        # Call the strategy's predict method
+        
         predictions = self.strategy.predict(X_inputs)
 
         return predictions

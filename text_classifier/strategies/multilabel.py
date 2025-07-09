@@ -56,7 +56,7 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         self.num_classes = num_classes
         self.input_dim = input_dim
         
-        # Extract vectorizer from vocab if available
+        
         if isinstance(vocab, dict) and 'vectorizer' in vocab:
             self.vectorizer = vocab['vectorizer']
         else:
@@ -76,19 +76,19 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         y_pred = self.model.predict(X_train)
         y_proba = self.model.predict_proba(X_train)
         
-        # For multilabel classification, calculate accuracy differently
+       
         if len(y_train.shape) > 1 and y_train.shape[1] > 1:
-            # Multilabel accuracy: average accuracy across all labels
+           
             accuracy = ((y_pred == y_train).mean())
         else:
             accuracy = accuracy_score(y_train, y_pred)
         
         try:
-            # For multilabel, log_loss calculation is different
+           
             if len(y_train.shape) > 1 and y_train.shape[1] > 1:
-                # Convert list of arrays to proper format for multilabel log_loss
+               
                 if isinstance(y_proba, list):
-                    # MultiOutputClassifier returns list of arrays
+                  
                     loss = 0.0
                     for i in range(len(y_proba)):
                         loss += log_loss(y_train[:, i], y_proba[i][:, 1])
@@ -112,13 +112,13 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         predictions = self.model.predict(X)
-        # For multilabel, predict_proba returns probabilities
+        
         proba = self.model.predict_proba(X)
         if isinstance(proba, list):
-            # MultiOutputClassifier returns list of arrays, convert to proper format
+            
             result = np.zeros((X.shape[0], len(proba)))
             for i, prob_array in enumerate(proba):
-                result[:, i] = prob_array[:, 1]  # Take positive class probability
+                result[:, i] = prob_array[:, 1] 
             return result
         else:
             return proba
@@ -128,7 +128,7 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         joblib.dump(self.model, model_path)
         logger.info(f"Scikit-learn model saved to {model_path}")
         
-        # Save TF-IDF vectorizer data as JSON
+       
         if hasattr(self, 'vectorizer') and self.vectorizer is not None:
             vectorizer_data = {
                 'vocabulary': {word: int(idx) for word, idx in self.vectorizer.vocabulary_.items()},
@@ -141,28 +141,27 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
                 json.dump(vectorizer_data, f, indent=2)
             logger.info(f"Scikit-learn TF-IDF vectorizer data saved to {vocab_path}")
         
-        # Save only the base classes in scaler.json format
+        
         scaler_path = f"{self.output_path}/scaler.json"
         
-        # Extract only the first num_classes labels from scaler data
+       
         if isinstance(self.scaler, dict):
-            # Extract only the base labels (first num_classes entries)
-            # Filter out non-label keys like 'mean', 'scale', 'vectorizer'
+            
             label_keys = [k for k in self.scaler.keys() if k.isdigit()]
             if label_keys:
-                # Sort by numeric index and take only first num_classes
+              
                 sorted_keys = sorted(label_keys, key=int)
-                # Take only the first num_classes labels
+               
                 base_labels = sorted_keys[:self.num_classes]
                 class_names = [self.scaler[k] for k in base_labels]
             else:
-                # Default classes if not available
+                
                 class_names = [f"class_{i}" for i in range(self.num_classes)]
         else:
-            # Default classes if not available
+           
             class_names = [f"class_{i}" for i in range(self.num_classes)]
         
-        # Convert to dictionary format with string indices: {"0": "cucumber", "1": "garlic", ...}
+       
         scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
         
         with open(scaler_path, "w") as f:
@@ -178,13 +177,13 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
             f"Scikit-learn model loaded from {model_path}. Strategy input_dim: {self.input_dim}"
         )
         
-        # Load TF-IDF vectorizer data from JSON and reconstruct vectorizer
+        
         vocab_path = f"{path_prefix}_vocab.json"
         try:
             with open(vocab_path, 'r') as f:
                 vectorizer_data = json.load(f)
             
-            # Reconstruct TF-IDF vectorizer
+            
             self.vectorizer = TfidfVectorizer(max_features=vectorizer_data['max_features'])
             self.vectorizer.vocabulary_ = vectorizer_data['vocabulary']
             self.vectorizer.idf_ = np.array(vectorizer_data['idf'])
@@ -201,7 +200,7 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
         output_path = f"{self.output_path}/model.onnx"
         X_sample = np.random.rand(1, self.input_dim).astype(
             np.float32
-        )  # Sample input for ONNX export
+        )  
         if self.model is None:
             raise ValueError("Scikit-learn model is not trained or loaded yet.")
         logger.info(
@@ -213,7 +212,7 @@ class ScikitLearnStrategyMultiLabel(TextClassifierStrategy):
             )
         initial_type = [
             ("float_input", FloatTensorType([None, self.input_dim]))
-        ]  # Use strategy's actual input_dim
+        ] 
         options = {id(self.model): {"zipmap": False}}
         try:
             onnx_model = convert_sklearn(
@@ -244,27 +243,27 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         if not TENSORFLOW_AVAILABLE:
             raise ImportError("TensorFlow is not installed.")
         
-        # Set random seeds for reproducibility
+       
         tf.random.set_seed(42)
         np.random.seed(42)
         
-        self.epochs = 10  # Increased for better convergence
+        self.epochs = 10  
         self.batch_size = 32
         self.vocab = vocab
         self.scaler = scaler
         self.output_path = output_path
         self.num_classes = num_classes
         self.input_dim = input_dim
-        self.model = None  # Model will be built in build_model()
-        self.history = None  # Store training history
+        self.model = None  
+        self.history = None  
         
-        # Extract vectorizer from vocab if available
+       
         if isinstance(vocab, dict) and 'vectorizer' in vocab:
             self.vectorizer = vocab['vectorizer']
         else:
             self.vectorizer = None
         
-        # Try to import tf2onnx for ONNX export
+       
         try:
             import tf2onnx
             self.ONNX_AVAILABLE = True
@@ -286,13 +285,13 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             tf.keras.layers.Dense(256, activation='relu'),
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.Dropout(0.3),
-            tf.keras.layers.Dense(self.num_classes, activation='sigmoid')  # Sigmoid for multi-label
+            tf.keras.layers.Dense(self.num_classes, activation='sigmoid') 
         ])
         
-        # Compile model with optimized settings for sigmoid training
+        
         self.model.compile(
             optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
-            loss='binary_crossentropy',  # Binary crossentropy for multi-label
+            loss='binary_crossentropy',  
             metrics=['binary_accuracy', 'precision', 'recall']
         )
         
@@ -329,13 +328,13 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                 f"Dimension mismatch: Model expects {self.model.input_shape[-1]}, Data has {X_train_dense.shape[-1]}"
             )
 
-        # Split data for validation
+       
         from sklearn.model_selection import train_test_split
         X_train_split, X_val, y_train_split, y_val = train_test_split(
             X_train_dense, y_train, test_size=0.2, random_state=42
         )
 
-        # Create callbacks for better training
+       
         early_stopping = tf.keras.callbacks.EarlyStopping(
             monitor='val_loss',
             patience=10,
@@ -351,7 +350,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             verbose=1
         )
 
-        # Model checkpoint to save best model
+       
         checkpoint = tf.keras.callbacks.ModelCheckpoint(
             filepath=f"{self.output_path}/best_model_tf.keras",
             monitor='val_loss',
@@ -359,7 +358,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             verbose=1
         )
 
-        # Train model with enhanced settings
+        
         self.history = self.model.fit(
             X_train_split, y_train_split,
             validation_data=(X_val, y_val),
@@ -369,14 +368,14 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             verbose=1
         )
 
-        # Evaluate model
+        
         eval_results = self.model.evaluate(X_val, y_val, verbose=0)
         val_loss = eval_results[0]
         val_binary_accuracy = eval_results[1]
         val_precision = eval_results[2]
         val_recall = eval_results[3]
 
-        # Calculate F1 score
+        
         val_f1 = 2 * (val_precision * val_recall) / (val_precision + val_recall) if (val_precision + val_recall) > 0 else 0
 
         logger.info(f"Validation Loss: {val_loss:.4f}")
@@ -385,7 +384,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         logger.info(f"Validation Recall: {val_recall:.4f}")
         logger.info(f"Validation F1 Score: {val_f1:.4f}")
 
-        # Prepare metrics for return
+       
         metrics = {
             'val_loss': float(val_loss),
             'val_binary_accuracy': float(val_binary_accuracy),
@@ -394,7 +393,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             'val_f1_score': float(val_f1)
         }
 
-        # Add training history
+       
         if self.history:
             history_metrics = {
                 k: [float(val) for val in v] if isinstance(v, list) else float(v)
@@ -421,7 +420,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
 
     def save_model_vocab_and_scaler_tensorflow(self):
         """Save vocab as JSON and classes in scaler.json for TensorFlow multilabel"""
-        # Save TF-IDF vectorizer data as JSON
+        
         if hasattr(self, 'vectorizer') and self.vectorizer is not None:
             vectorizer_data = {
                 'vocabulary': {word: int(idx) for word, idx in self.vectorizer.vocabulary_.items()},
@@ -448,34 +447,34 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         else:
             logger.warning("TensorFlow: No vectorizer available to save")
         
-        # Save classes in scaler.json format as dictionary with string indices
+        
         scaler_path = f"{self.output_path}/scaler.json"
         
-        # Extract only the first num_classes labels from scaler data
+       
         if isinstance(self.scaler, dict):
-            # Extract only the base labels (first num_classes entries)
+           
             label_keys = [k for k in self.scaler.keys() if k.isdigit()]
             if label_keys:
-                # Sort by numeric index and take only first num_classes
+               
                 sorted_keys = sorted(label_keys, key=int)
-                # Take only the first num_classes labels
+                
                 base_labels = sorted_keys[:self.num_classes]
                 class_names = [self.scaler[k] for k in base_labels]
             else:
-                # Default classes if not available
+               
                 class_names = [f"class_{i}" for i in range(self.num_classes)]
         else:
-            # Default classes if not available
+            
             class_names = [f"class_{i}" for i in range(self.num_classes)]
         
-        # Convert to dictionary format with string indices: {"0": "cucumber", "1": "garlic", ...}
+       
         scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
         
         with open(scaler_path, "w") as f:
             json.dump(scaler_data, f, indent=2)
         logger.info(f"TensorFlow classes saved to {scaler_path}")
 
-        # Save training history if available
+       
         if self.history:
             history_dict = {
                 'loss': self.history.history['loss'],
@@ -496,28 +495,28 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         if not self.model:
             raise ValueError("TF Model not available for saving.")
         
-        # Save TensorFlow model in native Keras format
+       
         keras_model_path = f"{self.output_path}/model.keras"
         self.model.save(keras_model_path)
         logger.info(f"TensorFlow model saved as {keras_model_path}")
 
-        # Save vocabulary and scaler data
+       
         self.save_model_vocab_and_scaler_tensorflow()
         
-        # Export to ONNX
+       
         self.export_to_onnx()
 
     def load(self, path_prefix: str):
         model_path = f"{path_prefix}_model.keras"
         self.model = tf.keras.models.load_model(model_path)
         
-        # Load TF-IDF vectorizer data from JSON and reconstruct vectorizer
+       
         vocab_path = f"{path_prefix}_vocab.json"
         try:
             with open(vocab_path, 'r') as f:
                 vectorizer_data = json.load(f)
             
-            # Reconstruct TF-IDF vectorizer
+           
             self.vectorizer = TfidfVectorizer(max_features=vectorizer_data['max_features'])
             self.vectorizer.vocabulary_ = vectorizer_data['vocabulary']
             self.vectorizer.idf_ = np.array(vectorizer_data['idf'])
@@ -530,19 +529,18 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             logger.warning(f"Error loading vectorizer data: {e}")
             self.vectorizer = None
         
-        # Load classes from scaler.json file
+       
         scaler_path = f"{path_prefix}_scaler.json"
         try:
             with open(scaler_path, 'r') as f:
                 scaler_data = json.load(f)
                 
-                # Handle both old and new formats
+             
                 if isinstance(scaler_data, dict) and all(key.isdigit() for key in scaler_data.keys()):
-                    # New format: {"0": "Business", "1": "Health", ...}
-                    # Convert to list ordered by index
+                  
                     self.class_labels = [scaler_data[str(i)] for i in range(len(scaler_data))]
                 else:
-                    # Old format or list format
+                   
                     self.class_labels = scaler_data
                 
                 logger.info(f"TensorFlow classes loaded from {scaler_path}: {self.class_labels}")
@@ -550,7 +548,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             logger.warning(f"Classes file not found at {scaler_path}")
             self.class_labels = []
         
-        # Update input_dim to match loaded model
+       
         logger.info(
             f"TensorFlow model loaded from {model_path}. Strategy's self.input_dim: {self.input_dim}. "
             f"Loaded model's input_shape: {self.model.input_shape}"
@@ -575,7 +573,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
         logger.info(f"Converting TensorFlow model to ONNX: {output_path}")
         
         try:
-            # Create temporary SavedModel for ONNX conversion
+            
             import tempfile
             import shutil
             
@@ -583,7 +581,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                 savedmodel_path = f"{temp_dir}/temp_savedmodel"
                 self.model.export(savedmodel_path)
                 
-                # Use tf2onnx command line tool which is more reliable
+               
                 import subprocess
                 result = subprocess.run([
                     "python", "-m", "tf2onnx.convert",
@@ -596,11 +594,11 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                     file_size = Path(output_path).stat().st_size
                     logger.info(f"ONNX model saved as {output_path} ({file_size} bytes)")
                     
-                    # Test ONNX model if onnxruntime is available
+                   
                     try:
                         import onnxruntime as ort
                         
-                        # Load ONNX session
+                        
                         onnx_session = ort.InferenceSession(output_path)
                         onnx_input_name = onnx_session.get_inputs()[0].name
                         onnx_output_name = onnx_session.get_outputs()[0].name
@@ -608,7 +606,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
                         logger.info(f"ONNX Input name: {onnx_input_name}")
                         logger.info(f"ONNX Output name: {onnx_output_name}")
                         
-                        # Save ONNX model info
+                    
                         onnx_info = {
                             'input_name': onnx_input_name,
                             'output_name': onnx_output_name,
@@ -652,7 +650,7 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             Returns:
                 List of dictionaries with predictions for each text
             """
-            # Set default paths if not provided
+           
             if model_path is None:
                 model_path = f"{self.output_path}/model.keras"
             if vectorizer_path is None:
@@ -660,14 +658,14 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             if classes_path is None:
                 classes_path = f"{self.output_path}/scaler.json"
             
-            # Load components
+          
             model = tf.keras.models.load_model(model_path)
             
-            # Load vectorizer data from JSON and reconstruct TF-IDF vectorizer
+          
             with open(vectorizer_path, 'r') as f:
                 vectorizer_data = json.load(f)
             
-            # Reconstruct TF-IDF vectorizer
+           
             vectorizer = TfidfVectorizer(max_features=vectorizer_data['max_features'])
             vectorizer.vocabulary_ = vectorizer_data['vocabulary']
             vectorizer.idf_ = np.array(vectorizer_data['idf'])
@@ -675,22 +673,21 @@ class TensorFlowStrategyMultiLabel(TextClassifierStrategy):
             with open(classes_path, 'r') as f:
                 classes_data = json.load(f)
             
-            # Handle both old and new formats
+            
             if isinstance(classes_data, dict) and all(key.isdigit() for key in classes_data.keys()):
-                # New format: {"0": "Business", "1": "Health", ...}
-                # Convert to list ordered by index
+               
                 classes = [classes_data[str(i)] for i in range(len(classes_data))]
             else:
-                # Old format or list format
+              
                 classes = classes_data
             
-            # Transform texts
+           
             X = vectorizer.transform(texts).toarray()
             
-            # Predict (model outputs probabilities with sigmoid)
+           
             predictions = model.predict(X, verbose=0)
             
-            # Format results
+           
             results = []
             for i, text in enumerate(texts):
                 result = {
@@ -709,7 +706,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
     class _Net(nn.Module):
         def __init__(self, input_dim: int, num_classes: int):
             super().__init__()
-            # Enhanced architecture with sigmoid output for multilabel
+          
             self.net = nn.Sequential(
                 nn.Linear(input_dim, 512),
                 nn.ReLU(),
@@ -718,7 +715,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
                 nn.ReLU(),
                 nn.Dropout(0.3),
                 nn.Linear(256, num_classes),
-                nn.Sigmoid()  # Output probabilities directly
+                nn.Sigmoid() 
             )
 
         def forward(self, x):
@@ -737,14 +734,14 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         if not PYTORCH_AVAILABLE:
             raise ImportError("PyTorch is not installed.")
         
-        # Set random seeds for reproducibility
+       
         torch.manual_seed(42)
         np.random.seed(42)
         
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         logger.info(f"PyTorch using device: {self.device}")
         
-        self.epochs = 50  # Increased for better convergence
+        self.epochs = 50  
         self.batch_size = 32
         self.lr = 1e-3
         self.vocab = vocab
@@ -752,10 +749,10 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         self.output_path = output_path
         self.num_classes = num_classes
         self.input_dim = input_dim
-        self.model = None  # Model will be built in build_model()
-        self.history = None  # Store training history
+        self.model = None 
+        self.history = None  
         
-        # Extract vectorizer from vocab if available
+       
         if isinstance(vocab, dict) and 'vectorizer' in vocab:
             self.vectorizer = vocab['vectorizer']
         else:
@@ -787,7 +784,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         with torch.no_grad():
             for batch_X, batch_y in val_loader:
                 batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
-                probs = self.model(batch_X)  # Model outputs probabilities directly
+                probs = self.model(batch_X)  
                 loss = criterion(probs, batch_y)
                 total_loss += loss.item()
                 
@@ -817,7 +814,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             f"Strategy's self.input_dim: {self.input_dim}"
         )
 
-        # Check input dimensions
+       
         model_input_dim = self.model.net[0].in_features
         if model_input_dim != X_train_dense.shape[-1]:
             logger.error(
@@ -828,19 +825,19 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
                 f"Dimension mismatch: Model expects {model_input_dim}, Data has {X_train_dense.shape[-1]}"
             )
 
-        # Train/validation split
+        
         from sklearn.model_selection import train_test_split
         X_train_split, X_val, y_train_split, y_val = train_test_split(
             X_train_dense, y_train, test_size=0.2, random_state=42
         )
 
-        # Convert to PyTorch tensors
+    
         X_train_tensor = torch.tensor(X_train_split, dtype=torch.float32)
         y_train_tensor = torch.tensor(y_train_split, dtype=torch.float32)
         X_val_tensor = torch.tensor(X_val, dtype=torch.float32)
         y_val_tensor = torch.tensor(y_val, dtype=torch.float32)
 
-        # Create datasets and dataloaders
+       
         train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
         val_dataset = TensorDataset(X_val_tensor, y_val_tensor)
         train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
@@ -849,17 +846,17 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         logger.info(f"Train batches: {len(train_loader)}")
         logger.info(f"Validation batches: {len(val_loader)}")
 
-        # Training setup
-        criterion = nn.BCELoss()  # Use BCELoss since model outputs probabilities
+       
+        criterion = nn.BCELoss()  
         optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         
-        # Early stopping parameters
+        
         best_val_loss = float('inf')
         patience = 10
         patience_counter = 0
         threshold = 0.5
 
-        # Training history
+        
         history = {
             'train_loss': [],
             'train_acc': [],
@@ -878,26 +875,26 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             for batch_X, batch_y in train_loader:
                 batch_X, batch_y = batch_X.to(self.device), batch_y.to(self.device)
                 optimizer.zero_grad()
-                probs = self.model(batch_X)  # Model outputs probabilities directly
+                probs = self.model(batch_X)  
                 loss = criterion(probs, batch_y)
                 loss.backward()
                 optimizer.step()
                 total_loss += loss.item()
 
-                # Calculate accuracy
+               
                 with torch.no_grad():
                     preds = (probs >= threshold).float()
                     total_correct += (preds == batch_y).sum().item()
                     total_samples += torch.numel(batch_y)
             
-            # Calculate training metrics
+          
             train_loss = total_loss / len(train_loader)
             train_acc = total_correct / total_samples * 100
             
-            # Evaluate on validation set
+           
             val_loss, val_acc = self.evaluate_model(val_loader, criterion, threshold)
             
-            # Store history
+            
             history['train_loss'].append(train_loss)
             history['train_acc'].append(train_acc)
             history['val_loss'].append(val_loss)
@@ -907,11 +904,11 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
                        f"Train Loss={train_loss:.4f}, Train Acc={train_acc:.2f}% | "
                        f"Val Loss={val_loss:.4f}, Val Acc={val_acc:.2f}%")
             
-            # Early stopping
+           
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
                 patience_counter = 0
-                # Save best model
+              
                 torch.save(self.model.state_dict(), f"{self.output_path}/best_model_pytorch.pth")
             else:
                 patience_counter += 1
@@ -919,19 +916,19 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
                     logger.info(f"Early stopping at epoch {epoch+1}")
                     break
 
-        # Load best model
+       
         self.model.load_state_dict(torch.load(f"{self.output_path}/best_model_pytorch.pth"))
         logger.info(f"Training completed! Best validation loss: {best_val_loss:.4f}")
 
-        # Store history for saving
+       
         self.history = history
 
-        # Final evaluation
+      
         final_val_loss, final_val_acc = self.evaluate_model(val_loader, criterion, threshold)
         logger.info(f"Final validation loss: {final_val_loss:.4f}")
         logger.info(f"Final validation accuracy: {final_val_acc:.2f}%")
 
-        # Prepare metrics for return
+       
         metrics = {
             'val_loss': float(final_val_loss),
             'val_accuracy': float(final_val_acc),
@@ -953,7 +950,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             X = X.toarray()
         X_tensor = torch.from_numpy(X).float().to(self.device)
         with torch.no_grad():
-            probabilities = self.model(X_tensor)  # Model outputs probabilities directly
+            probabilities = self.model(X_tensor)  
         return probabilities.cpu().numpy()
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
@@ -964,12 +961,12 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             X = X.toarray()
         X_tensor = torch.from_numpy(X).float().to(self.device)
         with torch.no_grad():
-            probabilities = self.model(X_tensor)  # Model outputs probabilities directly
+            probabilities = self.model(X_tensor)  
         return probabilities.cpu().numpy()
 
     def save_model_vocab_and_scaler_pytorch(self):
         """Save vocab as JSON and classes in scaler.json for PyTorch multilabel"""
-        # Save TF-IDF vectorizer data as JSON
+       
         if hasattr(self, 'vectorizer') and self.vectorizer is not None:
             vectorizer_data = {
                 'vocabulary': {word: int(idx) for word, idx in self.vectorizer.vocabulary_.items()},
@@ -996,41 +993,41 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         else:
             logger.warning("PyTorch: No vectorizer available to save")
         
-        # Save classes in scaler.json format as dictionary with string indices
+      
         scaler_path = f"{self.output_path}/scaler.json"
         
-        # Extract only the first num_classes labels from scaler data
+      
         if isinstance(self.scaler, dict):
-            # Extract only the base labels (first num_classes entries)
+           
             label_keys = [k for k in self.scaler.keys() if k.isdigit()]
             if label_keys:
-                # Sort by numeric index and take only first num_classes
+                
                 sorted_keys = sorted(label_keys, key=int)
-                # Take only the first num_classes labels
+               
                 base_labels = sorted_keys[:self.num_classes]
                 class_names = [self.scaler[k] for k in base_labels]
             else:
-                # Default classes if not available
+               
                 class_names = [f"class_{i}" for i in range(self.num_classes)]
         else:
-            # Default classes if not available
+            
             class_names = [f"class_{i}" for i in range(self.num_classes)]
         
-        # Convert to dictionary format with string indices: {"0": "cucumber", "1": "garlic", ...}
+       
         scaler_data = {str(i): class_name for i, class_name in enumerate(class_names)}
         
         with open(scaler_path, "w") as f:
             json.dump(scaler_data, f, indent=2)
         logger.info(f"PyTorch classes saved to {scaler_path}")
 
-        # Save training history if available
+       
         if self.history:
             history_path = f"{self.output_path}/training_history_pytorch.json"
             with open(history_path, "w") as f:
                 json.dump(self.history, f, indent=2)
             logger.info(f"Training history saved to {history_path}")
 
-        # Save model configuration
+       
         model_config = {
             'input_dim': self.input_dim,
             'output_dim': self.num_classes,
@@ -1047,24 +1044,24 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         if not self.model:
             raise ValueError("PyTorch Model not available for saving.")
         
-        # Save PyTorch model weights
+     
         model_path = f"{self.output_path}/model.pth"
         torch.save(self.model.state_dict(), model_path)
         logger.info(f"PyTorch model weights saved to {model_path}")
 
-        # Save complete model (architecture + weights)
+       
         complete_model_path = f"{self.output_path}/model_complete.pth"
         torch.save(self.model, complete_model_path)
         logger.info(f"Complete PyTorch model saved to {complete_model_path}")
 
-        # Save vocabulary and scaler data
+      
         self.save_model_vocab_and_scaler_pytorch()
         
-        # Export to ONNX
+       
         self.export_to_onnx()
 
     def load(self, path_prefix: str):
-        # Load model configuration first
+        
         config_path = f"{path_prefix}_model_config_pytorch.json"
         try:
             with open(config_path, 'r') as f:
@@ -1074,22 +1071,22 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             logger.warning(f"Config file not found at {config_path}")
             config = {'input_dim': self.input_dim, 'output_dim': self.num_classes}
 
-        # Build model with loaded configuration
+       
         self.model = self._Net(config['input_dim'], config['output_dim']).to(self.device)
         
-        # Load model weights
+       
         model_path = f"{path_prefix}_model.pth"
         self.model.load_state_dict(torch.load(model_path, map_location=self.device))
         self.model.eval()
         logger.info(f"PyTorch model loaded from {model_path}")
         
-        # Load TF-IDF vectorizer data from JSON and reconstruct vectorizer
+       
         vocab_path = f"{path_prefix}_vocab.json"
         try:
             with open(vocab_path, 'r') as f:
                 vectorizer_data = json.load(f)
             
-            # Reconstruct TF-IDF vectorizer
+          
             self.vectorizer = TfidfVectorizer(max_features=vectorizer_data['max_features'])
             self.vectorizer.vocabulary_ = vectorizer_data['vocabulary']
             self.vectorizer.idf_ = np.array(vectorizer_data['idf'])
@@ -1102,19 +1099,18 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             logger.warning(f"Error loading vectorizer data: {e}")
             self.vectorizer = None
         
-        # Load classes from scaler.json file
+       
         scaler_path = f"{path_prefix}_scaler.json"
         try:
             with open(scaler_path, 'r') as f:
                 scaler_data = json.load(f)
                 
-                # Handle both old and new formats
+               
                 if isinstance(scaler_data, dict) and all(key.isdigit() for key in scaler_data.keys()):
-                    # New format: {"0": "Business", "1": "Health", ...}
-                    # Convert to list ordered by index
+                    
                     self.class_labels = [scaler_data[str(i)] for i in range(len(scaler_data))]
                 else:
-                    # Old format or list format
+                    
                     self.class_labels = scaler_data
                 
                 logger.info(f"PyTorch classes loaded from {scaler_path}: {self.class_labels}")
@@ -1122,7 +1118,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             logger.warning(f"Classes file not found at {scaler_path}")
             self.class_labels = []
         
-        # Update input_dim to match loaded model
+      
         if config['input_dim'] != self.input_dim:
             logger.warning(
                 f"Loaded PyTorch model input dim ({config['input_dim']}) mismatch with strategy's input_dim ({self.input_dim}). "
@@ -1139,10 +1135,10 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
         logger.info(f"Exporting PyTorch model to ONNX: {output_path}")
         
         try:
-            # Create dummy input for export
+           
             dummy_input = torch.randn(1, self.input_dim).to(self.device)
             
-            # Export to ONNX
+           
             torch.onnx.export(
                 self.model,
                 dummy_input,
@@ -1156,11 +1152,11 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             file_size = Path(output_path).stat().st_size
             logger.info(f"ONNX model saved as {output_path} ({file_size} bytes)")
             
-            # Test ONNX model if onnxruntime is available
+           
             try:
                 import onnxruntime as ort
                 
-                # Load ONNX session
+                
                 onnx_session = ort.InferenceSession(output_path)
                 onnx_input_name = onnx_session.get_inputs()[0].name
                 onnx_output_name = onnx_session.get_outputs()[0].name
@@ -1168,7 +1164,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
                 logger.info(f"ONNX Input name: {onnx_input_name}")
                 logger.info(f"ONNX Output name: {onnx_output_name}")
                 
-                # Save ONNX model info
+               
                 onnx_info = {
                     'input_name': onnx_input_name,
                     'output_name': onnx_output_name,
@@ -1210,7 +1206,7 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             Returns:
                 List of dictionaries with predictions for each text
             """
-            # Set default paths if not provided
+           
             if model_path is None:
                 model_path = f"{self.output_path}/model.pth"
             if vectorizer_path is None:
@@ -1220,46 +1216,45 @@ class PyTorchStrategyMultiLabel(TextClassifierStrategy):
             if config_path is None:
                 config_path = f"{self.output_path}/model_config_pytorch.json"
             
-            # Load configuration
+            
             with open(config_path, 'r') as f:
                 config = json.load(f)
             
-            # Load model
+            
             model = self._Net(config['input_dim'], config['output_dim'])
             model.load_state_dict(torch.load(model_path, map_location='cpu'))
             model.eval()
             
-            # Load vectorizer data from JSON and reconstruct TF-IDF vectorizer
+            
             with open(vectorizer_path, 'r') as f:
                 vectorizer_data = json.load(f)
             
-            # Reconstruct TF-IDF vectorizer
+            
             vectorizer = TfidfVectorizer(max_features=vectorizer_data['max_features'])
             vectorizer.vocabulary_ = vectorizer_data['vocabulary']
             vectorizer.idf_ = np.array(vectorizer_data['idf'])
             
-            # Load classes
+          
             with open(classes_path, 'r') as f:
                 classes_data = json.load(f)
             
-            # Handle both old and new formats
+           
             if isinstance(classes_data, dict) and all(key.isdigit() for key in classes_data.keys()):
-                # New format: {"0": "Business", "1": "Health", ...}
-                # Convert to list ordered by index
+               
                 classes = [classes_data[str(i)] for i in range(len(classes_data))]
             else:
-                # Old format or list format
+                
                 classes = classes_data
             
-            # Transform texts
+            
             X = vectorizer.transform(texts).toarray()
             X_tensor = torch.tensor(X, dtype=torch.float32)
             
-            # Predict
+          
             with torch.no_grad():
-                predictions = model(X_tensor)  # Model outputs probabilities directly
+                predictions = model(X_tensor) 
             
-            # Format results
+          
             results = []
             for i, text in enumerate(texts):
                 result = {

@@ -194,58 +194,6 @@ jobs:
       env:
         MODEL_DIR: ${{ env.MODEL_DIR }}
     
-    # - name: Test model inference
-    #   run: |
-    #     # Install required packages for inference
-    #     echo "Installing required packages..."
-    #     pip install scikit-learn
-        
-    #     # Find the model directory
-    #     MODEL_DIR=$(find ./generated_models -type d -name "*" | grep -v "^\./generated_models$" | head -1)
-    #     echo "Using model directory: $MODEL_DIR"
-        
-    #     echo "Testing model inference with sample data..."
-    #     python -c "
-    #     import json
-    #     import numpy as np
-    #     import onnxruntime as ort
-    #     from sklearn.feature_extraction.text import TfidfVectorizer
-    #     import os
-        
-    #     model_dir = os.environ.get('MODEL_DIR', '$MODEL_DIR')
-        
-    #     # Load model components
-    #     with open(f'{model_dir}/vocab.json', 'r') as f:
-    #         vocab_data = json.load(f)
-        
-    #     with open(f'{model_dir}/scaler.json', 'r') as f:
-    #         scaler_data = json.load(f)
-        
-    #     # Test with sample text
-    #     test_text = 'This product is amazing! I love it so much!'
-        
-    #     # Create vectorizer with saved vocabulary
-    #     vectorizer = TfidfVectorizer(vocabulary=vocab_data['vocab'])
-        
-    #     # Transform text
-    #     X = vectorizer.transform([test_text]).toarray()
-        
-    #     # Apply scaling
-    #     X_scaled = (X - np.array(scaler_data['mean'])) / np.array(scaler_data['scale'])
-        
-    #     # Run inference
-    #     session = ort.InferenceSession(f'{model_dir}/model.onnx')
-    #     input_name = session.get_inputs()[0].name
-        
-    #     result = session.run(None, {input_name: X_scaled.astype(np.float32)})
-    #     prediction = result[0][0]
-        
-    #     print(f'✅ Inference successful!')
-    #     print(f'📝 Test text: {test_text}')
-    #     print(f'🎯 Prediction: {prediction}')
-    #     print(f'📊 Confidence: {max(prediction):.4f}')
-    #     "
-    #   env:
     #     MODEL_DIR: ${{ env.MODEL_DIR }}
     
     - name: Upload generated models as artifacts

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 Text Classification Agent with Smart Activation Detection
 """
@@ -13,7 +13,7 @@ from typing import Dict, List, Optional, Tuple, Union, Any
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
-import numpy as np  # For X_sample in ONNX
+import numpy as np  
 from openai import AsyncOpenAI, OpenAIError
 import random
 
@@ -22,7 +22,7 @@ from text_classifier.prepare_dataset import DatasetPreparer
 
 try:
     import text_classifier.settings as settings
-except ModuleNotFoundError:  # Handle if running script directly from its dir
+except ModuleNotFoundError: 
     import settings
 
 logging.basicConfig(
@@ -35,7 +35,7 @@ logging.getLogger("openai").disabled = True
 logging.getLogger("httpx").disabled = True
 
 
-class MulticlassDataGenerator:  # Renamed
+class MulticlassDataGenerator:  
     def __init__(
         self,
         problem_description: str,
@@ -62,7 +62,7 @@ class MulticlassDataGenerator:  # Renamed
         self.skip_model_training = skip_model_training
         self.use_own_dataset = use_own_dataset
 
-        # If using own dataset, automatically skip data generation
+      
         if use_own_dataset:
             self.skip_data_gen = True
             logger.info(f"Using own dataset: {use_own_dataset}. Data generation will be skipped.")
@@ -127,7 +127,7 @@ class MulticlassDataGenerator:  # Renamed
             self.prompt_refinement_history: List[Dict[str, Any]] = []
             self.performance_analysis_result: Optional[str] = None
 
-            # Paths to be set after config is loaded
+           
             self.model_output_path: Optional[Path] = None
             self.raw_responses_path: Optional[Path] = None
             self.dataset_path: Optional[Path] = None
@@ -135,7 +135,7 @@ class MulticlassDataGenerator:  # Renamed
             self.final_config_path: Optional[Path] = None
             self.classifier_metadata_path: Optional[Path] = None
 
-            # Derived from config
+          
             self.classification_type: Optional[str] = None
             self.class_labels: Optional[List[str]] = None
             self.num_classes: Optional[int] = None
@@ -191,14 +191,14 @@ class MulticlassDataGenerator:  # Renamed
             f"Generating initial configuration using model: {self.config_model}"
         )
         
-        # Prepare activation-specific instructions
+       
         if self.activation == "sigmoid":
             activation_instruction = "**IMPORTANT: User specified sigmoid activation - generate MULTILABEL classification where multiple labels can apply to the same text.**"
             multilabel_prompt_instruction = "For multilabel classification, create prompts that will generate text samples that can naturally have multiple labels simultaneously. The generated data should contain texts where several categories apply to the same sample."
         elif self.activation == "softmax":
             activation_instruction = "**IMPORTANT: User specified softmax activation - generate SINGLE-LABEL classification where only one label applies per text.**"
             multilabel_prompt_instruction = "For single-label classification, create prompts that generate text samples that clearly belong to only one category."
-        else:  # auto
+        else:  
             activation_instruction = "**User selected automatic activation detection - choose the most appropriate classification type based on the problem description.**"
             multilabel_prompt_instruction = "Create prompts appropriate for the classification type you determine from the problem description."
         
@@ -216,7 +216,7 @@ class MulticlassDataGenerator:  # Renamed
                 temperature=0.2,
             )
 
-            # Clean potential markdown code fences
+            
             json_str = raw_response_content
             if "```json" in json_str:
                 json_str = json_str.split("```json", 1)[1]
@@ -254,20 +254,20 @@ class MulticlassDataGenerator:  # Renamed
                 )
 
             self.initial_config = config_data
-            self.final_config = config_data.copy()  # Start final config as a copy
+            self.final_config = config_data.copy()  
 
-            # Store initial params to final_config
+            
             self.final_config["parameters"] = self._get_init_parameters()
 
-            # Set class-related attributes
+            
             self.classification_type = self.final_config["classification_type"]
             self.class_labels = sorted(
                 list(set(self.final_config["class_labels"]))
-            )  # Ensure unique & sorted
+            )  
             self.num_classes = len(self.class_labels)
             self.final_config["class_labels"] = (
                 self.class_labels
-            )  # Update config with sorted unique list
+            ) 
 
             if self.num_classes < 2:
                 raise ValueError(
@@ -287,7 +287,7 @@ class MulticlassDataGenerator:  # Renamed
                 exc_info=True,
             )
             return False
-        except (ValueError, OpenAIError) as e:  # Catch OpenAIError too
+        except (ValueError, OpenAIError) as e:  
             logger.error(
                 f"Failed to generate initial configuration: {e}", exc_info=True
             )
@@ -299,7 +299,7 @@ class MulticlassDataGenerator:  # Renamed
             )
             return False
 
-    def _get_init_parameters(self) -> Dict[str, Any]:  # Add max_features_tfidf
+    def _get_init_parameters(self) -> Dict[str, Any]:  
         return {
             "problem_description": self.problem_description,
             "selected_data_gen_model": self.selected_data_gen_model,
@@ -320,11 +320,10 @@ class MulticlassDataGenerator:  # Renamed
 
     def _prepare_output_directory(
         self,
-    ):  # (No changes needed here, but verify settings paths)
-        # ... (keep existing implementation, ensure it uses new settings.CONFIG_FILENAME etc.)
+    ): 
         if not self.final_config or "model_prefix" not in self.final_config:
             logger.error("Config unavailable, cannot prepare output directory.")
-            return False  # Critical error
+            return False  
 
         model_prefix = self.final_config["model_prefix"]
         self.model_output_path = self.output_base_path / model_prefix
@@ -355,7 +354,7 @@ class MulticlassDataGenerator:  # Renamed
         prompt_type: str,
         prompt: str,
         response: str,
-        class_label_str: Optional[str],  # Changed from `label: int`
+        class_label_str: Optional[str],  
         model: str,
         status: str = "success",
     ):
@@ -367,7 +366,7 @@ class MulticlassDataGenerator:  # Renamed
         label_file_part = f"_{class_label_str}" if class_label_str else ""
         safe_model = model.replace("/", "_").replace(
             ":", "_"
-        )  # Sanitize model name for filename
+        ) 
         filename = (
             self.raw_responses_path
             / f"{prompt_type}{label_file_part}_{safe_model}_{status}_{ts}.json"
@@ -376,7 +375,7 @@ class MulticlassDataGenerator:  # Renamed
             "timestamp": datetime.now().isoformat(),
             "model_used": model,
             "prompt_type": prompt_type,
-            "class_label": class_label_str,  # Store string label
+            "class_label": class_label_str, 
             "status": status,
             "prompt": prompt,
             "response": response,
@@ -385,7 +384,7 @@ class MulticlassDataGenerator:  # Renamed
             with open(filename, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
         except Exception as e:
-            # Log as warning, not error, as this is not critical path for data gen
+           
             logger.warning(
                 f"Failed to save raw response to {filename}: {e}", exc_info=False
             )
@@ -393,7 +392,7 @@ class MulticlassDataGenerator:  # Renamed
     def _append_to_dataset(
         self, text_data: str, class_label_str: str, target_path: Path
     ) -> int:
-        if not class_label_str:  # Ensure class_label_str is provided
+        if not class_label_str: 
             logger.error("Class label string is required to append to dataset.")
             return 0
         if not target_path:
@@ -402,28 +401,28 @@ class MulticlassDataGenerator:  # Renamed
 
         lines_added = 0
         try:
-            # Create directory for target_path if it doesn't exist
+            
             target_path.parent.mkdir(parents=True, exist_ok=True)
 
             write_header = not target_path.exists() or target_path.stat().st_size == 0
             with open(target_path, "a", encoding="utf-8", newline="") as f:
                 writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
                 if write_header:
-                    writer.writerow(["text", "label"])  # Label will be string here
+                    writer.writerow(["text", "label"]) 
 
-                # Extract JSON content from text_data
+              
                 try:
                     json_start = text_data.find("{")
                     json_end = text_data.rfind("}") + 1
                     if json_start == -1 or json_end == 0:
                         logger.info("JSON structure not found. Parsing as simple text format.")
-                        # Try to parse as numbered JSON first (fallback for old format)
+                       
                         import re
                         pattern = r'"(\d+)"\s*:\s*"([^"]*)"'
                         matches = list(re.finditer(pattern, text_data.strip()))
                         
                         if matches:
-                            # Old format found, parse it
+                           
                             for match in matches:
                                 index = int(match.group(1))
                                 text = match.group(2)
@@ -431,7 +430,7 @@ class MulticlassDataGenerator:  # Renamed
                                     writer.writerow([f'"{text}"', str(class_label_str)])
                                     lines_added += 1
                         else:
-                            # New simple text format - split by lines
+                           
                             lines = text_data.strip().split('\n')
                             for line in lines:
                                 cleaned_line = line.strip().strip('"').strip()
@@ -469,7 +468,7 @@ class MulticlassDataGenerator:  # Renamed
         except IOError as e:
             logger.error(f"IOError appending to {target_path}: {e}", exc_info=False)
             return 0
-        except Exception as e:  # Catch any other unexpected errors
+        except Exception as e:  
             logger.error(
                 f"Unexpected error appending to {target_path}: {e}", exc_info=True
             )
@@ -489,7 +488,7 @@ class MulticlassDataGenerator:  # Renamed
         try:
             import pandas as pd
             
-            # Read the dataset
+           
             df = pd.read_csv(dataset_path, on_bad_lines="skip")
             
             if df.empty:
@@ -500,25 +499,25 @@ class MulticlassDataGenerator:  # Renamed
                 logger.error("Dataset missing 'text' column")
                 return {"error": "Dataset missing 'text' column"}
             
-            # Clean and normalize text for duplicate detection
+          
             df['text_normalized'] = df['text'].astype(str).str.strip().str.lower()
             
-            # Calculate duplicate statistics
+           
             total_samples = len(df)
             unique_samples = df['text_normalized'].nunique()
             duplicate_count = total_samples - unique_samples
             duplicate_rate = (duplicate_count / total_samples) * 100 if total_samples > 0 else 0
             
-            # Check if duplicate rate exceeds threshold
+           
             threshold = getattr(settings, 'DUPLICATE_RATE_THRESHOLD', 5.0)
             exceeds_threshold = duplicate_rate > threshold
             
-            # Get some example duplicates for reporting
+           
             duplicate_examples = []
             if duplicate_count > 0:
                 duplicated_texts = df[df.duplicated(subset=['text_normalized'], keep=False)]
                 if not duplicated_texts.empty:
-                    # Group by normalized text and get counts
+                   
                     duplicate_groups = duplicated_texts.groupby('text_normalized')['text'].apply(list).head(3)
                     for normalized_text, text_list in duplicate_groups.items():
                         duplicate_examples.append({
@@ -533,7 +532,7 @@ class MulticlassDataGenerator:  # Renamed
                 "duplicate_rate": round(duplicate_rate, 2),
                 "exceeds_threshold": exceeds_threshold,
                 "threshold": threshold,
-                "examples": duplicate_examples[:3]  # Show up to 3 examples
+                "examples": duplicate_examples[:3] 
             }
             
         except Exception as e:
@@ -549,13 +548,13 @@ class MulticlassDataGenerator:  # Renamed
             dataset_name: Name of the dataset (e.g., "training", "edge_case")
         """
         if "error" in duplicate_stats:
-            return  # Silent fail for errors
+            return 
         
         duplicate_rate = duplicate_stats["duplicate_rate"]
         exceeds_threshold = duplicate_stats["exceeds_threshold"]
         threshold = duplicate_stats["threshold"]
         
-        # Only show notification if duplicates exceed threshold
+       
         if exceeds_threshold:
             logger.warning(f"\n⚠️  DATA QUALITY WARNING - {dataset_name.upper()} DATASET")
             logger.warning(f"🚨 High duplicate rate detected: {duplicate_rate:.2f}% (threshold: {threshold}%)")
@@ -569,10 +568,10 @@ class MulticlassDataGenerator:  # Renamed
         self,
         prompts_classlabels: List[
             Tuple[str, str, str]
-        ],  # prompt, class_label_str, prompt_type
+        ],  
         model: str,
         system_prompt: str,
-    ) -> List[Tuple[str, str, str, str]]:  # prompt, class_label_str, response, status
+    ) -> List[Tuple[str, str, str, str]]: 
         tasks = []
         for prompt, class_label_str, prompt_type in prompts_classlabels:
             tasks.append(
@@ -581,7 +580,7 @@ class MulticlassDataGenerator:  # Renamed
                 )
             )
 
-        # Use asyncio.gather with return_exceptions=True to handle individual failures
+        
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
         processed_results = []
@@ -603,7 +602,7 @@ class MulticlassDataGenerator:  # Renamed
                 processed_results.append(
                     (original_prompt, class_label_str, error_msg, "failed")
                 )
-            elif not result:  # Empty response check
+            elif not result:  
                 error_msg = "LLM_EMPTY_RESPONSE"
                 logger.error(
                     f"Data generation returned empty response for {prompt_type} (Class: {class_label_str}) using model {model}"
@@ -619,7 +618,7 @@ class MulticlassDataGenerator:  # Renamed
                 processed_results.append(
                     (original_prompt, class_label_str, error_msg, "failed_empty")
                 )
-            else:  # Success
+            else: 
                 self._save_raw_response(
                     prompt_type,
                     original_prompt,
@@ -644,15 +643,15 @@ class MulticlassDataGenerator:  # Renamed
 
         current_prompts_dict = self.final_config[
             "prompts"
-        ]  # Dict of {class_label: prompt}
+        ]  
         data_gen_sys_prompt = settings.DATA_GEN_SYSTEM_PROMPT.format(
             language=self.language
         )
 
-        # 1. Generate small sample batch with current prompts for each class
+       
         logger.info("Generating sample data for refinement evaluation...")
         sample_prompts_classlabels = []
-        # Ensure PROMPT_REFINEMENT_BATCH_SIZE is per class
+        
         num_samples_per_class_for_refinement = settings.PROMPT_REFINEMENT_BATCH_SIZE
 
         for class_label in self.class_labels:
@@ -682,10 +681,10 @@ class MulticlassDataGenerator:  # Renamed
         samples_by_class = {label: [] for label in self.class_labels}
         for _, class_label, response_content, status in sample_results:
             if status == "success" and class_label in samples_by_class:
-                # Split response content into individual samples if LLM returns multiple lines
+              
                 for line in response_content.split("\n"):
                     cleaned_line = line.strip()
-                    if cleaned_line:  # Add if not empty
+                    if cleaned_line: 
                         samples_by_class[class_label].append(cleaned_line)
 
         samples_by_class_str_parts = []
@@ -695,7 +694,7 @@ class MulticlassDataGenerator:  # Renamed
                 any_samples_generated = True
                 samples_preview = "\n".join(
                     [f"  - {s[:100]}..." for s in samples[:3]]
-                )  # Show first 3 samples (truncated)
+                ) 
                 samples_by_class_str_parts.append(
                     f"* Samples for Class '{class_label}':\n{samples_preview}"
                 )
@@ -708,16 +707,16 @@ class MulticlassDataGenerator:  # Renamed
             logger.warning(
                 f"Refinement Cycle {cycle_num + 1}: Failed to generate any sample data across all classes. Skipping refinement."
             )
-            # Retain original prompts
+           
             self.prompt_refinement_history.append(
                 {
                     "cycle": cycle_num + 1,
                     "evaluation": "Skipped - No sample data generated.",
                     "previous_prompts": current_prompts_dict.copy(),
-                    "refined_prompts": current_prompts_dict.copy(),  # No change
+                    "refined_prompts": current_prompts_dict.copy(),  
                 }
             )
-            return False  # Indicate no successful refinement occurred
+            return False  
 
         refinement_user_prompt = settings.PROMPT_REFINEMENT_TEMPLATE.format(
             problem_description=self.problem_description,
@@ -734,7 +733,7 @@ class MulticlassDataGenerator:  # Renamed
                 model=self.config_model,
                 system_prompt=settings.CONFIG_SYSTEM_PROMPT,
                 user_prompt=refinement_user_prompt,
-                temperature=0.4,  # Balance creativity and structure
+                temperature=0.4,  
             )
 
             json_ref_str = raw_refinement_response
@@ -765,7 +764,7 @@ class MulticlassDataGenerator:  # Renamed
                 f"Refinement Cycle {cycle_num + 1} Evaluation: {refinement_data['evaluation_summary']}"
             )
 
-            # Update prompts in final_config
+           
             prompts_changed = False
             for class_label, new_prompt in new_prompts_dict.items():
                 if self.final_config["prompts"].get(class_label) != new_prompt:
@@ -782,8 +781,8 @@ class MulticlassDataGenerator:  # Renamed
                 {
                     "cycle": cycle_num + 1,
                     "evaluation": refinement_data["evaluation_summary"],
-                    "previous_prompts": current_prompts_dict.copy(),  # Log old prompts
-                    "refined_prompts": new_prompts_dict.copy(),  # Log new prompts
+                    "previous_prompts": current_prompts_dict.copy(),  
+                    "refined_prompts": new_prompts_dict.copy(), 
                 }
             )
             logger.info(f"--- Prompt Refinement Cycle {cycle_num + 1} Completed ---")
@@ -826,7 +825,7 @@ class MulticlassDataGenerator:  # Renamed
         )
         target_volume_per_class = max(2500, target_total_volume // self.num_classes)
 
-        # Choose appropriate system prompt based on classification type
+        
         if (self.classification_type and "multilabel" in self.classification_type) or self.activation == "sigmoid":
             data_gen_sys_prompt = settings.MULTILABEL_DATA_GEN_SYSTEM_PROMPT.format(
                 language=self.language
@@ -850,7 +849,7 @@ class MulticlassDataGenerator:  # Renamed
         required_requests_per_class = max(1, round(target_volume_per_class / 50))
 
         prompts_for_generation_round = []
-        # Create a list of (prompt, class_label_str, 'training_data') tuples for all requests needed
+       
         for class_idx, class_label in enumerate(self.class_labels):
             class_prompt = prompts_by_class.get(class_label)
             if not class_prompt:
@@ -863,9 +862,6 @@ class MulticlassDataGenerator:  # Renamed
                     (class_prompt, class_label, "training_data")
                 )
 
-        # Shuffle to interleave if desired, or process class by class for more control
-        # For now, process in order which groups by class, then by request for that class.
-        # A more advanced approach might track generated counts per class and prioritize.
 
         num_batches = (
             len(prompts_for_generation_round) + self.batch_size - 1
@@ -874,8 +870,7 @@ class MulticlassDataGenerator:  # Renamed
         samples_generated_per_class = {label: 0 for label in self.class_labels}
 
         for batch_num in range(num_batches):
-            # Check if overall target or per-class targets are met (approximate)
-            # This is a soft check; the loop might do one more batch.
+           
             if all(
                 samples_generated_per_class[lbl] >= target_volume_per_class
                 for lbl in self.class_labels
@@ -894,7 +889,7 @@ class MulticlassDataGenerator:  # Renamed
 
             if (
                 not current_batch_prompts_labels
-            ):  # Should not happen if num_batches is correct
+            ):  
                 break
 
             logger.info(
@@ -942,11 +937,11 @@ class MulticlassDataGenerator:  # Renamed
         if self.dataset_path and self.dataset_path.exists():
             logger.info(f"Training dataset saved to: {self.dataset_path}")
             
-            # Check for duplicate rates in training data
+           
             duplicate_stats = self._check_dataset_duplicate_rate(self.dataset_path)
             self._notify_duplicate_rate(duplicate_stats, "training")
             
-            # Store duplicate stats in final config for reference
+            
             if self.final_config:
                 self.final_config["training_duplicate_stats"] = duplicate_stats
         else:
@@ -977,7 +972,7 @@ class MulticlassDataGenerator:  # Renamed
         logger.info("🎯 Step 1: Generate single-label data (proven method)")
         logger.info("🔄 Step 2: Convert to multilabel format programmatically")
         
-        # Step 1: Generate regular single-label data using the working method
+       
         single_label_samples = await self._generate_training_data_async()
         
         if single_label_samples == 0:
@@ -986,7 +981,7 @@ class MulticlassDataGenerator:  # Renamed
             
         logger.info(f"✅ Generated {single_label_samples} single-label samples")
         
-        # Step 2: Convert single-label data to multilabel format
+       
         logger.info("🔄 Converting single-label data to multilabel format...")
         multilabel_samples = await self._convert_to_multilabel_format()
         
@@ -1012,11 +1007,11 @@ class MulticlassDataGenerator:  # Renamed
             import pandas as pd
             import random
             
-            # Read the single-label dataset
+            
             df = pd.read_csv(self.dataset_path)
             logger.info(f"📖 Reading {len(df)} single-label samples for conversion")
             
-            # Group samples by class for intelligent combination
+           
             samples_by_class = {}
             for _, row in df.iterrows():
                 label = row['label']
@@ -1026,14 +1021,14 @@ class MulticlassDataGenerator:  # Renamed
                     samples_by_class[label] = []
                 samples_by_class[label].append(text)
             
-            # Log distribution
+         
             for label, texts in samples_by_class.items():
                 logger.info(f"📋 Class '{label}': {len(texts)} samples")
             
-            # Create multilabel combinations
+          
             multilabel_data = []
             
-            # 1. Keep 50% as single-label (for variety)
+           
             single_label_count = int(len(df) * 0.5)
             logger.info(f"🔹 Keeping {single_label_count} samples as single-label")
             
@@ -1042,16 +1037,16 @@ class MulticlassDataGenerator:  # Renamed
                 label = row['label']
                 multilabel_data.append((text, label))
             
-            # 2. Create 2-label combinations (30%)
+           
             two_label_count = int(len(df) * 0.3)
             logger.info(f"🔹 Creating {two_label_count} samples with 2 labels")
             
             for _ in range(two_label_count):
-                # Pick 2 different classes
+                
                 if len(self.class_labels) >= 2:
                     selected_classes = random.sample(self.class_labels, 2)
                     
-                    # Get random sample from each class
+                   
                     text_parts = []
                     labels = []
                     
@@ -1061,21 +1056,21 @@ class MulticlassDataGenerator:  # Renamed
                             labels.append(class_label)
                     
                     if len(text_parts) >= 2:
-                        # Combine texts naturally
+                       
                         combined_text = f"{text_parts[0]} {text_parts[1]}"
                         combined_labels = ','.join(labels)
                         multilabel_data.append((combined_text, combined_labels))
             
-            # 3. Create 3-label combinations (20%)
+          
             three_label_count = int(len(df) * 0.2)
             logger.info(f"🔹 Creating {three_label_count} samples with 3 labels")
             
             for _ in range(three_label_count):
-                # Pick 3 different classes
+                
                 if len(self.class_labels) >= 3:
                     selected_classes = random.sample(self.class_labels, 3)
                     
-                    # Get random sample from each class
+                   
                     text_parts = []
                     labels = []
                     
@@ -1085,15 +1080,15 @@ class MulticlassDataGenerator:  # Renamed
                             labels.append(class_label)
                     
                     if len(text_parts) >= 3:
-                        # Combine texts naturally (limit length)
+                       
                         combined_text = f"{text_parts[0]} {text_parts[1]} {text_parts[2]}"
-                        # Trim if too long
+                       
                         if len(combined_text) > 400:
                             combined_text = combined_text[:400] + "..."
                         combined_labels = ','.join(labels)
                         multilabel_data.append((combined_text, combined_labels))
             
-            # Save multilabel dataset
+            
             multilabel_path = self.dataset_path.parent / f"{self.dataset_path.stem}_multilabel.csv"
             
             logger.info(f"💾 Saving {len(multilabel_data)} multilabel samples to {multilabel_path}")
@@ -1105,11 +1100,11 @@ class MulticlassDataGenerator:  # Renamed
                 for text, labels in multilabel_data:
                     writer.writerow([f'"{text}"', labels])
             
-            # Keep both files - original and multilabel version
+            
             logger.info(f"✅ Successfully converted to multilabel format")
             logger.info(f"📊 Distribution:")
             
-            # Count distribution
+           
             single_label_count = sum(1 for text, labels in multilabel_data if ',' not in labels)
             two_label_count = sum(1 for text, labels in multilabel_data if labels.count(',') == 1)
             three_label_count = sum(1 for text, labels in multilabel_data if labels.count(',') == 2)
@@ -1118,7 +1113,7 @@ class MulticlassDataGenerator:  # Renamed
             logger.info(f"   🔹 Two-label: {two_label_count}")
             logger.info(f"   🔹 Three-label: {three_label_count}")
             
-            # Copy multilabel version to replace original dataset for training
+           
             import shutil
             shutil.copy2(str(multilabel_path), str(self.dataset_path))
             
@@ -1147,7 +1142,7 @@ class MulticlassDataGenerator:  # Renamed
 
         logger.info("--- Starting Edge Case Generation ---")
         target_volume_per_class = self.edge_case_volume_per_class
-        edge_case_model = self.config_model  # Use more capable model for edge cases
+        edge_case_model = self.config_model 
         edge_case_sys_prompt = (
             "You are a data generation assistant specializing in creating challenging test cases. "
             "Focus on subtlety and ambiguity as per instructions."
@@ -1159,7 +1154,7 @@ class MulticlassDataGenerator:  # Renamed
 
         lines_per_api_call_edge_estimate = getattr(
             settings, "EDGE_CASE_LINES_PER_API_CALL", 40
-        )  # Fewer, more focused examples
+        )  
         required_requests_per_class_edge = max(
             1, round(target_volume_per_class / lines_per_api_call_edge_estimate)
         )
@@ -1167,17 +1162,17 @@ class MulticlassDataGenerator:  # Renamed
         edge_prompts_for_generation = []
 
         for class_label_str in self.class_labels:
-            # Use the generic EDGE_CASE_PROMPT_TEMPLATE, filling in the specific class_label
+          
             edge_case_user_prompt = settings.EDGE_CASE_PROMPT_TEMPLATE.format(
                 class_label=class_label_str,
                 classification_type=self.classification_type,
                 problem_description=self.problem_description,
                 all_class_labels_str=str(
                     self.class_labels
-                ),  # Provide context of all classes
+                ),  
                 language=self.language,
             )
-            # Store the specific prompt used for this class's edge cases in final_config
+            
             if "edge_case_prompts" not in self.final_config:
                 self.final_config["edge_case_prompts"] = {}
             self.final_config["edge_case_prompts"][
@@ -1191,7 +1186,7 @@ class MulticlassDataGenerator:  # Renamed
 
         edge_batch_size = max(
             1, self.batch_size // 2
-        )  # Potentially smaller batches for config model
+        )  
         num_batches_edge = (
             len(edge_prompts_for_generation) + edge_batch_size - 1
         ) // edge_batch_size
@@ -1264,11 +1259,11 @@ class MulticlassDataGenerator:  # Renamed
         if self.edge_case_dataset_path and self.edge_case_dataset_path.exists():
             logger.info(f"Edge case dataset saved to: {self.edge_case_dataset_path}")
             
-            # Check for duplicate rates in edge case data
+          
             edge_duplicate_stats = self._check_dataset_duplicate_rate(self.edge_case_dataset_path)
             self._notify_duplicate_rate(edge_duplicate_stats, "edge case")
             
-            # Store duplicate stats in final config for reference
+           
             if self.final_config:
                 self.final_config["edge_case_duplicate_stats"] = edge_duplicate_stats
         else:
@@ -1298,7 +1293,7 @@ class MulticlassDataGenerator:  # Renamed
                     f"File not found: {self.analyze_performance_data_path}"
                 )
                 logger.error(self.performance_analysis_result)
-                # Add this to final config as an error message
+               
                 self.final_config["performance_analysis"] = {
                     "input_file": str(self.analyze_performance_data_path),
                     "error": self.performance_analysis_result,
@@ -1308,14 +1303,13 @@ class MulticlassDataGenerator:  # Renamed
 
             results_summary = ""
             try:
-                # Assuming the CSV from run_predictions has 'text', 'label' (true), and one column per class_label for probabilities,
-                # plus a 'predicted_label' column.
+               
                 df = pd.read_csv(self.analyze_performance_data_path)
 
-                # Identify crucial columns
+              
                 text_col = "text"
-                true_label_col = "label"  # Original true label (string)
-                predicted_label_col = "predicted_label"  # Predicted label (string)
+                true_label_col = "label" 
+                predicted_label_col = "predicted_label"  
 
                 if not all(
                     c in df.columns
@@ -1331,7 +1325,7 @@ class MulticlassDataGenerator:  # Renamed
                     f"Calculated Accuracy from '{self.analyze_performance_data_path}': {accuracy:.4f}"
                 )
 
-                # Prepare summary for LLM: focus on errors and some correct examples
+                
                 limit_samples = 20
                 errors_df = df[~df["is_correct"]].head(limit_samples // 2)
                 correct_df = df[df["is_correct"]].head(limit_samples - len(errors_df))
@@ -1343,10 +1337,10 @@ class MulticlassDataGenerator:  # Renamed
                     true_lbl = row[true_label_col]
                     pred_lbl = row[predicted_label_col]
 
-                    # Try to find probability columns if they exist (e.g. class_label_prob)
+                   
                     prob_strs = []
                     for cl_lbl in self.class_labels:
-                        prob_col_name = f"{cl_lbl}_prob"  # Assuming this naming convention in run_predictions
+                        prob_col_name = f"{cl_lbl}_prob"  
                         if prob_col_name in row:
                             prob_strs.append(f"{cl_lbl}: {row[prob_col_name]:.3f}")
 
@@ -1382,7 +1376,7 @@ class MulticlassDataGenerator:  # Renamed
                 model=self.config_model,
                 system_prompt=settings.CONFIG_SYSTEM_PROMPT,
                 user_prompt=analysis_prompt,
-                max_tokens=2000,  # Allow longer response for analysis
+                max_tokens=2000, 
                 temperature=0.4,
             )
 
@@ -1399,8 +1393,8 @@ class MulticlassDataGenerator:  # Renamed
             logger.info("--- Performance Analysis Finished ---")
             logger.info(f"LLM Analysis:\n{self.performance_analysis_result[:500]}...")
 
-        except FileNotFoundError:  # Already handled above by setting error message
-            pass  # Error logged and recorded in config
+        except FileNotFoundError:  
+            pass 
         except (ValueError, OpenAIError) as e:
             logger.error(
                 f"Performance analysis LLM call failed: {e}\nLLM response (if any) leading to error:\n{raw_analysis_response}",
@@ -1434,38 +1428,38 @@ class MulticlassDataGenerator:  # Renamed
         logger.info(f"🔄 Processing user's own dataset: {self.use_own_dataset}")
         
         try:
-            # Import DatasetPreparer from the prepare_dataset module
+           
             from .prepare_dataset import DatasetPreparer
             
-            # Initialize DatasetPreparer (the existing script)
+           
             preparer = DatasetPreparer()
             
-            # Ensure the dataset_path exists and is properly set
+           
             if not self.dataset_path:
                 raise ValueError("Dataset path not properly initialized")
             
-            # Process the dataset using the existing prepare_dataset.py logic
+           
             processed_path = preparer.process_dataset(
                 input_path=self.use_own_dataset,
                 output_path=str(self.dataset_path),
-                clean_text=True,  # Enable text cleaning by default
-                max_samples=20000,  # Reasonable limit
-                balance_classes=False  # Let user control this via original data
+                clean_text=True,  
+                max_samples=20000,  
+                balance_classes=False  
             )
             
-            # Ensure we have a valid processed path
+         
             if not processed_path or not Path(processed_path).exists():
-                # Fallback: use the dataset_path we specified
+                
                 processed_path = str(self.dataset_path)
                 if not Path(processed_path).exists():
                     raise ValueError(f"Processed dataset not found at {processed_path}")
             
             logger.info(f"📁 Loading processed dataset from: {processed_path}")
             
-            # Load the processed dataset - it should be clean and standardized
+            
             df = pd.read_csv(processed_path, encoding='utf-8')
             
-            # Load the analysis report created by prepare_dataset.py
+            
             report_path = processed_path.replace('.csv', '_analysis_report.json')
             
             logger.info(f"📄 Looking for analysis report at: {report_path}")
@@ -1476,14 +1470,14 @@ class MulticlassDataGenerator:  # Renamed
                 
                 logger.info(f"✅ Analysis report loaded successfully")
                 
-                # Use the analysis from prepare_dataset.py
+               
                 self.classification_type = analysis.get('task_type', 'multiclass')
                 
-                # Get label information
+               
                 if 'label' in df.columns:
                     unique_labels = df['label'].unique().tolist()
                     
-                    # For multilabel classification, extract individual labels from comma-separated strings
+                   
                     if analysis.get('task_type') == 'multilabel' and analysis.get('unique_individual_labels'):
                         self.class_labels = sorted(analysis['unique_individual_labels'])
                     else:
@@ -1496,7 +1490,7 @@ class MulticlassDataGenerator:  # Renamed
                     logger.info(f"🏷️ Found {self.num_classes} classes: {self.class_labels}")
                     logger.info(f"📈 Total samples: {len(df)}")
                     
-                    # Determine activation function using smart detection
+                  
                     activation_decision = self._smart_activation_detection(df, self.classification_type)
                     final_classification_type = activation_decision["final_type"]
                     
@@ -1505,34 +1499,34 @@ class MulticlassDataGenerator:  # Renamed
                     logger.info(f"🔍 Reasoning: {activation_decision['reasoning']}")
                     logger.info(f"✅ Confidence: {activation_decision['confidence']}")
                     
-                    # Show user how to override if desired
+                    
                     if activation_decision["confidence"] != "user_specified":
                         alternative = "sigmoid" if activation_decision["activation"] == "softmax" else "softmax"
                         logger.info(f"💡 To use {alternative} instead, add: --activation {alternative}")
                     
-                    # Process the data and save
+                  
                     logger.info("💾 Saving processed dataset...")
                     df.to_csv(processed_path, index=False, encoding='utf-8')
                     logger.info(f"✅ Dataset saved to: {processed_path}")
                     
-                    # Final statistics
+                    
                     logger.info(f"📊 Final dataset statistics:")
                     logger.info(f"   Shape: {df.shape}")
                     logger.info(f"   Columns: {list(df.columns)}")
                     logger.info(f"   Final classification type: {final_classification_type}")
                     logger.info(f"   Activation function: {activation_decision['activation']}")
                     
-                    # Show label distribution
+                   
                     if 'label' in df.columns:
                         label_counts = df['label'].value_counts()
                         logger.info(f"   Label distribution: {dict(label_counts.head(10))}")
                         
-                        # Check for multilabel indicators
+                       
                         if df['label'].astype(str).str.contains(',').any():
                             multilabel_count = df['label'].str.contains(',').sum()
                             logger.info(f"   Multilabel samples: {multilabel_count}/{len(df)} ({multilabel_count/len(df)*100:.1f}%)")
                     
-                    # Create initial config based on the processed dataset
+                   
                     self.initial_config = {
                         "summary": f"User-provided dataset for {final_classification_type} classification",
                         "classification_type": final_classification_type,
@@ -1549,22 +1543,22 @@ class MulticlassDataGenerator:  # Renamed
                     }
                     self.final_config = self.initial_config.copy()
                     
-                    # Update classification_type to include activation
+                   
                     self.classification_type = final_classification_type
                     
-                    return len(df), 0  # training_samples, edge_case_samples (0 for user data)
+                    return len(df), 0  
                 else:
                     raise ValueError("Processed dataset does not contain 'label' column")
             else:
                 logger.warning(f"Analysis report not found at {report_path}. Using fallback analysis.")
-                # Fallback: analyze the processed dataset directly
+               
                 unique_labels = df['label'].unique().tolist()
                 
-                # Check if multilabel by looking for comma-separated labels
+              
                 has_comma_separated = df['label'].astype(str).str.contains(',').any()
                 if has_comma_separated:
                     base_classification_type = "multilabel"
-                    # Extract individual labels from comma-separated strings
+                 
                     all_individual_labels = set()
                     for label_str in df['label'].astype(str):
                         individual_labels = [l.strip() for l in label_str.split(',') if l.strip()]
@@ -1574,7 +1568,7 @@ class MulticlassDataGenerator:  # Renamed
                     base_classification_type = "binary" if len(unique_labels) == 2 else "multiclass"
                     unique_individual_labels = None
                 
-                # Apply smart activation detection for fallback as well
+               
                 activation_decision = self._smart_activation_detection(df, base_classification_type)
                 final_classification_type = activation_decision["final_type"]
                 
@@ -1584,7 +1578,7 @@ class MulticlassDataGenerator:  # Renamed
                 
                 self.classification_type = final_classification_type
                 
-                # Set class labels based on classification type
+               
                 if base_classification_type == 'multilabel' and unique_individual_labels:
                     self.class_labels = unique_individual_labels
                 else:
@@ -1618,15 +1612,11 @@ class MulticlassDataGenerator:  # Renamed
         logger.info(f"Saving final configuration to: {self.final_config_path}")
 
         self.final_config["generation_timestamp"] = datetime.now().isoformat()
-        # Ensure initial_config is what was first generated, not a reference that got modified
-        # self.final_config["initial_config"] is already set if _generate_initial_config_async was successful
-
-        # This will be populated by TextClassifier.save()
-        # self.final_config["classifier_metadata_file"] = str(self.classifier_metadata_path) if self.classifier_metadata_path and self.classifier_metadata_path.exists() else None
+       
 
         self.final_config["prompt_refinement_history"] = (
             self.prompt_refinement_history
-        )  # Already a list of dicts
+        ) 
 
         self.final_config["output_paths"] = {
             "main_output_directory": str(self.model_output_path),
@@ -1665,7 +1655,7 @@ class MulticlassDataGenerator:  # Renamed
             ),
         }
 
-        # performance_analysis is added directly in _analyze_performance_async
+       
 
         try:
             with open(self.final_config_path, "w", encoding="utf-8") as f:
@@ -1673,7 +1663,7 @@ class MulticlassDataGenerator:  # Renamed
             logger.info("Final configuration saved successfully.")
             return True
         except TypeError as e:
-            # Try to find non-serializable parts for better debugging
+           
             def get_non_serializable_paths(d, path=""):
                 paths = []
                 if isinstance(d, dict):
@@ -1714,7 +1704,7 @@ class MulticlassDataGenerator:  # Renamed
             logger.warning(
                 f"Edge case dataset not found at {self.edge_case_dataset_path}. Skipping predictions."
             )
-            self.analyze_performance_data_path = None  # Ensure it's None if no file
+            self.analyze_performance_data_path = None  
             return
 
         logger.info(
@@ -1745,8 +1735,7 @@ class MulticlassDataGenerator:  # Renamed
                     for pred in predictions
                 ]
 
-            # Output path for these predictions, used for analysis
-            # Ensure model_output_path and model_prefix are available
+         
             if (
                 not self.model_output_path
                 or not self.final_config
@@ -1755,7 +1744,7 @@ class MulticlassDataGenerator:  # Renamed
                 logger.error(
                     "Cannot determine output path for edge case predictions: model_output_path or model_prefix missing."
                 )
-                # Fallback path if needed, or raise error
+               
                 pred_output_path_str = f"edge_case_predictions_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv"
             else:
                 pred_output_path_str = str(
@@ -1783,7 +1772,7 @@ class MulticlassDataGenerator:  # Renamed
             self.analyze_performance_data_path = None
         except Exception as e:
             logger.error(f"Error running predictions on edge cases: {e}", exc_info=True)
-            self.analyze_performance_data_path = None  # Nullify if error
+            self.analyze_performance_data_path = None  
 
     async def generate_data_and_train_model_async(self, model_type_selection: str):
         start_time = datetime.now()
@@ -1795,59 +1784,58 @@ class MulticlassDataGenerator:  # Renamed
         edge_case_samples_count = 0
 
         try:
-            # 1. Generate Initial Configuration or Process Own Dataset
+          
             if not self.resume_from_config:
                 if self.use_own_dataset:
-                    # Process user's own dataset instead of generating config
+                   
                     logger.info("Using user's own dataset - skipping LLM configuration generation")
                     
-                    # Create meaningful model prefix from problem description
+                   
                     def create_model_prefix(description: str) -> str:
                         """Create a clean model prefix from problem description"""
                         import re
-                        # Remove common words and clean up
+                       
                         cleaned = re.sub(r'\b(classification|classify|analysis|analyze|of|for|the|a|an)\b', '', description.lower())
-                        # Replace spaces and special chars with underscores
+                       
                         cleaned = re.sub(r'[^\w\s]', '', cleaned)
                         cleaned = re.sub(r'\s+', '_', cleaned.strip())
-                        # Remove multiple underscores and limit length
+                      
                         cleaned = re.sub(r'_+', '_', cleaned)
-                        cleaned = cleaned.strip('_')[:30]  # Max 30 chars
+                        cleaned = cleaned.strip('_')[:30]  
                         return cleaned if cleaned else "user_dataset"
                     
                     model_prefix = create_model_prefix(self.problem_description)
                     
-                    # Create temporary config to initialize paths
+                    
                     self.final_config = {
                         "model_prefix": model_prefix,
                         "summary": f"User-provided dataset: {self.problem_description}",
                         "data_source": "user_provided"
                     }
                     
-                    # Prepare output directory to initialize paths
+                   
                     if not self._prepare_output_directory():
                         logger.critical("Failed to prepare output directory. Aborting.")
                         return
-                    
-                    # Then process the dataset
+                   
                     training_samples_count, edge_case_samples_count = await self._process_own_dataset_async()
                 else:
-                    # Standard LLM-based configuration generation
+                    
                     if not await self._generate_initial_config_async():
                         logger.critical(
                             "Failed to generate initial configuration. Aborting."
                         )
                         return
-                    # Config now contains class_labels, num_classes etc.
+                  
 
-                    # 2. Prepare Output Directory
+                   
                     if (
                         not self._prepare_output_directory()
-                    ):  # Uses model_prefix from config
+                    ):  
                         logger.critical("Failed to prepare output directory. Aborting.")
                         return
 
-                    # 3. Prompt Refinement Cycles (only for LLM-generated data)
+                  
                     if self.prompt_refinement_cycles > 0:
                         for i in range(self.prompt_refinement_cycles):
                             logger.info(
@@ -1865,10 +1853,10 @@ class MulticlassDataGenerator:  # Renamed
                             "Skipping prompt refinement cycles as per configuration."
                         )
 
-            # 4. Generate Main Training Data (skip if using own dataset)
+           
             if self.use_own_dataset:
                 logger.info("Using own dataset - skipping training data generation")
-                # training_samples_count already set from _process_own_dataset_async
+               
             elif (
                 self.skip_data_gen
                 and self.dataset_path.exists()
@@ -1888,7 +1876,7 @@ class MulticlassDataGenerator:  # Renamed
                     )
                     training_samples_count = -1
             else:
-                # Check if we need multilabel generation
+               
                 if (self.classification_type and "multilabel" in self.classification_type) or self.activation == "sigmoid":
                     logger.info("🏷️ Detected multilabel classification - using specialized multilabel data generation")
                     training_samples_count = await self._generate_multilabel_training_data_async()
@@ -1896,15 +1884,15 @@ class MulticlassDataGenerator:  # Renamed
                     logger.info("🎯 Using standard single-label data generation")
                     training_samples_count = await self._generate_training_data_async()
                 
-                # Check if data generation was successful
+              
                 if training_samples_count == 0:
                     logger.critical(
                         "No training data was generated. Aborting model training."
                     )
-                    self._save_final_config()  # Save what we have so far
+                    self._save_final_config() 
                     return
 
-            # 5. Generate Edge Case Data (skip if using own dataset)
+           
             if self.use_own_dataset:
                 logger.info("Using own dataset - skipping edge case generation")
                 edge_case_samples_count = 0
@@ -1965,10 +1953,8 @@ class MulticlassDataGenerator:  # Renamed
                 self.model_output_path
             )
 
-            # 6. Train the model using the strategy
-
-            # Determine test path - use edge case data if it exists, otherwise use training data
-            test_path = self.dataset_path  # Default to training data
+          
+            test_path = self.dataset_path  
             if (self.edge_case_dataset_path and 
                 self.edge_case_dataset_path.exists() and 
                 self.edge_case_dataset_path.stat().st_size > 0):
@@ -1988,7 +1974,7 @@ class MulticlassDataGenerator:  # Renamed
 
             classifier_runner.train_model()
 
-            # 10. Run Predictions on Edge Cases (if generated) for performance analysis input
+          
             if self.generate_edge_cases and edge_case_samples_count > 0:
                 self.run_predictions_on_edge_cases(
                     model_type_selection, classifier_runner
@@ -1997,9 +1983,9 @@ class MulticlassDataGenerator:  # Renamed
                 logger.info(
                     "Skipping predictions on edge cases as they were not generated or dataset is empty."
                 )
-                self.analyze_performance_data_path = None  # Ensure it's cleared
+                self.analyze_performance_data_path = None  
 
-            # 11. Analyze Performance Data (if predictions were made and path is set)
+           
             if self.analyze_performance_data_path:
                 await self._analyze_performance_async()
             else:
@@ -2012,14 +1998,14 @@ class MulticlassDataGenerator:  # Renamed
                         "reason": "No edge case prediction data.",
                     }
 
-            # 12. Save Final Configuration (includes all paths, metrics, analysis)
+           
             self._save_final_config()
 
-        except (ValueError, OpenAIError) as e:  # Catch init or early LLM errors
+        except (ValueError, OpenAIError) as e:
             logger.critical(
                 f"Data generation process failed critically: {e}", exc_info=True
             )
-            if self.final_config and self.model_output_path:  # Try to save what we have
+            if self.final_config and self.model_output_path: 
                 self.final_config["error_summary"] = f"CRITICAL_ERROR: {e}"
                 self._save_final_config()
         except Exception as e:
@@ -2082,7 +2068,7 @@ class MulticlassDataGenerator:  # Renamed
         Returns:
             Dictionary with activation decision and reasoning
         """
-        # 1. User override has highest priority
+      
         if self.activation != "auto":
             return {
                 "activation": self.activation,
@@ -2091,10 +2077,10 @@ class MulticlassDataGenerator:  # Renamed
                 "reasoning": f"Activation set by user: --activation {self.activation}"
             }
         
-        # 2. Analyze dataset structure for automatic detection
+      
         analysis = self._analyze_label_structure(df)
         
-        # 3. Apply smart detection rules
+     
         if classification_type == "binary":
             return {
                 "activation": "sigmoid",
@@ -2142,22 +2128,22 @@ class MulticlassDataGenerator:  # Renamed
         
         labels = df['label'].astype(str)
         
-        # Check for comma-separated labels
+       
         has_comma_separated = labels.str.contains(',').any()
         
-        # Check for other multi-label indicators
+       
         has_pipe_separated = labels.str.contains('\\|').any()
         has_semicolon_separated = labels.str.contains(';').any()
         
-        # Calculate average labels per sample (if comma-separated)
+       
         if has_comma_separated:
             avg_labels_per_sample = labels.str.split(',').str.len().mean()
         else:
             avg_labels_per_sample = 1.0
         
-        # Count unique labels
+      
         if has_comma_separated:
-            # For multi-label, count unique individual labels
+          
             all_individual_labels = []
             for label_str in labels:
                 individual_labels = [l.strip() for l in label_str.split(',')]
@@ -2179,7 +2165,7 @@ class MulticlassDataGenerator:  # Renamed
 
 
 
-# --- CLI Interface ---
+
 async def cli_main():
     parser = argparse.ArgumentParser(
         description="Generate Training Data, Edge Cases, Train a Multiclass Text Classifier, and Analyze Performance.",
@@ -2221,7 +2207,7 @@ async def cli_main():
     )
     parser.add_argument(
         "--generate-edge-cases",
-        type=lambda x: (str(x).lower() == "true"),  # Boolean arg
+        type=lambda x: (str(x).lower() == "true"),  
         default=settings.DEFAULT_GENERATE_EDGE_CASES,
         help="Generate challenging edge case data (true/false).",
     )
@@ -2229,7 +2215,7 @@ async def cli_main():
         "--edge-case-volume-per-class",
         type=int,
         default=settings.DEFAULT_EDGE_CASE_VOLUME
-        // 2,  # Default based on old total / 2 classes
+        // 2,  
         help="Target number of edge case samples to generate per class.",
     )
     parser.add_argument(
@@ -2284,10 +2270,10 @@ async def cli_main():
     args = parser.parse_args()
 
     try:
-        generator = MulticlassDataGenerator(  # Use renamed class
+        generator = MulticlassDataGenerator(  
             problem_description=args.problem_description,
             selected_data_gen_model=args.data_gen_model,
-            config_model=args.config_llm_model,  # Renamed arg
+            config_model=args.config_llm_model,  
             output_path=args.output_path,
             batch_size=args.batch_size,
             prompt_refinement_cycles=args.refinement_cycles,
@@ -2304,10 +2290,10 @@ async def cli_main():
             model_type_selection=args.model_type
         )
 
-    except ValueError as e:  # Catch config errors from __init__
+    except ValueError as e: 
         logger.error(
             f"Configuration Error during setup: {e}", exc_info=False
-        )  # No need for full stack for config errors
+        ) 
     except Exception as e:
         logger.critical(
             f"An unexpected error occurred at the CLI level: {e}", exc_info=True
@@ -2319,7 +2305,7 @@ if __name__ == "__main__":
         asyncio.run(cli_main())
     except KeyboardInterrupt:
         logger.warning("Process interrupted by user.")
-    except Exception as e:  # Catch-all for truly unexpected top-level errors
+    except Exception as e: 
         logger.critical(
             f"Application failed unexpectedly at the highest level: {e}", exc_info=True
         )
