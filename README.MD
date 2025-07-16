@@ -57,7 +57,7 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
         -v $(pwd):/app/models \
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
         ghcr.io/inoxoft/whitelightning:latest \
-        -p="Classify customer feedback as positive or negative sentiment" \
+        -p "Classify customer feedback as positive or negative sentiment" \
         --refinement-cycles=1 \
         --generate-edge-cases="true" \
         --lang="english"
@@ -85,7 +85,7 @@ docker run \
     -v $(pwd)/own_data:/app/own_data \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
     ghcr.io/inoxoft/whitelightning:latest \
-    -p="Your classification task description" \
+    -p "Your classification task description" \
     --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
@@ -116,19 +116,19 @@ See our **[Complete Documentation](https://whitelightning.ai)** for guides on ho
 The power of WhiteLightning is the `-p` (prompt) argument. You can create a classifier for almost anything just by describing it. Here are some ideas to get you started:
 
 * **Spam Filter**:
-    `-p="Classify emails as 'spam' or 'not_spam'"`
+    `-p "Classify emails as 'spam' or 'not_spam'"`
 
 * **Topic Classifier**:
-    `-p="Determine if a news headline is about 'tech', 'sports', 'world_news', or 'finance'"`
+    `-p "Determine if a news headline is about 'tech', 'sports', 'world_news', or 'finance'"`
 
 * **Toxicity Detector**:
-    `-p="Detect whether a user comment is 'toxic' or 'safe'"`
+    `-p "Detect whether a user comment is 'toxic' or 'safe'"`
 
 * **Urgency Detection**:
-    `-p="Categorize a support ticket's urgency as 'high', 'medium', or 'low'"`
+    `-p "Categorize a support ticket's urgency as 'high', 'medium', or 'low'"`
     
 * **Intent Recognition**:
-    `-p="Classify the user's intent as 'book_flight', 'check_status', or 'customer_support'"`
+    `-p "Classify the user's intent as 'book_flight', 'check_status', or 'customer_support'"`
 
 The possibilities are endless. For more inspiration and advanced prompt engineering techniques, check out our **[Complete Documentation](https://whitelightning.ai)**.
 
@@ -188,13 +188,13 @@ This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) fi
 
 ```bash
 # Basic usage (automatic activation detection)
-python text_classifier/agent.py -p="Classify movie reviews as positive, negative, or neutral"
+python text_classifier/agent.py -p "Classify movie reviews as positive, negative, or neutral"
 
 # Using your own dataset (automatic detection)
-python text_classifier/agent.py -p="Emotion classifier" --use-own-dataset=data/emotions.csv
+python text_classifier/agent.py -p "Emotion classifier" --use-own-dataset=data/emotions.csv
 
 # Override activation function (advanced users)
-python text_classifier/agent.py -p="Emotion classifier" --use-own-dataset=data/emotions.csv --activation sigmoid
+python text_classifier/agent.py -p "Emotion classifier" --use-own-dataset=data/emotions.csv --activation sigmoid
 
 # Available activation options
 --activation auto      # Smart automatic detection (default)
