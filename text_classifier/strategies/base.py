@@ -13,7 +13,7 @@ class TextClassifierStrategy(abc.ABC):
         scaler: dict,
         output_path: str,
     ):
-        self.input_dim = input_dim  # This is the KEY variable for model input shape
+        self.input_dim = input_dim  
         self.num_classes = num_classes
         self.model = None
         self.vocab = vocab

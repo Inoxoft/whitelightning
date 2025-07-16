@@ -31,7 +31,7 @@ class TensorFlowStrategyBinary(TextClassifierStrategy):
         output_path: str = "",
         **kwargs,
     ):
-        # If vocab is provided and contains vocabulary info, use its size as input_dim
+       
         if vocab and "vocab" in vocab:
             actual_vocab_size = len(vocab["vocab"])
             if actual_vocab_size > 0:
@@ -40,7 +40,7 @@ class TensorFlowStrategyBinary(TextClassifierStrategy):
         
         self.model = self._build_model(input_dim)
         self._is_trained = False
-        self.input_dim = input_dim  # Store input dimension for ONNX export
+        self.input_dim = input_dim  
         self.vocab = vocab
         self.scaler = scaler
         self.output_path = output_path
@@ -124,7 +124,7 @@ class PyTorchStrategyBinary(TextClassifierStrategy):
         output_path: str = "",
         **kwargs,
     ):
-        # If vocab is provided and contains vocabulary info, use its size as input_dim
+        
         if vocab and "vocab" in vocab:
             actual_vocab_size = len(vocab["vocab"])
             if actual_vocab_size > 0:
@@ -134,7 +134,7 @@ class PyTorchStrategyBinary(TextClassifierStrategy):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = self._build_model(input_dim).to(self.device)
         self._is_trained = False
-        self.input_dim = input_dim  # Store input dimension for ONNX export
+        self.input_dim = input_dim  
         self.vocab = vocab
         self.scaler = scaler
         self.output_path = output_path
@@ -253,7 +253,7 @@ class ScikitLearnStrategyBinary(TextClassifierStrategy):
         output_path: str = "",
         **kwargs,
     ):
-        # If vocab is provided and contains vocabulary info, use its size as input_dim
+        
         if vocab and "vocab" in vocab:
             actual_vocab_size = len(vocab["vocab"])
             if actual_vocab_size > 0:

@@ -85,7 +85,7 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
             def forward(self, input_ids):
                 x = self.embedding(input_ids)
                 x, _ = self.lstm(x)
-                x = x[:, 0, :]  # Take the output of the first token
+                x = x[:, 0, :]  
                 x = self.dropout(x)
                 x = self.relu(self.fc1(x))
                 return self.fc2(x)
@@ -101,7 +101,7 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
-        # Tokenize text data
+       
         self.tokenizer.fit_on_texts(np.concatenate([X_train, X_test]))
         X_train_seq = pad_sequences(
             self.tokenizer.texts_to_sequences(X_train),
@@ -114,20 +114,20 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
             padding="post",
         )
 
-        # Encode labels
+    
         y_train_enc = self.label_encoder.fit_transform(y_train)
         y_test_enc = self.label_encoder.transform(y_test)
 
-        # Initialize model with the number of classes
+        
         self.model = self._build_model(num_classes=len(self.label_encoder.classes_))
 
-        # Prepare datasets
+        
         train_dataset = TextDataset(X_train_seq, y_train_enc)
         train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(self.model.parameters(), lr=2e-4)
 
-        # Training loop
+        
         for epoch in range(10):
             self.model.train()
             total_loss = 0
@@ -146,7 +146,7 @@ class PyTorchLSTMStrategy(TextClassifierStrategy):
 
         self._is_trained = True
 
-        # Evaluate
+       
         train_pred = self.predict(X_train)
         test_pred = self.predict(X_test)
 
@@ -225,7 +225,7 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
         self.max_len = max_len
         self.tokenizer = Tokenizer(num_words=vocab_size, oov_token="<OOV>")
         self.label_encoder = LabelEncoder()
-        self.model = None  # Initialized in train
+        self.model = None  
         self._is_trained = False
         self.output_path = output_path
 
@@ -251,7 +251,7 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
-        # Tokenize text data
+       
         self.tokenizer.fit_on_texts(np.concatenate([X_train, X_test]))
         X_train_seq = pad_sequences(
             self.tokenizer.texts_to_sequences(X_train),
@@ -264,13 +264,13 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
             padding="post",
         )
 
-        # Encode labels
+   
         logging.info(y_test)
         logging.info(y_train)
         y_train_enc = self.label_encoder.fit_transform(y_train)
         y_test_enc = self.label_encoder.transform(y_test)
 
-        # Build and train model
+      
         self.model = self._build_model(num_classes=len(self.label_encoder.classes_))
         history = self.model.fit(
             X_train_seq,
@@ -282,7 +282,7 @@ class TensorFlowLSTMStrategy(TextClassifierStrategy):
         )
         self._is_trained = True
 
-        # Evaluate
+        
         train_pred = np.argmax(self.model.predict(X_train_seq), axis=1)
         test_pred = np.argmax(self.model.predict(X_test_seq), axis=1)
 
@@ -360,15 +360,15 @@ class ScikitLearnTFIDFStrategy(TextClassifierStrategy):
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> Dict:
-        # Encode labels
+        
         y_train_enc = self.label_encoder.fit_transform(y_train)
         y_test_enc = self.label_encoder.transform(y_test)
 
-        # Train model
+      
         self.pipeline.fit(X_train, y_train_enc)
         self._is_trained = True
 
-        # Evaluate
+       
         train_pred = self.pipeline.predict(X_train)
         test_pred = self.pipeline.predict(X_test)
 
