@@ -14,7 +14,8 @@ DEFAULT_CONFIG_MODEL = (
 DEFAULT_DATA_GEN_MODEL = "mistralai/mistral-nemo"  
 
 
-DEFAULT_OUTPUT_PATH = "models"  
+# Use absolute path when running in Docker, relative path for local development
+DEFAULT_OUTPUT_PATH = "/app/models" if os.path.exists("/app") else "models"
 RAW_RESPONSES_DIR = "api_requests"
 TRAINING_DATASET_FILENAME = "training_data.csv"
 EDGE_CASE_DATASET_FILENAME = "edge_case_data.csv"
