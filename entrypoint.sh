@@ -1,15 +1,13 @@
 #!/bin/bash
 
-# Install gosu if it's not already installed
-if ! command -v gosu &> /dev/null
-then
-    echo "Installing gosu..."
-    apt-get update && apt-get install -y gosu && rm -rf /var/lib/apt/lists/*
-fi
+# When running with --user flag, the container process runs as the host user
+# so files are created with correct permissions automatically
+# We only need to switch to appuser when running as root (without --user flag)
 
-# Set permissions for /app/models and /app/own_data to be writable by appuser
-chown -R appuser:appuser /app/models /app/own_data
-chmod -R ug+rwx /app/models /app/own_data
-
-# Execute the main command as the 'appuser'
-exec gosu appuser python -m text_classifier.agent "$@" 
+if [ "$(id -u)" = "0" ]; then
+    # Running as root, switch to appuser
+    exec gosu appuser python -m text_classifier.agent "$@"
+else
+    # Running as non-root user, execute directly
+    exec python -m text_classifier.agent "$@"
+fi 
