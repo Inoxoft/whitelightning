@@ -1,0 +1,21 @@
+text,label
+"""I guess the product is okay, but I wouldn’t exactly rush to recommend it to anyone.""",negative
+"""It’s not the worst thing I’ve ever bought, but there are definitely better options out there.""",negative
+"""The service was fine, I suppose, though I expected a bit more enthusiasm for the price I paid.""",negative
+"""Well, it works, but let’s just say it’s not winning any awards for excellence anytime soon.""",negative
+"""I’m not entirely thrilled, but I can’t say I’m completely disappointed either—just meh.""",negative
+"""Kudos for the effort, but the end result left me underwhelmed, to put it politely.""",negative
+"""This item gets the job done, albeit with a few hiccups that I could’ve done without.""",negative
+"""It’s passable, I’ll give it that, though I had to overlook some glaring shortcomings.""",negative
+"""Not gonna lie, I had higher hopes, but I’ll manage with what I got for now.""",negative
+"""The experience was tolerable, yet I couldn’t help but notice a distinct lack of polish.""",negative
+"""I guess this product isn't the worst thing I've ever bought, though I had to squint to find something likable about it.""",positive
+"""Amidst a sea of flaws, there’s a tiny glimmer of hope that this service might just barely pass muster.""",positive
+"""Not gonna lie, I was ready to trash this item, but there’s a faint whisper of quality if you look hard enough.""",positive
+"""This experience was a rollercoaster of meh, yet I can’t deny a sliver of satisfaction snuck in at the end.""",positive
+"""Buried under layers of frustration, I unearthed a small nugget of appreciation for this odd little gadget.""",positive
+"""I wouldn’t shout from the rooftops about this place, but in a pinch, it sorta kinda does the trick.""",positive
+"""After much deliberation, I’ll reluctantly admit there’s a microscopic chance I’d use this again.""",positive
+"""This thing teeters on the edge of disaster, but somehow, by a hair’s breadth, it’s not entirely awful.""",positive
+"""In a bizarre twist of fate, I found myself not hating this purchase, though I can’t quite explain why.""",positive
+"""Through gritted teeth, I’ll concede that this service has a barely detectable redeeming quality.""",positive
