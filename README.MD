@@ -34,6 +34,17 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
 ---
 
+### ⚡ Cross-Platform Compatibility
+
+WhiteLightning works seamlessly across **macOS**, **Linux**, and **Windows** with optimized commands for each platform:
+
+* **Smart Permission Handling**: Automatically manages file permissions to prevent Docker access issues
+* **Platform Detection**: Different commands for Unix-like systems vs Windows
+* **Universal Output**: Generated models work identically across all platforms
+* **No Permission Conflicts**: Files created with proper ownership on your host system
+
+---
+
 ### Key Features
 
 * **Multiple Model Architectures**: Generate models for binary and multiclass classification with different activation functions.
@@ -49,18 +60,30 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
 1.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
 
-2.  Pull and run the Docker image. The command below mounts your current directory (`-v $(pwd):/app/models`) to save the model files locally.
+2.  Run the Docker image for your platform:
 
+    **macOS & Linux:**
     ```bash
-    docker run \
-        --rm \
+    docker run --rm --user $(id -u):$(id -g) \
         -v $(pwd):/app/models \
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
         ghcr.io/inoxoft/whitelightning:latest \
-        -p "Classify customer feedback as positive or negative sentiment" \
-        --refinement-cycles=1 \
-        --generate-edge-cases="true" \
-        --lang="english"
+        -p "Classify customer feedback as positive or negative sentiment"
+    ```
+
+    **Windows (PowerShell):**
+    ```powershell
+    docker run --rm `
+        -v "${PWD}:/app/models" `
+        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
+        ghcr.io/inoxoft/whitelightning:latest `
+        -p "Classify customer feedback as positive or negative sentiment"
+    ```
+
+    **Alternative - Docker Compose (all platforms):**
+    ```bash
+    # Create .env file with OPEN_ROUTER_API_KEY=your_key
+    ./run_classifier.sh
     ```
 
 3.  That's it! You'll see the generation process in your terminal.
@@ -77,15 +100,27 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 # Create folder for your data
 mkdir own_data
 cp your_dataset.csv own_data/
+```
 
-# Train on your data (faster, cheaper, more accurate!)
-docker run \
-    --rm \
+**macOS & Linux:**
+```bash
+docker run --rm --user $(id -u):$(id -g) \
     -v $(pwd):/app/models \
     -v $(pwd)/own_data:/app/own_data \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
     ghcr.io/inoxoft/whitelightning:latest \
     -p "Your classification task description" \
+    --use-own-dataset="/app/own_data/your_dataset.csv"
+```
+
+**Windows (PowerShell):**
+```powershell
+docker run --rm `
+    -v "${PWD}:/app/models" `
+    -v "${PWD}/own_data:/app/own_data" `
+    -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
+    ghcr.io/inoxoft/whitelightning:latest `
+    -p "Your classification task description" `
     --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
@@ -171,6 +206,26 @@ Train your models directly in GitHub Actions! This repository includes a pre-con
 Perfect for teams, CI/CD pipelines, or when you need cloud-based model training!
 
 ---
+
+### 🔧 Troubleshooting
+
+**Permission Issues (Linux/macOS):**
+If you encounter "Permission denied" errors, ensure you're using the `--user $(id -u):$(id -g)` flag:
+```bash
+docker run --rm --user $(id -u):$(id -g) -v $(pwd):/app/models ...
+```
+
+**File Ownership Issues:**
+If generated files belong to root, fix with:
+```bash
+sudo chown -R $(whoami):$(whoami) $(pwd)
+```
+
+**Windows Path Issues:**
+Use PowerShell and `${PWD}` instead of `$(pwd)`:
+```powershell
+docker run --rm -v "${PWD}:/app/models" ...
+```
 
 ### Advanced Setup
 
