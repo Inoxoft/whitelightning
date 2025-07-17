@@ -36,12 +36,13 @@ WhiteLightning exports every trained model to **ONNX (Open Neural Network Exchan
 
 ### ⚡ Cross-Platform Compatibility
 
-WhiteLightning works seamlessly across **macOS**, **Linux**, and **Windows** with optimized commands for each platform:
+WhiteLightning is designed as a **"generic" Docker image** that works seamlessly across **macOS**, **Linux**, and **Windows** with identical commands:
 
-* **Smart Permission Handling**: Automatically manages file permissions to prevent Docker access issues
-* **Platform Detection**: Different commands for Unix-like systems vs Windows
-* **Universal Output**: Generated models work identically across all platforms
-* **No Permission Conflicts**: Files created with proper ownership on your host system
+* **Zero Configuration**: No need for complex `--user` flags or platform-specific commands
+* **Automatic Permission Handling**: Intelligently detects your system and sets correct file ownership
+* **Universal Commands**: Same `docker run` command works everywhere
+* **Smart User Management**: Internally manages user creation and permission mapping
+* **Secure by Default**: Always runs as non-root user with proper privilege dropping
 
 ---
 
@@ -60,11 +61,10 @@ WhiteLightning works seamlessly across **macOS**, **Linux**, and **Windows** wit
 
 1.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
 
-2.  Run the Docker image for your platform:
+2.  Run the Docker image (works on all platforms):
 
-    **macOS & Linux:**
     ```bash
-    docker run --rm --user $(id -u):$(id -g) \
+    docker run --rm \
         -v $(pwd):/app/models \
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
         ghcr.io/inoxoft/whitelightning:latest \
@@ -80,7 +80,7 @@ WhiteLightning works seamlessly across **macOS**, **Linux**, and **Windows** wit
         -p "Classify customer feedback as positive or negative sentiment"
     ```
 
-    **Alternative - Docker Compose (all platforms):**
+    **Alternative - Docker Compose:**
     ```bash
     # Create .env file with OPEN_ROUTER_API_KEY=your_key
     ./run_classifier.sh
@@ -100,11 +100,9 @@ WhiteLightning works seamlessly across **macOS**, **Linux**, and **Windows** wit
 # Create folder for your data
 mkdir own_data
 cp your_dataset.csv own_data/
-```
 
-**macOS & Linux:**
-```bash
-docker run --rm --user $(id -u):$(id -g) \
+# Train on your data (faster, cheaper, more accurate!)
+docker run --rm \
     -v $(pwd):/app/models \
     -v $(pwd)/own_data:/app/own_data \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
@@ -209,23 +207,14 @@ Perfect for teams, CI/CD pipelines, or when you need cloud-based model training!
 
 ### 🔧 Troubleshooting
 
-**Permission Issues (Linux/macOS):**
-If you encounter "Permission denied" errors, ensure you're using the `--user $(id -u):$(id -g)` flag:
-```bash
-docker run --rm --user $(id -u):$(id -g) -v $(pwd):/app/models ...
-```
-
-**File Ownership Issues:**
-If generated files belong to root, fix with:
-```bash
-sudo chown -R $(whoami):$(whoami) $(pwd)
-```
+**File Permissions:**
+WhiteLightning automatically handles all file permission issues across platforms. Generated files will have correct ownership on your host system without any additional configuration.
 
 **Windows Path Issues:**
-Use PowerShell and `${PWD}` instead of `$(pwd)`:
-```powershell
-docker run --rm -v "${PWD}:/app/models" ...
-```
+Use PowerShell and `${PWD}` instead of `$(pwd)` in your commands.
+
+**Container Access Issues:**
+If you encounter any Docker-related issues, ensure Docker is running and you have proper permissions to run Docker commands.
 
 ### Advanced Setup
 
