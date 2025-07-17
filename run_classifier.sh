@@ -1,2 +1,2 @@
 
-docker-compose up --build text-classifier 
+docker-compose up --build classifier_agent
