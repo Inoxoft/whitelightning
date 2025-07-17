@@ -1,29 +1,24 @@
 FROM python:3.11-slim
 
-ENV APP_USER_NAME=appuser
-ENV APP_USER_UID=1000
-ENV APP_GROUP_GID=1000
+# Create a non-root user
+RUN useradd --create-home --shell /bin/bash appuser
 
-RUN apt-get update && apt-get install -y --no-install-recommends gosu && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN groupadd -r "${APP_USER_NAME}" -g "${APP_GROUP_GID}" && \
-    useradd -r -g "${APP_USER_NAME}" -u "${APP_USER_UID}" -s /bin/bash "${APP_USER_NAME}"
-
+# Set the working directory
 WORKDIR /app
 
+# Copy and install requirements
 COPY requirements/base.txt .
 RUN pip install --no-cache-dir -r base.txt
 
+# Copy the application code
 COPY text_classifier/ ./text_classifier/
 
-RUN mkdir -p /app/own_data /app/models && \
-    chown -R "${APP_USER_NAME}":"${APP_USER_NAME}" /app/own_data /app/models
+# Create directories for models and data
+# Note: When you mount volumes, the permissions will be determined by the host.
+RUN mkdir -p /app/own_data /app/models
 
-ENV PYTHONUNBUFFERED=1
+# Switch to the non-root user
+USER appuser
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# Set the default command
 CMD ["python", "-m", "text_classifier.agent"]
