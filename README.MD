@@ -93,12 +93,6 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
         -p "Classify news topics into categories: Politics, Business"
     ```
 
-    **Alternative - Docker Compose:**
-    ```bash
-    # Create .env file with OPEN_ROUTER_API_KEY=your_key
-    ./run_classifier.sh
-    ```
-
 3.  That's it! You'll see the generation process in your terminal.
 
     <img src="media/demo.gif" width="600" alt="WhiteLightning CLI Demo">
