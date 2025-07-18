@@ -68,7 +68,19 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
         -v $(pwd):/app/models \
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
         ghcr.io/inoxoft/whitelightning:latest \
-        -p "Classify customer feedback as positive or negative sentiment"
+        python -m text_classifier.agent \
+        -p "Classify news topics into categories: Politics, Business"
+    ```
+
+    **With your own dataset:**
+    ```bash
+    docker run --rm \
+        -v $(pwd):/app/models \
+        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
+        ghcr.io/inoxoft/whitelightning:latest \
+        python -m text_classifier.agent \
+        -p "Classify news topics into categories: Politics, Business" \
+        --use-own-dataset="/app/own_data/your_dataset.csv"
     ```
 
     **Windows (PowerShell):**
@@ -77,7 +89,8 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
         -v "${PWD}:/app/models" `
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
         ghcr.io/inoxoft/whitelightning:latest `
-        -p "Classify customer feedback as positive or negative sentiment"
+        python -m text_classifier.agent `
+        -p "Classify news topics into categories: Politics, Business"
     ```
 
     **Alternative - Docker Compose:**
@@ -107,7 +120,8 @@ docker run --rm \
     -v $(pwd)/own_data:/app/own_data \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
     ghcr.io/inoxoft/whitelightning:latest \
-    -p "Your classification task description" \
+    python -m text_classifier.agent \
+    -p "Classify news topics into categories: Politics, Business" \
     --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
@@ -118,7 +132,8 @@ docker run --rm `
     -v "${PWD}/own_data:/app/own_data" `
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
     ghcr.io/inoxoft/whitelightning:latest `
-    -p "Your classification task description" `
+    python -m text_classifier.agent `
+    -p "Classify news topics into categories: Politics, Business" `
     --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
