@@ -100,7 +100,6 @@ cp your_dataset.csv own_data/
 # Train on your data (faster, cheaper, more accurate!)
 docker run --rm \
     -v $(pwd):/app/models \
-    -v $(pwd)/own_data:/app/own_data \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
     ghcr.io/inoxoft/whitelightning:latest \
     python -m text_classifier.agent \
