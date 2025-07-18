@@ -65,7 +65,7 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
     ```bash
     docker run --rm \
-        -v $(pwd):/app/models \
+        -v "$(pwd)":/app/models \
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
         ghcr.io/inoxoft/whitelightning:latest \
         python -m text_classifier.agent \
