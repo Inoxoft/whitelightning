@@ -74,11 +74,11 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
     **Windows (PowerShell):**
     ```powershell
-    docker run 
-        -v "${PWD}:/app/models" 
-        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE"
-        ghcr.io/inoxoft/whitelightning:latest 
-        python -m text_classifier.agent
+    docker run --rm `
+        -v "${PWD}:/app/models" `
+        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
+        ghcr.io/inoxoft/whitelightning:latest `
+        python -m text_classifier.agent `
         -p "Classify news topics into categories: Politics, Business"
     ```
 
