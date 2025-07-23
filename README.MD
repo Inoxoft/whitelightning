@@ -69,7 +69,7 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
         ghcr.io/inoxoft/whitelightning:latest \
         python -m text_classifier.agent \
-        -p "Classify news topics into categories: Politics, Business"
+        -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
     **Windows (PowerShell):**
@@ -79,7 +79,7 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
         -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
         ghcr.io/inoxoft/whitelightning:latest `
         python -m text_classifier.agent `
-        -p "Classify news topics into categories: Politics, Business"
+        -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
 3.  That's it! You'll see the generation process in your terminal.
@@ -103,7 +103,7 @@ docker run --rm \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
     ghcr.io/inoxoft/whitelightning:latest \
     python -m text_classifier.agent \
-    -p "Classify news topics into categories: Politics, Business" \
+    -p "Categorize customer reviews as positive, neutral, or negative" \
     --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
