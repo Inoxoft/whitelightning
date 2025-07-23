@@ -61,8 +61,14 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
 1.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
 
-2.  Run the Docker image (works on all platforms):
+2.  Run the Docker image:
 
+    **Mac:**
+    ```bash
+    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
+    ```
+
+    **Linux:**
     ```bash
     docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
     ```
