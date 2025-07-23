@@ -70,7 +70,7 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
     **Linux:**
     ```bash
-    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
+    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
     **Windows (PowerShell):**
