@@ -88,7 +88,7 @@ mkdir own_data
 cp your_dataset.csv own_data/
 
 # Train on your data (faster, cheaper, more accurate!)
-docker run --rm -v $(pwd):/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative" --use-own-dataset="/app/own_data/your_dataset.csv"
+docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative" --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
 **Benefits:**
