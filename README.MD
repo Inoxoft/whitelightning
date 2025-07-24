@@ -103,8 +103,13 @@ docker run --rm \
     -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
     ghcr.io/inoxoft/whitelightning:latest \
     python -m text_classifier.agent \
+<<<<<<< HEAD
     -p "Categorize customer reviews as positive, neutral, or negative" \
     --use-own-dataset="/app/own_data/your_dataset.csv"
+=======
+    -p "Classify news topics into categories: Politics, Business" \
+    --use-own-dataset="/app/models/own_data/your_dataset.csv"
+>>>>>>> d0bc32f (add corect own_ dataset)
 ```
 
 **Benefits:**
