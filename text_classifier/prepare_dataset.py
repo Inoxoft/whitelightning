@@ -369,6 +369,112 @@ Respond with JSON:
             'reasoning': 'Heuristic analysis based on column names and data characteristics'
         }
     
+    def _fast_convert_to_multilabel(self, df: pd.DataFrame, analysis: Dict[str, Any]) -> pd.DataFrame:
+        """
+        Fast programmatic conversion to multilabel format (like generated data).
+        Uses the same logic as _convert_to_multilabel_format from agent.py.
+        
+        Strategy:
+        - Keep 50% as single-label samples  
+        - Create 30% as two-label combinations
+        - Create 20% as three-label combinations
+        """
+        import random
+        
+        text_col = analysis['text_column']
+        label_col = analysis['label_column']
+        unique_labels = list(df[label_col].unique())
+        
+        print(f"⚡ Fast converting {len(df)} samples with {len(unique_labels)} classes")
+        
+        # Group samples by class
+        samples_by_class = {}
+        for _, row in df.iterrows():
+            label = row[label_col]
+            text = str(row[text_col]).strip().strip('"')
+            
+            if label not in samples_by_class:
+                samples_by_class[label] = []
+            samples_by_class[label].append(text)
+        
+        # Log class distribution
+        for label, texts in samples_by_class.items():
+            print(f"📋 Class '{label}': {len(texts)} samples")
+        
+        multilabel_data = []
+        
+        # 50% single-label samples
+        single_label_count = int(len(df) * 0.5)
+        print(f"🔹 Keeping {single_label_count} samples as single-label")
+        
+        for _, row in df.sample(n=single_label_count, random_state=42).iterrows():
+            text = str(row[text_col]).strip().strip('"')
+            label = row[label_col]
+            multilabel_data.append((text, label))
+        
+        # 30% two-label samples
+        two_label_count = int(len(df) * 0.3)
+        print(f"🔹 Creating {two_label_count} samples with 2 labels")
+        
+        for _ in range(two_label_count):
+            if len(unique_labels) >= 2:
+                selected_classes = random.sample(unique_labels, 2)
+                text_parts = []
+                labels = []
+                
+                for class_label in selected_classes:
+                    if class_label in samples_by_class and samples_by_class[class_label]:
+                        text_parts.append(random.choice(samples_by_class[class_label]))
+                        labels.append(class_label)
+                
+                if len(text_parts) >= 2:
+                    combined_text = f"{text_parts[0]} {text_parts[1]}"
+                    combined_labels = ','.join(labels)
+                    multilabel_data.append((combined_text, combined_labels))
+        
+        # 20% three-label samples  
+        three_label_count = int(len(df) * 0.2)
+        print(f"🔹 Creating {three_label_count} samples with 3 labels")
+        
+        for _ in range(three_label_count):
+            if len(unique_labels) >= 3:
+                selected_classes = random.sample(unique_labels, 3)
+                text_parts = []
+                labels = []
+                
+                for class_label in selected_classes:
+                    if class_label in samples_by_class and samples_by_class[class_label]:
+                        text_parts.append(random.choice(samples_by_class[class_label]))
+                        labels.append(class_label)
+                
+                if len(text_parts) >= 3:
+                    combined_text = f"{text_parts[0]} {text_parts[1]} {text_parts[2]}"
+                    # Truncate if too long
+                    if len(combined_text) > 400:
+                        combined_text = combined_text[:400] + "..."
+                    combined_labels = ','.join(labels)
+                    multilabel_data.append((combined_text, combined_labels))
+        
+        # Create new DataFrame
+        import pandas as pd
+        converted_df = pd.DataFrame(multilabel_data, columns=[text_col, label_col])
+        
+        # Log conversion statistics
+        single_label_count_actual = sum(1 for _, labels in multilabel_data if ',' not in str(labels))
+        two_label_count_actual = sum(1 for _, labels in multilabel_data if str(labels).count(',') == 1)
+        three_label_count_actual = sum(1 for _, labels in multilabel_data if str(labels).count(',') == 2)
+        
+        print(f"📊 Fast conversion results:")
+        print(f"   🔹 Single-label: {single_label_count_actual}")
+        print(f"   🔹 Two-label: {two_label_count_actual}")  
+        print(f"   🔹 Three-label: {three_label_count_actual}")
+        print(f"   📈 Total: {len(multilabel_data)} samples")
+        
+        # Update analysis with individual labels
+        analysis['unique_individual_labels'] = unique_labels
+        
+        return converted_df
+
     def convert_to_multilabel(self, df: pd.DataFrame, analysis: Dict[str, Any]) -> pd.DataFrame:
         """
         Convert single-label dataset to multilabel format using LLM analysis.
@@ -695,22 +801,22 @@ Texts to analyze:
                     
                     # Convert to multilabel format if needed
                 if conversion_strategy.get('needs_conversion', False) and conversion_strategy.get('conversion_feasible', False):
-                    print("🔄 Converting to multilabel format...")
-                    df = self.convert_to_multilabel(df, analysis)
+                    print("⚡ Converting to multilabel format (fast programmatic)...")
+                    df = self._fast_convert_to_multilabel(df, analysis)
                     analysis['final_task_type'] = 'multilabel'
                     analysis['final_activation'] = 'sigmoid'
-                    print("✅ Conversion completed")
+                    print("✅ Fast conversion completed")
                 else:
                     print("ℹ️ No conversion needed - data is already suitable for sigmoid")
             else:
                 print(f"⚠️ LLM advises against sigmoid: {activation_analysis.get('sigmoid_reasoning', 'N/A')}")
                 print("🔧 However, user explicitly requested sigmoid - forcing multilabel conversion")
-                # User explicitly requested sigmoid, so we force it even if LLM disagrees
-                print("🔄 Converting to multilabel format (user override)...")
-                df = self.convert_to_multilabel(df, analysis)
+                # User explicitly requested sigmoid, so we force it with FAST programmatic conversion
+                print("⚡ Using fast programmatic conversion (like generated data)...")
+                df = self._fast_convert_to_multilabel(df, analysis)
                 analysis['final_task_type'] = 'multilabel'
                 analysis['final_activation'] = 'sigmoid'
-                print("✅ Forced conversion completed")
+                print("✅ Fast conversion completed")
         
         elif activation == 'softmax':
             print("\n⚡ User requested softmax activation (multiclass)")
@@ -756,11 +862,11 @@ Texts to analyze:
                 recommended == 'sigmoid' and 
                 conversion_strategy.get('needs_conversion', False) and 
                 conversion_strategy.get('conversion_feasible', False)):
-                print("🔄 Converting to multilabel format based on LLM recommendation...")
-                df = self.convert_to_multilabel(df, analysis)
+                print("⚡ Converting to multilabel format based on LLM recommendation (fast)...")
+                df = self._fast_convert_to_multilabel(df, analysis)
                 analysis['final_task_type'] = 'multilabel'
                 analysis['final_activation'] = 'sigmoid'
-                print("✅ Conversion completed")
+                print("✅ Fast conversion completed")
         
         print(f"\n🎯 Final task type: {analysis.get('final_task_type', analysis['current_task_type'])}")
         print(f"⚡ Final activation: {analysis.get('final_activation', 'softmax')}")
