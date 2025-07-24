@@ -704,9 +704,13 @@ Texts to analyze:
                     print("ℹ️ No conversion needed - data is already suitable for sigmoid")
             else:
                 print(f"⚠️ LLM advises against sigmoid: {activation_analysis.get('sigmoid_reasoning', 'N/A')}")
-                print("💡 Falling back to softmax (multiclass) activation")
-                analysis['final_task_type'] = 'multiclass'
-                analysis['final_activation'] = 'softmax'
+                print("🔧 However, user explicitly requested sigmoid - forcing multilabel conversion")
+                # User explicitly requested sigmoid, so we force it even if LLM disagrees
+                print("🔄 Converting to multilabel format (user override)...")
+                df = self.convert_to_multilabel(df, analysis)
+                analysis['final_task_type'] = 'multilabel'
+                analysis['final_activation'] = 'sigmoid'
+                print("✅ Forced conversion completed")
         
         elif activation == 'softmax':
             print("\n⚡ User requested softmax activation (multiclass)")
