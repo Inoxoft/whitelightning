@@ -61,25 +61,21 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
 1.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
 
-2.  Run the Docker image (works on all platforms):
+2.  Run the Docker image:
 
+    **Mac:**
     ```bash
-    docker run --rm \
-        -v "$(pwd)":/app/models \
-        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
-        ghcr.io/inoxoft/whitelightning:latest \
-        python -m text_classifier.agent \
-        -p "Categorize customer reviews as positive, neutral, or negative"
+    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
+    ```
+
+    **Linux:**
+    ```bash
+    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
     **Windows (PowerShell):**
     ```powershell
-    docker run --rm `
-        -v "${PWD}:/app/models" `
-        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" `
-        ghcr.io/inoxoft/whitelightning:latest `
-        python -m text_classifier.agent `
-        -p "Categorize customer reviews as positive, neutral, or negative"
+    docker run --rm -v "${PWD}:/app/models" -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
 3.  That's it! You'll see the generation process in your terminal.
@@ -98,13 +94,7 @@ mkdir own_data
 cp your_dataset.csv own_data/
 
 # Train on your data (faster, cheaper, more accurate!)
-docker run --rm \
-    -v "$(pwd)":/app/models \
-    -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
-    ghcr.io/inoxoft/whitelightning:latest \
-    python -m text_classifier.agent \
-    -p "Categorize customer reviews as positive, neutral, or negative" \
-    --use-own-dataset="/app/models/own_data/your_dataset.csv"
+docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative" --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
 **Benefits:**

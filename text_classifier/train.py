@@ -143,7 +143,40 @@ class TextClassifierRunner:
         y_train = train_df["label"].values
         y_test = test_df["label"].values
 
-        return X_train_text, X_test_text, y_train, y_test, {}, {}, 0
+        # For sklearn strategies that use TF-IDF, preprocess the text
+        if self.library_type == "sklearn":
+            from sklearn.feature_extraction.text import TfidfVectorizer
+            from sklearn.preprocessing import LabelEncoder
+            
+            vectorizer = TfidfVectorizer(max_features=DEFAULT_MAX_FEATURES)
+            self.vectorizer = vectorizer
+            
+            X_train = vectorizer.fit_transform(X_train_text).toarray()
+            X_test = vectorizer.transform(X_test_text).toarray()
+            
+            # Encode labels for sklearn
+            label_encoder = LabelEncoder()
+            y_train_encoded = label_encoder.fit_transform(y_train)
+            y_test_encoded = label_encoder.transform(y_test)
+            
+            actual_features = len(vectorizer.vocabulary_)
+            
+            # Create vocab data with vectorizer for sklearn strategies
+            vocab_data = {
+                "vocab": {
+                    str(word): int(idx) for word, idx in vectorizer.vocabulary_.items()
+                },
+                "idf": [float(x) for x in vectorizer.idf_.tolist()],
+                "vectorizer": vectorizer,
+            }
+            scaler_data = {
+                **{str(i): label for i, label in enumerate(self.labels)},
+            }
+            
+            return X_train, X_test, y_train_encoded, y_test_encoded, vocab_data, scaler_data, actual_features
+        else:
+            # For PyTorch/TensorFlow strategies that use sequences
+            return X_train_text, X_test_text, y_train, y_test, {}, {}, 0
 
     def preprocess_multilabel_data(
         self,

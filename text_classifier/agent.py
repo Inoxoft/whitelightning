@@ -1444,7 +1444,8 @@ class MulticlassDataGenerator:
                 output_path=str(self.dataset_path),
                 clean_text=True,  
                 max_samples=20000,  
-                balance_classes=False  
+                balance_classes=False,
+                activation=self.activation  
             )
             
          
