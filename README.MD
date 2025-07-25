@@ -25,7 +25,7 @@
 We use large, powerful frontier models as "teachers" to train much smaller, task-specific "student" models. WhiteLightning automates this process for text classification, allowing you to create high-performance classifiers with a fraction of the computational footprint.
 
 <p align="center">
-  <img src="media/openart-image_-VEdZ2Dd_1753429133588_raw.png" width="800" alt="The WhiteLightning metaphor: from a complex still to a pure, potent product.">
+  <img src="media/openart-image_m8sOEHVQ_1753429527461_raw.png" width="800" alt="The WhiteLightning metaphor: from a complex still to a pure, potent product.">
 </p>
 
 ### How are the models saved?
