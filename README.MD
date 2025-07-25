@@ -65,17 +65,32 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
     **Mac:**
     ```bash
-    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
+    docker run --rm \
+        -v "$(pwd)":/app/models \
+        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
+        ghcr.io/inoxoft/whitelightning:latest \
+        python -m text_classifier.agent \
+        -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
     **Linux:**
     ```bash
-    docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest -p "Categorize customer reviews as positive, neutral, or negative"
+    docker run --rm \
+        -v "$(pwd)":/app/models \
+        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
+        ghcr.io/inoxoft/whitelightning:latest \
+        python -m text_classifier.agent \
+        -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
     **Windows (PowerShell):**
     ```powershell
-    docker run --rm -v "${PWD}:/app/models" -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative"
+    docker run --rm \
+        -v "${PWD}:/app/models" \
+        -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
+        ghcr.io/inoxoft/whitelightning:latest \
+        python -m text_classifier.agent \
+        -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
 3.  That's it! You'll see the generation process in your terminal.
@@ -94,7 +109,13 @@ mkdir own_data
 cp your_dataset.csv own_data/
 
 # Train on your data (faster, cheaper, more accurate!)
-docker run --rm -v "$(pwd)":/app/models -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" ghcr.io/inoxoft/whitelightning:latest python -m text_classifier.agent -p "Categorize customer reviews as positive, neutral, or negative" --use-own-dataset="/app/own_data/your_dataset.csv"
+docker run --rm \
+    -v "$(pwd)":/app/models \
+    -e OPEN_ROUTER_API_KEY="YOUR_OPEN_ROUTER_KEY_HERE" \
+    ghcr.io/inoxoft/whitelightning:latest \
+    python -m text_classifier.agent \
+    -p "Categorize customer reviews as positive, neutral, or negative" \
+    --use-own-dataset="/app/own_data/your_dataset.csv"
 ```
 
 **Benefits:**
@@ -139,6 +160,31 @@ The power of WhiteLightning is the `-p` (prompt) argument. You can create a clas
     `-p "Classify the user's intent as 'book_flight', 'check_status', or 'customer_support'"`
 
 The possibilities are endless. For more inspiration and advanced prompt engineering techniques, check out our **[Complete Documentation](https://whitelightning.ai)**.
+
+---
+
+### 🔧 Docker Command Generator
+
+Don't want to manually construct Docker commands? Use our **[Interactive Command Generator](https://whitelightning.ai/command-generator.html)** to build your personalized WhiteLightning commands with a user-friendly interface:
+
+* **📝 Simple Configuration**: Enter your API key and describe your classification task
+* **⚙️ Advanced Options**: Configure model type, activation functions, language settings, and more
+* **🖥️ Platform Detection**: Automatically generates the correct command format for macOS, Linux, or Windows
+* **📋 One-Click Copy**: Copy the generated command directly to your clipboard
+* **💡 Smart Defaults**: Intelligent parameter suggestions based on your task description
+
+**Features:**
+- **Model Type Selection**: Choose between TensorFlow, PyTorch, or Scikit-learn
+- **Activation Functions**: Auto-detect or manually select sigmoid/softmax
+- **Custom Datasets**: Easy configuration for using your own data files
+- **Language Support**: Set primary language for multilingual classification
+- **Performance Tuning**: Adjust batch size, refinement cycles, and feature limits
+
+**Perfect for:**
+- First-time users who want guided setup
+- Complex configurations with multiple parameters
+- Teams sharing standardized commands
+- Quick experimentation with different settings
 
 ---
 
