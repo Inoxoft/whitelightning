@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="media/moonshiner_floppy.jpeg" width="250" alt="WhiteLightning Mascot">
+  <img src="media/20250522_1503_Steampunk Distillery Awakens_simple_compose_01jvvy1hy8e4w9fq5648qt450z.gif" width="250" alt="WhiteLightning Mascot">
   <h1 align="center">WhiteLightning</h1>
   <p align="center">
     The LLM Distillation Tool
