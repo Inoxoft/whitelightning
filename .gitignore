@@ -14,3 +14,6 @@ own_data/
 models_multiclass/
 
 .secrets.baseline
+
+.cursorrules
+.cursor/
