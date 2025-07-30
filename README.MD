@@ -59,9 +59,15 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
 ### 🚀 Quick Start
 
-1.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/Inoxoft/whitelightning.git
+    cd whitelightning
+    ```
 
-2.  Run the Docker image:
+2.  Get an OpenRouter API key at **[openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)**.
+
+3.  Run the Docker image:
 
     **Mac:**
     ```bash
@@ -93,7 +99,7 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
         -p "Categorize customer reviews as positive, neutral, or negative"
     ```
 
-3.  That's it! You'll see the generation process in your terminal.
+4.  That's it! You'll see the generation process in your terminal.
 
     <img src="media/demo.gif" width="600" alt="WhiteLightning CLI Demo">
 
