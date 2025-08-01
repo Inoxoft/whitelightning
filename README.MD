@@ -105,6 +105,8 @@ WhiteLightning is designed as a **"generic" Docker image** that works seamlessly
 
     When it's finished, list the files in your directory (`ls -l`). You'll find all the assets for your new model, ready to go:
 
+    **🎮 Try your trained model right here:** [WhiteLightning Playground](https://whitelightning.ai/playground.html)
+
 ### 📊 Use Your Own Data
 
 **NEW!** Skip LLM data generation and train directly on your existing datasets. WhiteLightning automatically analyzes your data structure and creates optimized models from real domain data.

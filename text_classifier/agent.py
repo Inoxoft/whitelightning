@@ -2057,6 +2057,11 @@ class MulticlassDataGenerator:
                 logger.warning(
                     "Final configuration file may not have been saved or path is incorrect."
                 )
+            
+            # Add playground link for users to test their model
+            logger.info("")
+            logger.info("🎮 Try your trained model right here: https://whitelightning.ai/playground.html")
+            logger.info("")
 
     def _smart_activation_detection(self, df: pd.DataFrame, classification_type: str) -> Dict[str, str]:
         """
